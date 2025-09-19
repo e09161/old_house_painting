@@ -1,3 +1,9 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grammar Exercise: Modals</title>
 <style>
     * {
       box-sizing: border-box;
@@ -286,3 +292,360 @@
       border-radius: 8px;
     }
   </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Grammar Exercise: Modals</h1>
+      <p>should, must, have to</p>
+    </header>
+
+    <div class="instructions">
+      <p>Complete the sentences. Drag and drop the correct words from the word bank.</p>
+    </div>
+
+    <div class="exercise-container">
+      <div class="word-bank" id="word-bank">
+        <!-- Words will be populated by JavaScript in random order -->
+      </div>
+
+      <div class="sentences">
+        <div class="sentence">1 I think you <span class="gap" data-correct="should buy" data-id="1"></span> some suntan lotion for your trip.</div>
+        <div class="sentence">2 You <span class="gap" data-correct="shouldn't drink" data-id="2"></span> a lot of coffee. It's bad for you.</div>
+        <div class="sentence">3 Passengers <span class="gap" data-correct="must have" data-id="3"></span> tickets and passports.</div>
+        <div class="sentence">4 You <span class="gap" data-correct="should speak" data-id="4"></span> to your boss if you have any questions.</div>
+        <div class="sentence">5 In the U.S., you <span class="gap" data-correct="mustn't drive" data-id="5"></span> if you are under 16.</div>
+        <div class="sentence">6 Students <span class="gap" data-correct="must answer" data-id="6"></span> all of the test questions.</div>
+        <div class="sentence">7 You <span class="gap" data-correct="must go" data-id="7"></span> to your sister's wedding!</div>
+        <div class="sentence">8 Rosita and Carlos <span class="gap" data-correct="should" data-id="8"></span> get married. They've been dating for four years!</div>
+      </div>
+
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress" id="progress-bar"></div>
+        </div>
+        <div class="progress-text">
+          <span>Progress</span>
+          <span id="progress-text">0%</span>
+        </div>
+      </div>
+
+      <div class="message success" id="success-message">
+        Congratulations! All answers are correct.
+      </div>
+
+      <div class="message error" id="error-message">
+        Some answers are incorrect. Please try again.
+      </div>
+
+      <div class="controls">
+        <button id="check-btn">Check answers</button>
+        <button id="hint-btn">Hint</button>
+        <button id="reset-btn">Reset</button>
+        <button id="solution-btn">Show Solution</button>
+      </div>
+    </div>
+
+    <footer>
+      <p>Grammar Exercise &copy; 2023</p>
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Define the words for the exercise based on the screenshot
+      const words = [
+        "should buy",
+        "must go",
+        "must have",
+        "must answer",
+        "should",
+        "should speak",
+        "mustn't drive",
+        "shouldn't drink"
+      ];
+      
+      // Shuffle the words array to randomize order
+      function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+      }
+      
+      // Initialize word bank with shuffled words
+      const wordBank = document.getElementById('word-bank');
+      const shuffledWords = shuffleArray([...words]);
+      
+      shuffledWords.forEach(word => {
+        const wordItem = document.createElement('div');
+        wordItem.className = 'word-item';
+        wordItem.setAttribute('draggable', 'true');
+        wordItem.dataset.word = word;
+        wordItem.textContent = word;
+        wordBank.appendChild(wordItem);
+      });
+      
+      // Get DOM elements
+      const gaps = document.querySelectorAll('.gap');
+      const wordItems = document.querySelectorAll('.word-item');
+      const progressBar = document.getElementById('progress-bar');
+      const progressText = document.getElementById('progress-text');
+      const successMessage = document.getElementById('success-message');
+      const errorMessage = document.getElementById('error-message');
+      const checkBtn = document.getElementById('check-btn');
+      const hintBtn = document.getElementById('hint-btn');
+      const resetBtn = document.getElementById('reset-btn');
+      const solutionBtn = document.getElementById('solution-btn');
+      
+      let filledGaps = 0;
+      const totalGaps = gaps.length;
+      let hasCheckedAnswers = false;
+      
+      // Initialize progress
+      updateProgress();
+      
+      // Initialize drag and drop functionality
+      function initDragAndDrop() {
+        // Add event listeners to word items for drag start
+        wordItems.forEach(word => {
+          word.addEventListener('dragstart', handleDragStart);
+          word.addEventListener('dragend', handleDragEnd);
+        });
+        
+        // Add event listeners to gaps for drag events
+        gaps.forEach(gap => {
+          gap.addEventListener('dragover', handleDragOver);
+          gap.addEventListener('dragenter', handleDragEnter);
+          gap.addEventListener('dragleave', handleDragLeave);
+          gap.addEventListener('drop', handleDrop);
+          gap.addEventListener('click', handleGapClick);
+        });
+      }
+      
+      // Handle drag start
+      function handleDragStart(e) {
+        this.classList.add('dragging');
+        e.dataTransfer.setData('text/plain', this.dataset.word);
+      }
+      
+      // Handle drag end
+      function handleDragEnd() {
+        this.classList.remove('dragging');
+      }
+      
+      // Handle gap click - to free a completed gap
+      function handleGapClick(e) {
+        // Only allow freeing gaps if they're filled
+        if (this.classList.contains('filled')) {
+          freeGap(this);
+        }
+      }
+      
+      // Free a gap (remove the answer)
+      function freeGap(gap) {
+        const word = gap.textContent;
+        gap.textContent = '';
+        gap.classList.remove('filled', 'correct', 'incorrect');
+        
+        // Make the word available again in the word bank
+        wordItems.forEach(wordItem => {
+          if (wordItem.dataset.word === word) {
+            wordItem.classList.remove('used');
+          }
+        });
+        
+        filledGaps--;
+        updateProgress();
+        
+        // Hide messages when user makes changes
+        successMessage.style.display = 'none';
+        errorMessage.style.display = 'none';
+        hasCheckedAnswers = false;
+      }
+      
+      // Handle drag over
+      function handleDragOver(e) {
+        e.preventDefault();
+      }
+      
+      // Handle drag enter
+      function handleDragEnter(e) {
+        e.preventDefault();
+        this.classList.add('active');
+      }
+      
+      // Handle drag leave
+      function handleDragLeave() {
+        this.classList.remove('active');
+      }
+      
+      // Handle drop
+      function handleDrop(e) {
+        e.preventDefault();
+        this.classList.remove('active');
+        
+        const word = e.dataTransfer.getData('text/plain');
+        
+        // If this gap is already filled, free it first
+        if (this.classList.contains('filled')) {
+          freeGap(this);
+        }
+        
+        fillGap(this, word);
+      }
+      
+      // Fill gap with word
+      function fillGap(gap, word) {
+        // Fill the gap
+        gap.textContent = word;
+        gap.classList.add('filled');
+        filledGaps++;
+        
+        // Mark word as used in the word bank
+        wordItems.forEach(wordItem => {
+          if (wordItem.dataset.word === word) {
+            wordItem.classList.add('used');
+          }
+        });
+        
+        // Update progress
+        updateProgress();
+        
+        // If we've previously checked answers, reset the visual state for new answers
+        if (hasCheckedAnswers) {
+          gap.classList.remove('correct', 'incorrect');
+        }
+        
+        // Hide messages when user makes changes
+        successMessage.style.display = 'none';
+        errorMessage.style.display = 'none';
+        hasCheckedAnswers = false;
+        
+        // Check if all gaps are filled
+        if (filledGaps === totalGaps) {
+          // Auto-check if all gaps are filled
+          checkAnswers();
+        }
+      }
+      
+      // Update progress bar and text
+      function updateProgress() {
+        const progress = (filledGaps / totalGaps) * 100;
+        progressBar.style.width = `${progress}%`;
+        progressText.textContent = `${Math.round(progress)}%`;
+      }
+      
+      // Check answers
+      function checkAnswers() {
+        let allCorrect = true;
+        
+        gaps.forEach(gap => {
+          const userAnswer = gap.textContent.trim().toLowerCase();
+          const correctAnswer = gap.dataset.correct.toLowerCase();
+          
+          if (userAnswer !== correctAnswer) {
+            gap.classList.add('incorrect');
+            gap.classList.remove('correct');
+            allCorrect = false;
+          } else {
+            gap.classList.add('correct');
+            gap.classList.remove('incorrect');
+          }
+        });
+        
+        if (allCorrect) {
+          successMessage.style.display = 'block';
+          errorMessage.style.display = 'none';
+        } else {
+          successMessage.style.display = 'none';
+          errorMessage.style.display = 'block';
+        }
+        
+        hasCheckedAnswers = true;
+      }
+      
+      // Handle check button click
+      checkBtn.addEventListener('click', checkAnswers);
+      
+      // Handle hint button click
+      hintBtn.addEventListener('click', function() {
+        // Find first unfilled gap or incorrect answer
+        let gapToHint = null;
+        
+        for (const gap of gaps) {
+          if (!gap.classList.contains('filled')) {
+            gapToHint = gap;
+            break;
+          } else if (gap.textContent.trim().toLowerCase() !== gap.dataset.correct.toLowerCase()) {
+            gapToHint = gap;
+            break;
+          }
+        }
+        
+        if (gapToHint) {
+          // Highlight the gap
+          gapToHint.classList.add('active');
+          
+          // Show first letter as hint
+          const correctAnswer = gapToHint.dataset.correct;
+          alert(`Hint: The correct phrase is "${correctAnswer}".`);
+          
+          // Remove highlight after a delay
+          setTimeout(() => {
+            gapToHint.classList.remove('active');
+          }, 2000);
+        } else {
+          alert('All gaps are correctly filled!');
+        }
+      });
+      
+      // Handle reset button click
+      resetBtn.addEventListener('click', function() {
+        gaps.forEach(gap => {
+          const word = gap.textContent;
+          gap.textContent = '';
+          gap.classList.remove('filled', 'correct', 'incorrect');
+          
+          // Make the word available again in the word bank
+          wordItems.forEach(wordItem => {
+            if (wordItem.dataset.word === word) {
+              wordItem.classList.remove('used');
+            }
+          });
+        });
+        
+        filledGaps = 0;
+        updateProgress();
+        successMessage.style.display = 'none';
+        errorMessage.style.display = 'none';
+        hasCheckedAnswers = false;
+      });
+      
+      // Handle solution button click
+      solutionBtn.addEventListener('click', function() {
+        gaps.forEach(gap => {
+          gap.textContent = gap.dataset.correct;
+          gap.classList.add('filled', 'correct');
+          gap.classList.remove('incorrect');
+          
+          // Mark words as used in the word bank
+          wordItems.forEach(wordItem => {
+            if (wordItem.dataset.word === gap.dataset.correct) {
+              wordItem.classList.add('used');
+            }
+          });
+        });
+        
+        filledGaps = totalGaps;
+        updateProgress();
+        checkAnswers();
+      });
+      
+      // Initialize the exercise
+      initDragAndDrop();
+    });
+  </script>
+</body>
+</html>
