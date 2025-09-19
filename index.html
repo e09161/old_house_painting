@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -86,9 +87,11 @@
     }
 
     .gap.filled {
-      background-color: transparent;
-      border-bottom: none;
-    }
+  background-color: transparent;
+  border-bottom: none;
+  color: #2ecc71; /* Green color */
+  font-weight: 600;
+}
 
     .progress-container {
       margin: 18px 0 20px;
@@ -302,7 +305,7 @@
             <div class="message error" id="error-message">Incorrect. Try again.</div>
             
             <div class="story-text" id="story-text">
-                Last year, we moved to <span class="gap" data-word="an">___</span> old empty <span class="gap" data-word="house">_____</span>. We'd <span class="gap" data-word="been">___</span> there for about <span class="gap" data-word="two">___</span> weeks <span class="gap" data-word="when">_____</span> I <span class="gap" data-word="decided">___</span> to clean the attic. I <span class="gap" data-word="was">___</span> looking in <span class="gap" data-word="an">___</span> old box <span class="gap" data-word="when">____</span> I found a <span class="gap" data-word="painting">_____</span>. It <span class="gap" data-word="was">___</span> a beautiful <span class="gap" data-word="portrait">____</span> of <span class="gap" data-word="a">__</span> child. When my <span class="gap" data-word="husband">____</span> home from <span class="gap" data-word="work">___</span> that <span class="gap" data-word="night">____</span>, I showed <span class="gap" data-word="him">___</span> the painting. The <span class="gap" data-word="next">_____</span>, we <span class="gap" data-word="went">___</span> to an art <span class="gap" data-word="shop">_____</span>. The owner said he'd never <span class="gap" data-word="seen">___</span> such a <span class="gap" data-word="lovely">____</span> painting. He decided to <span class="gap" data-word="call">___</span> an art <span class="gap" data-word="gallery">_____</span>, so we <span class="gap" data-word="were">___</span> given coffee and asked to wait. When he'd finished his call, <span class="gap" data-word="he">___</span> said he <span class="gap" data-word="wanted">___</span> to <span class="gap" data-word="buy">___</span> the portrait because the art <span class="gap" data-word="gallery">____</span> told him it <span class="gap" data-word="was">___</span> painted <span class="gap" data-word="by">__</span> somebody famous. We didn't <span class="gap" data-word="sell">___</span> it to him. We <span class="gap" data-word="gave">___</span> it to the <span class="gap" data-word="art">___</span> gallery instead!
+                Last year, we moved to <span class="gap" data-word="an">___</span> old empty <span class="gap" data-word="house">_____</span>. We'd <span class="gap" data-word="been">___</span> there for about <span class="gap" data-word="two">___</span> weeks <span class="gap" data-word="when">_____</span> I <span class="gap" data-word="decided">___</span> to clean the attic. I <span class="gap" data-word="was">___</span> looking in <span class="gap" data-word="an">___</span> old box <span class="gap" data-word="when">____</span> I found a <span class="gap" data-word="painting">_____</span>. It <span class="gap" data-word="was">___</span> a beautiful <span class="gap" data-word="portrait">____</span> of <span class="gap" data-word="a">__</span> child. When my <span class="gap" data-word="husband">____</span> came home from <span class="gap" data-word="work">___</span> that <span class="gap" data-word="night">____</span>, I showed <span class="gap" data-word="him">___</span> the painting. The <span class="gap" data-word="next">_____</span> day, we <span class="gap" data-word="went">___</span> to an art <span class="gap" data-word="shop">_____</span>. The owner said he'd never <span class="gap" data-word="seen">___</span> such a <span class="gap" data-word="lovely">____</span> painting. He decided to <span class="gap" data-word="call">___</span> an art <span class="gap" data-word="gallery">_____</span>, so we <span class="gap" data-word="were">___</span> given coffee and asked to wait. When he'd finished his call, <span class="gap" data-word="he">___</span> said he <span class="gap" data-word="wanted">___</span> to <span class="gap" data-word="buy">___</span> the portrait because the art <span class="gap" data-word="gallery">____</span> told him it <span class="gap" data-word="was">___</span> painted <span class="gap" data-word="by">__</span> somebody famous. We didn't <span class="gap" data-word="sell">___</span> it to him. We <span class="gap" data-word="gave">___</span> it to the <span class="gap" data-word="art">___</span> gallery instead!
             </div>
             
             <div class="progress-container">
@@ -368,49 +371,83 @@
             }
             
             // Check if the entered word is correct
-            function checkWord() {
-                const enteredWord = wordInput.value.trim().toLowerCase();
-                const currentGap = gaps[currentGapIndex];
-                const correctWord = currentGap.getAttribute('data-word').toLowerCase();
-                
-                if (enteredWord === correctWord) {
-                    // Correct word
-                    currentGap.textContent = correctWord;
-                    currentGap.classList.add('filled');
-                    currentGap.classList.remove('active');
-                    
-                    // Move to next gap
-                    currentGapIndex++;
-                    completedGaps++;
-                    
-                    // Update progress
-                    updateProgress();
-                    
-                    // Show success message
-                    successMessage.style.display = 'block';
-                    errorMessage.style.display = 'none';
-                    
-                    // If all gaps are filled
-                    if (currentGapIndex >= totalGaps) {
-                        wordInput.disabled = true;
-                        submitBtn.disabled = true;
-                        successMessage.textContent = 'Congratulations! You completed the story.';
-                    } else {
-                        // Highlight next gap
-                        gaps[currentGapIndex].classList.add('active');
-                    }
-                    
-                    // Clear input
-                    wordInput.value = '';
-                    wordInput.focus();
-                } else {
-                    // Incorrect word
-                    errorMessage.style.display = 'block';
-                    successMessage.style.display = 'none';
-                    wordInput.select();
+            // Check if the entered word is correct (anywhere in the text)
+function checkWord() {
+    const enteredWord = wordInput.value.trim().toLowerCase();
+    let foundMatch = false;
+    let matchedGapIndex = -1;
+    
+    // Check all gaps for the entered word
+    gaps.forEach((gap, index) => {
+        const correctWord = gap.getAttribute('data-word').toLowerCase();
+        
+        if (enteredWord === correctWord && !gap.classList.contains('filled')) {
+            foundMatch = true;
+            matchedGapIndex = index;
+            return; // Exit the loop early
+        }
+    });
+    
+    if (foundMatch) {
+        // Correct word found somewhere
+        const matchedGap = gaps[matchedGapIndex];
+        matchedGap.textContent = enteredWord;
+        matchedGap.classList.add('filled');
+        matchedGap.classList.remove('active');
+        
+        // Update progress
+        completedGaps++;
+        updateProgress();
+        
+        // Show success message
+        successMessage.style.display = 'block';
+        errorMessage.style.display = 'none';
+        
+        // If all gaps are filled
+        if (completedGaps >= totalGaps) {
+            wordInput.disabled = true;
+            submitBtn.disabled = true;
+            successMessage.textContent = 'Congratulations! You completed the story.';
+        } else {
+            // Find and activate the next unfilled gap
+            let nextUnfilledIndex = -1;
+            for (let i = 0; i < gaps.length; i++) {
+                if (!gaps[i].classList.contains('filled')) {
+                    nextUnfilledIndex = i;
+                    break;
                 }
             }
             
+            if (nextUnfilledIndex !== -1) {
+                // Remove active class from all gaps
+                gaps.forEach(gap => gap.classList.remove('active'));
+                // Add active class to the next unfilled gap
+                gaps[nextUnfilledIndex].classList.add('active');
+                currentGapIndex = nextUnfilledIndex;
+            }
+        }
+        
+        // Clear input
+        wordInput.value = '';
+        wordInput.focus();
+    } else {
+        // Check if the word is correct but already filled
+        const isAlreadyFilled = Array.from(gaps).some(gap => {
+            const correctWord = gap.getAttribute('data-word').toLowerCase();
+            return enteredWord === correctWord && gap.classList.contains('filled');
+        });
+        
+        if (isAlreadyFilled) {
+            errorMessage.textContent = 'This word is already filled in.';
+        } else {
+            errorMessage.textContent = 'Incorrect. Try again.';
+        }
+        
+        errorMessage.style.display = 'block';
+        successMessage.style.display = 'none';
+        wordInput.select();
+    }
+}
             // Show hint for current gap
             function showHint() {
                 const currentGap = gaps[currentGapIndex];
@@ -443,46 +480,46 @@
             }
             
             // Reset the exercise
-            function resetExercise() {
-                gaps.forEach((gap, index) => {
-                    gap.textContent = index === 0 ? '___' : 
-                                    index === 1 ? '_____' : 
-                                    index === 4 ? '_____' : 
-                                    index === 9 ? '_____' : 
-                                    index === 11 ? '____' : 
-                                    index === 13 ? '__' : 
-                                    index === 15 ? '____' : 
-                                    index === 17 ? '___' : 
-                                    index === 18 ? '____' : 
-                                    index === 20 ? '_____' : 
-                                    index === 22 ? '___' : 
-                                    index === 24 ? '____' : 
-                                    index === 26 ? '___' : 
-                                    index === 28 ? '_____' : 
-                                    index === 30 ? '___' : 
-                                    index === 31 ? '___' : 
-                                    index === 32 ? '___' : 
-                                    index === 33 ? '___' : '___';
-                    gap.classList.remove('filled', 'active');
-                });
-                
-                // Reset first gap highlight
-                gaps[0].classList.add('active');
-                
-                currentGapIndex = 0;
-                completedGaps = 0;
-                updateProgress();
-                
-                wordInput.value = '';
-                wordInput.disabled = false;
-                submitBtn.disabled = false;
-                
-                successMessage.style.display = 'none';
-                errorMessage.style.display = 'none';
-                
-                wordInput.focus();
-            }
-            
+            // Reset the exercise
+function resetExercise() {
+    gaps.forEach((gap, index) => {
+        gap.textContent = index === 0 ? '___' : 
+                        index === 1 ? '_____' : 
+                        index === 4 ? '_____' : 
+                        index === 9 ? '_____' : 
+                        index === 11 ? '____' : 
+                        index === 13 ? '__' : 
+                        index === 15 ? '____' : 
+                        index === 17 ? '___' : 
+                        index === 18 ? '____' : 
+                        index === 20 ? '_____' : 
+                        index === 22 ? '___' : 
+                        index === 24 ? '____' : 
+                        index === 26 ? '___' : 
+                        index === 28 ? '_____' : 
+                        index === 30 ? '___' : 
+                        index === 31 ? '___' : 
+                        index === 32 ? '___' : 
+                        index === 33 ? '___' : '___';
+        gap.classList.remove('filled', 'active');
+    });
+    
+    // Reset first gap highlight
+    gaps[0].classList.add('active');
+    
+    currentGapIndex = 0;
+    completedGaps = 0;
+    updateProgress();
+    
+    wordInput.value = '';
+    wordInput.disabled = false;
+    submitBtn.disabled = false;
+    
+    successMessage.style.display = 'none';
+    errorMessage.style.display = 'none';
+    
+    wordInput.focus();
+}
             // Event listeners
             submitBtn.addEventListener('click', checkWord);
             
