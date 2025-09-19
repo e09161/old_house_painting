@@ -1,0 +1,655 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grammar Exercise: Verb "To Be"</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #333;
+    }
+
+    .container {
+      background-color: #ffffff;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 900px;
+      overflow: hidden;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    header {
+      background: linear-gradient(90deg, #00b09b 0%, #96c93d 100%);
+      color: white;
+      padding: 26px 28px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 8px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    header p {
+      opacity: 0.95;
+      font-size: 18px;
+    }
+
+    .instructions {
+      background-color: #f0f9f7;
+      padding: 18px 22px;
+      border-bottom: 1px solid #ddeee9;
+      font-size: 16px;
+      color: #666;
+    }
+
+    .exercise-container {
+      padding: 28px;
+    }
+
+    .word-bank {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0;
+      padding: 15px;
+      background-color: #f8faff;
+      border-radius: 10px;
+      border: 1px solid #e0e6f1;
+      justify-content: center;
+    }
+
+    .word-item {
+      padding: 10px 18px;
+      background: linear-gradient(90deg, #00b09b 0%, #96c93d 100%);
+      color: white;
+      border-radius: 8px;
+      cursor: grab;
+      user-select: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      font-weight: 500;
+    }
+
+    .word-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .word-item.dragging {
+      opacity: 0.5;
+    }
+
+    .word-item.used {
+      opacity: 0.5;
+      background: linear-gradient(90deg, #cccccc 0%, #aaaaaa 100%);
+      cursor: not-allowed;
+    }
+
+    .conversations {
+      margin: 25px 0;
+    }
+
+    .conversation {
+      margin-bottom: 20px;
+      font-size: 18px;
+      line-height: 1.6;
+      padding: 15px;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+      background-color: #f9f9f9;
+    }
+
+    .conversation:hover {
+      background-color: #f0f0f0;
+    }
+
+    .gap {
+      padding: 4px 8px;
+      border-bottom: 2px dashed #00b09b;
+      background-color: rgba(0, 176, 155, 0.12);
+      border-radius: 4px;
+      transition: background-color 0.25s, border-color 0.25s;
+      display: inline-block;
+      min-width: 140px;
+      height: 36px;
+      vertical-align: middle;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .gap.active {
+      background-color: rgba(0, 176, 155, 0.2);
+      border-bottom-color: #008972;
+    }
+
+    .gap.filled {
+      background-color: transparent;
+      border-bottom: none;
+      color: #00b09b;
+      font-weight: 600;
+    }
+
+    .gap.correct {
+      color: #2ecc71;
+    }
+
+    .gap.incorrect {
+      color: #e74c3c;
+    }
+
+    .progress-container {
+      margin: 18px 0 20px;
+    }
+
+    .progress-bar {
+      height: 12px;
+      background-color: #f1f2f6;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      background: linear-gradient(90deg, #00b09b 0%, #96c93d 100%);
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #666;
+      margin-top: 8px;
+    }
+
+    .message {
+      padding: 14px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      text-align: center;
+      font-weight: 600;
+      display: none;
+      animation: fadeIn 0.5s;
+    }
+
+    .success {
+      background-color: #e8f9f1;
+      color: #1f9e56;
+      border: 1px solid #b8eacb;
+    }
+
+    .error {
+      background-color: #fdecea;
+      color: #d6453d;
+      border: 1px solid #f5b7b1;
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .controls button {
+      padding: 14px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform 0.15s, opacity 0.25s, background-color 0.25s;
+      min-width: 160px;
+      font-size: 16px;
+    }
+
+    .controls button:hover {
+      transform: translateY(-2px);
+      opacity: 0.95;
+    }
+
+    #check-btn {
+      background: linear-gradient(90deg, #00b09b 0%, #96c93d 100%);
+      color: white;
+    }
+
+    #hint-btn {
+      background-color: #f39c12;
+      color: white;
+    }
+
+    #reset-btn {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    #solution-btn {
+      background-color: #2ecc71;
+      color: white;
+    }
+
+    footer {
+      text-align: center;
+      padding: 16px;
+      color: #888;
+      font-size: 14px;
+      border-top: 1px solid #f1f2f6;
+    }
+
+    @media (max-width: 640px) {
+      h1 {
+        font-size: 26px;
+      }
+
+      .conversation {
+        font-size: 16px;
+      }
+
+      .controls {
+        flex-direction: column;
+      }
+
+      .controls button {
+        width: 100%;
+      }
+      
+      .word-item {
+        padding: 8px 12px;
+        font-size: 14px;
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Focus styles for accessibility */
+    :focus-visible {
+      outline: 3px solid rgba(0, 176, 155, 0.55);
+      outline-offset: 2px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Grammar Exercise: Verb "To Be"</h1>
+      <p>Questions and Answers with Am, Is, Are</p>
+    </header>
+
+    <div class="instructions">
+      <p>Complete the conversations. Drag and drop the correct phrases from the word bank.</p>
+    </div>
+
+    <div class="exercise-container">
+      <div class="word-bank" id="word-bank">
+        <!-- Words will be populated by JavaScript in random order -->
+      </div>
+
+      <div class="conversations">
+        <div class="conversation">1 A: Where are you from?<br>B: <span class="gap" data-correct="I’m from Egypt." data-id="1"></span></div>
+        <div class="conversation">2 A: <span class="gap" data-correct="How old is he?" data-id="2"></span><br>B: I think he's 24.</div>
+        <div class="conversation">3 A: <span class="gap" data-correct="Is she from Canada?" data-id="3"></span><br>B: No, she isn't.</div>
+        <div class="conversation">4 A: <span class="gap" data-correct="Is Diego married?" data-id="4"></span><br>B: Yes, he is.</div>
+        <div class="conversation">5 A: Are Mr. and Mrs. Wilson teachers?<br>B: <span class="gap" data-correct="Yes, they are." data-id="5"></span></div>
+        <div class="conversation">6 A: <span class="gap" data-correct="Are they students?" data-id="6"></span><br>B: No, they aren't.</div>
+        <div class="conversation">7 A: Are you Cate Blanchetty?<br>B: <span class="gap" data-correct="No, I’m not." data-id="7"></span></div>
+        <div class="conversation">8 A: <span class="gap" data-correct="Where are they from?" data-id="8"></span><br>B: They're from Australia.</div>
+      </div>
+
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress" id="progress-bar"></div>
+        </div>
+        <div class="progress-text">
+          <span>Progress</span>
+          <span id="progress-text">0%</span>
+        </div>
+      </div>
+
+      <div class="message success" id="success-message">
+        Congratulations! All answers are correct.
+      </div>
+
+      <div class="message error" id="error-message">
+        Some answers are incorrect. Please try again.
+      </div>
+
+      <div class="controls">
+        <button id="check-btn">Check answers</button>
+        <button id="hint-btn">Hint</button>
+        <button id="reset-btn">Reset</button>
+        <button id="solution-btn">Show Solution</button>
+      </div>
+    </div>
+
+    <footer>
+      <p>Educasa.pe; 2025</p>
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Define the words for the exercise based on the screenshot
+      const words = [
+        "Yes, they are.",
+        "No, I’m not.",
+        "Is Diego married?",
+        "I’m from Egypt.",
+        "How old is he?",
+        "Where are they from?",
+        "Is she from Canada?",
+        "Are they students?"
+      ];
+      
+      // Shuffle the words array to randomize order
+      function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+      }
+      
+      // Initialize word bank with shuffled words
+      const wordBank = document.getElementById('word-bank');
+      const shuffledWords = shuffleArray([...words]);
+      
+      shuffledWords.forEach(word => {
+        const wordItem = document.createElement('div');
+        wordItem.className = 'word-item';
+        wordItem.setAttribute('draggable', 'true');
+        wordItem.dataset.word = word;
+        wordItem.textContent = word;
+        wordBank.appendChild(wordItem);
+      });
+      
+      // Get DOM elements
+      const gaps = document.querySelectorAll('.gap');
+      const wordItems = document.querySelectorAll('.word-item');
+      const progressBar = document.getElementById('progress-bar');
+      const progressText = document.getElementById('progress-text');
+      const successMessage = document.getElementById('success-message');
+      const errorMessage = document.getElementById('error-message');
+      const checkBtn = document.getElementById('check-btn');
+      const hintBtn = document.getElementById('hint-btn');
+      const resetBtn = document.getElementById('reset-btn');
+      const solutionBtn = document.getElementById('solution-btn');
+      
+      let filledGaps = 0;
+      const totalGaps = gaps.length;
+      let hasCheckedAnswers = false;
+      
+      // Initialize progress
+      updateProgress();
+      
+      // Initialize drag and drop functionality
+      function initDragAndDrop() {
+        // Add event listeners to word items for drag start
+        wordItems.forEach(word => {
+          word.addEventListener('dragstart', handleDragStart);
+          word.addEventListener('dragend', handleDragEnd);
+        });
+        
+        // Add event listeners to gaps for drag events
+        gaps.forEach(gap => {
+          gap.addEventListener('dragover', handleDragOver);
+          gap.addEventListener('dragenter', handleDragEnter);
+          gap.addEventListener('dragleave', handleDragLeave);
+          gap.addEventListener('drop', handleDrop);
+          gap.addEventListener('click', handleGapClick);
+        });
+      }
+      
+      // Handle drag start
+      function handleDragStart(e) {
+        this.classList.add('dragging');
+        e.dataTransfer.setData('text/plain', this.dataset.word);
+      }
+      
+      // Handle drag end
+      function handleDragEnd() {
+        this.classList.remove('dragging');
+      }
+      
+      // Handle gap click - to free a completed gap
+      function handleGapClick(e) {
+        // Only allow freeing gaps if they're filled
+        if (this.classList.contains('filled')) {
+          freeGap(this);
+        }
+      }
+      
+      // Free a gap (remove the answer)
+      function freeGap(gap) {
+        const word = gap.textContent;
+        gap.textContent = '';
+        gap.classList.remove('filled', 'correct', 'incorrect');
+        
+        // Make the word available again in the word bank
+        wordItems.forEach(wordItem => {
+          if (wordItem.dataset.word === word) {
+            wordItem.classList.remove('used');
+          }
+        });
+        
+        filledGaps--;
+        updateProgress();
+        
+        // Hide messages when user makes changes
+        successMessage.style.display = 'none';
+        errorMessage.style.display = 'none';
+        hasCheckedAnswers = false;
+      }
+      
+      // Handle drag over
+      function handleDragOver(e) {
+        e.preventDefault();
+      }
+      
+      // Handle drag enter
+      function handleDragEnter(e) {
+        e.preventDefault();
+        this.classList.add('active');
+      }
+      
+      // Handle drag leave
+      function handleDragLeave() {
+        this.classList.remove('active');
+      }
+      
+      // Handle drop
+      function handleDrop(e) {
+        e.preventDefault();
+        this.classList.remove('active');
+        
+        const word = e.dataTransfer.getData('text/plain');
+        
+        // If this gap is already filled, free it first
+        if (this.classList.contains('filled')) {
+          freeGap(this);
+        }
+        
+        fillGap(this, word);
+      }
+      
+      // Fill gap with word
+      function fillGap(gap, word) {
+        // Fill the gap
+        gap.textContent = word;
+        gap.classList.add('filled');
+        filledGaps++;
+        
+        // Mark word as used in the word bank
+        wordItems.forEach(wordItem => {
+          if (wordItem.dataset.word === word) {
+            wordItem.classList.add('used');
+          }
+        });
+        
+        // Update progress
+        updateProgress();
+        
+        // If we've previously checked answers, reset the visual state for new answers
+        if (hasCheckedAnswers) {
+          gap.classList.remove('correct', 'incorrect');
+        }
+        
+        // Hide messages when user makes changes
+        successMessage.style.display = 'none';
+        errorMessage.style.display = 'none';
+        hasCheckedAnswers = false;
+        
+        // Check if all gaps are filled
+        if (filledGaps === totalGaps) {
+          // Auto-check if all gaps are filled
+          checkAnswers();
+        }
+      }
+      
+      // Update progress bar and text
+      function updateProgress() {
+        const progress = (filledGaps / totalGaps) * 100;
+        progressBar.style.width = `${progress}%`;
+        progressText.textContent = `${Math.round(progress)}%`;
+      }
+      
+      // Check answers
+      function checkAnswers() {
+        let allCorrect = true;
+        
+        gaps.forEach(gap => {
+          const userAnswer = gap.textContent.trim().toLowerCase();
+          const correctAnswer = gap.dataset.correct.toLowerCase();
+          
+          if (userAnswer !== correctAnswer) {
+            gap.classList.add('incorrect');
+            gap.classList.remove('correct');
+            allCorrect = false;
+          } else {
+            gap.classList.add('correct');
+            gap.classList.remove('incorrect');
+          }
+        });
+        
+        if (allCorrect) {
+          successMessage.style.display = 'block';
+          errorMessage.style.display = 'none';
+        } else {
+          successMessage.style.display = 'none';
+          errorMessage.style.display = 'block';
+        }
+        
+        hasCheckedAnswers = true;
+      }
+      
+      // Handle check button click
+      checkBtn.addEventListener('click', checkAnswers);
+      
+      // Handle hint button click
+      hintBtn.addEventListener('click', function() {
+        // Find first unfilled gap or incorrect answer
+        let gapToHint = null;
+        
+        for (const gap of gaps) {
+          if (!gap.classList.contains('filled')) {
+            gapToHint = gap;
+            break;
+          } else if (gap.textContent.trim().toLowerCase() !== gap.dataset.correct.toLowerCase()) {
+            gapToHint = gap;
+            break;
+          }
+        }
+        
+        if (gapToHint) {
+          // Highlight the gap
+          gapToHint.classList.add('active');
+          
+          // Show first letter as hint
+          const correctAnswer = gapToHint.dataset.correct;
+          alert(`Hint: The correct phrase is "${correctAnswer}".`);
+          
+          // Remove highlight after a delay
+          setTimeout(() => {
+            gapToHint.classList.remove('active');
+          }, 2000);
+        } else {
+          alert('All gaps are correctly filled!');
+        }
+      });
+      
+      // Handle reset button click
+      resetBtn.addEventListener('click', function() {
+        gaps.forEach(gap => {
+          const word = gap.textContent;
+          gap.textContent = '';
+          gap.classList.remove('filled', 'correct', 'incorrect');
+          
+          // Make the word available again in the word bank
+          wordItems.forEach(wordItem => {
+            if (wordItem.dataset.word === word) {
+              wordItem.classList.remove('used');
+            }
+          });
+        });
+        
+        filledGaps = 0;
+        updateProgress();
+        successMessage.style.display = 'none';
+        errorMessage.style.display = 'none';
+        hasCheckedAnswers = false;
+      });
+      
+      // Handle solution button click
+      solutionBtn.addEventListener('click', function() {
+        gaps.forEach(gap => {
+          gap.textContent = gap.dataset.correct;
+          gap.classList.add('filled', 'correct');
+          gap.classList.remove('incorrect');
+          
+          // Mark words as used in the word bank
+          wordItems.forEach(wordItem => {
+            if (wordItem.dataset.word === gap.dataset.correct) {
+              wordItem.classList.add('used');
+            }
+          });
+        });
+        
+        filledGaps = totalGaps;
+        updateProgress();
+        checkAnswers();
+      });
+      
+      // Initialize the exercise
+      initDragAndDrop();
+    });
+  </script>
+</body>
+</html>
