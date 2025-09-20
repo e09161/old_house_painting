@@ -30,63 +30,82 @@
       max-width: 900px;
       overflow: hidden;
       animation: fadeIn 0.5s ease-in-out;
-      /* Improved scrolling: */
       max-height: 90vh;
       overflow-y: auto;
+      position: relative;
     }
 
     header {
       background: linear-gradient(90deg, #00b09b 0%, #96c93d 100%);
       color: white;
-      padding: 26px 28px;
+      padding: 20px 28px;
       text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
     h1 {
-      font-size: 32px;
-      margin-bottom: 8px;
+      font-size: 28px;
+      margin-bottom: 5px;
       font-weight: 700;
       letter-spacing: 0.2px;
     }
 
     header p {
       opacity: 0.95;
-      font-size: 18px;
+      font-size: 16px;
     }
 
     .instructions {
       background-color: #f0f9f7;
-      padding: 18px 22px;
+      padding: 12px 22px;
       border-bottom: 1px solid #ddeee9;
-      font-size: 16px;
+      font-size: 15px;
       color: #666;
+      position: sticky;
+      top: 95px; /* Height of header */
+      z-index: 90;
     }
 
     .exercise-container {
-      padding: 28px;
+      padding: 20px 28px 28px;
+    }
+
+    .word-bank-container {
+      position: sticky;
+      top: 140px; /* Height of header + instructions */
+      z-index: 80;
+      background: white;
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+      margin-bottom: 15px;
     }
 
     .word-bank {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      margin: 20px 0;
-      padding: 15px;
+      gap: 8px;
+      padding: 12px;
       background-color: #f8faff;
       border-radius: 10px;
       border: 1px solid #e0e6f1;
       justify-content: center;
+      max-height: 90px;
+      overflow-y: auto;
     }
 
     .word-item {
-      padding: 10px 18px;
+      padding: 6px 12px;
       background: linear-gradient(90deg, #00b09b 0%, #96c93d 100%);
       color: white;
-      border-radius: 8px;
+      border-radius: 6px;
       cursor: grab;
       user-select: none;
       transition: transform 0.2s, box-shadow 0.2s;
       font-weight: 500;
+      font-size: 14px;
+      flex-shrink: 0;
     }
 
     .word-item:hover {
@@ -105,14 +124,14 @@
     }
 
     .conversations {
-      margin: 25px 0;
+      margin: 15px 0;
     }
 
     .conversation {
-      margin-bottom: 20px;
-      font-size: 18px;
+      margin-bottom: 16px;
+      font-size: 16px;
       line-height: 1.6;
-      padding: 15px;
+      padding: 10px;
       border-radius: 8px;
       transition: background-color 0.3s;
       background-color: #f9f9f9;
@@ -130,7 +149,7 @@
       transition: background-color 0.25s, border-color 0.25s;
       display: inline-block;
       min-width: 140px;
-      height: 36px;
+      height: 32px;
       vertical-align: middle;
       cursor: pointer;
       position: relative;
@@ -158,12 +177,17 @@
 
     .progress-container {
       margin: 18px 0 20px;
+      position: sticky;
+      bottom: 0;
+      background: white;
+      padding: 10px 0;
+      z-index: 70;
     }
 
     .progress-bar {
-      height: 12px;
+      height: 10px;
       background-color: #f1f2f6;
-      border-radius: 6px;
+      border-radius: 5px;
       overflow: hidden;
     }
 
@@ -178,15 +202,15 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 14px;
+      font-size: 13px;
       color: #666;
-      margin-top: 8px;
+      margin-top: 6px;
     }
 
     .message {
-      padding: 14px;
+      padding: 12px;
       border-radius: 8px;
-      margin-bottom: 15px;
+      margin-bottom: 12px;
       text-align: center;
       font-weight: 600;
       display: none;
@@ -207,21 +231,26 @@
 
     .controls {
       display: flex;
-      gap: 12px;
-      margin-top: 20px;
+      gap: 10px;
+      margin-top: 15px;
       flex-wrap: wrap;
       justify-content: center;
+      position: sticky;
+      bottom: 70px;
+      background: white;
+      padding: 10px 0;
+      z-index: 60;
     }
 
     .controls button {
-      padding: 14px 20px;
+      padding: 12px 16px;
       border: none;
-      border-radius: 10px;
+      border-radius: 8px;
       cursor: pointer;
       font-weight: 700;
       transition: transform 0.15s, opacity 0.25s, background-color 0.25s;
-      min-width: 160px;
-      font-size: 16px;
+      min-width: 140px;
+      font-size: 14px;
     }
 
     .controls button:hover {
@@ -251,23 +280,29 @@
 
     footer {
       text-align: center;
-      padding: 16px;
+      padding: 12px;
       color: #888;
-      font-size: 14px;
+      font-size: 13px;
       border-top: 1px solid #f1f2f6;
     }
 
     @media (max-width: 640px) {
       h1 {
-        font-size: 26px;
+        font-size: 24px;
       }
 
       .conversation {
-        font-size: 16px;
+        font-size: 15px;
       }
 
       .controls {
         flex-direction: column;
+        position: relative;
+        bottom: 0;
+      }
+      
+      .progress-container {
+        position: relative;
       }
 
       .controls button {
@@ -275,8 +310,26 @@
       }
       
       .word-item {
-        padding: 8px 12px;
+        padding: 5px 10px;
+        font-size: 13px;
+      }
+      
+      .gap {
+        min-width: 120px;
         font-size: 14px;
+      }
+      
+      .word-bank-container, .instructions {
+        position: relative;
+        top: 0;
+      }
+      
+      .word-bank {
+        max-height: 120px;
+      }
+      
+      header, .instructions {
+        position: relative;
       }
     }
 
@@ -311,11 +364,13 @@
     </div>
 
     <div class="exercise-container">
-      <div class="word-bank" id="word-bank">
-        <!-- Words will be populated by JavaScript in random order -->
+      <div class="word-bank-container">
+        <div class="word-bank" id="word-bank">
+          <!-- Words will be populated by JavaScript in random order -->
+        </div>
       </div>
 
-     <div class="conversations">
+      <div class="conversations">
         <div class="conversation">1 A: Where are you from? B: <span class="gap" data-correct="I’m from Egypt." data-id="1"></span></div>
         <div class="conversation">2 A: <span class="gap" data-correct="How old is he?" data-id="2"></span> B: I think he's 24.</div>
         <div class="conversation">3 A: <span class="gap" data-correct="Is she from Canada?" data-id="3"></span> B: No, she isn't.</div>
@@ -353,7 +408,7 @@
     </div>
 
     <footer>
-      <p>Educasa.pe; 2025</p>
+      <p>Educasa.pe, 2025</p>
     </footer>
   </div>
 
@@ -653,7 +708,7 @@
       initDragAndDrop();
 
       // Improved drag-to-scroll support for overflow container:
-      const scrollContainer = document.querySelector('.container'); // or your scrollable div
+      const scrollContainer = document.querySelector('.container');
       const SCROLL_SPEED = 25;
       const SCROLL_ZONE = 80;
 
