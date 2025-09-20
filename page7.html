@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grammar Exercise: Verb "To Be"</title>
+  <title>Mobile-Friendly Grammar Exercise</title>
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
@@ -20,6 +21,7 @@
       align-items: center;
       padding: 20px;
       color: #333;
+      touch-action: manipulation;
     }
 
     .container {
@@ -64,7 +66,7 @@
       font-size: 15px;
       color: #666;
       position: sticky;
-      top: 95px; /* Height of header */
+      top: 95px;
       z-index: 90;
     }
 
@@ -74,7 +76,7 @@
 
     .word-bank-container {
       position: sticky;
-      top: 140px; /* Height of header + instructions */
+      top: 140px;
       z-index: 80;
       background: white;
       padding: 10px 0;
@@ -93,6 +95,7 @@
       justify-content: center;
       max-height: 90px;
       overflow-y: auto;
+      touch-action: pan-y;
     }
 
     .word-item {
@@ -106,6 +109,7 @@
       font-weight: 500;
       font-size: 14px;
       flex-shrink: 0;
+      touch-action: none;
     }
 
     .word-item:hover {
@@ -286,50 +290,141 @@
       border-top: 1px solid #f1f2f6;
     }
 
-    @media (max-width: 640px) {
-      h1 {
-        font-size: 24px;
-      }
-
-      .conversation {
-        font-size: 15px;
-      }
-
-      .controls {
-        flex-direction: column;
-        position: relative;
-        bottom: 0;
+    /* Mobile-specific styles */
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+        display: block;
+        min-height: 100vh;
+        height: auto;
       }
       
-      .progress-container {
-        position: relative;
-      }
-
-      .controls button {
-        width: 100%;
-      }
-      
-      .word-item {
-        padding: 5px 10px;
-        font-size: 13px;
+      .container {
+        max-height: none;
+        height: auto;
+        overflow-y: visible;
+        border-radius: 12px;
       }
       
-      .gap {
-        min-width: 120px;
-        font-size: 14px;
-      }
-      
-      .word-bank-container, .instructions {
+      header, .instructions, .word-bank-container {
         position: relative;
         top: 0;
       }
       
       .word-bank {
-        max-height: 120px;
+        max-height: none;
+        overflow-y: visible;
+        margin-bottom: 15px;
       }
       
-      header, .instructions {
+      .word-item {
+        padding: 10px 14px;
+        font-size: 15px;
+      }
+      
+      .conversation {
+        font-size: 16px;
+        line-height: 1.5;
+        margin-bottom: 20px;
+      }
+      
+      .gap {
+        min-width: 120px;
+        display: block;
+        margin: 8px 0;
+        width: 100%;
+        text-align: center;
+      }
+      
+      .controls, .progress-container {
         position: relative;
+        bottom: 0;
+      }
+      
+      .controls {
+        flex-direction: column;
+      }
+      
+      .controls button {
+        width: 100%;
+      }
+      
+      /* Mobile word selection modal */
+      .mobile-word-selector {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 -5px 20px rgba(0,0,0,0.15);
+        z-index: 1000;
+        max-height: 60vh;
+        overflow-y: auto;
+      }
+      
+      .mobile-word-selector h3 {
+        margin-bottom: 15px;
+        text-align: center;
+        color: #00b09b;
+      }
+      
+      .mobile-words-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+      
+      .mobile-word-option {
+        padding: 12px;
+        background: linear-gradient(90deg, #00b09b 0%, #96c93d 100%);
+        color: white;
+        border-radius: 8px;
+        text-align: center;
+        font-weight: 500;
+        cursor: pointer;
+      }
+      
+      .mobile-word-option.used {
+        opacity: 0.5;
+        background: #cccccc;
+      }
+      
+      .close-selector {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 24px;
+        background: none;
+        border: none;
+        color: #666;
+        cursor: pointer;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .mobile-words-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      header {
+        padding: 15px 20px;
+      }
+      
+      h1 {
+        font-size: 24px;
+      }
+      
+      header p {
+        font-size: 14px;
+      }
+      
+      .instructions {
+        padding: 10px 15px;
+        font-size: 14px;
       }
     }
 
@@ -349,6 +444,18 @@
       outline: 3px solid rgba(0, 176, 155, 0.55);
       outline-offset: 2px;
       border-radius: 8px;
+    }
+    
+    /* Overlay for mobile */
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
     }
   </style>
 </head>
@@ -412,6 +519,16 @@
     </footer>
   </div>
 
+  <!-- Mobile word selector (hidden by default) -->
+  <div class="overlay" id="overlay"></div>
+  <div class="mobile-word-selector" id="mobile-word-selector">
+    <button class="close-selector" id="close-selector">×</button>
+    <h3>Select a phrase</h3>
+    <div class="mobile-words-grid" id="mobile-words-grid">
+      <!-- Will be populated by JavaScript -->
+    </div>
+  </div>
+
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Define the words for the exercise based on the screenshot
@@ -425,6 +542,9 @@
         "Is she from Canada?",
         "Are they students?"
       ];
+      
+      // Check if we're on a mobile device
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       
       // Shuffle the words array to randomize order
       function shuffleArray(array) {
@@ -460,12 +580,78 @@
       const resetBtn = document.getElementById('reset-btn');
       const solutionBtn = document.getElementById('solution-btn');
       
+      // Mobile elements
+      const mobileWordSelector = document.getElementById('mobile-word-selector');
+      const mobileWordsGrid = document.getElementById('mobile-words-grid');
+      const closeSelector = document.getElementById('close-selector');
+      const overlay = document.getElementById('overlay');
+      
       let filledGaps = 0;
       const totalGaps = gaps.length;
       let hasCheckedAnswers = false;
+      let activeGap = null;
       
       // Initialize progress
       updateProgress();
+      
+      // Initialize mobile word selector if on mobile
+      if (isMobile) {
+        initMobileWordSelector();
+      }
+      
+      // Initialize drag and drop functionality for desktop
+      if (!isMobile) {
+        initDragAndDrop();
+      }
+      
+      function initMobileWordSelector() {
+        // Hide the desktop word bank on mobile
+        document.querySelector('.word-bank-container').style.display = 'none';
+        
+        // Populate mobile word selector
+        shuffledWords.forEach(word => {
+          const wordOption = document.createElement('div');
+          wordOption.className = 'mobile-word-option';
+          wordOption.dataset.word = word;
+          wordOption.textContent = word;
+          wordOption.addEventListener('click', function() {
+            if (!this.classList.contains('used')) {
+              fillGap(activeGap, this.dataset.word);
+              closeWordSelector();
+            }
+          });
+          mobileWordsGrid.appendChild(wordOption);
+        });
+        
+        // Add click event to gaps for mobile
+        gaps.forEach(gap => {
+          gap.addEventListener('click', function() {
+            if (!this.classList.contains('filled')) {
+              activeGap = this;
+              showWordSelector();
+            } else {
+              freeGap(this);
+            }
+          });
+        });
+        
+        // Close selector events
+        closeSelector.addEventListener('click', closeWordSelector);
+        overlay.addEventListener('click', closeWordSelector);
+      }
+      
+      function showWordSelector() {
+        mobileWordSelector.style.display = 'block';
+        overlay.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+      }
+      
+      function closeWordSelector() {
+        mobileWordSelector.style.display = 'none';
+        overlay.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        activeGap = null;
+      }
       
       // Initialize drag and drop functionality
       function initDragAndDrop() {
@@ -511,11 +697,19 @@
         gap.classList.remove('filled', 'correct', 'incorrect');
         
         // Make the word available again in the word bank
-        wordItems.forEach(wordItem => {
-          if (wordItem.dataset.word === word) {
-            wordItem.classList.remove('used');
-          }
-        });
+        if (isMobile) {
+          document.querySelectorAll('.mobile-word-option').forEach(option => {
+            if (option.dataset.word === word) {
+              option.classList.remove('used');
+            }
+          });
+        } else {
+          wordItems.forEach(wordItem => {
+            if (wordItem.dataset.word === word) {
+              wordItem.classList.remove('used');
+            }
+          });
+        }
         
         filledGaps--;
         updateProgress();
@@ -564,12 +758,20 @@
         gap.classList.add('filled');
         filledGaps++;
         
-        // Mark word as used in the word bank
-        wordItems.forEach(wordItem => {
-          if (wordItem.dataset.word === word) {
-            wordItem.classList.add('used');
-          }
-        });
+        // Mark word as used
+        if (isMobile) {
+          document.querySelectorAll('.mobile-word-option').forEach(option => {
+            if (option.dataset.word === word) {
+              option.classList.add('used');
+            }
+          });
+        } else {
+          wordItems.forEach(wordItem => {
+            if (wordItem.dataset.word === word) {
+              wordItem.classList.add('used');
+            }
+          });
+        }
         
         // Update progress
         updateProgress();
@@ -669,12 +871,20 @@
           gap.textContent = '';
           gap.classList.remove('filled', 'correct', 'incorrect');
           
-          // Make the word available again in the word bank
-          wordItems.forEach(wordItem => {
-            if (wordItem.dataset.word === word) {
-              wordItem.classList.remove('used');
-            }
-          });
+          // Make the word available again
+          if (isMobile) {
+            document.querySelectorAll('.mobile-word-option').forEach(option => {
+              if (option.dataset.word === word) {
+                option.classList.remove('used');
+              }
+            });
+          } else {
+            wordItems.forEach(wordItem => {
+              if (wordItem.dataset.word === word) {
+                wordItem.classList.remove('used');
+              }
+            });
+          }
         });
         
         filledGaps = 0;
@@ -691,38 +901,25 @@
           gap.classList.add('filled', 'correct');
           gap.classList.remove('incorrect');
           
-          // Mark words as used in the word bank
-          wordItems.forEach(wordItem => {
-            if (wordItem.dataset.word === gap.dataset.correct) {
-              wordItem.classList.add('used');
-            }
-          });
+          // Mark words as used
+          if (isMobile) {
+            document.querySelectorAll('.mobile-word-option').forEach(option => {
+              if (option.dataset.word === gap.dataset.correct) {
+                option.classList.add('used');
+              }
+            });
+          } else {
+            wordItems.forEach(wordItem => {
+              if (wordItem.dataset.word === gap.dataset.correct) {
+                wordItem.classList.add('used');
+              }
+            });
+          }
         });
         
         filledGaps = totalGaps;
         updateProgress();
         checkAnswers();
-      });
-      
-      // Initialize the exercise
-      initDragAndDrop();
-
-      // Improved drag-to-scroll support for overflow container:
-      const scrollContainer = document.querySelector('.container');
-      const SCROLL_SPEED = 25;
-      const SCROLL_ZONE = 80;
-
-      document.addEventListener('dragover', function(e) {
-        if (!scrollContainer) return;
-        const rect = scrollContainer.getBoundingClientRect();
-        const y = e.clientY - rect.top;
-        const height = scrollContainer.clientHeight;
-
-        if (y < SCROLL_ZONE) {
-          scrollContainer.scrollTop -= SCROLL_SPEED;
-        } else if (y > height - SCROLL_ZONE) {
-          scrollContainer.scrollTop += SCROLL_SPEED;
-        }
       });
     });
   </script>
