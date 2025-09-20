@@ -30,6 +30,8 @@
       max-width: 900px;
       overflow: hidden;
       animation: fadeIn 0.5s ease-in-out;
+      max-height: 90vh;    /* Added for scroll improvement */
+      overflow-y: auto;    /* Added for scroll improvement */
     }
 
     header {
@@ -645,6 +647,24 @@
       
       // Initialize the exercise
       initDragAndDrop();
+    });
+
+    // SCROLL IMPROVEMENT FOR DRAGGING
+    const scrollContainer = document.querySelector('.container'); // or your scrollable div
+    const SCROLL_SPEED = 25;
+    const SCROLL_ZONE = 80;
+
+    document.addEventListener('dragover', function(e) {
+      if (!scrollContainer) return;
+      const rect = scrollContainer.getBoundingClientRect();
+      const y = e.clientY - rect.top;
+      const height = scrollContainer.clientHeight;
+
+      if (y < SCROLL_ZONE) {
+        scrollContainer.scrollTop -= SCROLL_SPEED;
+      } else if (y > height - SCROLL_ZONE) {
+        scrollContainer.scrollTop += SCROLL_SPEED;
+      }
     });
   </script>
 </body>
