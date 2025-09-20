@@ -10,7 +10,6 @@
       margin: 0;
       padding: 0;
       font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif;
-      -webkit-tap-highlight-color: transparent;
     }
 
     body {
@@ -21,7 +20,6 @@
       align-items: center;
       padding: 20px;
       color: #2d3436;
-      touch-action: manipulation;
     }
 
     .container {
@@ -37,59 +35,57 @@
     header {
       background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
       color: white;
-      padding: 20px 28px;
+      padding: 26px 28px;
       text-align: center;
     }
 
     h1 {
-      font-size: 26px;
-      margin-bottom: 5px;
+      font-size: 30px;
+      margin-bottom: 8px;
       font-weight: 700;
       letter-spacing: 0.2px;
     }
 
     header p {
       opacity: 0.95;
-      font-size: 16px;
     }
 
     .instructions {
       background-color: #f8faff;
-      padding: 15px 22px;
+      padding: 18px 22px;
       border-bottom: 1px solid #e0e6f1;
-      font-size: 15px;
+      font-size: 16px;
       color: #555;
     }
 
     .story-container {
-      padding: 20px 28px 28px;
-    }
-
-    .story-text {
-      font-size: 17px;
-      line-height: 1.6;
-      margin-bottom: 20px;
-      color: #333;
-    }
-
-    .gap {
-      padding: 4px 6px;
-      border-bottom: 2px dashed #4facfe;
-      background-color: rgba(79, 172, 254, 0.12);
-      border-radius: 6px;
-      transition: all 0.25s;
-      display: inline-block;
-      min-width: 60px;
-      text-align: center;
-      margin: 4px 2px;
+      padding: 28px;
       position: relative;
     }
 
+    .story-text {
+      font-size: 18px;
+      line-height: 1.7;
+      margin-bottom: 24px;
+      color: #333;
+      max-height: 50vh;
+      overflow-y: auto;
+      padding-bottom: 80px; /* Space for sticky input */
+    }
+
+    .gap {
+      padding: 2px 6px;
+      border-bottom: 2px dashed #4facfe;
+      background-color: rgba(79, 172, 254, 0.12);
+      border-radius: 4px;
+      transition: background-color 0.25s, border-color 0.25s;
+      white-space: nowrap;
+    }
+
     .gap.active {
-      background-color: rgba(79, 172, 254, 0.25);
+      background-color: rgba(79, 172, 254, 0.18);
       border-bottom-color: #1690ff;
-      transform: scale(1.05);
-      box-shadow: 0 2px 8px rgba(79, 172, 254, 0.3);
+      outline: 2px solid transparent;
     }
 
     .gap.filled {
@@ -99,19 +95,14 @@
       font-weight: 600;
     }
 
-    .gap.incorrect {
-      color: #e74c3c;
-      animation: shake 0.5s;
-    }
-
     .progress-container {
       margin: 18px 0 20px;
     }
 
     .progress-bar {
-      height: 10px;
+      height: 12px;
       background-color: #f1f2f6;
-      border-radius: 5px;
+      border-radius: 6px;
       overflow: hidden;
     }
 
@@ -128,7 +119,7 @@
       align-items: center;
       font-size: 14px;
       color: #666;
-      margin-top: 6px;
+      margin-top: 8px;
     }
 
     .message {
@@ -157,6 +148,12 @@
       gap: 10px;
       align-items: stretch;
       margin-bottom: 8px;
+      position: sticky;
+      bottom: 0;
+      background-color: white;
+      padding: 15px 0;
+      border-top: 1px solid #e2e8f0;
+      z-index: 10;
     }
 
     .field {
@@ -174,7 +171,6 @@
       padding: 0 6px;
       font-size: 12px;
       color: #6b7280;
-      z-index: 1;
     }
 
     #word-input {
@@ -214,18 +210,17 @@
       gap: 10px;
       margin-top: 16px;
       flex-wrap: wrap;
-      justify-content: center;
     }
 
     .controls button {
+      flex: 1;
       padding: 12px 16px;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
       font-weight: 700;
       transition: transform 0.15s, opacity 0.25s, background-color 0.25s;
       min-width: 140px;
-      font-size: 14px;
     }
 
     .controls button:hover {
@@ -256,95 +251,44 @@
       border-top: 1px solid #f1f2f6;
     }
 
-    /* Mobile keyboard handling */
-    .keyboard-helper {
-      display: none;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: #f7f9fc;
-      padding: 10px;
-      border-top: 1px solid #e2e8f0;
-      z-index: 100;
-    }
-    
-    .keyboard-helper button {
-      background: #4facfe;
-      color: white;
-      border: none;
-      padding: 8px 15px;
-      border-radius: 6px;
-      margin: 0 5px;
-      font-weight: 500;
-    }
-
-    /* Mobile specific styles */
-    @media (max-width: 768px) {
-      body {
-        padding: 10px;
-        display: block;
-        align-items: flex-start;
-      }
-      
-      .container {
-        border-radius: 12px;
-        margin: 0 auto;
-      }
-      
-      header {
-        padding: 15px 20px;
-      }
-      
+    @media (max-width: 640px) {
       h1 {
-        font-size: 22px;
+        font-size: 24px;
       }
-      
-      header p {
-        font-size: 14px;
-      }
-      
-      .instructions {
-        padding: 12px 15px;
-        font-size: 14px;
-      }
-      
-      .story-container {
-        padding: 15px 20px 20px;
-      }
-      
+
       .story-text {
         font-size: 16px;
-        line-height: 1.5;
-        margin-bottom: 20px;
+        max-height: 40vh;
       }
-      
-      .gap {
-        min-width: 50px;
-        padding: 6px 8px;
-        margin: 4px 1px;
-      }
-      
+
       .input-area {
         flex-direction: column;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 12px 15px;
+        border-top: 1px solid #e2e8f0;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 0;
       }
-      
+
       #submit-btn {
         width: 100%;
         padding: 12px 16px;
       }
-      
+
       .controls {
         flex-direction: column;
+        margin-bottom: 70px; /* Space for the fixed input area */
       }
-      
+
       .controls button {
         width: 100%;
       }
       
-      .keyboard-helper {
-        display: flex;
-        justify-content: space-between;
+      .story-container {
+        padding-bottom: 20px;
       }
     }
 
@@ -357,12 +301,6 @@
         opacity: 1;
         transform: translateY(0);
       }
-    }
-    
-    @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-      20%, 40%, 60%, 80% { transform: translateX(5px); }
     }
 
     /* Focus styles for keyboard users */
@@ -381,7 +319,7 @@
         </header>
         
         <div class="instructions">
-            <p>Tap on a blank space and type the correct word. Press Enter to check your answer.</p>
+            <p>Type the correct word for each blank and press Enter to check your answer.</p>
         </div>
         
         <div class="story-container">
@@ -419,13 +357,6 @@
         </footer>
     </div>
 
-    <!-- Mobile keyboard helper -->
-    <div class="keyboard-helper">
-        <button id="keyboard-hint">Hint</button>
-        <button id="keyboard-submit">Submit</button>
-        <button id="keyboard-close">Close Keyboard</button>
-    </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const gaps = document.querySelectorAll('.gap');
@@ -439,15 +370,9 @@
             const successMessage = document.getElementById('success-message');
             const errorMessage = document.getElementById('error-message');
             
-            // Mobile keyboard helper buttons
-            const keyboardHint = document.getElementById('keyboard-hint');
-            const keyboardSubmit = document.getElementById('keyboard-submit');
-            const keyboardClose = document.getElementById('keyboard-close');
-            
             let currentGapIndex = 0;
             let completedGaps = 0;
             const totalGaps = gaps.length;
-            let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             
             // Initialize the exercise
             function init() {
@@ -456,54 +381,8 @@
                     if (index === 0) {
                         gap.classList.add('active');
                     }
-                    
-                    // Add touch/click event to each gap
-                    gap.addEventListener('click', function() {
-                        setActiveGap(index);
-                        wordInput.focus();
-                    });
                 });
-                
                 wordInput.focus();
-                
-                // Setup mobile keyboard helper
-                if (isMobile) {
-                    setupMobileKeyboard();
-                }
-            }
-            
-            // Set up mobile keyboard helper
-            function setupMobileKeyboard() {
-                keyboardHint.addEventListener('click', showHint);
-                keyboardSubmit.addEventListener('click', checkWord);
-                keyboardClose.addEventListener('click', function() {
-                    wordInput.blur();
-                });
-                
-                // Show keyboard helper when input is focused
-                wordInput.addEventListener('focus', function() {
-                    document.querySelector('.keyboard-helper').style.display = 'flex';
-                });
-                
-                wordInput.addEventListener('blur', function() {
-                    document.querySelector('.keyboard-helper').style.display = 'none';
-                });
-            }
-            
-            // Set active gap
-            function setActiveGap(index) {
-                // Remove active class from all gaps
-                gaps.forEach(gap => gap.classList.remove('active'));
-                
-                // Add active class to the selected gap
-                gaps[index].classList.add('active');
-                currentGapIndex = index;
-                
-                // Scroll into view on mobile
-                if (isMobile) {
-                    const gapElement = gaps[index];
-                    gapElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
             }
             
             // Update progress bar and text
@@ -516,10 +395,8 @@
             // Check if the entered word is correct (anywhere in the text)
             function checkWord() {
                 const enteredWord = wordInput.value.trim().toLowerCase();
-                if (!enteredWord) return;
-                
                 let foundMatch = false;
-                let matchedGaps = []; // Store all matching indices
+                let matchedGaps = []; // Changed to store multiple indices
                 
                 // Check all gaps for the entered word
                 gaps.forEach((gap, index) => {
@@ -565,7 +442,11 @@
                         }
                         
                         if (nextUnfilledIndex !== -1) {
-                            setActiveGap(nextUnfilledIndex);
+                            // Remove active class from all gaps
+                            gaps.forEach(gap => gap.classList.remove('active'));
+                            // Add active class to the next unfilled gap
+                            gaps[nextUnfilledIndex].classList.add('active');
+                            currentGapIndex = nextUnfilledIndex;
                         }
                     }
                     
@@ -587,13 +468,6 @@
                     
                     errorMessage.style.display = 'block';
                     successMessage.style.display = 'none';
-                    
-                    // Shake the active gap to indicate error
-                    gaps[currentGapIndex].classList.add('incorrect');
-                    setTimeout(() => {
-                        gaps[currentGapIndex].classList.remove('incorrect');
-                    }, 500);
-                    
                     wordInput.select();
                 }
             }
@@ -618,6 +492,7 @@
                 });
                 
                 completedGaps = totalGaps;
+                currentGapIndex = totalGaps;
                 updateProgress();
                 
                 wordInput.disabled = true;
@@ -638,18 +513,24 @@
                                     index === 11 ? '____' : 
                                     index === 13 ? '__' : 
                                     index === 15 ? '____' : 
+                                    index === 17 ? '___' : 
                                     index === 18 ? '____' : 
                                     index === 20 ? '_____' : 
                                     index === 22 ? '___' : 
                                     index === 24 ? '____' : 
-                                    index === 26 ? '_____' : 
-                                    index === 31 ? '____' : '___';
-                    gap.classList.remove('filled', 'active', 'incorrect');
+                                    index === 26 ? '___' : 
+                                    index === 28 ? '_____' : 
+                                    index === 30 ? '___' : 
+                                    index === 31 ? '___' : 
+                                    index === 32 ? '___' : 
+                                    index === 33 ? '___' : '___';
+                    gap.classList.remove('filled', 'active');
                 });
                 
                 // Reset first gap highlight
-                setActiveGap(0);
+                gaps[0].classList.add('active');
                 
+                currentGapIndex = 0;
                 completedGaps = 0;
                 updateProgress();
                 
