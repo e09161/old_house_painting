@@ -513,20 +513,35 @@
                 progressText.textContent = completedGaps;
             }
             
-            // Check if the entered word is correct
+            // Check if the entered word is correct (anywhere in the text)
             function checkWord() {
                 const enteredWord = wordInput.value.trim().toLowerCase();
                 if (!enteredWord) return;
                 
-                const currentGap = gaps[currentGapIndex];
-                const correctWord = currentGap.getAttribute('data-word').toLowerCase();
+                let foundMatch = false;
+                let matchedGaps = []; // Store all matching indices
                 
-                if (enteredWord === correctWord) {
-                    // Correct answer
-                    currentGap.textContent = enteredWord;
-                    currentGap.classList.add('filled');
-                    currentGap.classList.remove('active');
-                    completedGaps++;
+                // Check all gaps for the entered word
+                gaps.forEach((gap, index) => {
+                    const correctWord = gap.getAttribute('data-word').toLowerCase();
+                    
+                    if (enteredWord === correctWord && !gap.classList.contains('filled')) {
+                        foundMatch = true;
+                        matchedGaps.push(index); // Store all matching indices
+                    }
+                });
+                
+                if (foundMatch) {
+                    // Fill all matching gaps
+                    matchedGaps.forEach(index => {
+                        const matchedGap = gaps[index];
+                        matchedGap.textContent = enteredWord;
+                        matchedGap.classList.add('filled');
+                        matchedGap.classList.remove('active');
+                        
+                        // Update progress for each filled gap
+                        completedGaps++;
+                    });
                     
                     updateProgress();
                     
@@ -558,15 +573,25 @@
                     wordInput.value = '';
                     wordInput.focus();
                 } else {
-                    // Incorrect answer
-                    currentGap.classList.add('incorrect');
-                    errorMessage.textContent = 'Incorrect. Try again.';
+                    // Check if the word is correct but already filled
+                    const isAlreadyFilled = Array.from(gaps).some(gap => {
+                        const correctWord = gap.getAttribute('data-word').toLowerCase();
+                        return enteredWord === correctWord && gap.classList.contains('filled');
+                    });
+                    
+                    if (isAlreadyFilled) {
+                        errorMessage.textContent = 'This word is already filled in.';
+                    } else {
+                        errorMessage.textContent = 'Incorrect. Try again.';
+                    }
+                    
                     errorMessage.style.display = 'block';
                     successMessage.style.display = 'none';
                     
-                    // Remove incorrect class after animation
+                    // Shake the active gap to indicate error
+                    gaps[currentGapIndex].classList.add('incorrect');
                     setTimeout(() => {
-                        currentGap.classList.remove('incorrect');
+                        gaps[currentGapIndex].classList.remove('incorrect');
                     }, 500);
                     
                     wordInput.select();
@@ -586,25 +611,10 @@
             
             // Show complete solution
             function showSolution() {
-                gaps.forEach((gap, index) => {
+                gaps.forEach(gap => {
                     gap.textContent = gap.getAttribute('data-word');
                     gap.classList.add('filled');
                     gap.classList.remove('active');
-                    
-                    // Special handling for different gap lengths
-                    if (index === 0) gap.textContent = "an";
-                    if (index === 1) gap.textContent = "house";
-                    if (index === 4) gap.textContent = "when";
-                    if (index === 9) gap.textContent = "painting";
-                    if (index === 11) gap.textContent = "portrait";
-                    if (index === 13) gap.textContent = "a";
-                    if (index === 15) gap.textContent = "husband";
-                    if (index === 18) gap.textContent = "night";
-                    if (index === 20) gap.textContent = "next";
-                    if (index === 22) gap.textContent = "shop";
-                    if (index === 24) gap.textContent = "lovely";
-                    if (index === 26) gap.textContent = "gallery";
-                    if (index === 31) gap.textContent = "gallery";
                 });
                 
                 completedGaps = totalGaps;
