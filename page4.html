@@ -368,11 +368,10 @@
                 progressText.textContent = completedGaps;
             }
             
-            // Check if the entered word is correct (anywhere in the text)
-            function checkWord() {
+           function checkWord() {
                 const enteredWord = wordInput.value.trim().toLowerCase();
                 let foundMatch = false;
-                let matchedGapIndex = -1;
+                let matchedGaps = []; // Changed to store multiple indices
                 
                 // Check all gaps for the entered word
                 gaps.forEach((gap, index) => {
@@ -380,20 +379,22 @@
                     
                     if (enteredWord === correctWord && !gap.classList.contains('filled')) {
                         foundMatch = true;
-                        matchedGapIndex = index;
-                        return; // Exit the loop early
+                        matchedGaps.push(index); // Store all matching indices
                     }
                 });
                 
                 if (foundMatch) {
-                    // Correct word found somewhere
-                    const matchedGap = gaps[matchedGapIndex];
-                    matchedGap.textContent = enteredWord;
-                    matchedGap.classList.add('filled');
-                    matchedGap.classList.remove('active');
+                    // Fill all matching gaps
+                    matchedGaps.forEach(index => {
+                        const matchedGap = gaps[index];
+                        matchedGap.textContent = enteredWord;
+                        matchedGap.classList.add('filled');
+                        matchedGap.classList.remove('active');
+                        
+                        // Update progress for each filled gap
+                        completedGaps++;
+                    });
                     
-                    // Update progress
-                    completedGaps++;
                     updateProgress();
                     
                     // Show success message
