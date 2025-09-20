@@ -405,6 +405,86 @@
             
             // Reset the exercise
             // Reset the exercise
+
+// Check if the entered word is correct (anywhere in the text)
+function checkWord() {
+    const enteredWord = wordInput.value.trim().toLowerCase();
+    let foundMatch = false;
+    let matchedGaps = []; // Changed to store multiple indices
+    
+    // Check all gaps for the entered word
+    gaps.forEach((gap, index) => {
+        const correctWord = gap.getAttribute('data-word').toLowerCase();
+        
+        if (enteredWord === correctWord && !gap.classList.contains('filled')) {
+            foundMatch = true;
+            matchedGaps.push(index); // Store all matching indices
+        }
+    });
+    
+    if (foundMatch) {
+        // Fill all matching gaps
+        matchedGaps.forEach(index => {
+            const matchedGap = gaps[index];
+            matchedGap.textContent = enteredWord;
+            matchedGap.classList.add('filled');
+            matchedGap.classList.remove('active');
+            
+            // Update progress for each filled gap
+            completedGaps++;
+        });
+        
+        updateProgress();
+        
+        // Show success message
+        successMessage.style.display = 'block';
+        errorMessage.style.display = 'none';
+        
+        // If all gaps are filled
+        if (completedGaps >= totalGaps) {
+            wordInput.disabled = true;
+            submitBtn.disabled = true;
+            successMessage.textContent = 'Congratulations! You completed the story.';
+        } else {
+            // Find and activate the next unfilled gap
+            let nextUnfilledIndex = -1;
+            for (let i = 0; i < gaps.length; i++) {
+                if (!gaps[i].classList.contains('filled')) {
+                    nextUnfilledIndex = i;
+                    break;
+                }
+            }
+            
+            if (nextUnfilledIndex !== -1) {
+                // Remove active class from all gaps
+                gaps.forEach(gap => gap.classList.remove('active'));
+                // Add active class to the next unfilled gap
+                gaps[nextUnfilledIndex].classList.add('active');
+                currentGapIndex = nextUnfilledIndex;
+            }
+        }
+        
+        // Clear input
+        wordInput.value = '';
+        wordInput.focus();
+    } else {
+        // Check if the word is correct but already filled
+        const isAlreadyFilled = Array.from(gaps).some(gap => {
+            const correctWord = gap.getAttribute('data-word').toLowerCase();
+            return enteredWord === correctWord && gap.classList.contains('filled');
+        });
+        
+        if (isAlreadyFilled) {
+            errorMessage.textContent = 'This word is already filled in.';
+        } else {
+            errorMessage.textContent = 'Incorrect. Try again.';
+        }
+        
+        errorMessage.style.display = 'block';
+        successMessage.style.display = 'none';
+        wordInput.select();
+    }
+}
 function resetExercise() {
     gaps.forEach((gap, index) => {
         gap.textContent = index === 0 ? '___' : 
