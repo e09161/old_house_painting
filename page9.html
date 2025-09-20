@@ -373,111 +373,270 @@
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // Define the phrases for the exercise
-      const phrases = [
-        "remains atop of mount",
-        "take into account",
-        "give an account of",
-        "On account of",
-        "By all accounts",
-        "associate rain with",
-        "hangs in the balance",
-        "strike a balance",
-        "redress the balance",
-        "On balance",
-        "off balance",
-        "basis for",
-        "on a monthly basis",
-        "on the basis of",
-        "express any belief",
-        "Contrary to popular belief",
-        "beyond belief",
-        "pick your brain",
-        "racking my brains",
-        "the brains behind"
-      ];
-      
-      // Shuffle the phrases array to randomize order
-      function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
+  document.addEventListener('DOMContentLoaded', function() {
+    // Define the phrases for the exercise
+    const phrases = [
+      "remains atop of mount",
+      "take into account",
+      "give an account of",
+      "On account of",
+      "By all accounts",
+      "associate rain with",
+      "hangs in the balance",
+      "strike a balance",
+      "redress the balance",
+      "On balance",
+      "off balance",
+      "basis for",
+      "on a monthly basis",
+      "on the basis of",
+      "express any belief",
+      "Contrary to popular belief",
+      "beyond belief",
+      "pick your brain",
+      "racking my brains",
+      "the brains behind"
+    ];
+    
+    // Shuffle the phrases array to randomize order
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
       }
-      
-      // Initialize word bank with shuffled phrases
-      const wordBank = document.getElementById('word-bank');
-      const shuffledPhrases = shuffleArray([...phrases]);
-      
-      shuffledPhrases.forEach(phrase => {
-        const wordItem = document.createElement('div');
-        wordItem.className = 'word-item';
-        wordItem.setAttribute('draggable', 'true');
-        wordItem.dataset.word = phrase;
-        wordItem.textContent = phrase;
-        wordBank.appendChild(wordItem);
+      return array;
+    }
+    
+    // Initialize word bank with shuffled phrases
+    const wordBank = document.getElementById('word-bank');
+    const shuffledPhrases = shuffleArray([...phrases]);
+    
+    shuffledPhrases.forEach(phrase => {
+      const wordItem = document.createElement('div');
+      wordItem.className = 'word-item';
+      wordItem.setAttribute('draggable', 'true');
+      wordItem.dataset.word = phrase;
+      wordItem.textContent = phrase;
+      wordBank.appendChild(wordItem);
+    });
+    
+    // Get DOM elements
+    const gaps = document.querySelectorAll('.gap');
+    const wordItems = document.querySelectorAll('.word-item');
+    const progressBar = document.getElementById('progress-bar');
+    const progressText = document.getElementById('progress-text');
+    const successMessage = document.getElementById('success-message');
+    const errorMessage = document.getElementById('error-message');
+    const checkBtn = document.getElementById('check-btn');
+    const hintBtn = document.getElementById('hint-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const solutionBtn = document.getElementById('solution-btn');
+    
+    let filledGaps = 0;
+    const totalGaps = gaps.length;
+    let hasCheckedAnswers = false;
+    
+    // Initialize progress
+    updateProgress();
+    
+    // Initialize drag and drop functionality
+    function initDragAndDrop() {
+      // Add event listeners to word items for drag start
+      wordItems.forEach(word => {
+        word.addEventListener('dragstart', handleDragStart);
+        word.addEventListener('dragend', handleDragEnd);
       });
       
-      // Get DOM elements
-      const gaps = document.querySelectorAll('.gap');
-      const wordItems = document.querySelectorAll('.word-item');
-      const progressBar = document.getElementById('progress-bar');
-      const progressText = document.getElementById('progress-text');
-      const successMessage = document.getElementById('success-message');
-      const errorMessage = document.getElementById('error-message');
-      const checkBtn = document.getElementById('check-btn');
-      const hintBtn = document.getElementById('hint-btn');
-      const resetBtn = document.getElementById('reset-btn');
-      const solutionBtn = document.getElementById('solution-btn');
+      // Add event listeners to gaps for drag events
+      gaps.forEach(gap => {
+        gap.addEventListener('dragover', handleDragOver);
+        gap.addEventListener('dragenter', handleDragEnter);
+        gap.addEventListener('dragleave', handleDragLeave);
+        gap.addEventListener('drop', handleDrop);
+        gap.addEventListener('click', handleGapClick);
+      });
+    }
+    
+    // Handle drag start
+    function handleDragStart(e) {
+      this.classList.add('dragging');
+      e.dataTransfer.setData('text/plain', this.dataset.word);
+    }
+    
+    // Handle drag end
+    function handleDragEnd() {
+      this.classList.remove('dragging');
+    }
+    
+    // Handle gap click - to free a completed gap
+    function handleGapClick(e) {
+      // Only allow freeing gaps if they're filled
+      if (this.classList.contains('filled')) {
+        freeGap(this);
+      }
+    }
+    
+    // Free a gap (remove the answer)
+    function freeGap(gap) {
+      const word = gap.textContent;
+      gap.textContent = '';
+      gap.classList.remove('filled', 'correct', 'incorrect');
       
-      let filledGaps = 0;
-      const totalGaps = gaps.length;
-      let hasCheckedAnswers = false;
+      // Make the word available again in the word bank
+      wordItems.forEach(wordItem => {
+        if (wordItem.dataset.word === word) {
+          wordItem.classList.remove('used');
+        }
+      });
       
-      // Initialize progress
+      filledGaps--;
       updateProgress();
       
-      // Initialize drag and drop functionality
-      function initDragAndDrop() {
-        // Add event listeners to word items for drag start
-        wordItems.forEach(word => {
-          word.addEventListener('dragstart', handleDragStart);
-          word.addEventListener('dragend', handleDragEnd);
-        });
+      // Hide messages when user makes changes
+      successMessage.style.display = 'none';
+      errorMessage.style.display = 'none';
+      hasCheckedAnswers = false;
+    }
+    
+    // Handle drag over
+    function handleDragOver(e) {
+      e.preventDefault();
+    }
+    
+    // Handle drag enter
+    function handleDragEnter(e) {
+      e.preventDefault();
+      this.classList.add('active');
+    }
+    
+    // Handle drag leave
+    function handleDragLeave() {
+      this.classList.remove('active');
+    }
+    
+    // Handle drop
+    function handleDrop(e) {
+      e.preventDefault();
+      this.classList.remove('active');
+      
+      const word = e.dataTransfer.getData('text/plain');
+      
+      // If this gap is already filled, free it first
+      if (this.classList.contains('filled')) {
+        freeGap(this);
+      }
+      
+      fillGap(this, word);
+    }
+    
+    // Fill gap with word
+    function fillGap(gap, word) {
+      // Fill the gap
+      gap.textContent = word;
+      gap.classList.add('filled');
+      filledGaps++;
+      
+      // Mark word as used in the word bank
+      wordItems.forEach(wordItem => {
+        if (wordItem.dataset.word === word) {
+          wordItem.classList.add('used');
+        }
+      });
+      
+      // Update progress
+      updateProgress();
+      
+      // If we've previously checked answers, reset the visual state for new answers
+      if (hasCheckedAnswers) {
+        gap.classList.remove('correct', 'incorrect');
+      }
+      
+      // Hide messages when user makes changes
+      successMessage.style.display = 'none';
+      errorMessage.style.display = 'none';
+      hasCheckedAnswers = false;
+      
+      // Check if all gaps are filled
+      if (filledGaps === totalGaps) {
+        // Auto-check if all gaps are filled
+        checkAnswers();
+      }
+    }
+    
+    // Update progress bar and text
+    function updateProgress() {
+      const progress = (filledGaps / totalGaps) * 100;
+      progressBar.style.width = `${progress}%`;
+      progressText.textContent = `${Math.round(progress)}%`;
+    }
+    
+    // Check answers
+    function checkAnswers() {
+      let allCorrect = true;
+      
+      gaps.forEach(gap => {
+        const userAnswer = gap.textContent.trim().toLowerCase();
+        const correctAnswer = gap.dataset.correct.toLowerCase();
         
-        // Add event listeners to gaps for drag events
-        gaps.forEach(gap => {
-          gap.addEventListener('dragover', handleDragOver);
-          gap.addEventListener('dragenter', handleDragEnter);
-          gap.addEventListener('dragleave', handleDragLeave);
-          gap.addEventListener('drop', handleDrop);
-          gap.addEventListener('click', handleGapClick);
-        });
+        if (userAnswer !== correctAnswer) {
+          gap.classList.add('incorrect');
+          gap.classList.remove('correct');
+          allCorrect = false;
+        } else {
+          gap.classList.add('correct');
+          gap.classList.remove('incorrect');
+        }
+      });
+      
+      if (allCorrect) {
+        successMessage.style.display = 'block';
+        errorMessage.style.display = 'none';
+      } else {
+        successMessage.style.display = 'none';
+        errorMessage.style.display = 'block';
       }
       
-      // Handle drag start
-      function handleDragStart(e) {
-        this.classList.add('dragging');
-        e.dataTransfer.setData('text/plain', this.dataset.word);
-      }
+      hasCheckedAnswers = true;
+    }
+    
+    // Handle check button click
+    checkBtn.addEventListener('click', checkAnswers);
+    
+    // Handle hint button click
+    hintBtn.addEventListener('click', function() {
+      // Find first unfilled gap or incorrect answer
+      let gapToHint = null;
       
-      // Handle drag end
-      function handleDragEnd() {
-        this.classList.remove('dragging');
-      }
-      
-      // Handle gap click - to free a completed gap
-      function handleGapClick(e) {
-        // Only allow freeing gaps if they're filled
-        if (this.classList.contains('filled')) {
-          freeGap(this);
+      for (const gap of gaps) {
+        if (!gap.classList.contains('filled')) {
+          gapToHint = gap;
+          break;
+        } else if (gap.textContent.trim().toLowerCase() !== gap.dataset.correct.toLowerCase()) {
+          gapToHint = gap;
+          break;
         }
       }
       
-      // Free a gap (remove the answer)
-      function freeGap(gap) {
+      if (gapToHint) {
+        // Highlight the gap
+        gapToHint.classList.add('active');
+        
+        // Show first letter as hint
+        const correctAnswer = gapToHint.dataset.correct;
+        alert(`Hint: The correct phrase is "${correctAnswer}".`);
+        
+        // Remove highlight after a delay
+        setTimeout(() => {
+          gapToHint.classList.remove('active');
+        }, 2000);
+      } else {
+        alert('All gaps are correctly filled!');
+      }
+    });
+    
+    // Handle reset button click
+    resetBtn.addEventListener('click', function() {
+      gaps.forEach(gap => {
         const word = gap.textContent;
         gap.textContent = '';
         gap.classList.remove('filled', 'correct', 'incorrect');
@@ -488,197 +647,60 @@
             wordItem.classList.remove('used');
           }
         });
-        
-        filledGaps--;
-        updateProgress();
-        
-        // Hide messages when user makes changes
-        successMessage.style.display = 'none';
-        errorMessage.style.display = 'none';
-        hasCheckedAnswers = false;
-      }
+      });
       
-      // Handle drag over
-      function handleDragOver(e) {
-        e.preventDefault();
-      }
-      
-      // Handle drag enter
-      function handleDragEnter(e) {
-        e.preventDefault();
-        this.classList.add('active');
-      }
-      
-      // Handle drag leave
-      function handleDragLeave() {
-        this.classList.remove('active');
-      }
-      
-      // Handle drop
-      function handleDrop(e) {
-        e.preventDefault();
-        this.classList.remove('active');
+      filledGaps = 0;
+      updateProgress();
+      successMessage.style.display = 'none';
+      errorMessage.style.display = 'none';
+      hasCheckedAnswers = false;
+    });
+    
+    // Handle solution button click
+    solutionBtn.addEventListener('click', function() {
+      gaps.forEach(gap => {
+        gap.textContent = gap.dataset.correct;
+        gap.classList.add('filled', 'correct');
+        gap.classList.remove('incorrect');
         
-        const word = e.dataTransfer.getData('text/plain');
-        
-        // If this gap is already filled, free it first
-        if (this.classList.contains('filled')) {
-          freeGap(this);
-        }
-        
-        fillGap(this, word);
-      }
-      
-      // Fill gap with word
-      function fillGap(gap, word) {
-        // Fill the gap
-        gap.textContent = word;
-        gap.classList.add('filled');
-        filledGaps++;
-        
-        // Mark word as used in the word bank
+        // Mark words as used in the word bank
         wordItems.forEach(wordItem => {
-          if (wordItem.dataset.word === word) {
+          if (wordItem.dataset.word === gap.dataset.correct) {
             wordItem.classList.add('used');
           }
         });
-        
-        // Update progress
-        updateProgress();
-        
-        // If we've previously checked answers, reset the visual state for new answers
-        if (hasCheckedAnswers) {
-          gap.classList.remove('correct', 'incorrect');
-        }
-        
-        // Hide messages when user makes changes
-        successMessage.style.display = 'none';
-        errorMessage.style.display = 'none';
-        hasCheckedAnswers = false;
-        
-        // Check if all gaps are filled
-        if (filledGaps === totalGaps) {
-          // Auto-check if all gaps are filled
-          checkAnswers();
-        }
-      }
-      
-      // Update progress bar and text
-      function updateProgress() {
-        const progress = (filledGaps / totalGaps) * 100;
-        progressBar.style.width = `${progress}%`;
-        progressText.textContent = `${Math.round(progress)}%`;
-      }
-      
-      // Check answers
-      function checkAnswers() {
-        let allCorrect = true;
-        
-        gaps.forEach(gap => {
-          const userAnswer = gap.textContent.trim().toLowerCase();
-          const correctAnswer = gap.dataset.correct.toLowerCase();
-          
-          if (userAnswer !== correctAnswer) {
-            gap.classList.add('incorrect');
-            gap.classList.remove('correct');
-            allCorrect = false;
-          } else {
-            gap.classList.add('correct');
-            gap.classList.remove('incorrect');
-          }
-        });
-        
-        if (allCorrect) {
-          successMessage.style.display = 'block';
-          errorMessage.style.display = 'none';
-        } else {
-          successMessage.style.display = 'none';
-          errorMessage.style.display = 'block';
-        }
-        
-        hasCheckedAnswers = true;
-      }
-      
-      // Handle check button click
-      checkBtn.addEventListener('click', checkAnswers);
-      
-      // Handle hint button click
-      hintBtn.addEventListener('click', function() {
-        // Find first unfilled gap or incorrect answer
-        let gapToHint = null;
-        
-        for (const gap of gaps) {
-          if (!gap.classList.contains('filled')) {
-            gapToHint = gap;
-            break;
-          } else if (gap.textContent.trim().toLowerCase() !== gap.dataset.correct.toLowerCase()) {
-            gapToHint = gap;
-            break;
-          }
-        }
-        
-        if (gapToHint) {
-          // Highlight the gap
-          gapToHint.classList.add('active');
-          
-          // Show first letter as hint
-          const correctAnswer = gapToHint.dataset.correct;
-          alert(`Hint: The correct phrase is "${correctAnswer}".`);
-          
-          // Remove highlight after a delay
-          setTimeout(() => {
-            gapToHint.classList.remove('active');
-          }, 2000);
-        } else {
-          alert('All gaps are correctly filled!');
-        }
       });
       
-      // Handle reset button click
-      resetBtn.addEventListener('click', function() {
-        gaps.forEach(gap => {
-          const word = gap.textContent;
-          gap.textContent = '';
-          gap.classList.remove('filled', 'correct', 'incorrect');
-          
-          // Make the word available again in the word bank
-          wordItems.forEach(wordItem => {
-            if (wordItem.dataset.word === word) {
-              wordItem.classList.remove('used');
-            }
-          });
-        });
-        
-        filledGaps = 0;
-        updateProgress();
-        successMessage.style.display = 'none';
-        errorMessage.style.display = 'none';
-        hasCheckedAnswers = false;
-      });
-      
-      // Handle solution button click
-      solutionBtn.addEventListener('click', function() {
-        gaps.forEach(gap => {
-          gap.textContent = gap.dataset.correct;
-          gap.classList.add('filled', 'correct');
-          gap.classList.remove('incorrect');
-          
-          // Mark words as used in the word bank
-          wordItems.forEach(wordItem => {
-            if (wordItem.dataset.word === gap.dataset.correct) {
-              wordItem.classList.add('used');
-            }
-          });
-        });
-        
-        filledGaps = totalGaps;
-        updateProgress();
-        checkAnswers();
-      });
-      
-      // Initialize the exercise
-      initDragAndDrop();
+      filledGaps = totalGaps;
+      updateProgress();
+      checkAnswers();
     });
-  </script>
+    
+    // Initialize the exercise
+    initDragAndDrop();
+
+    // === AUTO SCROLL LOGIC ===
+    // Scrolls the window when dragging near the top or bottom edge
+    const SCROLL_SPEED = 25; // pixels per event
+    const SCROLL_ZONE = 80;  // px from top/bottom edge to start scrolling
+
+    document.addEventListener('dragover', function(e) {
+      // Only trigger if a drag is happening
+      // e.clientY gives the mouse position relative to viewport
+      const y = e.clientY;
+      const winHeight = window.innerHeight;
+
+      if (y < SCROLL_ZONE) {
+        // Near top
+        window.scrollBy(0, -SCROLL_SPEED);
+      } else if (y > winHeight - SCROLL_ZONE) {
+        // Near bottom
+        window.scrollBy(0, SCROLL_SPEED);
+      }
+    });
+    // === END AUTO SCROLL LOGIC ===
+
+  });
+</script>
 </body>
 </html>
