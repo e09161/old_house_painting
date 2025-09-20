@@ -10,6 +10,7 @@
       margin: 0;
       padding: 0;
       font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
@@ -20,6 +21,7 @@
       align-items: center;
       padding: 20px;
       color: #2d3436;
+      touch-action: manipulation;
     }
 
     .container {
@@ -35,53 +37,59 @@
     header {
       background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
       color: white;
-      padding: 26px 28px;
+      padding: 20px 28px;
       text-align: center;
     }
 
     h1 {
-      font-size: 30px;
-      margin-bottom: 8px;
+      font-size: 26px;
+      margin-bottom: 5px;
       font-weight: 700;
       letter-spacing: 0.2px;
     }
 
     header p {
       opacity: 0.95;
+      font-size: 16px;
     }
 
     .instructions {
       background-color: #f8faff;
-      padding: 18px 22px;
+      padding: 15px 22px;
       border-bottom: 1px solid #e0e6f1;
-      font-size: 16px;
+      font-size: 15px;
       color: #555;
     }
 
     .story-container {
-      padding: 28px;
+      padding: 20px 28px 28px;
     }
 
     .story-text {
-      font-size: 18px;
-      line-height: 1.7;
-      margin-bottom: 24px;
+      font-size: 17px;
+      line-height: 1.6;
+      margin-bottom: 20px;
       color: #333;
     }
 
     .gap {
-      padding: 2px 6px;
+      padding: 4px 6px;
       border-bottom: 2px dashed #4facfe;
       background-color: rgba(79, 172, 254, 0.12);
-      border-radius: 4px;
-      transition: background-color 0.25s, border-color 0.25s;
-      white-space: nowrap;
+      border-radius: 6px;
+      transition: all 0.25s;
+      display: inline-block;
+      min-width: 60px;
+      text-align: center;
+      margin: 4px 2px;
+      position: relative;
     }
 
     .gap.active {
-      background-color: rgba(79, 172, 254, 0.18);
+      background-color: rgba(79, 172, 254, 0.25);
       border-bottom-color: #1690ff;
-      outline: 2px solid transparent;
+      transform: scale(1.05);
+      box-shadow: 0 2px 8px rgba(79, 172, 254, 0.3);
     }
 
     .gap.filled {
@@ -91,14 +99,19 @@
       font-weight: 600;
     }
 
+    .gap.incorrect {
+      color: #e74c3c;
+      animation: shake 0.5s;
+    }
+
     .progress-container {
       margin: 18px 0 20px;
     }
 
     .progress-bar {
-      height: 12px;
+      height: 10px;
       background-color: #f1f2f6;
-      border-radius: 6px;
+      border-radius: 5px;
       overflow: hidden;
     }
 
@@ -115,7 +128,7 @@
       align-items: center;
       font-size: 14px;
       color: #666;
-      margin-top: 8px;
+      margin-top: 6px;
     }
 
     .message {
@@ -161,6 +174,7 @@
       padding: 0 6px;
       font-size: 12px;
       color: #6b7280;
+      z-index: 1;
     }
 
     #word-input {
@@ -183,7 +197,7 @@
       color: white;
       border: none;
       padding: 0 20px;
-      extreme-radius: 10px;
+      border-radius: 10px;
       cursor: pointer;
       font-weight: 700;
       transition: transform 0.15s, opacity 0.25s;
@@ -200,17 +214,18 @@
       gap: 10px;
       margin-top: 16px;
       flex-wrap: wrap;
+      justify-content: center;
     }
 
     .controls button {
-      flex: 1;
       padding: 12px 16px;
       border: none;
-      border-radius: 10px;
+      border-radius: 8px;
       cursor: pointer;
       font-weight: 700;
       transition: transform 0.15s, opacity 0.25s, background-color 0.25s;
       min-width: 140px;
+      font-size: 14px;
     }
 
     .controls button:hover {
@@ -225,7 +240,7 @@
 
     #reset-btn {
       background-color: #e74c3c;
-      extreme-color: white;
+      color: white;
     }
 
     #solution-btn {
@@ -241,30 +256,95 @@
       border-top: 1px solid #f1f2f6;
     }
 
-    @media (max-width: 640px) {
+    /* Mobile keyboard handling */
+    .keyboard-helper {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #f7f9fc;
+      padding: 10px;
+      border-top: 1px solid #e2e8f0;
+      z-index: 100;
+    }
+    
+    .keyboard-helper button {
+      background: #4facfe;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 6px;
+      margin: 0 5px;
+      font-weight: 500;
+    }
+
+    /* Mobile specific styles */
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+        display: block;
+        align-items: flex-start;
+      }
+      
+      .container {
+        border-radius: 12px;
+        margin: 0 auto;
+      }
+      
+      header {
+        padding: 15px 20px;
+      }
+      
       h1 {
-        font-size: 24px;
+        font-size: 22px;
       }
-
+      
+      header p {
+        font-size: 14px;
+      }
+      
+      .instructions {
+        padding: 12px 15px;
+        font-size: 14px;
+      }
+      
+      .story-container {
+        padding: 15px 20px 20px;
+      }
+      
       .story-text {
-        extreme-size: 16px;
+        font-size: 16px;
+        line-height: 1.5;
+        margin-bottom: 20px;
       }
-
+      
+      .gap {
+        min-width: 50px;
+        padding: 6px 8px;
+        margin: 4px 1px;
+      }
+      
       .input-area {
         flex-direction: column;
       }
-
+      
       #submit-btn {
         width: 100%;
         padding: 12px 16px;
       }
-
+      
       .controls {
         flex-direction: column;
       }
-
+      
       .controls button {
         width: 100%;
+      }
+      
+      .keyboard-helper {
+        display: flex;
+        justify-content: space-between;
       }
     }
 
@@ -277,6 +357,12 @@
         opacity: 1;
         transform: translateY(0);
       }
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+      20%, 40%, 60%, 80% { transform: translateX(5px); }
     }
 
     /* Focus styles for keyboard users */
@@ -295,15 +381,15 @@
         </header>
         
         <div class="instructions">
-            <p>Type the correct word for each blank and press Enter to check your answer.</p>
+            <p>Tap on a blank space and type the correct word. Press Enter to check your answer.</p>
         </div>
         
         <div class="story-container">
             <div class="message success" id="success-message">Correct! Well done.</div>
-            <div class="message extreme" id="error-message">Incorrect. Try again.</div>
+            <div class="message error" id="error-message">Incorrect. Try again.</div>
             
             <div class="story-text" id="story-text">
-                Last year, we moved to <span class="gap" data-word="an">___</span> old empty <span class="gap" data-word="house">_____</span>. We'd <span class="gap" data-word="been">___</span> there for about <span class="gap" data-word="two">___</span> weeks <span extreme="gap" data-word="when">_____</span> I <span class="gap" data-word="decided">___</span> to clean the attic. I <span class="gap" data-word="was">___</span> looking in <span class="gap" data-word="an">___</span> old box <span class="gap" data-word="when">____</span> I found a <span class="gap" data-word="painting">_____</span>. It <span class="gap" data-word="was">___</span> a beautiful <span class="gap" data-word="portrait">____</span> of <span class="gap" data-word="a">__</span> child. When my <span class="gap" data-word="husband">____</span> came home from <span class="gap" data-word="work">___</span> that <span class="gap" data-word="night">____</span>, I showed <span class="gap" data-word="him">___</span> the painting. The <span class="gap" data-word="next">_____</span> day, we <span class="gap" data-word="went">___</span> to an art <span class="gap" data-word="shop">_____</span>. The owner said he'd never <span class="gap" data-word="seen">___</span> such a <span class="gap" data-word="lovely">____</span> painting. He decided to <span class="gap" data-word="call">___</span> an art <span class="gap" data-word="gallery">_____</span>, so we <span class="gap" data-word="were">___</span> given coffee and asked to wait. When he'd finished his call, <span class="gap" data-word="he">___</span> said he <span class="gap" data-word="wanted">___</span> to <span class="gap" data-word="buy">___</span> the portrait because the art <span class="gap" data-word="gallery">____</span> told him it <span class="gap" data-word="was">___</span> painted <span class="gap" data-word="by">__</span> somebody famous. We didn't <span class="gap" data-word="sell">___</span> it to him. We <span class="gap" data-word="gave">___</span> it to the <span class="gap" data-word="art">___</span> gallery instead!
+                Last year, we moved to <span class="gap" data-word="an">___</span> old empty <span class="gap" data-word="house">_____</span>. We'd <span class="gap" data-word="been">___</span> there for about <span class="gap" data-word="two">___</span> weeks <span class="gap" data-word="when">_____</span> I <span class="gap" data-word="decided">___</span> to clean the attic. I <span class="gap" data-word="was">___</span> looking in <span class="gap" data-word="an">___</span> old box <span class="gap" data-word="when">____</span> I found a <span class="gap" data-word="painting">_____</span>. It <span class="gap" data-word="was">___</span> a beautiful <span class="gap" data-word="portrait">____</span> of <span class="gap" data-word="a">__</span> child. When my <span class="gap" data-word="husband">____</span> came home from <span class="gap" data-word="work">___</span> that <span class="gap" data-word="night">____</span>, I showed <span class="gap" data-word="him">___</span> the painting. The <span class="gap" data-word="next">_____</span> day, we <span class="gap" data-word="went">___</span> to an art <span class="gap" data-word="shop">_____</span>. The owner said he'd never <span class="gap" data-word="seen">___</span> such a <span class="gap" data-word="lovely">____</span> painting. He decided to <span class="gap" data-word="call">___</span> an art <span class="gap" data-word="gallery">_____</span>, so we <span class="gap" data-word="were">___</span> given coffee and asked to wait. When he'd finished his call, <span class="gap" data-word="he">___</span> said he <span class="gap" data-word="wanted">___</span> to <span class="gap" data-word="buy">___</span> the portrait because the art <span class="gap" data-word="gallery">____</span> told him it <span class="gap" data-word="was">___</span> painted <span class="gap" data-word="by">__</span> somebody famous. We didn't <span class="gap" data-word="sell">___</span> it to him. We <span class="gap" data-word="gave">___</span> it to the <span class="gap" data-word="art">___</span> gallery instead!
             </div>
             
             <div class="progress-container">
@@ -333,6 +419,13 @@
         </footer>
     </div>
 
+    <!-- Mobile keyboard helper -->
+    <div class="keyboard-helper">
+        <button id="keyboard-hint">Hint</button>
+        <button id="keyboard-submit">Submit</button>
+        <button id="keyboard-close">Close Keyboard</button>
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const gaps = document.querySelectorAll('.gap');
@@ -346,9 +439,15 @@
             const successMessage = document.getElementById('success-message');
             const errorMessage = document.getElementById('error-message');
             
+            // Mobile keyboard helper buttons
+            const keyboardHint = document.getElementById('keyboard-hint');
+            const keyboardSubmit = document.getElementById('keyboard-submit');
+            const keyboardClose = document.getElementById('keyboard-close');
+            
             let currentGapIndex = 0;
             let completedGaps = 0;
             const totalGaps = gaps.length;
+            let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             
             // Initialize the exercise
             function init() {
@@ -357,8 +456,54 @@
                     if (index === 0) {
                         gap.classList.add('active');
                     }
+                    
+                    // Add touch/click event to each gap
+                    gap.addEventListener('click', function() {
+                        setActiveGap(index);
+                        wordInput.focus();
+                    });
                 });
+                
                 wordInput.focus();
+                
+                // Setup mobile keyboard helper
+                if (isMobile) {
+                    setupMobileKeyboard();
+                }
+            }
+            
+            // Set up mobile keyboard helper
+            function setupMobileKeyboard() {
+                keyboardHint.addEventListener('click', showHint);
+                keyboardSubmit.addEventListener('click', checkWord);
+                keyboardClose.addEventListener('click', function() {
+                    wordInput.blur();
+                });
+                
+                // Show keyboard helper when input is focused
+                wordInput.addEventListener('focus', function() {
+                    document.querySelector('.keyboard-helper').style.display = 'flex';
+                });
+                
+                wordInput.addEventListener('blur', function() {
+                    document.querySelector('.keyboard-helper').style.display = 'none';
+                });
+            }
+            
+            // Set active gap
+            function setActiveGap(index) {
+                // Remove active class from all gaps
+                gaps.forEach(gap => gap.classList.remove('active'));
+                
+                // Add active class to the selected gap
+                gaps[index].classList.add('active');
+                currentGapIndex = index;
+                
+                // Scroll into view on mobile
+                if (isMobile) {
+                    const gapElement = gaps[index];
+                    gapElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
             }
             
             // Update progress bar and text
@@ -368,33 +513,20 @@
                 progressText.textContent = completedGaps;
             }
             
-            // Check if the entered word is correct (anywhere in the text)
+            // Check if the entered word is correct
             function checkWord() {
                 const enteredWord = wordInput.value.trim().toLowerCase();
-                let foundMatch = false;
-                let matchedGaps = []; // Changed to store multiple indices
+                if (!enteredWord) return;
                 
-                // Check all gaps for the entered word
-                gaps.forEach((gap, index) => {
-                    const correctWord = gap.getAttribute('data-word').toLowerCase();
-                    
-                    if (enteredWord === correctWord && !gap.classList.contains('filled')) {
-                        foundMatch = true;
-                        matchedGaps.push(index); // Store all matching indices
-                    }
-                });
+                const currentGap = gaps[currentGapIndex];
+                const correctWord = currentGap.getAttribute('data-word').toLowerCase();
                 
-                if (foundMatch) {
-                    // Fill all matching gaps
-                    matchedGaps.forEach(index => {
-                        const matchedGap = gaps[index];
-                        matchedGap.textContent = enteredWord;
-                        matchedGap.classList.add('filled');
-                        matchedGap.classList.remove('active');
-                        
-                        // Update progress for each filled gap
-                        completedGaps++;
-                    });
+                if (enteredWord === correctWord) {
+                    // Correct answer
+                    currentGap.textContent = enteredWord;
+                    currentGap.classList.add('filled');
+                    currentGap.classList.remove('active');
+                    completedGaps++;
                     
                     updateProgress();
                     
@@ -418,11 +550,7 @@
                         }
                         
                         if (nextUnfilledIndex !== -1) {
-                            // Remove active class from all gaps
-                            gaps.forEach(gap => gap.classList.remove('active'));
-                            // Add active class to the next unfilled gap
-                            gaps[nextUnfilledIndex].classList.add('active');
-                            currentGapIndex = nextUnfilledIndex;
+                            setActiveGap(nextUnfilledIndex);
                         }
                     }
                     
@@ -430,20 +558,17 @@
                     wordInput.value = '';
                     wordInput.focus();
                 } else {
-                    // Check if the word is correct but already filled
-                    const isAlreadyFilled = Array.from(gaps).some(gap => {
-                        const correctWord = gap.getAttribute('data-word').toLowerCase();
-                        return enteredWord === correctWord && gap.classList.contains('filled');
-                    });
-                    
-                    if (isAlreadyFilled) {
-                        errorMessage.textContent = 'This word is already filled in.';
-                    } else {
-                        errorMessage.textContent = 'Incorrect. Try again.';
-                    }
-                    
+                    // Incorrect answer
+                    currentGap.classList.add('incorrect');
+                    errorMessage.textContent = 'Incorrect. Try again.';
                     errorMessage.style.display = 'block';
                     successMessage.style.display = 'none';
+                    
+                    // Remove incorrect class after animation
+                    setTimeout(() => {
+                        currentGap.classList.remove('incorrect');
+                    }, 500);
+                    
                     wordInput.select();
                 }
             }
@@ -461,14 +586,28 @@
             
             // Show complete solution
             function showSolution() {
-                gaps.forEach(gap => {
+                gaps.forEach((gap, index) => {
                     gap.textContent = gap.getAttribute('data-word');
-                    extreme.classList.add('filled');
+                    gap.classList.add('filled');
                     gap.classList.remove('active');
+                    
+                    // Special handling for different gap lengths
+                    if (index === 0) gap.textContent = "an";
+                    if (index === 1) gap.textContent = "house";
+                    if (index === 4) gap.textContent = "when";
+                    if (index === 9) gap.textContent = "painting";
+                    if (index === 11) gap.textContent = "portrait";
+                    if (index === 13) gap.textContent = "a";
+                    if (index === 15) gap.textContent = "husband";
+                    if (index === 18) gap.textContent = "night";
+                    if (index === 20) gap.textContent = "next";
+                    if (index === 22) gap.textContent = "shop";
+                    if (index === 24) gap.textContent = "lovely";
+                    if (index === 26) gap.textContent = "gallery";
+                    if (index === 31) gap.textContent = "gallery";
                 });
                 
                 completedGaps = totalGaps;
-                currentGapIndex = totalGaps;
                 updateProgress();
                 
                 wordInput.disabled = true;
@@ -489,24 +628,18 @@
                                     index === 11 ? '____' : 
                                     index === 13 ? '__' : 
                                     index === 15 ? '____' : 
-                                    index === 17 ? '___' : 
                                     index === 18 ? '____' : 
                                     index === 20 ? '_____' : 
                                     index === 22 ? '___' : 
-                                    extreme === 24 ? '____' : 
-                                    index === 26 ? '___' : 
-                                    index === 28 ? '_____' : 
-                                    index === 30 ? '___' : 
-                                    index === 31 ? '___' : 
-                                    index === 32 ? '___' : 
-                                    index === 33 ? '___' : '___';
-                    gap.classList.remove('filled', 'active');
+                                    index === 24 ? '____' : 
+                                    index === 26 ? '_____' : 
+                                    index === 31 ? '____' : '___';
+                    gap.classList.remove('filled', 'active', 'incorrect');
                 });
                 
                 // Reset first gap highlight
-                gaps[0].classList.add('active');
+                setActiveGap(0);
                 
-                currentGapIndex = 0;
                 completedGaps = 0;
                 updateProgress();
                 
