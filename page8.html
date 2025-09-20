@@ -754,6 +754,23 @@
         updateProgress();
         checkAnswers();
       });
+        // At the end of your <script>
+const scrollContainer = document.querySelector('.container'); // or your scrollable div
+const SCROLL_SPEED = 25;
+const SCROLL_ZONE = 80;
+
+document.addEventListener('dragover', function(e) {
+  if (!scrollContainer) return;
+  const rect = scrollContainer.getBoundingClientRect();
+  const y = e.clientY - rect.top;
+  const height = scrollContainer.clientHeight;
+
+  if (y < SCROLL_ZONE) {
+    scrollContainer.scrollTop -= SCROLL_SPEED;
+  } else if (y > height - SCROLL_ZONE) {
+    scrollContainer.scrollTop += SCROLL_SPEED;
+  }
+});
       
       // Initialize the exercise
       initDragAndDrop();
