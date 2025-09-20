@@ -3,52 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mobile-Friendly Grammar Exercise</title>
+  <title>Grammar Exercise</title>
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif;
       -webkit-tap-highlight-color: transparent;
     }
 
     body {
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 20px;
-      color: #333;
+      color: #2d3436;
       touch-action: manipulation;
     }
 
     .container {
       background-color: #ffffff;
       border-radius: 18px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
       width: 100%;
       max-width: 900px;
       overflow: hidden;
       animation: fadeIn 0.5s ease-in-out;
-      max-height: 90vh;
-      overflow-y: auto;
-      position: relative;
     }
 
     header {
-      background: linear-gradient(90deg, #00b09b 0%, #96c93d 100%);
+      background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
       color: white;
       padding: 20px 28px;
       text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
     }
 
     h1 {
-      font-size: 28px;
+      font-size: 26px;
       margin-bottom: 5px;
       font-weight: 700;
       letter-spacing: 0.2px;
@@ -60,14 +54,11 @@
     }
 
     .instructions {
-      background-color: #f0f9f7;
-      padding: 12px 22px;
-      border-bottom: 1px solid #ddeee9;
+      background-color: #f8faff;
+      padding: 15px 22px;
+      border-bottom: 1px solid #e0e6f1;
       font-size: 15px;
-      color: #666;
-      position: sticky;
-      top: 95px;
-      z-index: 90;
+      color: #555;
     }
 
     .exercise-container {
@@ -75,13 +66,7 @@
     }
 
     .word-bank-container {
-      position: sticky;
-      top: 140px;
-      z-index: 80;
-      background: white;
-      padding: 10px 0;
-      border-bottom: 1px solid #eee;
-      margin-bottom: 15px;
+      margin: 15px 0;
     }
 
     .word-bank {
@@ -93,14 +78,11 @@
       border-radius: 10px;
       border: 1px solid #e0e6f1;
       justify-content: center;
-      max-height: 90px;
-      overflow-y: auto;
-      touch-action: pan-y;
     }
 
     .word-item {
-      padding: 6px 12px;
-      background: linear-gradient(90deg, #00b09b 0%, #96c93d 100%);
+      padding: 8px 14px;
+      background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
       color: white;
       border-radius: 6px;
       cursor: grab;
@@ -108,13 +90,12 @@
       transition: transform 0.2s, box-shadow 0.2s;
       font-weight: 500;
       font-size: 14px;
-      flex-shrink: 0;
       touch-action: none;
     }
 
     .word-item:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
     .word-item.dragging {
@@ -127,32 +108,27 @@
       cursor: not-allowed;
     }
 
-    .conversations {
-      margin: 15px 0;
+    .sentences {
+      margin: 20px 0;
     }
 
-    .conversation {
-      margin-bottom: 16px;
-      font-size: 16px;
+    .sentence {
+      margin-bottom: 15px;
+      font-size: 17px;
       line-height: 1.6;
       padding: 10px;
       border-radius: 8px;
-      transition: background-color 0.3s;
       background-color: #f9f9f9;
-    }
-
-    .conversation:hover {
-      background-color: #f0f0f0;
     }
 
     .gap {
       padding: 4px 8px;
-      border-bottom: 2px dashed #00b09b;
-      background-color: rgba(0, 176, 155, 0.12);
+      border-bottom: 2px dashed #4facfe;
+      background-color: rgba(79, 172, 254, 0.12);
       border-radius: 4px;
       transition: background-color 0.25s, border-color 0.25s;
       display: inline-block;
-      min-width: 140px;
+      min-width: 120px;
       height: 32px;
       vertical-align: middle;
       cursor: pointer;
@@ -160,14 +136,15 @@
     }
 
     .gap.active {
-      background-color: rgba(0, 176, 155, 0.2);
-      border-bottom-color: #008972;
+      background-color: rgba(79, 172, 254, 0.18);
+      border-bottom-color: #1690ff;
+      outline: 2px solid transparent;
     }
 
     .gap.filled {
       background-color: transparent;
       border-bottom: none;
-      color: #00b09b;
+      color: #3498db;
       font-weight: 600;
     }
 
@@ -181,11 +158,6 @@
 
     .progress-container {
       margin: 18px 0 20px;
-      position: sticky;
-      bottom: 0;
-      background: white;
-      padding: 10px 0;
-      z-index: 70;
     }
 
     .progress-bar {
@@ -197,7 +169,7 @@
 
     .progress {
       height: 100%;
-      background: linear-gradient(90deg, #00b09b 0%, #96c93d 100%);
+      background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
       width: 0%;
       transition: width 0.5s ease;
     }
@@ -206,7 +178,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 13px;
+      font-size: 14px;
       color: #666;
       margin-top: 6px;
     }
@@ -214,11 +186,10 @@
     .message {
       padding: 12px;
       border-radius: 8px;
-      margin-bottom: 12px;
+      margin-bottom: 15px;
       text-align: center;
       font-weight: 600;
       display: none;
-      animation: fadeIn 0.5s;
     }
 
     .success {
@@ -236,14 +207,9 @@
     .controls {
       display: flex;
       gap: 10px;
-      margin-top: 15px;
+      margin-top: 16px;
       flex-wrap: wrap;
       justify-content: center;
-      position: sticky;
-      bottom: 70px;
-      background: white;
-      padding: 10px 0;
-      z-index: 60;
     }
 
     .controls button {
@@ -258,12 +224,12 @@
     }
 
     .controls button:hover {
-      transform: translateY(-2px);
+      transform: translateY(-1px);
       opacity: 0.95;
     }
 
     #check-btn {
-      background: linear-gradient(90deg, #00b09b 0%, #96c93d 100%);
+      background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
       color: white;
     }
 
@@ -284,13 +250,78 @@
 
     footer {
       text-align: center;
-      padding: 12px;
+      padding: 16px;
       color: #888;
-      font-size: 13px;
+      font-size: 14px;
       border-top: 1px solid #f1f2f6;
     }
 
-    /* Mobile-specific styles */
+    /* Mobile word selector */
+    .mobile-word-selector {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 -5px 20px rgba(0,0,0,0.15);
+      z-index: 1000;
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+    
+    .mobile-word-selector h3 {
+      margin-bottom: 15px;
+      text-align: center;
+      color: #4facfe;
+    }
+    
+    .mobile-words-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    
+    .mobile-word-option {
+      padding: 12px;
+      background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+      color: white;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    
+    .mobile-word-option.used {
+      opacity: 0.5;
+      background: #cccccc;
+    }
+    
+    .close-selector {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 24px;
+      background: none;
+      border: none;
+      color: #666;
+      cursor: pointer;
+    }
+    
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 999;
+    }
+
     @media (max-width: 768px) {
       body {
         padding: 10px;
@@ -306,39 +337,39 @@
         border-radius: 12px;
       }
       
-      header, .instructions, .word-bank-container {
-        position: relative;
-        top: 0;
+      header {
+        padding: 15px 20px;
       }
       
-      .word-bank {
-        max-height: none;
-        overflow-y: visible;
-        margin-bottom: 15px;
+      h1 {
+        font-size: 22px;
       }
       
-      .word-item {
-        padding: 10px 14px;
-        font-size: 15px;
+      header p {
+        font-size: 14px;
       }
       
-      .conversation {
+      .instructions {
+        padding: 12px 15px;
+        font-size: 14px;
+      }
+      
+      .exercise-container {
+        padding: 15px 20px 20px;
+      }
+      
+      .sentence {
         font-size: 16px;
         line-height: 1.5;
         margin-bottom: 20px;
       }
       
       .gap {
-        min-width: 120px;
+        min-width: 110px;
         display: block;
         margin: 8px 0;
         width: 100%;
         text-align: center;
-      }
-      
-      .controls, .progress-container {
-        position: relative;
-        bottom: 0;
       }
       
       .controls {
@@ -349,82 +380,14 @@
         width: 100%;
       }
       
-      /* Mobile word selection modal */
-      .mobile-word-selector {
+      .word-bank-container {
         display: none;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: white;
-        border-top-left-radius: 16px;
-        border-top-right-radius: 16px;
-        padding: 20px;
-        box-shadow: 0 -5px 20px rgba(0,0,0,0.15);
-        z-index: 1000;
-        max-height: 60vh;
-        overflow-y: auto;
-      }
-      
-      .mobile-word-selector h3 {
-        margin-bottom: 15px;
-        text-align: center;
-        color: #00b09b;
-      }
-      
-      .mobile-words-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-      }
-      
-      .mobile-word-option {
-        padding: 12px;
-        background: linear-gradient(90deg, #00b09b 0%, #96c93d 100%);
-        color: white;
-        border-radius: 8px;
-        text-align: center;
-        font-weight: 500;
-        cursor: pointer;
-      }
-      
-      .mobile-word-option.used {
-        opacity: 0.5;
-        background: #cccccc;
-      }
-      
-      .close-selector {
-        position: absolute;
-        top: 10px;
-        right: 15px;
-        font-size: 24px;
-        background: none;
-        border: none;
-        color: #666;
-        cursor: pointer;
       }
     }
 
     @media (max-width: 480px) {
       .mobile-words-grid {
         grid-template-columns: 1fr;
-      }
-      
-      header {
-        padding: 15px 20px;
-      }
-      
-      h1 {
-        font-size: 24px;
-      }
-      
-      header p {
-        font-size: 14px;
-      }
-      
-      .instructions {
-        padding: 10px 15px;
-        font-size: 14px;
       }
     }
 
@@ -439,35 +402,23 @@
       }
     }
 
-    /* Focus styles for accessibility */
+    /* Focus styles for keyboard users */
     :focus-visible {
-      outline: 3px solid rgba(0, 176, 155, 0.55);
+      outline: 3px solid rgba(79, 172, 254, 0.55);
       outline-offset: 2px;
       border-radius: 8px;
-    }
-    
-    /* Overlay for mobile */
-    .overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0,0,0,0.5);
-      z-index: 999;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>Grammar Exercise: Verb "To Be"</h1>
-      <p>Questions and Answers with Am, Is, Are</p>
+      <h1>Grammar Exercise</h1>
+      <p>have (got) to, can, be allowed to</p>
     </header>
 
     <div class="instructions">
-      <p>Complete the conversations. Drag and drop the correct phrases from the word bank.</p>
+      <p>Complete the sentences. Click and drag the correct words.</p>
     </div>
 
     <div class="exercise-container">
@@ -477,15 +428,15 @@
         </div>
       </div>
 
-      <div class="conversations">
-        <div class="conversation">1 A: Where are you from? B: <span class="gap" data-correct="I’m from Egypt." data-id="1"></span></div>
-        <div class="conversation">2 A: <span class="gap" data-correct="How old is he?" data-id="2"></span> B: I think he's 24.</div>
-        <div class="conversation">3 A: <span class="gap" data-correct="Is she from Canada?" data-id="3"></span> B: No, she isn't.</div>
-        <div class="conversation">4 A: <span class="gap" data-correct="Is Diego married?" data-id="4"></span> B: Yes, he is.</div>
-        <div class="conversation">5 A: Are Mr. and Mrs. Wilson teachers? B: <span class="gap" data-correct="Yes, they are." data-id="5"></span></div>
-        <div class="conversation">6 A: <span class="gap" data-correct="Are they students?" data-id="6"></span> B: No, they aren't.</div>
-        <div class="conversation">7 A: Are you Cate Blanchetty? B: <span class="gap" data-correct="No, I’m not." data-id="7"></span></div>
-        <div class="conversation">8 A: <span class="gap" data-correct="Where are they from?" data-id="8"></span> B: They're from Australia.</div>
+      <div class="sentences">
+        <div class="sentence">1 You <span class="gap" data-correct="can't do" data-id="1"></span> what you like at school. You have to listen to your teachers.</div>
+        <div class="sentence">2 I <span class="gap" data-correct="don't have to" data-id="2"></span> help you, but I want to.</div>
+        <div class="sentence">3 My brother <span class="gap" data-correct="has to" data-id="3"></span> study English every day.</div>
+        <div class="sentence">4 We're not allowed to use dictionaries during the test.</div>
+        <div class="sentence">5 The students <span class="gap" data-correct="can wear" data-id="5"></span> jeans on Fridays.</div>
+        <div class="sentence">6 Andrew <span class="gap" data-correct="is allowed to" data-id="6"></span> leave school early every Tuesday.</div>
+        <div class="sentence">7 Do the English students <span class="gap" data-correct="have to" data-id="7"></span> take math classes?</div>
+        <div class="sentence">8 <span class="gap" data-correct="Am I allowed to" data-id="8"></span> use my cell phone here?</div>
       </div>
 
       <div class="progress-container">
@@ -515,7 +466,7 @@
     </div>
 
     <footer>
-      <p>Educasa.pe, 2025</p>
+      <p>Grammar Exercise &copy; 2023</p>
     </footer>
   </div>
 
@@ -531,16 +482,15 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Define the words for the exercise based on the screenshot
+      // Define the words for the exercise
       const words = [
-        "Yes, they are.",
-        "No, I’m not.",
-        "Is Diego married?",
-        "I’m from Egypt.",
-        "How old is he?",
-        "Where are they from?",
-        "Is she from Canada?",
-        "Are they students?"
+        "can't do",
+        "don't have to",
+        "has to",
+        "can wear",
+        "is allowed to",
+        "have to",
+        "Am I allowed to"
       ];
       
       // Check if we're on a mobile device
@@ -696,7 +646,7 @@
         gap.textContent = '';
         gap.classList.remove('filled', 'correct', 'incorrect');
         
-        // Make the word available again in the word bank
+        // Make the word available again
         if (isMobile) {
           document.querySelectorAll('.mobile-word-option').forEach(option => {
             if (option.dataset.word === word) {
@@ -921,6 +871,11 @@
         updateProgress();
         checkAnswers();
       });
+      
+      // Initialize the exercise
+      if (!isMobile) {
+        initDragAndDrop();
+      }
     });
   </script>
 </body>
