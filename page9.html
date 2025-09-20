@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mobile-Friendly Grammar Exercise</title>
+  <title>Grammar Exercise: Advanced Phrases</title>
   <style>
     * {
       box-sizing: border-box;
@@ -29,7 +29,7 @@
       border-radius: 18px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
       width: 100%;
-      max-width: 900px;
+      max-width: 1000px;
       overflow: hidden;
       animation: fadeIn 0.5s ease-in-out;
       max-height: 90vh;
@@ -38,7 +38,7 @@
     }
 
     header {
-      background: linear-gradient(90deg, #00b09b 0%, #96c93d 100%);
+      background: linear-gradient(90deg, #ff6b6b 0%, #ff8e53 100%);
       color: white;
       padding: 20px 28px;
       text-align: center;
@@ -60,9 +60,9 @@
     }
 
     .instructions {
-      background-color: #f0f9f7;
+      background-color: #fff5f5;
       padding: 12px 22px;
-      border-bottom: 1px solid #ddeee9;
+      border-bottom: 1px solid #ffe0e0;
       font-size: 15px;
       color: #666;
       position: sticky;
@@ -100,7 +100,7 @@
 
     .word-item {
       padding: 6px 12px;
-      background: linear-gradient(90deg, #00b09b 0%, #96c93d 100%);
+      background: linear-gradient(90deg, #ff6b6b 0%, #ff8e53 100%);
       color: white;
       border-radius: 6px;
       cursor: grab;
@@ -127,11 +127,11 @@
       cursor: not-allowed;
     }
 
-    .conversations {
+    .sentences {
       margin: 15px 0;
     }
 
-    .conversation {
+    .sentence {
       margin-bottom: 16px;
       font-size: 16px;
       line-height: 1.6;
@@ -141,18 +141,18 @@
       background-color: #f9f9f9;
     }
 
-    .conversation:hover {
+    .sentence:hover {
       background-color: #f0f0f0;
     }
 
     .gap {
       padding: 4px 8px;
-      border-bottom: 2px dashed #00b09b;
-      background-color: rgba(0, 176, 155, 0.12);
+      border-bottom: 2px dashed #ff6b6b;
+      background-color: rgba(255, 107, 107, 0.12);
       border-radius: 4px;
       transition: background-color 0.25s, border-color 0.25s;
       display: inline-block;
-      min-width: 140px;
+      min-width: 160px;
       height: 32px;
       vertical-align: middle;
       cursor: pointer;
@@ -160,14 +160,14 @@
     }
 
     .gap.active {
-      background-color: rgba(0, 176, 155, 0.2);
-      border-bottom-color: #008972;
+      background-color: rgba(255, 107, 107, 0.2);
+      border-bottom-color: #ff5252;
     }
 
     .gap.filled {
       background-color: transparent;
       border-bottom: none;
-      color: #00b09b;
+      color: #ff6b6b;
       font-weight: 600;
     }
 
@@ -197,7 +197,7 @@
 
     .progress {
       height: 100%;
-      background: linear-gradient(90deg, #00b09b 0%, #96c93d 100%);
+      background: linear-gradient(90deg, #ff6b6b 0%, #ff8e53 100%);
       width: 0%;
       transition: width 0.5s ease;
     }
@@ -207,7 +207,7 @@
       justify-content: space-between;
       align-items: center;
       font-size: 13px;
-      color: #666;
+      color: 666;
       margin-top: 6px;
     }
 
@@ -263,7 +263,7 @@
     }
 
     #check-btn {
-      background: linear-gradient(90deg, #00b09b 0%, #96c93d 100%);
+      background: linear-gradient(90deg, #ff6b6b 0%, #ff8e53 100%);
       color: white;
     }
 
@@ -322,14 +322,14 @@
         font-size: 15px;
       }
       
-      .conversation {
+      .sentence {
         font-size: 16px;
         line-height: 1.5;
         margin-bottom: 20px;
       }
       
       .gap {
-        min-width: 120px;
+        min-width: 140px;
         display: block;
         margin: 8px 0;
         width: 100%;
@@ -369,7 +369,7 @@
       .mobile-word-selector h3 {
         margin-bottom: 15px;
         text-align: center;
-        color: #00b09b;
+        color: #ff6b6b;
       }
       
       .mobile-words-grid {
@@ -380,7 +380,7 @@
       
       .mobile-word-option {
         padding: 12px;
-        background: linear-gradient(90deg, #00b09b 0%, #96c93d 100%);
+        background: linear-gradient(90deg, #ff6b6b 0%, #ff8e53 100%);
         color: white;
         border-radius: 8px;
         text-align: center;
@@ -441,7 +441,7 @@
 
     /* Focus styles for accessibility */
     :focus-visible {
-      outline: 3px solid rgba(0, 176, 155, 0.55);
+      outline: 3px solid rgba(255, 107, 107, 0.55);
       outline-offset: 2px;
       border-radius: 8px;
     }
@@ -462,12 +462,12 @@
 <body>
   <div class="container">
     <header>
-      <h1>Grammar Exercise: Verb "To Be"</h1>
-      <p>Questions and Answers with Am, Is, Are</p>
+      <h1>Grammar Exercise: Advanced Phrases</h1>
+      <p>Idiomatic Expressions and Collocations</p>
     </header>
 
     <div class="instructions">
-      <p>Complete the conversations. Drag and drop the correct phrases from the word bank.</p>
+      <p>Complete the sentences. Drag and drop the correct phrases from the word bank.</p>
     </div>
 
     <div class="exercise-container">
@@ -477,15 +477,27 @@
         </div>
       </div>
 
-      <div class="conversations">
-        <div class="conversation">1 A: Where are you from? B: <span class="gap" data-correct="I’m from Egypt." data-id="1"></span></div>
-        <div class="conversation">2 A: <span class="gap" data-correct="How old is he?" data-id="2"></span> B: I think he's 24.</div>
-        <div class="conversation">3 A: <span class="gap" data-correct="Is she from Canada?" data-id="3"></span> B: No, she isn't.</div>
-        <div class="conversation">4 A: <span class="gap" data-correct="Is Diego married?" data-id="4"></span> B: Yes, he is.</div>
-        <div class="conversation">5 A: Are Mr. and Mrs. Wilson teachers? B: <span class="gap" data-correct="Yes, they are." data-id="5"></span></div>
-        <div class="conversation">6 A: <span class="gap" data-correct="Are they students?" data-id="6"></span> B: No, they aren't.</div>
-        <div class="conversation">7 A: Are you Cate Blanchetty? B: <span class="gap" data-correct="No, I’m not." data-id="7"></span></div>
-        <div class="conversation">8 A: <span class="gap" data-correct="Where are they from?" data-id="8"></span> B: They're from Australia.</div>
+      <div class="sentences">
+        <div class="sentence">1. The ancient temple still <span class="gap" data-correct="remains atop of mount" data-id="1"></span> Olympus, attracting thousands of visitors annually.</div>
+        <div class="sentence">2. We need to <span class="gap" data-correct="take into account" data-id="2"></span> all possible variables before making a final decision.</div>
+        <div class="sentence">3. The witness was asked to <span class="gap" data-correct="give an account of" data-id="3"></span> the events leading up to the incident.</div>
+        <div class="sentence">4. <span class="gap" data-correct="On account of" data-id="4"></span> the bad weather, the outdoor concert has been postponed.</div>
+        <div class="sentence">5. <span class="gap" data-correct="By all accounts" data-id="5"></span>, the new restaurant serves the best Italian food in town.</div>
+        <div class="sentence">6. Many people <span class="gap" data-correct="associate rain with" data-id="6"></span> feelings of sadness or melancholy.</div>
+        <div class="sentence">7. The future of the company <span class="gap" data-correct="hangs in the balance" data-id="7"></span> as the board makes its final decision.</div>
+        <div class="sentence">8. We need to <span class="gap" data-correct="strike a balance" data-id="8"></span> between work commitments and personal life.</div>
+        <div class="sentence">9. The new policy aims to <span class="gap" data-correct="redress the balance" data-id="9"></span> between economic growth and environmental protection.</div>
+        <div class="sentence">10. <span class="gap" data-correct="On balance" data-id="10"></span>, the advantages of this approach outweigh the disadvantages.</div>
+        <div class="sentence">11. The sudden push caught him completely <span class="gap" data-correct="off balance" data-id="11"></span> and he nearly fell.</div>
+        <div class="sentence">12. This research provides a solid <span class="gap" data-correct="basis for" data-id="12"></span> future studies in this field.</div>
+        <div class="sentence">13. Employees are evaluated <span class="gap" data-correct="on a monthly basis" data-id="13"></span> to ensure continuous improvement.</div>
+        <div class="sentence">14. Selection was made <span class="gap" data-correct="on the basis of" data-id="14"></span> merit rather than seniority.</div>
+        <div class="sentence">15. The professor didn't <span class="gap" data-correct="express any belief" data-id="15"></span> in the supernatural during his lecture.</div>
+        <div class="sentence">16. <span class="gap" data-correct="Contrary to popular belief" data-id="16"></span>, sharks rarely attack humans unprovoked.</div>
+        <div class="sentence">17. The athlete's performance was <span class="gap" data-correct="beyond belief" data-id="17"></span>, breaking three world records.</div>
+        <div class="sentence">18. Can I <span class="gap" data-correct="pick your brain" data-id="18"></span> about the marketing strategy for our new product?</div>
+        <div class="sentence">19. I've been <span class="gap" data-correct="racking my brains" data-id="19"></span> trying to remember where I put my keys.</div>
+        <div class="sentence">20. She's <span class="gap" data-correct="the brains behind" data-id="20"></span> the company's most successful product line.</div>
       </div>
 
       <div class="progress-container">
@@ -531,22 +543,34 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Define the words for the exercise based on the screenshot
-      const words = [
-        "Yes, they are.",
-        "No, I’m not.",
-        "Is Diego married?",
-        "I’m from Egypt.",
-        "How old is he?",
-        "Where are they from?",
-        "Is she from Canada?",
-        "Are they students?"
+      // Define the phrases for the exercise
+      const phrases = [
+        "remains atop of mount",
+        "take into account",
+        "give an account of",
+        "On account of",
+        "By all accounts",
+        "associate rain with",
+        "hangs in the balance",
+        "strike a balance",
+        "redress the balance",
+        "On balance",
+        "off balance",
+        "basis for",
+        "on a monthly basis",
+        "on the basis of",
+        "express any belief",
+        "Contrary to popular belief",
+        "beyond belief",
+        "pick your brain",
+        "racking my brains",
+        "the brains behind"
       ];
-      
+
       // Check if we're on a mobile device
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       
-      // Shuffle the words array to randomize order
+      // Shuffle the phrases array to randomize order
       function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
@@ -554,20 +578,20 @@
         }
         return array;
       }
-      
-      // Initialize word bank with shuffled words
+
+      // Initialize word bank with shuffled phrases
       const wordBank = document.getElementById('word-bank');
-      const shuffledWords = shuffleArray([...words]);
-      
-      shuffledWords.forEach(word => {
+      const shuffledPhrases = shuffleArray([...phrases]);
+
+      shuffledPhrases.forEach(phrase => {
         const wordItem = document.createElement('div');
         wordItem.className = 'word-item';
         wordItem.setAttribute('draggable', 'true');
-        wordItem.dataset.word = word;
-        wordItem.textContent = word;
+        wordItem.dataset.word = phrase;
+        wordItem.textContent = phrase;
         wordBank.appendChild(wordItem);
       });
-      
+
       // Get DOM elements
       const gaps = document.querySelectorAll('.gap');
       const wordItems = document.querySelectorAll('.word-item');
@@ -609,11 +633,11 @@
         document.querySelector('.word-bank-container').style.display = 'none';
         
         // Populate mobile word selector
-        shuffledWords.forEach(word => {
+        shuffledPhrases.forEach(phrase => {
           const wordOption = document.createElement('div');
           wordOption.className = 'mobile-word-option';
-          wordOption.dataset.word = word;
-          wordOption.textContent = word;
+          wordOption.dataset.word = phrase;
+          wordOption.textContent = phrase;
           wordOption.addEventListener('click', function() {
             if (!this.classList.contains('used')) {
               fillGap(activeGap, this.dataset.word);
@@ -696,7 +720,7 @@
         gap.textContent = '';
         gap.classList.remove('filled', 'correct', 'incorrect');
         
-        // Make the word available again in the word bank
+        // Make the word available again
         if (isMobile) {
           document.querySelectorAll('.mobile-word-option').forEach(option => {
             if (option.dataset.word === word) {
@@ -921,6 +945,31 @@
         updateProgress();
         checkAnswers();
       });
+      
+      // Initialize the exercise
+      if (!isMobile) {
+        initDragAndDrop();
+      }
+
+      // === AUTO SCROLL LOGIC FOR SCROLLABLE CONTAINER ===
+      // Scrolls the .container div when dragging near the top or bottom edge
+      const scrollContainer = document.querySelector('.container');
+      const SCROLL_SPEED = 25;
+      const SCROLL_ZONE = 80;
+
+      document.addEventListener('dragover', function(e) {
+        if (!scrollContainer || isMobile) return;
+        const rect = scrollContainer.getBoundingClientRect();
+        const y = e.clientY - rect.top;
+        const height = scrollContainer.clientHeight;
+
+        if (y < SCROLL_ZONE) {
+          scrollContainer.scrollTop -= SCROLL_SPEED;
+        } else if (y > height - SCROLL_ZONE) {
+          scrollContainer.scrollTop += SCROLL_SPEED;
+        }
+      });
+      // === END AUTO SCROLL LOGIC ===
     });
   </script>
 </body>
