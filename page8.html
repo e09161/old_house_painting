@@ -30,6 +30,9 @@
       max-width: 900px;
       overflow: hidden;
       animation: fadeIn 0.5s ease-in-out;
+      /* For improved scrolling */
+      max-height: 90vh;
+      overflow-y: auto;
     }
 
     header {
@@ -712,6 +715,25 @@
       
       // Initialize the exercise
       initDragAndDrop();
+
+      // === IMPROVED DRAG-SCROLLING LOGIC ===
+      const scrollContainer = document.querySelector('.container');
+      const SCROLL_SPEED = 25;
+      const SCROLL_ZONE = 80;
+
+      document.addEventListener('dragover', function(e) {
+        if (!scrollContainer) return;
+        const rect = scrollContainer.getBoundingClientRect();
+        const y = e.clientY - rect.top;
+        const height = scrollContainer.clientHeight;
+
+        if (y < SCROLL_ZONE) {
+          scrollContainer.scrollTop -= SCROLL_SPEED;
+        } else if (y > height - SCROLL_ZONE) {
+          scrollContainer.scrollTop += SCROLL_SPEED;
+        }
+      });
+      // === END DRAG-SCROLLING LOGIC ===
     });
   </script>
 </body>
