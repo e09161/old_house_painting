@@ -28,7 +28,9 @@
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
       width: 100%;
       max-width: 900px;
-      overflow: hidden;
+      max-height: 90vh;   /* Added for improved scrolling */
+      overflow-y: auto;   /* Added for improved scrolling */
+      overflow-x: hidden;
       animation: fadeIn 0.5s ease-in-out;
     }
 
@@ -645,6 +647,24 @@
       
       // Initialize the exercise
       initDragAndDrop();
+    });
+
+    // ---- Improved Drag Scrolling ----
+    const scrollContainer = document.querySelector('.container'); // or your scrollable div
+    const SCROLL_SPEED = 25;
+    const SCROLL_ZONE = 80;
+
+    document.addEventListener('dragover', function(e) {
+      if (!scrollContainer) return;
+      const rect = scrollContainer.getBoundingClientRect();
+      const y = e.clientY - rect.top;
+      const height = scrollContainer.clientHeight;
+
+      if (y < SCROLL_ZONE) {
+        scrollContainer.scrollTop -= SCROLL_SPEED;
+      } else if (y > height - SCROLL_ZONE) {
+        scrollContainer.scrollTop += SCROLL_SPEED;
+      }
     });
   </script>
 </body>
