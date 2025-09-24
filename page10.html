@@ -858,6 +858,26 @@
       if (!isMobile) {
         initDragAndDrop();
       }
+      // === AUTO SCROLL LOGIC FOR SCROLLABLE CONTAINER ===
+      // Scrolls the .container div when dragging near the top or bottom edge
+      const scrollContainer = document.querySelector('.container');
+      const SCROLL_SPEED = 25;
+      const SCROLL_ZONE = 80;
+
+      document.addEventListener('dragover', function(e) {
+        if (!scrollContainer || isMobile) return;
+        const rect = scrollContainer.getBoundingClientRect();
+        const y = e.clientY - rect.top;
+        const height = scrollContainer.clientHeight;
+
+        if (y < SCROLL_ZONE) {
+          scrollContainer.scrollTop -= SCROLL_SPEED;
+        } else if (y > height - SCROLL_ZONE) {
+          scrollContainer.scrollTop += SCROLL_SPEED;
+        }
+      });
+      // === END AUTO SCROLL LOGIC ===
+    });
     });
   </script>
 </body>
