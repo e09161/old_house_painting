@@ -30,7 +30,9 @@
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
       width: 100%;
       max-width: 900px;
-      overflow: hidden;
+      max-height: 90vh;
+      overflow-y: auto;
+      overflow-x: hidden;
       animation: fadeIn 0.5s ease-in-out;
     }
 
@@ -39,6 +41,9 @@
       color: white;
       padding: 20px 28px;
       text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
     h1 {
@@ -59,6 +64,9 @@
       border-bottom: 1px solid #e0e6f1;
       font-size: 15px;
       color: #555;
+      position: sticky;
+      top: 95px;
+      z-index: 90;
     }
 
     .exercise-container {
@@ -67,6 +75,11 @@
 
     .word-bank-container {
       margin: 15px 0;
+      position: sticky;
+      top: 140px;
+      z-index: 80;
+      background: white;
+      padding: 10px 0;
     }
 
     .word-bank {
@@ -158,6 +171,11 @@
 
     .progress-container {
       margin: 18px 0 20px;
+      position: sticky;
+      bottom: 0;
+      background: white;
+      padding: 10px 0;
+      z-index: 70;
     }
 
     .progress-bar {
@@ -210,6 +228,11 @@
       margin-top: 16px;
       flex-wrap: wrap;
       justify-content: center;
+      position: sticky;
+      bottom: 70px;
+      background: white;
+      padding: 10px 0;
+      z-index: 60;
     }
 
     .controls button {
@@ -293,6 +316,11 @@
       text-align: center;
       font-weight: 500;
       cursor: pointer;
+      transition: transform 0.2s;
+    }
+    
+    .mobile-word-option:active {
+      transform: scale(0.95);
     }
     
     .mobile-word-option.used {
@@ -309,6 +337,11 @@
       border: none;
       color: #666;
       cursor: pointer;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     
     .overlay {
@@ -335,6 +368,12 @@
         height: auto;
         overflow-y: visible;
         border-radius: 12px;
+      }
+      
+      header, .instructions, .word-bank-container, .progress-container, .controls {
+        position: relative;
+        top: 0;
+        bottom: 0;
       }
       
       header {
@@ -370,6 +409,7 @@
         margin: 8px 0;
         width: 100%;
         text-align: center;
+        font-size: 15px;
       }
       
       .controls {
@@ -383,11 +423,20 @@
       .word-bank-container {
         display: none;
       }
+      
+      .mobile-words-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 480px) {
-      .mobile-words-grid {
-        grid-template-columns: 1fr;
+      .mobile-word-selector {
+        padding: 15px;
+      }
+      
+      .mobile-word-option {
+        padding: 10px;
+        font-size: 14px;
       }
     }
 
@@ -407,6 +456,15 @@
       outline: 3px solid rgba(79, 172, 254, 0.55);
       outline-offset: 2px;
       border-radius: 8px;
+    }
+    
+    /* Smooth transitions for mobile */
+    .mobile-word-selector {
+      transition: transform 0.3s ease-out;
+    }
+    
+    .mobile-word-selector.hidden {
+      transform: translateY(100%);
     }
   </style>
 </head>
@@ -583,24 +641,46 @@
               freeGap(this);
             }
           });
+          
+          // Add touch feedback for mobile
+          gap.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.98)';
+          });
+          
+          gap.addEventListener('touchend', function() {
+            this.style.transform = 'scale(1)';
+          });
         });
         
         // Close selector events
         closeSelector.addEventListener('click', closeWordSelector);
         overlay.addEventListener('click', closeWordSelector);
+        
+        // Prevent background scrolling when selector is open
+        mobileWordSelector.addEventListener('touchmove', function(e) {
+          e.preventDefault();
+        }, { passive: false });
       }
       
       function showWordSelector() {
         mobileWordSelector.style.display = 'block';
         overlay.style.display = 'block';
         document.body.style.overflow = 'hidden';
+        
+        // Add animation class
+        setTimeout(() => {
+          mobileWordSelector.classList.remove('hidden');
+        }, 10);
       }
       
       function closeWordSelector() {
-        mobileWordSelector.style.display = 'none';
-        overlay.style.display = 'none';
-        document.body.style.overflow = 'auto';
-        activeGap = null;
+        mobileWordSelector.classList.add('hidden');
+        setTimeout(() => {
+          mobileWordSelector.style.display = 'none';
+          overlay.style.display = 'none';
+          document.body.style.overflow = 'auto';
+          activeGap = null;
+        }, 300);
       }
       
       // Initialize drag and drop functionality
@@ -875,6 +955,24 @@
       // Initialize the exercise
       if (!isMobile) {
         initDragAndDrop();
+        
+        // Add auto-scroll for desktop dragging
+        const scrollContainer = document.querySelector('.container');
+        const SCROLL_SPEED = 25;
+        const SCROLL_ZONE = 80;
+
+        document.addEventListener('dragover', function(e) {
+          if (!scrollContainer) return;
+          const rect = scrollContainer.getBoundingClientRect();
+          const y = e.clientY - rect.top;
+          const height = scrollContainer.clientHeight;
+
+          if (y < SCROLL_ZONE) {
+            scrollContainer.scrollTop -= SCROLL_SPEED;
+          } else if (y > height - SCROLL_ZONE) {
+            scrollContainer.scrollTop += SCROLL_SPEED;
+          }
+        });
       }
     });
   </script>
