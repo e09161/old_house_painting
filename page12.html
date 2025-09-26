@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vocabulary Exercises - Word Families</title>
+  <title>Exercise 3: Decision Making Vocabulary</title>
   <style>
     * {
       box-sizing: border-box;
@@ -38,7 +38,7 @@
     }
 
     header {
-      background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+      background: linear-gradient(90deg, #2ecc71 0%, #1abc9c 100%);
       color: white;
       padding: 20px 28px;
       text-align: center;
@@ -60,11 +60,11 @@
     }
 
     .instructions {
-      background-color: #f8faff;
+      background-color: #e8f8f5;
       padding: 12px 22px;
-      border-bottom: 1px solid #e0e6f1;
+      border-bottom: 1px solid #d1f2eb;
       font-size: 15px;
-      color: #555;
+      color: #666;
       position: sticky;
       top: 95px;
       z-index: 90;
@@ -101,7 +101,7 @@
 
     .word-item {
       padding: 6px 12px;
-      background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+      background: linear-gradient(90deg, #2ecc71 0%, #1abc9c 100%);
       color: white;
       border-radius: 6px;
       cursor: grab;
@@ -148,8 +148,8 @@
 
     .gap {
       padding: 4px 8px;
-      border-bottom: 2px dashed #6a11cb;
-      background-color: rgba(106, 17, 203, 0.12);
+      border-bottom: 2px dashed #2ecc71;
+      background-color: rgba(46, 204, 113, 0.12);
       border-radius: 4px;
       transition: background-color 0.25s, border-color 0.25s;
       display: inline-block;
@@ -161,15 +161,15 @@
     }
 
     .gap.active {
-      background-color: rgba(106, 17, 203, 0.18);
-      border-bottom-color: #5a0db9;
+      background-color: rgba(46, 204, 113, 0.18);
+      border-bottom-color: #27ae60;
       outline: 2px solid transparent;
     }
 
     .gap.filled {
       background-color: transparent;
       border-bottom: none;
-      color: #3498db;
+      color: #2ecc71;
       font-weight: 600;
     }
 
@@ -199,7 +199,7 @@
 
     .progress {
       height: 100%;
-      background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+      background: linear-gradient(90deg, #2ecc71 0%, #1abc9c 100%);
       width: 0%;
       transition: width 0.5s ease;
     }
@@ -265,7 +265,7 @@
     }
 
     #check-btn {
-      background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+      background: linear-gradient(90deg, #2ecc71 0%, #1abc9c 100%);
       color: white;
     }
 
@@ -280,28 +280,7 @@
     }
 
     #solution-btn {
-      background-color: #2ecc71;
-      color: white;
-    }
-
-    .exercise-selector {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
-    .exercise-tab {
-      padding: 10px 20px;
-      background: #f0f0f0;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all 0.3s;
-    }
-
-    .exercise-tab.active {
-      background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+      background-color: #3498db;
       color: white;
     }
 
@@ -372,11 +351,6 @@
         width: 100%;
       }
       
-      .exercise-selector {
-        flex-direction: column;
-        gap: 5px;
-      }
-      
       /* Mobile word selection modal */
       .mobile-word-selector {
         display: none;
@@ -397,7 +371,7 @@
       .mobile-word-selector h3 {
         margin-bottom: 15px;
         text-align: center;
-        color: #6a11cb;
+        color: #2ecc71;
       }
       
       .mobile-words-grid {
@@ -408,7 +382,7 @@
       
       .mobile-word-option {
         padding: 12px;
-        background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+        background: linear-gradient(90deg, #2ecc71 0%, #1abc9c 100%);
         color: white;
         border-radius: 8px;
         text-align: center;
@@ -469,7 +443,7 @@
 
     /* Focus styles for accessibility */
     :focus-visible {
-      outline: 3px solid rgba(106, 17, 203, 0.55);
+      outline: 3px solid rgba(46, 204, 113, 0.55);
       outline-offset: 2px;
       border-radius: 8px;
     }
@@ -490,37 +464,37 @@
 <body>
   <div class="container">
     <header>
-            <h1>Vocabulary Exercises 3</h1>
-      <p>Word Families - Critical Thinking Vocabulary</p>
+      <h1>Vocabulary Exercise 3</h1>
+      <p>Decision Making Vocabulary</p>
     </header>
 
     <div class="instructions">
       <p>Complete the sentences. Drag and drop the correct words from the word bank.</p>
     </div>
-    <div id="exercise-3" class="exercise-content" style="display: none;">
-        <div class="word-bank-container">
-          <div class="word-bank" id="word-bank-3">
-            <div class="word-item" draggable="true" data-word="reasoning">reasoning</div>
-            <div class="word-item" draggable="true" data-word="conviction">conviction</div>
-            <div class="word-item" draggable="true" data-word="decisive">decisive</div>
-            <div class="word-item" draggable="true" data-word="sanity">sanity</div>
-            <div class="word-item" draggable="true" data-word="sensible">sensible</div>
-            <div class="word-item" draggable="true" data-word="definition">definition</div>
-            <div class="word-item" draggable="true" data-word="doubtful">doubtful</div>
-            <div class="word-item" draggable="true" data-word="thoughtful">thoughtful</div>
-          </div>
-        </div>
 
-        <div class="sentences">
-          <div class="sentence">1 Her <span class="gap" data-correct="reasoning" data-id="1"></span> was flawed because she ignored important evidence.</div>
-          <div class="sentence">2 He spoke with such <span class="gap" data-correct="conviction" data-id="2"></span> that everyone in the room was persuaded.</div>
-          <div class="sentence">3 The manager's <span class="gap" data-correct="decisive" data-id="3"></span> action prevented a major crisis.</div>
-          <div class="sentence">4 After days without sleep, he began to question his own <span class="gap" data-correct="sanity" data-id="4"></span>.</div>
-          <div class="sentence">5 It would be <span class="gap" data-correct="sensible" data-id="5"></span> to save some money for unexpected expenses.</div>
-          <div class="sentence">6 The dictionary provided a clear <span class="gap" data-correct="definition" data-id="6"></span> of the technical term.</div>
-          <div class="sentence">7 I'm <span class="gap" data-correct="doubtful" data-id="7"></span> that the project will be completed on time.</div>
-          <div class="sentence">8 She gave a <span class="gap" data-correct="thoughtful" data-id="8"></span> response after considering all perspectives.</div>
+    <div class="exercise-container">
+      <div class="word-bank-container">
+        <div class="word-bank" id="word-bank">
+          <div class="word-item" draggable="true" data-word="reasoning">reasoning</div>
+          <div class="word-item" draggable="true" data-word="conviction">conviction</div>
+          <div class="word-item" draggable="true" data-word="decisive">decisive</div>
+          <div class="word-item" draggable="true" data-word="sanity">sanity</div>
+          <div class="word-item" draggable="true" data-word="sensible">sensible</div>
+          <div class="word-item" draggable="true" data-word="definition">definition</div>
+          <div class="word-item" draggable="true" data-word="doubtful">doubtful</div>
+          <div class="word-item" draggable="true" data-word="thoughtful">thoughtful</div>
         </div>
+      </div>
+
+      <div class="sentences">
+        <div class="sentence">1 Her <span class="gap" data-correct="reasoning" data-id="1"></span> was flawed because she ignored important evidence.</div>
+        <div class="sentence">2 He spoke with such <span class="gap" data-correct="conviction" data-id="2"></span> that everyone in the room was persuaded.</div>
+        <div class="sentence">3 The manager's <span class="gap" data-correct="decisive" data-id="3"></span> action prevented a major crisis.</div>
+        <div class="sentence">4 After days without sleep, he began to question his own <span class="gap" data-correct="sanity" data-id="4"></span>.</div>
+        <div class="sentence">5 It would be <span class="gap" data-correct="sensible" data-id="5"></span> to save some money for unexpected expenses.</div>
+        <div class="sentence">6 The dictionary provided a clear <span class="gap" data-correct="definition" data-id="6"></span> of the technical term.</div>
+        <div class="sentence">7 I'm <span class="gap" data-correct="doubtful" data-id="7"></span> that the project will be completed on time.</div>
+        <div class="sentence">8 She gave a <span class="gap" data-correct="thoughtful" data-id="8"></span> response after considering all perspectives.</div>
       </div>
 
       <div class="progress-container">
@@ -569,117 +543,48 @@
       // Check if we're on a mobile device
       const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       
-      // Exercise management
-      let currentExercise = 1;
-      const exerciseTabs = document.querySelectorAll('.exercise-tab');
-      const exerciseContents = document.querySelectorAll('.exercise-content');
+      // Get DOM elements
+      const gaps = document.querySelectorAll('.gap');
+      const wordBank = document.getElementById('word-bank');
+      const wordItems = document.querySelectorAll('.word-item');
+      const progressBar = document.getElementById('progress-bar');
+      const progressText = document.getElementById('progress-text');
+      const successMessage = document.getElementById('success-message');
+      const errorMessage = document.getElementById('error-message');
+      const checkBtn = document.getElementById('check-btn');
+      const hintBtn = document.getElementById('hint-btn');
+      const resetBtn = document.getElementById('reset-btn');
+      const solutionBtn = document.getElementById('solution-btn');
       
-      // Initialize exercise tabs
-      exerciseTabs.forEach(tab => {
-        tab.addEventListener('click', function() {
-          const exerciseId = this.getAttribute('data-exercise');
-          switchExercise(exerciseId);
-        });
-      });
+      // Mobile elements
+      const mobileWordSelector = document.getElementById('mobile-word-selector');
+      const mobileWordsGrid = document.getElementById('mobile-words-grid');
+      const closeSelector = document.getElementById('close-selector');
+      const overlay = document.getElementById('overlay');
       
-      function switchExercise(exerciseId) {
-        // Update active tab
-        exerciseTabs.forEach(tab => {
-          tab.classList.remove('active');
-          if (tab.getAttribute('data-exercise') === exerciseId) {
-            tab.classList.add('active');
-          }
-        });
-        
-        // Show selected exercise content
-        exerciseContents.forEach(content => {
-          content.style.display = 'none';
-          if (content.id === `exercise-${exerciseId}`) {
-            content.style.display = 'block';
-          }
-        });
-        
-        // Update current exercise
-        currentExercise = parseInt(exerciseId);
-        
-        // Reset progress and messages
-        resetExercise();
-        
-        // Reinitialize the exercise
-        initializeExercise();
-      }
-      
-      // Global variables for current exercise state
-      let gaps, wordItems, wordBank;
       let filledGaps = 0;
-      let totalGaps = 0;
+      const totalGaps = gaps.length;
       let hasCheckedAnswers = false;
       let activeGap = null;
       
-      // Initialize the current exercise
-      function initializeExercise() {
-        // Get DOM elements for current exercise
-        gaps = document.querySelectorAll(`#exercise-${currentExercise} .gap`);
-        wordBank = document.getElementById(`word-bank-${currentExercise}`);
-        wordItems = document.querySelectorAll(`#word-bank-${currentExercise} .word-item`);
-        
-        totalGaps = gaps.length;
-        filledGaps = 0;
-        hasCheckedAnswers = false;
-        
-        // Reset progress
-        updateProgress();
-        
-        // Initialize mobile word selector if on mobile
-        if (isMobile) {
-          initMobileWordSelector();
-        }
-        
-        // Initialize drag and drop functionality for desktop
-        if (!isMobile) {
-          initDragAndDrop();
-        }
+      // Initialize progress
+      updateProgress();
+      
+      // Initialize mobile word selector if on mobile
+      if (isMobile) {
+        initMobileWordSelector();
       }
       
-      function resetExercise() {
-        // Reset all gaps
-        if (gaps) {
-          gaps.forEach(gap => {
-            gap.textContent = '';
-            gap.classList.remove('filled', 'correct', 'incorrect');
-          });
-        }
-        
-        // Reset word items
-        if (wordItems) {
-          wordItems.forEach(wordItem => {
-            wordItem.classList.remove('used');
-          });
-        }
-        
-        // Reset mobile options if applicable
-        if (isMobile) {
-          document.querySelectorAll('.mobile-word-option').forEach(option => {
-            option.classList.remove('used');
-          });
-        }
-        
-        // Reset progress and messages
-        filledGaps = 0;
-        updateProgress();
-        successMessage.style.display = 'none';
-        errorMessage.style.display = 'none';
-        hasCheckedAnswers = false;
+      // Initialize drag and drop functionality for desktop
+      if (!isMobile) {
+        initDragAndDrop();
       }
       
-      // Initialize mobile word selector
       function initMobileWordSelector() {
         // Hide the desktop word bank on mobile
-        document.querySelector(`#exercise-${currentExercise} .word-bank-container`).style.display = 'none';
+        document.querySelector('.word-bank-container').style.display = 'none';
         
-        // Clear and repopulate mobile word selector
-        mobileWordsGrid.innerHTML = '';
-        
+        // Populate mobile word selector
         wordItems.forEach(word => {
           const wordOption = document.createElement('div');
           wordOption.className = 'mobile-word-option';
@@ -705,9 +610,12 @@
             }
           });
         });
+        
+        // Close selector events
+        closeSelector.addEventListener('click', closeWordSelector);
+        overlay.addEventListener('click', closeWordSelector);
       }
       
-      // Mobile selector functions
       function showWordSelector() {
         mobileWordSelector.style.display = 'block';
         overlay.style.display = 'block';
@@ -723,19 +631,6 @@
       
       // Initialize drag and drop functionality
       function initDragAndDrop() {
-        // Remove existing event listeners
-        wordItems.forEach(word => {
-          word.replaceWith(word.cloneNode(true));
-        });
-        
-        gaps.forEach(gap => {
-          gap.replaceWith(gap.cloneNode(true));
-        });
-        
-        // Refresh references
-        wordItems = document.querySelectorAll(`#word-bank-${currentExercise} .word-item`);
-        gaps = document.querySelectorAll(`#exercise-${currentExercise} .gap`);
-        
         // Add event listeners to word items for drag start
         wordItems.forEach(word => {
           word.addEventListener('dragstart', handleDragStart);
@@ -860,7 +755,7 @@
         // If we've previously checked answers, reset the visual state for new answers
         if (hasCheckedAnswers) {
           gap.classList.remove('correct', 'incorrect');
-          gap.style.color = '#3498db';
+          gap.style.color = '#2ecc71';
         }
         
         // Hide messages when user makes changes
@@ -877,7 +772,7 @@
       
       // Update progress bar and text
       function updateProgress() {
-        const progress = totalGaps > 0 ? (filledGaps / totalGaps) * 100 : 0;
+        const progress = (filledGaps / totalGaps) * 100;
         progressBar.style.width = `${progress}%`;
         progressText.textContent = `${Math.round(progress)}%`;
       }
@@ -910,22 +805,6 @@
         
         hasCheckedAnswers = true;
       }
-      
-      // Get control buttons
-      const progressBar = document.getElementById('progress-bar');
-      const progressText = document.getElementById('progress-text');
-      const successMessage = document.getElementById('success-message');
-      const errorMessage = document.getElementById('error-message');
-      const checkBtn = document.getElementById('check-btn');
-      const hintBtn = document.getElementById('hint-btn');
-      const resetBtn = document.getElementById('reset-btn');
-      const solutionBtn = document.getElementById('solution-btn');
-      
-      // Mobile elements
-      const mobileWordSelector = document.getElementById('mobile-word-selector');
-      const mobileWordsGrid = document.getElementById('mobile-words-grid');
-      const closeSelector = document.getElementById('close-selector');
-      const overlay = document.getElementById('overlay');
       
       // Handle check button click
       checkBtn.addEventListener('click', checkAnswers);
@@ -963,7 +842,34 @@
       });
       
       // Handle reset button click
-      resetBtn.addEventListener('click', resetExercise);
+      resetBtn.addEventListener('click', function() {
+        gaps.forEach(gap => {
+          const word = gap.textContent;
+          gap.textContent = '';
+          gap.classList.remove('filled', 'correct', 'incorrect');
+          
+          // Make the word available again
+          if (isMobile) {
+            document.querySelectorAll('.mobile-word-option').forEach(option => {
+              if (option.dataset.word === word) {
+                option.classList.remove('used');
+              }
+            });
+          } else {
+            wordItems.forEach(wordItem => {
+              if (wordItem.dataset.word === word) {
+                wordItem.classList.remove('used');
+              }
+            });
+          }
+        });
+        
+        filledGaps = 0;
+        updateProgress();
+        successMessage.style.display = 'none';
+        errorMessage.style.display = 'none';
+        hasCheckedAnswers = false;
+      });
       
       // Handle solution button click
       solutionBtn.addEventListener('click', function() {
@@ -993,11 +899,8 @@
         checkAnswers();
       });
       
-      // Close selector events
-      closeSelector.addEventListener('click', closeWordSelector);
-      overlay.addEventListener('click', closeWordSelector);
-      
-      // Auto scroll logic for desktop
+      // === AUTO SCROLL LOGIC FOR SCROLLABLE CONTAINER ===
+      // Scrolls the .container div when dragging near the top or bottom edge
       const scrollContainer = document.querySelector('.container');
       const SCROLL_SPEED = 25;
       const SCROLL_ZONE = 80;
@@ -1014,9 +917,7 @@
           scrollContainer.scrollTop += SCROLL_SPEED;
         }
       });
-      
-      // Initialize the first exercise
-      initializeExercise();
+      // === END AUTO SCROLL LOGIC ===
     });
   </script>
 </body>
