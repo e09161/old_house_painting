@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grammar Exercise - Possessive Adjectives</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #333;
+    }
+
+    .container {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 700px;
+      overflow: hidden;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    header {
+      background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+      color: white;
+      padding: 25px 30px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    header p {
+      opacity: 0.9;
+      font-size: 17px;
+    }
+
+    .instructions {
+      background-color: #f0f4ff;
+      padding: 15px 25px;
+      border-bottom: 1px solid #e1e8ff;
+      font-size: 16px;
+      color: #555;
+    }
+
+    .exercise-container {
+      padding: 25px 30px 30px;
+    }
+
+    .sentences {
+      margin: 20px 0;
+    }
+
+    .sentence {
+      margin-bottom: 22px;
+      font-size: 18px;
+      line-height: 1.6;
+      padding: 15px;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+      background-color: #f9f9f9;
+      border-left: 4px solid transparent;
+    }
+
+    .sentence:hover {
+      background-color: #f0f0f0;
+    }
+
+    .sentence.correct {
+      border-left-color: #4CAF50;
+      background-color: #f1f8e9;
+    }
+
+    .sentence.incorrect {
+      border-left-color: #f44336;
+      background-color: #ffebee;
+    }
+
+    select {
+      padding: 8px 12px;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      font-size: 16px;
+      background-color: white;
+      cursor: pointer;
+      transition: all 0.3s;
+      min-width: 120px;
+      margin: 0 5px;
+    }
+
+    select:focus {
+      outline: none;
+      border-color: #4b6cb7;
+      box-shadow: 0 0 0 3px rgba(75, 108, 183, 0.2);
+    }
+
+    select.correct {
+      border-color: #4CAF50;
+      background-color: #e8f5e9;
+    }
+
+    select.incorrect {
+      border-color: #f44336;
+      background-color: #ffebee;
+    }
+
+    .progress-container {
+      margin: 25px 0 20px;
+    }
+
+    .progress-bar {
+      height: 12px;
+      background-color: #f1f2f6;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #666;
+      margin-top: 8px;
+    }
+
+    .message {
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      text-align: center;
+      font-weight: 600;
+      display: none;
+      animation: fadeIn 0.5s;
+    }
+
+    .success {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      border: 1px solid #c8e6c9;
+    }
+
+    .error {
+      background-color: #ffebee;
+      color: #c62828;
+      border: 1px solid #ffcdd2;
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .controls button {
+      padding: 14px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: transform 0.15s, opacity 0.25s, background-color 0.25s;
+      min-width: 160px;
+      font-size: 16px;
+    }
+
+    .controls button:hover {
+      transform: translateY(-2px);
+      opacity: 0.95;
+    }
+
+    #check-btn {
+      background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+      color: white;
+    }
+
+    #reset-btn {
+      background-color: #757575;
+      color: white;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      color: #777;
+      font-size: 14px;
+      border-top: 1px solid #f1f2f6;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive styles */
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+        display: block;
+      }
+      
+      .container {
+        border-radius: 10px;
+      }
+      
+      header {
+        padding: 20px;
+      }
+      
+      h1 {
+        font-size: 24px;
+      }
+      
+      header p {
+        font-size: 16px;
+      }
+      
+      .instructions {
+        padding: 12px 20px;
+        font-size: 15px;
+      }
+      
+      .exercise-container {
+        padding: 20px;
+      }
+      
+      .sentence {
+        font-size: 17px;
+        margin-bottom: 18px;
+      }
+      
+      select {
+        min-width: 100px;
+        font-size: 15px;
+      }
+      
+      .controls {
+        flex-direction: column;
+      }
+      
+      .controls button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Grammar — Possessive Adjectives</h1>
+      <p>Complete the sentences. Choose the correct alternative.</p>
+    </header>
+
+    <div class="instructions">
+      <p>Select the correct possessive adjective for each sentence.</p>
+    </div>
+
+    <div class="exercise-container">
+      <div class="sentences">
+        <div class="sentence" id="sentence1">
+          1. What's <select id="q1">
+            <option value="">-- Select --</option>
+            <option value="your">your</option>
+            <option value="my">my</option>
+            <option value="his">his</option>
+            <option value="her">her</option>
+          </select> name?
+        </div>
+
+        <div class="sentence" id="sentence2">
+          2. <select id="q2">
+            <option value="">-- Select --</option>
+            <option value="Our">Our</option>
+            <option value="Their">Their</option>
+            <option value="My">My</option>
+            <option value="Your">Your</option>
+          </select> daughter is a doctor.
+        </div>
+
+        <div class="sentence" id="sentence3">
+          3. What's <select id="q3">
+            <option value="">-- Select --</option>
+            <option value="your">your</option>
+            <option value="my">my</option>
+            <option value="his">his</option>
+            <option value="her">her</option>
+          </select> wife's name?
+        </div>
+
+        <div class="sentence" id="sentence4">
+          4. This is <select id="q4">
+            <option value="">-- Select --</option>
+            <option value="my">my</option>
+            <option value="your">your</option>
+            <option value="our">our</option>
+            <option value="their">their</option>
+          </select> English dictionary.
+        </div>
+
+        <div class="sentence" id="sentence5">
+          5. <select id="q5">
+            <option value="">-- Select --</option>
+            <option value="Our">Our</option>
+            <option value="Their">Their</option>
+            <option value="Your">Your</option>
+            <option value="My">My</option>
+          </select> hotel is great!
+        </div>
+
+        <div class="sentence" id="sentence6">
+          6. Is that <select id="q6">
+            <option value="">-- Select --</option>
+            <option value="your">your</option>
+            <option value="my">my</option>
+            <option value="his">his</option>
+            <option value="her">her</option>
+          </select> sandwich?
+        </div>
+
+        <div class="sentence" id="sentence7">
+          7. What's the name of <select id="q7">
+            <option value="">-- Select --</option>
+            <option value="their">their</option>
+            <option value="your">your</option>
+            <option value="our">our</option>
+            <option value="my">my</option>
+          </select> dog?
+        </div>
+
+        <div class="sentence" id="sentence8">
+          8. She's from San Francisco. It's <select id="q8">
+            <option value="">-- Select --</option>
+            <option value="her">her</option>
+            <option value="his">his</option>
+            <option value="their">their</option>
+            <option value="our">our</option>
+          </select> home.
+        </div>
+      </div>
+
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress" id="progress-bar"></div>
+        </div>
+        <div class="progress-text">
+          <span>Progress</span>
+          <span id="progress-text">0%</span>
+        </div>
+      </div>
+
+      <div class="message success" id="success-message">
+        Congratulations! All answers are correct.
+      </div>
+
+      <div class="message error" id="error-message">
+        Some answers are incorrect. Please try again.
+      </div>
+
+      <div class="controls">
+        <button id="check-btn">Check answers</button>
+        <button id="reset-btn">Reset</button>
+      </div>
+    </div>
+
+    <footer>
+      <p>Grammar Exercise • Possessive Adjectives</p>
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get DOM elements
+      const sentences = document.querySelectorAll('.sentence');
+      const selects = document.querySelectorAll('select');
+      const progressBar = document.getElementById('progress-bar');
+      const progressText = document.getElementById('progress-text');
+      const successMessage = document.getElementById('success-message');
+      const errorMessage = document.getElementById('error-message');
+      const checkBtn = document.getElementById('check-btn');
+      const resetBtn = document.getElementById('reset-btn');
+      
+      // Correct answers
+      const correctAnswers = {
+        q1: 'your',
+        q2: 'My',
+        q3: 'your',
+        q4: 'my',
+        q5: 'Our',
+        q6: 'your',
+        q7: 'their',
+        q8: 'her'
+      };
+      
+      let answeredQuestions = 0;
+      const totalQuestions = selects.length;
+      let hasCheckedAnswers = false;
+      
+      // Initialize progress
+      updateProgress();
+      
+      // Add event listeners to selects
+      selects.forEach(select => {
+        select.addEventListener('change', function() {
+          // Remove previous styling when user changes answer
+          if (hasCheckedAnswers) {
+            this.classList.remove('correct', 'incorrect');
+            document.getElementById(`sentence${this.id.substring(1)}`).classList.remove('correct', 'incorrect');
+          }
+          
+          // Update progress
+          updateProgress();
+          
+          // Hide messages when user makes changes
+          successMessage.style.display = 'none';
+          errorMessage.style.display = 'none';
+          hasCheckedAnswers = false;
+        });
+      });
+      
+      // Update progress bar and text
+      function updateProgress() {
+        answeredQuestions = 0;
+        selects.forEach(select => {
+          if (select.value !== '') {
+            answeredQuestions++;
+          }
+        });
+        
+        const progress = (answeredQuestions / totalQuestions) * 100;
+        progressBar.style.width = `${progress}%`;
+        progressText.textContent = `${Math.round(progress)}%`;
+      }
+      
+      // Check answers
+      function checkAnswers() {
+        let allCorrect = true;
+        let allAnswered = true;
+        
+        selects.forEach(select => {
+          const questionId = select.id;
+          const userAnswer = select.value;
+          const correctAnswer = correctAnswers[questionId];
+          const sentence = document.getElementById(`sentence${questionId.substring(1)}`);
+          
+          if (userAnswer === '') {
+            allAnswered = false;
+            select.classList.remove('correct', 'incorrect');
+            sentence.classList.remove('correct', 'incorrect');
+          } else if (userAnswer === correctAnswer) {
+            select.classList.add('correct');
+            select.classList.remove('incorrect');
+            sentence.classList.add('correct');
+            sentence.classList.remove('incorrect');
+          } else {
+            select.classList.add('incorrect');
+            select.classList.remove('correct');
+            sentence.classList.add('incorrect');
+            sentence.classList.remove('correct');
+            allCorrect = false;
+          }
+        });
+        
+        if (!allAnswered) {
+          errorMessage.textContent = 'Please answer all questions before checking.';
+          errorMessage.style.display = 'block';
+          successMessage.style.display = 'none';
+        } else if (allCorrect) {
+          successMessage.style.display = 'block';
+          errorMessage.style.display = 'none';
+        } else {
+          errorMessage.textContent = 'Some answers are incorrect. Please try again.';
+          errorMessage.style.display = 'block';
+          successMessage.style.display = 'none';
+        }
+        
+        hasCheckedAnswers = true;
+      }
+      
+      // Handle check button click
+      checkBtn.addEventListener('click', checkAnswers);
+      
+      // Handle reset button click
+      resetBtn.addEventListener('click', function() {
+        selects.forEach(select => {
+          select.value = '';
+          select.classList.remove('correct', 'incorrect');
+          document.getElementById(`sentence${select.id.substring(1)}`).classList.remove('correct', 'incorrect');
+        });
+        
+        answeredQuestions = 0;
+        updateProgress();
+        successMessage.style.display = 'none';
+        errorMessage.style.display = 'none';
+        hasCheckedAnswers = false;
+      });
+    });
+  </script>
+</body>
+</html>
