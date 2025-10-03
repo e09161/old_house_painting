@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supervolcano Speech Writing Exercise</title>
+    <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #2d3436;
+    }
+
+    .container {
+      background-color: #ffffff;
+      border-radius: 18px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      max-width: 900px;
+      overflow: hidden;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    header {
+      background: linear-gradient(90deg, #ff7e5f 0%, #feb47b 100%);
+      color: white;
+      padding: 26px 28px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 30px;
+      margin-bottom: 8px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    header p {
+      opacity: 0.95;
+    }
+
+    .instructions {
+      background-color: #f8faff;
+      padding: 18px 22px;
+      border-bottom: 1px solid #e0e6f1;
+      font-size: 16px;
+      color: #555;
+    }
+
+    .prompts-container {
+      display: flex;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-bottom: 1px solid #e0e6f1;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .prompts-content {
+      flex: 1;
+    }
+
+    .prompts-container h2 {
+      color: #ff7e5f;
+      margin-bottom: 15px;
+      font-size: 22px;
+    }
+
+    .prompts-list {
+      list-style-type: none;
+    }
+
+    .prompts-list li {
+      margin-bottom: 10px;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .prompts-list li:before {
+      content: "•";
+      color: #ff7e5f;
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+    }
+
+    .volcano-image {
+      max-width: 40%;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      align-self: center;
+    }
+
+    .story-container {
+      padding: 28px;
+      position: relative;
+    }
+
+    .story-text {
+      font-size: 18px;
+      line-height: 1.7;
+      margin-bottom: 24px;
+      color: #333;
+      max-height: 50vh;
+      overflow-y: auto;
+      padding-bottom: 80px; /* Space for sticky input */
+    }
+
+    .gap {
+      padding: 2px 6px;
+      border-bottom: 2px dashed #ff7e5f;
+      background-color: rgba(255, 126, 95, 0.12);
+      border-radius: 4px;
+      transition: background-color 0.25s, border-color 0.25s;
+      white-space: nowrap;
+    }
+
+    .gap.active {
+      background-color: rgba(255, 126, 95, 0.18);
+      border-bottom-color: #ff5a3c;
+      outline: 2px solid transparent;
+    }
+
+    .gap.filled {
+      background-color: transparent;
+      border-bottom: none;
+      color: #2ecc71;
+      font-weight: 600;
+    }
+
+    .progress-container {
+      margin: 18px 0 20px;
+    }
+
+    .progress-bar {
+      height: 12px;
+      background-color: #f1f2f6;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      background: linear-gradient(90deg, #ff7e5f 0%, #feb47b 100%);
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #666;
+      margin-top: 8px;
+    }
+
+    .message {
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      text-align: center;
+      font-weight: 600;
+      display: none;
+    }
+
+    .success {
+      background-color: #e8f9f1;
+      color: #1f9e56;
+      border: 1px solid #b8eacb;
+    }
+
+    .error {
+      background-color: #fdecea;
+      color: #d6453d;
+      border: 1px solid #f5b7b1;
+    }
+
+    .input-area {
+      display: flex;
+      gap: 10px;
+      align-items: stretch;
+      margin-bottom: 8px;
+      position: sticky;
+      bottom: 0;
+      background-color: white;
+      padding: 15px 0;
+      border-top: 1px solid #e2e8f0;
+      z-index: 10;
+    }
+
+    .field {
+      position: relative;
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    .field label {
+      position: absolute;
+      left: 12px;
+      top: -10px;
+      background: #fff;
+      padding: 0 6px;
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    #word-input {
+      width: 100%;
+      padding: 14px 14px;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 16px;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+
+    #word-input:focus {
+      outline: none;
+      border-color: #ff7e5f;
+      box-shadow: 0 0 0 3px rgba(255, 126, 95, 0.2);
+    }
+
+    #submit-btn {
+      background: linear-gradient(90deg, #ff7e5f 0%, #feb47b 100%);
+      color: white;
+      border: none;
+      padding: 0 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform 0.15s, opacity 0.25s;
+      min-width: 120px;
+    }
+
+    #submit-btn:hover {
+      transform: translateY(-1px);
+      opacity: 0.92;
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .controls button {
+      flex: 1;
+      padding: 12px 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform 0.15s, opacity 0.25s, background-color 0.25s;
+      min-width: 140px;
+    }
+
+    .controls button:hover {
+      transform: translateY(-1px);
+      opacity: 0.95;
+    }
+
+    #hint-btn {
+      background-color: #f39c12;
+      color: white;
+    }
+
+    #reset-btn {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    #solution-btn {
+      background-color: #2ecc71;
+      color: white;
+    }
+
+    footer {
+      text-align: center;
+      padding: 16px;
+      color: #888;
+      font-size: 14px;
+      border-top: 1px solid #f1f2f6;
+    }
+
+    @media (max-width: 768px) {
+      .prompts-container {
+        flex-direction: column;
+      }
+      
+      .volcano-image {
+        max-width: 100%;
+        order: -1;
+      }
+    }
+
+    @media (max-width: 640px) {
+      h1 {
+        font-size: 24px;
+      }
+
+      .story-text {
+        font-size: 16px;
+        max-height: 40vh;
+      }
+
+      .input-area {
+        flex-direction: column;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 12px 15px;
+        border-top: 1px solid #e2e8f0;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 0;
+      }
+
+      #submit-btn {
+        width: 100%;
+        padding: 12px 16px;
+      }
+
+      .controls {
+        flex-direction: column;
+        margin-bottom: 70px; /* Space for the fixed input area */
+      }
+
+      .controls button {
+        width: 100%;
+      }
+      
+      .story-container {
+        padding-bottom: 20px;
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Focus styles for keyboard users */
+    :focus-visible {
+      outline: 3px solid rgba(255, 126, 95, 0.55);
+      outline-offset: 2px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Supervolcano Speech Writing Exercise</h1>
+            <p>Fill in the missing words to complete the speech about supervolcanoes</p>
+        </header>
+        
+        <div class="instructions">
+            <p>Type the correct word for each blank and press Enter to check your answer.</p>
+        </div>
+        
+        <div class="prompts-container">
+            <div class="prompts-content">
+                <h2>What are supervolcanoes?</h2>
+                <ul class="prompts-list">
+                    <li>World's biggest volcanoes / more dangerous</li>
+                    <li>Cause terrible damage, e.g. climate change</li>
+                </ul>
+                
+                <h2>Where are supervolcanoes?</h2>
+                <ul class="prompts-list">
+                    <li>One of biggest in Yellowstone National Park, Wyoming</li>
+                    <li>Last exploded 640,000 years ago</li>
+                    <li>Usually explodes every 600,000 years</li>
+                </ul>
+            </div>
+            
+            <img src="https://media.istockphoto.com/id/670551650/photo/volcanic-mountain-in-eruption.jpg?s=612x612&w=0&k=20&c=k7EJKTpb9e1fLFuvHzB3pEIEr61xBHSCYpK7n0So2Qk=" alt="Volcano" class="volcano-image">
+        </div>
+        
+        <div class="story-container">
+            <div class="message success" id="success-message">Correct! Well done.</div>
+            <div class="message error" id="error-message">Incorrect. Try again.</div>
+            
+            <div class="story-text" id="story-text">
+                Hello and welcome. I'm going <span class="gap" data-word="to">___</span> talk to <span class="gap" data-word="you">___</span> today <span class="gap" data-word="about">______</span> volcanoes. First, I wonder <span class="gap" data-word="if">___</span> anyone knows what the <span class="gap" data-word="biggest">______</span> volcanoes in the world <span class="gap" data-word="are">___</span> ? <span class="gap" data-word="Have">______</span> you heard of supervolcanoes? They <span class="gap" data-word="are">______</span> ordinary volcanoes, <span class="gap" data-word="but">___</span> they <span class="gap" data-word="are">___</span> far more <span class="gap" data-word="dangerous">______</span>. When <span class="gap" data-word="they">___</span> explode, <span class="gap" data-word="they">___</span> cause <span class="gap" data-word="terrible">___</span> damage to the Earth. They <span class="gap" data-word="can">___</span> even <span class="gap" data-word="change">___</span> the <span class="gap" data-word="climate">______</span>. Does <span class="gap" data-word="anyone">___</span> know <span class="gap" data-word="where">___</span> these supervolcanoes can be found? Well, <span class="gap" data-word="one">___</span> of the <span class="gap" data-word="biggest">______</span> is at Yellowstone Park <span class="gap" data-word="in">___</span> Wyoming. Do <span class="gap" data-word="you">___</span> have <span class="gap" data-word="any">______</span> when it last exploded? Well, scientists believe that <span class="gap" data-word="its">___</span> last explosion <span class="gap" data-word="may">___</span> have <span class="gap" data-word="been">___</span> 640,000 <span class="gap" data-word="years">______</span> ago. They also think <span class="gap" data-word="the">___</span> volcano explodes about <span class="gap" data-word="every">___</span> 600,000 <span class="gap" data-word="years">______</span>. So, it <span class="gap" data-word="looks">___</span> like for the last 40,000 <span class="gap" data-word="years">______</span>, people <span class="gap" data-word="in">___</span> Yellowstone have had <span class="gap" data-word="nothing">______</span> to worry about!
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress" id="progress-bar"></div>
+                </div>
+                <div class="progress-text"><span id="progress-text">0</span>/35 words completed</div>
+            </div>
+            
+            <div class="input-area">
+                <div class="field">
+                    <label for="word-input">Enter word</label>
+                    <input type="text" id="word-input" placeholder="Type a word and press Enter">
+                </div>
+                <button id="submit-btn">Submit</button>
+            </div>
+            
+            <div class="controls">
+                <button id="hint-btn">Hint</button>
+                <button id="reset-btn">Reset</button>
+                <button id="solution-btn">Show Solution</button>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Educasa.pe, 2025</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const gaps = document.querySelectorAll('.gap');
+            const wordInput = document.getElementById('word-input');
+            const submitBtn = document.getElementById('submit-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            const hintBtn = document.getElementById('hint-btn');
+            const solutionBtn = document.getElementById('solution-btn');
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            const successMessage = document.getElementById('success-message');
+            const errorMessage = document.getElementById('error-message');
+            
+            let currentGapIndex = 0;
+            let completedGaps = 0;
+            const totalGaps = gaps.length;
+            
+            // Initialize the exercise
+            function init() {
+                updateProgress();
+                gaps.forEach((gap, index) => {
+                    if (index === 0) {
+                        gap.classList.add('active');
+                    }
+                });
+                wordInput.focus();
+            }
+            
+            // Update progress bar and text
+            function updateProgress() {
+                const progress = (completedGaps / totalGaps) * 100;
+                progressBar.style.width = `${progress}%`;
+                progressText.textContent = completedGaps;
+            }
+            
+            // Check if the entered word is correct (anywhere in the text)
+            function checkWord() {
+                const enteredWord = wordInput.value.trim().toLowerCase();
+                let foundMatch = false;
+                let matchedGaps = []; // Changed to store multiple indices
+                
+                // Check all gaps for the entered word
+                gaps.forEach((gap, index) => {
+                    const correctWord = gap.getAttribute('data-word').toLowerCase();
+                    
+                    if (enteredWord === correctWord && !gap.classList.contains('filled')) {
+                        foundMatch = true;
+                        matchedGaps.push(index); // Store all matching indices
+                    }
+                });
+                
+                if (foundMatch) {
+                    // Fill all matching gaps
+                    matchedGaps.forEach(index => {
+                        const matchedGap = gaps[index];
+                        matchedGap.textContent = enteredWord;
+                        matchedGap.classList.add('filled');
+                        matchedGap.classList.remove('active');
+                        
+                        // Update progress for each filled gap
+                        completedGaps++;
+                    });
+                    
+                    updateProgress();
+                    
+                    // Show success message
+                    successMessage.style.display = 'block';
+                    errorMessage.style.display = 'none';
+                    
+                    // If all gaps are filled
+                    if (completedGaps >= totalGaps) {
+                        wordInput.disabled = true;
+                        submitBtn.disabled = true;
+                        successMessage.textContent = 'Congratulations! You completed the speech.';
+                    } else {
+                        // Find and activate the next unfilled gap
+                        let nextUnfilledIndex = -1;
+                        for (let i = 0; i < gaps.length; i++) {
+                            if (!gaps[i].classList.contains('filled')) {
+                                nextUnfilledIndex = i;
+                                break;
+                            }
+                        }
+                        
+                        if (nextUnfilledIndex !== -1) {
+                            // Remove active class from all gaps
+                            gaps.forEach(gap => gap.classList.remove('active'));
+                            // Add active class to the next unfilled gap
+                            gaps[nextUnfilledIndex].classList.add('active');
+                            currentGapIndex = nextUnfilledIndex;
+                        }
+                    }
+                    
+                    // Clear input
+                    wordInput.value = '';
+                    wordInput.focus();
+                } else {
+                    // Check if the word is correct but already filled
+                    const isAlreadyFilled = Array.from(gaps).some(gap => {
+                        const correctWord = gap.getAttribute('data-word').toLowerCase();
+                        return enteredWord === correctWord && gap.classList.contains('filled');
+                    });
+                    
+                    if (isAlreadyFilled) {
+                        errorMessage.textContent = 'This word is already filled in.';
+                    } else {
+                        errorMessage.textContent = 'Incorrect. Try again.';
+                    }
+                    
+                    errorMessage.style.display = 'block';
+                    successMessage.style.display = 'none';
+                    wordInput.select();
+                }
+            }
+            
+            // Show hint for current gap
+            function showHint() {
+                const currentGap = gaps[currentGapIndex];
+                const correctWord = currentGap.getAttribute('data-word');
+                const hint = correctWord.substring(0, 1);
+                
+                wordInput.value = hint;
+                wordInput.focus();
+                wordInput.select();
+            }
+            
+            // Show complete solution
+            function showSolution() {
+                gaps.forEach(gap => {
+                    gap.textContent = gap.getAttribute('data-word');
+                    gap.classList.add('filled');
+                    gap.classList.remove('active');
+                });
+                
+                completedGaps = totalGaps;
+                currentGapIndex = totalGaps;
+                updateProgress();
+                
+                wordInput.disabled = true;
+                submitBtn.disabled = true;
+                
+                successMessage.textContent = 'Here is the complete solution.';
+                successMessage.style.display = 'block';
+                errorMessage.style.display = 'none';
+            }
+            
+            // Reset the exercise
+            function resetExercise() {
+                gaps.forEach((gap, index) => {
+                    gap.textContent = index === 2 ? '______' : 
+                                    index === 4 ? '______' : 
+                                    index === 5 ? '___' : 
+                                    index === 6 ? '______' : 
+                                    index === 7 ? '______' : 
+                                    index === 9 ? '___' : 
+                                    index === 10 ? '___' : 
+                                    index === 11 ? '______' : 
+                                    index === 12 ? '___' : 
+                                    index === 13 ? '___' : 
+                                    index === 14 ? '___' : 
+                                    index === 15 ? '___' : 
+                                    index === 16 ? '______' : 
+                                    index === 17 ? '___' : 
+                                    index === 18 ? '___' : 
+                                    index === 19 ? '___' : 
+                                    index === 20 ? '______' : 
+                                    index === 21 ? '___' : 
+                                    index === 22 ? '___' : 
+                                    index === 23 ? '______' : 
+                                    index === 24 ? '___' : 
+                                    index === 25 ? '___' : 
+                                    index === 26 ? '___' : 
+                                    index === 27 ? '______' : 
+                                    index === 28 ? '___' : 
+                                    index === 29 ? '___' : 
+                                    index === 30 ? '___' : 
+                                    index === 31 ? '______' : 
+                                    index === 32 ? '___' : 
+                                    index === 33 ? '______' : 
+                                    index === 34 ? '______' : '___';
+                    gap.classList.remove('filled', 'active');
+                });
+                
+                // Reset first gap highlight
+                gaps[0].classList.add('active');
+                
+                currentGapIndex = 0;
+                completedGaps = 0;
+                updateProgress();
+                
+                wordInput.value = '';
+                wordInput.disabled = false;
+                submitBtn.disabled = false;
+                
+                successMessage.style.display = 'none';
+                errorMessage.style.display = 'none';
+                
+                wordInput.focus();
+            }
+            
+            // Event listeners
+            submitBtn.addEventListener('click', checkWord);
+            
+            wordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkWord();
+                }
+            });
+            
+            resetBtn.addEventListener('click', resetExercise);
+            
+            hintBtn.addEventListener('click', showHint);
+            
+            solutionBtn.addEventListener('click', showSolution);
+            
+            // Initialize the exercise
+            init();
+        });
+    </script>
+</body>
+</html>
