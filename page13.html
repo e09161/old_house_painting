@@ -725,8 +725,8 @@
       // Update progress bar and text
       function updateProgress() {
         const progress = (filledGaps / totalGaps) * 100;
-        progressBar.style.width = ${progress}%;
-        progressText.textContent = ${Math.round(progress)}%;
+        progressBar.style.width = `${progress}%`;
+        progressText.textContent = `${Math.round(progress)}%`;
       }
       
       // Check answers
@@ -782,7 +782,7 @@
           
           // Show first letter as hint
           const correctAnswer = gapToHint.dataset.correct;
-          alert(Hint: The correct word is "${correctAnswer}".);
+          alert(`Hint: The correct word is "${correctAnswer}".`);
           
           // Remove highlight after a delay
           setTimeout(() => {
