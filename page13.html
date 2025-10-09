@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +12,6 @@
       font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif;
       -webkit-tap-highlight-color: transparent;
     }
-
     body {
       background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
       min-height: 100vh;
@@ -24,7 +22,6 @@
       color: #2d3436;
       touch-action: manipulation;
     }
-
     .container {
       background-color: #ffffff;
       border-radius: 18px;
@@ -37,7 +34,6 @@
       overflow-y: auto;
       position: relative;
     }
-
     header {
       background: linear-gradient(90deg, #2ecc71 0%, #1abc9c 100%);
       color: white;
@@ -47,19 +43,16 @@
       top: 0;
       z-index: 100;
     }
-
     h1 {
       font-size: 28px;
       margin-bottom: 5px;
       font-weight: 700;
       letter-spacing: 0.2px;
     }
-
     header p {
       opacity: 0.95;
       font-size: 16px;
     }
-
     .instructions {
       background-color: #e8f8f5;
       padding: 12px 22px;
@@ -70,11 +63,9 @@
       top: 95px;
       z-index: 90;
     }
-
     .exercise-container {
       padding: 20px 28px 28px;
     }
-
     .word-bank-container {
       position: sticky;
       top: 140px;
@@ -84,7 +75,6 @@
       border-bottom: 1px solid #eee;
       margin-bottom: 15px;
     }
-
     .word-bank {
       display: flex;
       flex-wrap: wrap;
@@ -99,7 +89,6 @@
       overflow-y: auto;
       touch-action: pan-y;
     }
-
     .word-item {
       padding: 6px 12px;
       background: linear-gradient(90deg, #2ecc71 0%, #1abc9c 100%);
@@ -113,26 +102,21 @@
       flex-shrink: 0;
       touch-action: none;
     }
-
     .word-item:hover {
       transform: translateY(-2px);
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
     }
-
     .word-item.dragging {
       opacity: 0.5;
     }
-
     .word-item.used {
       opacity: 0.5;
       background: linear-gradient(90deg, #cccccc 0%, #aaaaaa 100%);
       cursor: not-allowed;
     }
-
     .sentences {
       margin: 25px 0;
     }
-
     .sentence {
       margin-bottom: 16px;
       font-size: 16px;
@@ -142,11 +126,9 @@
       transition: background-color 0.3s;
       background-color: #f9f9f9;
     }
-
     .sentence:hover {
       background-color: #f0f0f0;
     }
-
     .gap {
       padding: 4px 8px;
       border-bottom: 2px dashed #2ecc71;
@@ -160,28 +142,23 @@
       cursor: pointer;
       position: relative;
     }
-
     .gap.active {
       background-color: rgba(46, 204, 113, 0.18);
       border-bottom-color: #27ae60;
       outline: 2px solid transparent;
     }
-
     .gap.filled {
       background-color: transparent;
       border-bottom: none;
       color: #2ecc71;
       font-weight: 600;
     }
-
     .gap.correct {
       color: #2ecc71;
     }
-
     .gap.incorrect {
       color: #e74c3c;
     }
-
     .progress-container {
       margin: 18px 0 20px;
       position: sticky;
@@ -190,21 +167,18 @@
       padding: 10px 0;
       z-index: 70;
     }
-
     .progress-bar {
       height: 10px;
       background-color: #f1f2f6;
       border-radius: 5px;
       overflow: hidden;
     }
-
     .progress {
       height: 100%;
       background: linear-gradient(90deg, #2ecc71 0%, #1abc9c 100%);
       width: 0%;
       transition: width 0.5s ease;
     }
-
     .progress-text {
       display: flex;
       justify-content: space-between;
@@ -213,7 +187,6 @@
       color: #666;
       margin-top: 6px;
     }
-
     .message {
       padding: 12px;
       border-radius: 8px;
@@ -223,19 +196,16 @@
       display: none;
       animation: fadeIn 0.5s;
     }
-
     .success {
       background-color: #e8f9f1;
       color: #1f9e56;
       border: 1px solid #b8eacb;
     }
-
     .error {
       background-color: #fdecea;
       color: #d6453d;
       border: 1px solid #f5b7b1;
     }
-
     .controls {
       display: flex;
       gap: 10px;
@@ -248,7 +218,6 @@
       padding: 10px 0;
       z-index: 60;
     }
-
     .controls button {
       padding: 12px 16px;
       border: none;
@@ -259,32 +228,26 @@
       min-width: 140px;
       font-size: 14px;
     }
-
     .controls button:hover {
       transform: translateY(-2px);
       opacity: 0.95;
     }
-
     #check-btn {
       background: linear-gradient(90deg, #2ecc71 0%, #1abc9c 100%);
       color: white;
     }
-
     #hint-btn {
       background-color: #f39c12;
       color: white;
     }
-
     #reset-btn {
       background-color: #e74c3c;
       color: white;
     }
-
     #solution-btn {
       background-color: #3498db;
       color: white;
     }
-
     footer {
       text-align: center;
       padding: 12px;
@@ -292,7 +255,6 @@
       font-size: 13px;
       border-top: 1px solid #f1f2f6;
     }
-
     /* Mobile-specific styles */
     @media (max-width: 768px) {
       body {
@@ -407,7 +369,6 @@
         cursor: pointer;
       }
     }
-
     @media (max-width: 480px) {
       .mobile-words-grid {
         grid-template-columns: 1fr;
@@ -430,7 +391,6 @@
         font-size: 14px;
       }
     }
-
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -441,7 +401,6 @@
         transform: translateY(0);
       }
     }
-
     /* Focus styles for accessibility */
     :focus-visible {
       outline: 3px solid rgba(46, 204, 113, 0.55);
@@ -468,25 +427,24 @@
       <h1>Comparative Adjectives</h1>
       <p>Using "as...as" Structure</p>
     </header>
-
     <div class="instructions">
       <p>Complete the sentences. Drag and drop the correct words from the word bank.</p>
     </div>
-
     <div class="exercise-container">
       <div class="word-bank-container">
         <div class="word-bank" id="word-bank">
           <div class="word-item" draggable="true" data-word="as hot as">as hot as</div>
           <div class="word-item" draggable="true" data-word="aren't as">aren't as</div>
           <div class="word-item" draggable="true" data-word="isn't as">isn't as</div>
-          <div class="word-item" draggable="true" data-word="old as">old as</div>
+          <div class="word-item" draggable="true" data-word="as">as</div>
           <div class="word-item" draggable="true" data-word="as dangerous as">as dangerous as</div>
           <div class="word-item" draggable="true" data-word="as interesting">as interesting</div>
           <div class="word-item" draggable="true" data-word="as fast as">as fast as</div>
           <div class="word-item" draggable="true" data-word="as expensive">as expensive</div>
+          <div class="word-item" draggable="true" data-word="as">as</div>
+          <div class="word-item" draggable="true" data-word="as">as</div>
         </div>
       </div>
-
       <div class="sentences">
         <div class="sentence">1 Classical music <span class="gap" data-correct="isn't as" data-id="1"></span> exciting <span class="gap" data-correct="as" data-id="1b"></span> rock music.</div>
         <div class="sentence">2 The film <span class="gap" data-correct="isn't as" data-id="2"></span> interesting <span class="gap" data-correct="as" data-id="2b"></span> the one I saw last week.</div>
@@ -497,7 +455,6 @@
         <div class="sentence">7 My apartment <span class="gap" data-correct="isn't as" data-id="7"></span> expensive <span class="gap" data-correct="as" data-id="7b"></span> yours. My rent is much cheaper.</div>
         <div class="sentence">8 I'm typing <span class="gap" data-correct="as fast as" data-id="8"></span> I can!</div>
       </div>
-
       <div class="progress-container">
         <div class="progress-bar">
           <div class="progress" id="progress-bar"></div>
@@ -507,15 +464,12 @@
           <span id="progress-text">0%</span>
         </div>
       </div>
-
       <div class="message success" id="success-message">
         Congratulations! All answers are correct.
       </div>
-
       <div class="message error" id="error-message">
         Some answers are incorrect. Please try again.
       </div>
-
       <div class="controls">
         <button id="check-btn">Check answers</button>
         <button id="hint-btn">Hint</button>
@@ -523,12 +477,10 @@
         <button id="solution-btn">Show Solution</button>
       </div>
     </div>
-
     <footer>
       <p>Educasa.pe, 2025</p>
     </footer>
   </div>
-
   <!-- Mobile word selector (hidden by default) -->
   <div class="overlay" id="overlay"></div>
   <div class="mobile-word-selector" id="mobile-word-selector">
@@ -538,7 +490,6 @@
       <!-- Will be populated by JavaScript -->
     </div>
   </div>
-
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Check if we're on a mobile device
@@ -774,8 +725,8 @@
       // Update progress bar and text
       function updateProgress() {
         const progress = (filledGaps / totalGaps) * 100;
-        progressBar.style.width = `${progress}%`;
-        progressText.textContent = `${Math.round(progress)}%`;
+        progressBar.style.width = ${progress}%;
+        progressText.textContent = ${Math.round(progress)}%;
       }
       
       // Check answers
@@ -831,7 +782,7 @@
           
           // Show first letter as hint
           const correctAnswer = gapToHint.dataset.correct;
-          alert(`Hint: The correct word is "${correctAnswer}".`);
+          alert(Hint: The correct word is "${correctAnswer}".);
           
           // Remove highlight after a delay
           setTimeout(() => {
@@ -905,13 +856,11 @@
       const scrollContainer = document.querySelector('.container');
       const SCROLL_SPEED = 25;
       const SCROLL_ZONE = 80;
-
       document.addEventListener('dragover', function(e) {
         if (!scrollContainer || isMobile) return;
         const rect = scrollContainer.getBoundingClientRect();
         const y = e.clientY - rect.top;
         const height = scrollContainer.clientHeight;
-
         if (y < SCROLL_ZONE) {
           scrollContainer.scrollTop -= SCROLL_SPEED;
         } else if (y > height - SCROLL_ZONE) {
