@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life in a Different Town - Writing Exercise</title>
+    <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #333;
+    }
+
+    .container {
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 900px;
+      overflow: hidden;
+    }
+
+    header {
+      background: linear-gradient(90deg, #8e44ad 0%, #9b59b6 100%);
+      color: white;
+      padding: 24px 28px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    header p {
+      opacity: 0.9;
+      font-size: 16px;
+    }
+
+    .content-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .info-panel {
+      flex: 1;
+      min-width: 300px;
+      padding: 20px;
+      background-color: #f8fafc;
+      border-right: 1px solid #e2e8f0;
+    }
+
+    .info-panel h2 {
+      color: #8e44ad;
+      margin-bottom: 15px;
+      font-size: 22px;
+      border-bottom: 2px solid #9b59b6;
+      padding-bottom: 8px;
+    }
+
+    .categories {
+      list-style-type: none;
+      margin: 15px 0;
+    }
+
+    .categories li {
+      margin-bottom: 12px;
+      padding-left: 20px;
+      position: relative;
+      font-weight: 600;
+    }
+
+    .categories li:before {
+      content: "•";
+      color: #9b59b6;
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+    }
+
+    .applicant-notes {
+      margin-top: 25px;
+    }
+
+    .applicant-notes h3 {
+      color: #8e44ad;
+      margin-bottom: 12px;
+      font-size: 18px;
+    }
+
+    .notes-list {
+      list-style-type: none;
+    }
+
+    .notes-list li {
+      margin-bottom: 8px;
+      padding-left: 18px;
+      position: relative;
+      font-size: 15px;
+    }
+
+    .notes-list li:before {
+      content: "▸";
+      color: #9b59b6;
+      position: absolute;
+      left: 0;
+    }
+
+    .exercise-area {
+      flex: 2;
+      min-width: 400px;
+      padding: 20px;
+    }
+
+    .instructions {
+      background-color: #f0e6f5;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 16px;
+      color: #2c3e50;
+      border-left: 4px solid #9b59b6;
+    }
+
+    .text-container {
+      background-color: #f9f9f9;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .story-text {
+      font-size: 17px;
+      color: #333;
+    }
+
+    .gap {
+      padding: 2px 6px;
+      border-bottom: 2px dashed #9b59b6;
+      background-color: rgba(155, 89, 182, 0.1);
+      border-radius: 4px;
+      transition: background-color 0.25s, border-color 0.25s;
+      white-space: nowrap;
+    }
+
+    .gap.active {
+      background-color: rgba(155, 89, 182, 0.2);
+      border-bottom-color: #8e44ad;
+    }
+
+    .gap.filled {
+      background-color: transparent;
+      border-bottom: none;
+      color: #27ae60;
+      font-weight: 600;
+    }
+
+    .progress-container {
+      margin: 18px 0 20px;
+    }
+
+    .progress-bar {
+      height: 10px;
+      background-color: #e2e8f0;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      background: linear-gradient(90deg, #9b59b6 0%, #8e44ad 100%);
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #666;
+      margin-top: 8px;
+    }
+
+    .message {
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      text-align: center;
+      font-weight: 600;
+      display: none;
+    }
+
+    .success {
+      background-color: #d5f4e6;
+      color: #27ae60;
+      border: 1px solid #a3e4c1;
+    }
+
+    .error {
+      background-color: #fadbd8;
+      color: #e74c3c;
+      border: 1px solid #f5b7b1;
+    }
+
+    .input-area {
+      display: flex;
+      gap: 10px;
+      align-items: stretch;
+      margin-bottom: 8px;
+    }
+
+    .field {
+      position: relative;
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    .field label {
+      position: absolute;
+      left: 12px;
+      top: -10px;
+      background: #fff;
+      padding: 0 6px;
+      font-size: 12px;
+      color: #7f8c8d;
+    }
+
+    #word-input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+
+    #word-input:focus {
+      outline: none;
+      border-color: #9b59b6;
+      box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.2);
+    }
+
+    #submit-btn {
+      background: linear-gradient(90deg, #9b59b6 0%, #8e44ad 100%);
+      color: white;
+      border: none;
+      padding: 0 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: transform 0.15s, opacity 0.25s;
+      min-width: 100px;
+    }
+
+    #submit-btn:hover {
+      transform: translateY(-1px);
+      opacity: 0.92;
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .controls button {
+      flex: 1;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: transform 0.15s, opacity 0.25s, background-color 0.25s;
+    }
+
+    .controls button:hover {
+      transform: translateY(-1px);
+      opacity: 0.95;
+    }
+
+    #hint-btn {
+      background-color: #f39c12;
+      color: white;
+    }
+
+    #reset-btn {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    #solution-btn {
+      background-color: #2ecc71;
+      color: white;
+    }
+
+    footer {
+      text-align: center;
+      padding: 16px;
+      color: #7f8c8d;
+      font-size: 14px;
+      border-top: 1px solid #f1f2f6;
+    }
+
+    @media (max-width: 768px) {
+      .content-wrapper {
+        flex-direction: column;
+      }
+      
+      .info-panel {
+        border-right: none;
+        border-bottom: 1px solid #e2e8f0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 24px;
+      }
+
+      .story-text {
+        font-size: 16px;
+      }
+
+      .input-area {
+        flex-direction: column;
+      }
+
+      #submit-btn {
+        width: 100%;
+        padding: 12px 16px;
+      }
+
+      .controls {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Life in a Different Town - Writing Exercise</h1>
+            <p>Complete the description by filling in the missing words</p>
+        </header>
+        
+        <div class="content-wrapper">
+            <div class="info-panel">
+                <h2>Writing Categories</h2>
+                <ul class="categories">
+                    <li>Name</li>
+                    <li>Nationality</li>
+                    <li>Occupation</li>
+                    <li>The City</li>
+                    <li>Weather</li>
+                    <li>Food</li>
+                    <li>Going Home</li>
+                </ul>
+                
+                <div class="applicant-notes">
+                    <h3>About Yukimi:</h3>
+                    <ul class="notes-list">
+                        <li>Japanese student studying in Austin</li>
+                        <li>Capital of Texas</li>
+                        <li>Missed family at first, now not homesick</li>
+                        <li>Charming city with great restaurants</li>
+                        <li>Cool second-hand stores</li>
+                        <li>College town with young people</li>
+                        <li>Hot and dry weather (not like Japan)</li>
+                        <li>Eats more meat (not fish, noodles, fresh vegetables)</li>
+                        <li>Studies finish next year</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="exercise-area">
+                <div class="instructions">
+                    <p>Type the correct word for each blank and press Enter to check your answer.</p>
+                </div>
+                
+                <div class="text-container">
+                    <div class="message success" id="success-message">Correct! Well done.</div>
+                    <div class="message error" id="error-message">Incorrect. Try again.</div>
+                    
+                    <div class="story-text" id="story-text">
+                        My <span class="gap" data-word="name's">______</span> Yukimi. I'm <span class="gap" data-word="from">______</span> Japan, but I'm <span class="gap" data-word="studying">______</span> in Austin, which is the <span class="gap" data-word="capital">______</span> city of Texas.<br><br>
+                        When I first arrived, I deeply <span class="gap" data-word="missed">______</span> my family, but I soon stopped <span class="gap" data-word="feeling">______</span> homesick. I love <span class="gap" data-word="living">______</span> in Austin. It's a <span class="gap" data-word="charming">______</span> city with great restaurants and cool <span class="gap" data-word="second-hand">______</span> stores. It's also a <span class="gap" data-word="college">______</span> town, so it's full of <span class="gap" data-word="young">______</span> people. The nightlife is <span class="gap" data-word="exciting">______</span>, even though <span class="gap" data-word="some">______</span> of the nightclubs are <span class="gap" data-word="old-fashioned">______</span>.<br><br>
+                        The <span class="gap" data-word="weather">______</span> here isn't <span class="gap" data-word="like">______</span> the weather at <span class="gap" data-word="home">______</span> because it's often very <span class="gap" data-word="hot">______</span> and <span class="gap" data-word="dry">______</span>.<br><br>
+                        The <span class="gap" data-word="food">______</span> is <span class="gap" data-word="different">______</span> too. In <span class="gap" data-word="Japan">______</span>, we like <span class="gap" data-word="eating">______</span> a lot of <span class="gap" data-word="fish">______</span>, <span class="gap" data-word="noodles">______</span>, and <span class="gap" data-word="fresh">______</span> vegetables. Here, I eat more <span class="gap" data-word="meat">______</span>.<br><br>
+                        My studies finish <span class="gap" data-word="next">______</span> year and that's when I'm going <span class="gap" data-word="home">______</span>. I'm <span class="gap" data-word="looking">______</span> forward to <span class="gap" data-word="seeing">______</span> my family, but I'd really <span class="gap" data-word="like">______</span> to come back and visit my friends in Austin.
+                    </div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-bar">
+                            <div class="progress" id="progress-bar"></div>
+                        </div>
+                        <div class="progress-text"><span id="progress-text">0</span>/30 words completed</div>
+                    </div>
+                    
+                    <div class="input-area">
+                        <div class="field">
+                            <label for="word-input">Enter word</label>
+                            <input type="text" id="word-input" placeholder="Type a word and press Enter">
+                        </div>
+                        <button id="submit-btn">Submit</button>
+                    </div>
+                    
+                    <div class="controls">
+                        <button id="hint-btn">Hint</button>
+                        <button id="reset-btn">Reset</button>
+                        <button id="solution-btn">Show Solution</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Educasa.pe, 2025</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const gaps = document.querySelectorAll('.gap');
+            const wordInput = document.getElementById('word-input');
+            const submitBtn = document.getElementById('submit-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            const hintBtn = document.getElementById('hint-btn');
+            const solutionBtn = document.getElementById('solution-btn');
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            const successMessage = document.getElementById('success-message');
+            const errorMessage = document.getElementById('error-message');
+            
+            let currentGapIndex = 0;
+            let completedGaps = 0;
+            const totalGaps = gaps.length;
+            
+            // Initialize the exercise
+            function init() {
+                updateProgress();
+                gaps.forEach((gap, index) => {
+                    if (index === 0) {
+                        gap.classList.add('active');
+                    }
+                });
+                wordInput.focus();
+            }
+            
+            // Update progress bar and text
+            function updateProgress() {
+                const progress = (completedGaps / totalGaps) * 100;
+                progressBar.style.width = `${progress}%`;
+                progressText.textContent = completedGaps;
+            }
+            
+            // Check if the entered word is correct
+            function checkWord() {
+                const enteredWord = wordInput.value.trim().toLowerCase();
+                let foundMatch = false;
+                let matchedGaps = [];
+                
+                // Check all gaps for the entered word
+                gaps.forEach((gap, index) => {
+                    const correctWord = gap.getAttribute('data-word').toLowerCase();
+                    
+                    if (enteredWord === correctWord && !gap.classList.contains('filled')) {
+                        foundMatch = true;
+                        matchedGaps.push(index);
+                    }
+                });
+                
+                if (foundMatch) {
+                    // Fill all matching gaps
+                    matchedGaps.forEach(index => {
+                        const matchedGap = gaps[index];
+                        matchedGap.textContent = enteredWord;
+                        matchedGap.classList.add('filled');
+                        matchedGap.classList.remove('active');
+                        
+                        // Update progress for each filled gap
+                        completedGaps++;
+                    });
+                    
+                    updateProgress();
+                    
+                    // Show success message
+                    successMessage.style.display = 'block';
+                    errorMessage.style.display = 'none';
+                    
+                    // If all gaps are filled
+                    if (completedGaps >= totalGaps) {
+                        wordInput.disabled = true;
+                        submitBtn.disabled = true;
+                        successMessage.textContent = 'Congratulations! You completed the description.';
+                    } else {
+                        // Find and activate the next unfilled gap
+                        let nextUnfilledIndex = -1;
+                        for (let i = 0; i < gaps.length; i++) {
+                            if (!gaps[i].classList.contains('filled')) {
+                                nextUnfilledIndex = i;
+                                break;
+                            }
+                        }
+                        
+                        if (nextUnfilledIndex !== -1) {
+                            // Remove active class from all gaps
+                            gaps.forEach(gap => gap.classList.remove('active'));
+                            // Add active class to the next unfilled gap
+                            gaps[nextUnfilledIndex].classList.add('active');
+                            currentGapIndex = nextUnfilledIndex;
+                        }
+                    }
+                    
+                    // Clear input
+                    wordInput.value = '';
+                    wordInput.focus();
+                } else {
+                    // Check if the word is correct but already filled
+                    const isAlreadyFilled = Array.from(gaps).some(gap => {
+                        const correctWord = gap.getAttribute('data-word').toLowerCase();
+                        return enteredWord === correctWord && gap.classList.contains('filled');
+                    });
+                    
+                    if (isAlreadyFilled) {
+                        errorMessage.textContent = 'This word is already filled in.';
+                    } else {
+                        errorMessage.textContent = 'Incorrect. Try again.';
+                    }
+                    
+                    errorMessage.style.display = 'block';
+                    successMessage.style.display = 'none';
+                    wordInput.select();
+                }
+            }
+            
+            // Show hint for current gap
+            function showHint() {
+                const currentGap = gaps[currentGapIndex];
+                const correctWord = currentGap.getAttribute('data-word');
+                const hint = correctWord.substring(0, 1);
+                
+                wordInput.value = hint;
+                wordInput.focus();
+                wordInput.select();
+            }
+            
+            // Show complete solution
+            function showSolution() {
+                gaps.forEach(gap => {
+                    gap.textContent = gap.getAttribute('data-word');
+                    gap.classList.add('filled');
+                    gap.classList.remove('active');
+                });
+                
+                completedGaps = totalGaps;
+                currentGapIndex = totalGaps;
+                updateProgress();
+                
+                wordInput.disabled = true;
+                submitBtn.disabled = true;
+                
+                successMessage.textContent = 'Here is the complete solution.';
+                successMessage.style.display = 'block';
+                errorMessage.style.display = 'none';
+            }
+            
+            // Reset the exercise
+            function resetExercise() {
+                gaps.forEach((gap, index) => {
+                    gap.textContent = '______';
+                    gap.classList.remove('filled', 'active');
+                });
+                
+                // Reset first gap highlight
+                gaps[0].classList.add('active');
+                
+                currentGapIndex = 0;
+                completedGaps = 0;
+                updateProgress();
+                
+                wordInput.value = '';
+                wordInput.disabled = false;
+                submitBtn.disabled = false;
+                
+                successMessage.style.display = 'none';
+                errorMessage.style.display = 'none';
+                
+                wordInput.focus();
+            }
+            
+            // Event listeners
+            submitBtn.addEventListener('click', checkWord);
+            
+            wordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkWord();
+                }
+            });
+            
+            resetBtn.addEventListener('click', resetExercise);
+            
+            hintBtn.addEventListener('click', showHint);
+            
+            solutionBtn.addEventListener('click', showSolution);
+            
+            // Initialize the exercise
+            init();
+        });
+    </script>
+</body>
+</html>
