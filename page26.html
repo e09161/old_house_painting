@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Reservation Dialog Ordering</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e1e4e8;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .instructions {
+            background-color: #e8f4fd;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #2c3e50;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .instructions p {
+            margin-bottom: 10px;
+        }
+        
+        .instructions ul {
+            margin-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 5px;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .dialog-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .dialog-line {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e1e4e8;
+            cursor: move;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+        
+        .dialog-line:hover {
+            background-color: #e9ecef;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .dialog-line.dragging {
+            opacity: 0.5;
+            background-color: #d0ebff;
+        }
+        
+        .audio-btn {
+            background-color: #4a6fa5;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-right: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: background-color 0.2s;
+        }
+        
+        .audio-btn:hover {
+            background-color: #3a5a80;
+        }
+        
+        .dialog-text {
+            flex: 1;
+            font-size: 16px;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        button {
+            background-color: #4a6fa5;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        button:hover {
+            background-color: #3a5a80;
+        }
+        
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            display: none;
+        }
+        
+        .feedback.correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .feedback.incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .hint {
+            font-size: 14px;
+            color: #6c757d;
+            margin-top: 5px;
+            text-align: center;
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            
+            .dialog-text {
+                font-size: 14px;
+            }
+            
+            .audio-btn {
+                width: 35px;
+                height: 35px;
+                margin-right: 10px;
+            }
+            
+            button {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Restaurant Reservation Dialog</h1>
+        <p>Put the conversation in the correct order</p>
+    </header>
+    
+    <div class="instructions">
+        <p><strong>Instructions:</strong></p>
+        <ul>
+            <li>Drag and drop the lines to arrange them in the correct order</li>
+            <li>Click the play button to listen to each line</li>
+            <li>When finished, click "Check Order" to verify your answer</li>
+            <li>Use "Reset" to start over</li>
+        </ul>
+    </div>
+    
+    <div class="container">
+        <div class="dialog-container" id="dialogContainer">
+            <!-- Dialog lines will be inserted here by JavaScript -->
+        </div>
+        
+        <div class="controls">
+            <button id="checkBtn">Check Order</button>
+            <button id="resetBtn">Reset</button>
+        </div>
+        
+        <div class="feedback" id="feedback"></div>
+        <div class="hint" id="hint">Hint: The conversation starts with the receptionist answering the phone</div>
+    </div>
+
+    <script>
+        // Dialog data - each line with text and audio file name
+        const dialogLines = [
+            { text: "Luigi's. Can I help you?", audio: "S1.mp3" },
+            { text: "Yes, I'd like to make a reservation, please.", audio: "S2.mp3" },
+            { text: "Of course. What day?", audio: "S3.mp3" },
+            { text: "Friday, August 15.", audio: "S4.mp3" },
+            { text: "Is that for lunch or dinner?", audio: "S5.mp3" },
+            { text: "Dinner.", audio: "S6.mp3" },
+            { text: "I'm sorry. We have tables for lunch, but there aren't any tables for dinner on the 15th. There's a big party that night.", audio: "S7.mp3" },
+            { text: "Oh. It's my birthday.", audio: "S8.mp3" },
+            { text: "Would you like a different day?", audio: "S9.mp3" },
+            { text: "What about Saturday – Saturday, August 16th?", audio: "S10.mp3" },
+            { text: "For dinner?", audio: "S11.mp3" },
+            { text: "Yes.", audio: "S12.mp3" },
+            { text: "Yes. We have some tables for dinner on Saturday.", audio: "S13.mp3" },
+            { text: "Great.", audio: "S14.mp3" },
+            { text: "How many people?", audio: "S15.mp3" },
+            { text: "Six. Do you have a window table?", audio: "S16.mp3" },
+            { text: "Excuse me?", audio: "S17.mp3" },
+            { text: "Do you have a table near the window with a view of the park?", audio: "S18.mp3" },
+            { text: "Certainly. What time would you like, seven thirty or nine o'clock?", audio: "S19.mp3" },
+            { text: "Er, nine, I think.", audio: "S20.mp3" },
+            { text: "And what's your name?", audio: "S21.mp3" },
+            { text: "Lara Gluck.", audio: "S22.mp3" },
+            { text: "Can you spell that, please?", audio: "S23.mp3" },
+            { text: "L-A-R-A G-L-U-C-K.", audio: "S24.mp3" },
+            { text: "OK. That's a window table for six people at 9:00 p.m. on Saturday, August 16th.", audio: "S25.mp3" },
+            { text: "Thanks. Is there a dress code?", audio: "S26.mp3" },
+            { text: "Yes. No jeans, and we ask men to wear a jacket.", audio: "S27.mp3" },
+            { text: "OK. Oh, and can I pay by credit card?", audio: "S28.mp3" },
+            { text: "Yes, that's no problem. See you Saturday.", audio: "S29.mp3" }
+        ];
+
+        // Shuffle the dialog lines for the exercise
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        // Initialize the exercise
+        function initializeExercise() {
+            const dialogContainer = document.getElementById('dialogContainer');
+            dialogContainer.innerHTML = '';
+            
+            const shuffledLines = shuffleArray(dialogLines);
+            
+            shuffledLines.forEach((line, index) => {
+                const dialogLine = document.createElement('div');
+                dialogLine.className = 'dialog-line';
+                dialogLine.draggable = true;
+                dialogLine.dataset.index = index;
+                dialogLine.dataset.originalIndex = dialogLines.indexOf(line);
+                
+                const audioBtn = document.createElement('button');
+                audioBtn.className = 'audio-btn';
+                audioBtn.innerHTML = '▶';
+                audioBtn.addEventListener('click', () => {
+                    // In a real implementation, this would play the actual audio file
+                    // For this demo, we'll just log which audio would be played
+                    console.log(`Playing audio: ${line.audio}`);
+                    alert(`Playing: ${line.audio}\n\nIn a real implementation, this would play the actual audio file.`);
+                });
+                
+                const dialogText = document.createElement('div');
+                dialogText.className = 'dialog-text';
+                dialogText.textContent = line.text;
+                
+                dialogLine.appendChild(audioBtn);
+                dialogLine.appendChild(dialogText);
+                dialogContainer.appendChild(dialogLine);
+            });
+            
+            // Add drag and drop event listeners
+            setupDragAndDrop();
+            
+            // Reset feedback
+            document.getElementById('feedback').style.display = 'none';
+        }
+
+        // Set up drag and drop functionality
+        function setupDragAndDrop() {
+            const dialogLines = document.querySelectorAll('.dialog-line');
+            let draggedItem = null;
+            
+            dialogLines.forEach(line => {
+                line.addEventListener('dragstart', function() {
+                    draggedItem = this;
+                    setTimeout(() => this.classList.add('dragging'), 0);
+                });
+                
+                line.addEventListener('dragend', function() {
+                    this.classList.remove('dragging');
+                    draggedItem = null;
+                });
+                
+                line.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                });
+                
+                line.addEventListener('dragenter', function(e) {
+                    e.preventDefault();
+                    this.classList.add('dragging-over');
+                });
+                
+                line.addEventListener('dragleave', function() {
+                    this.classList.remove('dragging-over');
+                });
+                
+                line.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('dragging-over');
+                    
+                    if (draggedItem && this !== draggedItem) {
+                        const dialogContainer = document.getElementById('dialogContainer');
+                        const allLines = Array.from(dialogContainer.querySelectorAll('.dialog-line'));
+                        const draggedIndex = allLines.indexOf(draggedItem);
+                        const targetIndex = allLines.indexOf(this);
+                        
+                        if (draggedIndex < targetIndex) {
+                            dialogContainer.insertBefore(draggedItem, this.nextSibling);
+                        } else {
+                            dialogContainer.insertBefore(draggedItem, this);
+                        }
+                    }
+                });
+            });
+        }
+
+        // Check if the order is correct
+        function checkOrder() {
+            const dialogContainer = document.getElementById('dialogContainer');
+            const currentOrder = Array.from(dialogContainer.querySelectorAll('.dialog-line'))
+                .map(line => parseInt(line.dataset.originalIndex));
+            
+            const correctOrder = Array.from({length: dialogLines.length}, (_, i) => i);
+            
+            const isCorrect = JSON.stringify(currentOrder) === JSON.stringify(correctOrder);
+            const feedback = document.getElementById('feedback');
+            
+            if (isCorrect) {
+                feedback.textContent = "Correct! You've arranged the conversation in the right order.";
+                feedback.className = 'feedback correct';
+            } else {
+                feedback.textContent = "Not quite right. Try again or listen to the audio for clues.";
+                feedback.className = 'feedback incorrect';
+            }
+            
+            feedback.style.display = 'block';
+        }
+
+        // Event listeners for buttons
+        document.getElementById('checkBtn').addEventListener('click', checkOrder);
+        document.getElementById('resetBtn').addEventListener('click', initializeExercise);
+
+        // Initialize the exercise when the page loads
+        window.addEventListener('DOMContentLoaded', initializeExercise);
+    </script>
+</body>
+</html>
