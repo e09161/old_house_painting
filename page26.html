@@ -127,27 +127,28 @@
             background-color: #d0ebff;
         }
         
+        /* EXACT COPY OF WORKING BUTTON STYLING */
         .audio-btn {
-            background-color: #4a6fa5;
-            color: white;
-            border: none;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            margin-right: 15px;
-            cursor: pointer;
+            background-color: #3498db;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
-            transition: all 0.2s;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
             flex-shrink: 0;
-            padding: 0;
+            font-size: 1.2rem;
+            border: none;
+            margin-right: 15px;
+            -webkit-touch-callout: none;
         }
         
-        .audio-btn:hover {
-            background-color: #3a5a80;
-            transform: scale(1.05);
+        .audio-btn:hover, .audio-btn:active {
+            background-color: #2980b9;
+            transform: scale(1.1);
         }
         
         .audio-btn.playing {
@@ -240,10 +241,10 @@
             }
             
             .audio-btn {
-                width: 34px;
-                height: 34px;
+                width: 38px;
+                height: 38px;
                 margin-right: 12px;
-                font-size: 13px;
+                font-size: 1.1rem;
             }
             
             button {
@@ -293,9 +294,9 @@
             }
             
             .audio-btn {
-                width: 32px;
-                height: 32px;
-                font-size: 12px;
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
             }
         }
         
@@ -306,13 +307,13 @@
             }
             
             .audio-btn:hover {
-                background-color: #4a6fa5;
+                background-color: #3498db;
                 transform: none;
             }
             
             .audio-btn:active {
-                background-color: #3a5a80;
-                transform: scale(0.95);
+                background-color: #2980b9;
+                transform: scale(1.1);
             }
             
             button:hover {
