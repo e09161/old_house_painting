@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Third Conditional Exercise</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(to right, #4b6cb7, #182848);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .instructions {
+            font-size: 1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .exercise-container {
+            padding: 25px;
+        }
+        
+        .exercise-item {
+            margin-bottom: 25px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+            border-left: 4px solid #4b6cb7;
+        }
+        
+        .exercise-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .sentence {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+        
+        .input-field {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            width: 180px;
+            transition: border-color 0.3s;
+            display: inline-block;
+            margin: 0 5px;
+        }
+        
+        .input-field:focus {
+            border-color: #4b6cb7;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(75, 108, 183, 0.2);
+        }
+        
+        .check-btn {
+            background-color: #4b6cb7;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+            margin-left: 10px;
+        }
+        
+        .check-btn:hover {
+            background-color: #3a559f;
+        }
+        
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: 500;
+            display: none;
+        }
+        
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .example {
+            background-color: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .example-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background-color: #f1f3f5;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .check-all-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        .check-all-btn:hover {
+            background-color: #218838;
+        }
+        
+        .results {
+            text-align: center;
+            padding: 15px;
+            font-weight: 500;
+            display: none;
+            margin: 20px;
+            border-radius: 8px;
+        }
+        
+        .dialogue {
+            margin-left: 20px;
+            color: #555;
+        }
+        
+        @media (max-width: 600px) {
+            .input-field {
+                width: 140px;
+            }
+            
+            .sentence {
+                font-size: 1rem;
+            }
+            
+            .check-btn {
+                margin-left: 0;
+                margin-top: 10px;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Third Conditional Exercise</h1>
+            <p class="instructions">Put the verb into the correct form to complete the third conditional sentences.</p>
+        </header>
+        
+        <div class="exercise-container" id="exerciseContainer">
+            <!-- Exercise items will be generated here -->
+        </div>
+        
+        <div class="results" id="results"></div>
+        
+        <div class="controls">
+            <button class="check-all-btn" id="checkAllBtn">Check All Answers</button>
+        </div>
+    </div>
+
+    <script>
+        // Exercise data
+        const exercises = [
+            {
+                sentence: "I didn't know you were in hospital. If __________ (I / know), __________ (I / go) to see you.",
+                answers: ["I had known", "I would have gone"],
+                hints: ["First blank: past perfect", "Second blank: would have + past participle"]
+            },
+            {
+                sentence: "Sam got to the station just in time to catch the train to the airport. If __________ (he / miss) the train, __________ (he / miss) his flight.",
+                answers: ["he had missed", "he would have missed"],
+                hints: ["First blank: past perfect", "Second blank: would have + past participle"]
+            },
+            {
+                sentence: "I'm glad that you reminded me about Amanda's birthday. __________ (I / forget) if __________ (you / not / remind) me.",
+                answers: ["I would have forgotten", "you hadn't reminded"],
+                hints: ["First blank: would have + past participle", "Second blank: past perfect negative"]
+            },
+            {
+                sentence: "Unfortunately I forgot my address book when I went on holiday. If __________ (I / have) your address, __________ (I / send) you a postcard.",
+                answers: ["I had had", "I would have sent"],
+                hints: ["First blank: past perfect of 'have'", "Second blank: would have + past participle"]
+            },
+            {
+                sentence: `<div class="dialogue">A: How was your holiday? Did you have a nice time?</div>
+                          <div class="dialogue">B: It was OK, but __________ (we / enjoy) it more if __________ (the weather / be) nicer.</div>`,
+                answers: ["we would have enjoyed", "the weather had been"],
+                hints: ["First blank: would have + past participle", "Second blank: past perfect"]
+            },
+            {
+                sentence: "I took a taxi to the hotel, but the traffic was bad. __________ (it / be) quicker if __________ (I / walk).",
+                answers: ["It would have been", "I had walked"],
+                hints: ["First blank: would have + past participle", "Second blank: past perfect"]
+            },
+            {
+                sentence: "I'm not tired. If __________ (I / be) tired, I'd go home now.",
+                answers: ["I were"],
+                hints: ["Second conditional: use simple past for hypothetical situations"]
+            },
+            {
+                sentence: "I wasn't tired last night. If __________ (I / be) tired, I would have gone home earlier.",
+                answers: ["I had been"],
+                hints: ["Third conditional: use past perfect for past hypothetical situations"]
+            }
+        ];
+
+        // Initialize the exercise
+        function initExercise() {
+            const container = document.getElementById('exerciseContainer');
+            container.innerHTML = '';
+            
+            exercises.forEach((exercise, index) => {
+                const exerciseItem = document.createElement('div');
+                exerciseItem.className = 'exercise-item';
+                exerciseItem.id = `exercise-${index}`;
+                
+                // Create sentence with two input fields
+                let sentenceWithInputs = exercise.sentence;
+                sentenceWithInputs = sentenceWithInputs.replace('__________', 
+                    `<input type="text" class="input-field" id="input-${index}-1" placeholder="First answer">`);
+                sentenceWithInputs = sentenceWithInputs.replace('__________', 
+                    `<input type="text" class="input-field" id="input-${index}-2" placeholder="Second answer">`);
+                
+                // For sentences with only one blank
+                if (!sentenceWithInputs.includes('input-')) {
+                    sentenceWithInputs = sentenceWithInputs.replace('__________', 
+                        `<input type="text" class="input-field" id="input-${index}-1" placeholder="Your answer">`);
+                }
+                
+                exerciseItem.innerHTML = `
+                    <div class="sentence">
+                        ${sentenceWithInputs}
+                    </div>
+                    <button class="check-btn" data-index="${index}">Check Answer</button>
+                    <div class="feedback" id="feedback-${index}"></div>
+                `;
+                
+                container.appendChild(exerciseItem);
+            });
+            
+            // Add event listeners to check buttons
+            document.querySelectorAll('.check-btn').forEach(button => {
+                button.addEventListener('click', checkAnswer);
+            });
+            
+            // Add event listeners to input fields for Enter key
+            document.querySelectorAll('.input-field').forEach(input => {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        const index = parseInt(this.id.split('-')[1]);
+                        checkAnswerByIndex(index);
+                    }
+                });
+            });
+            
+            // Add event listener to check all button
+            document.getElementById('checkAllBtn').addEventListener('click', checkAllAnswers);
+        }
+
+        // Check answer for a specific exercise
+        function checkAnswerByIndex(index) {
+            const exercise = exercises[index];
+            const feedback = document.getElementById(`feedback-${index}`);
+            let allCorrect = true;
+            
+            // Check each input field
+            exercise.answers.forEach((answer, answerIndex) => {
+                const input = document.getElementById(`input-${index}-${answerIndex + 1}`);
+                if (!input) return;
+                
+                const userAnswer = input.value.trim().toLowerCase();
+                const correctAnswer = answer.toLowerCase();
+                
+                // Simple normalization for comparison
+                const normalizedUser = userAnswer
+                    .replace(/'/g, '’')
+                    .replace(/\s+/g, ' ')
+                    .replace(/\.$/, '');
+                    
+                const normalizedCorrect = correctAnswer
+                    .replace(/'/g, '’')
+                    .replace(/\s+/g, ' ')
+                    .replace(/\.$/, '');
+                
+                // Flexible matching for contractions and variations
+                const userVariations = [
+                    normalizedUser,
+                    normalizedUser.replace("would not", "wouldn't"),
+                    normalizedUser.replace("wouldn't", "would not"),
+                    normalizedUser.replace("had not", "hadn't"),
+                    normalizedUser.replace("hadn't", "had not")
+                ];
+                
+                if (userVariations.includes(normalizedCorrect) || 
+                    normalizedUser === normalizedCorrect) {
+                    input.style.borderColor = '#28a745';
+                } else {
+                    input.style.borderColor = '#dc3545';
+                    allCorrect = false;
+                }
+            });
+            
+            if (allCorrect) {
+                feedback.textContent = "Correct! Well done.";
+                feedback.className = "feedback correct";
+                feedback.style.display = 'block';
+                return true;
+            } else {
+                feedback.innerHTML = `Incorrect. The correct answer is: <strong>"${exercise.answers.join(' / ')}"</strong>`;
+                feedback.className = "feedback incorrect";
+                feedback.style.display = 'block';
+                return false;
+            }
+        }
+
+        // Check answer when button is clicked
+        function checkAnswer(e) {
+            const index = parseInt(e.target.getAttribute('data-index'));
+            checkAnswerByIndex(index);
+        }
+
+        // Check all answers
+        function checkAllAnswers() {
+            let correctCount = 0;
+            
+            exercises.forEach((exercise, index) => {
+                if (checkAnswerByIndex(index)) {
+                    correctCount++;
+                }
+            });
+            
+            const results = document.getElementById('results');
+            results.textContent = `You got ${correctCount} out of ${exercises.length} correct!`;
+            results.style.display = 'block';
+            
+            if (correctCount === exercises.length) {
+                results.className = 'results correct';
+                results.textContent += " Excellent work!";
+            } else if (correctCount >= exercises.length / 2) {
+                results.className = 'results';
+                results.style.backgroundColor = '#fff3cd';
+                results.style.color = '#856404';
+                results.textContent += " Good job! Keep practicing.";
+            } else {
+                results.className = 'results incorrect';
+                results.textContent += " Don't worry, try again!";
+            }
+            
+            // Scroll to results
+            results.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Initialize the exercise when the page loads
+        document.addEventListener('DOMContentLoaded', initExercise);
+    </script>
+</body>
+</html>
