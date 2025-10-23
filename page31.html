@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Second Conditional - Answering Questions</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(to right, #4b6cb7, #182848);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .instructions {
+            font-size: 1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .exercise-container {
+            padding: 25px;
+        }
+        
+        .exercise-item {
+            margin-bottom: 25px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+            border-left: 4px solid #4b6cb7;
+        }
+        
+        .exercise-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .question-a {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .question-b {
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        
+        .hint {
+            font-size: 0.9rem;
+            color: #6c757d;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+        
+        .input-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: flex-start;
+        }
+        
+        .input-field {
+            flex: 1;
+            min-width: 250px;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .input-field:focus {
+            border-color: #4b6cb7;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(75, 108, 183, 0.2);
+        }
+        
+        .check-btn {
+            background-color: #4b6cb7;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        .check-btn:hover {
+            background-color: #3a559f;
+        }
+        
+        .feedback {
+            margin-top: 10px;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 500;
+            display: none;
+        }
+        
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .example {
+            background-color: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .example-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background-color: #f1f3f5;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .check-all-btn {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        .check-all-btn:hover {
+            background-color: #218838;
+        }
+        
+        .results {
+            text-align: center;
+            padding: 15px;
+            font-weight: 500;
+            display: none;
+            margin: 20px;
+            border-radius: 8px;
+        }
+        
+        @media (max-width: 600px) {
+            .input-container {
+                flex-direction: column;
+            }
+            
+            .input-field {
+                min-width: auto;
+            }
+            
+            .check-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Second Conditional - Answering Questions</h1>
+            <p class="instructions">Answer the questions using the second conditional structure as shown in the example.</p>
+        </header>
+        
+        <div class="exercise-container" id="exerciseContainer">
+            <div class="example">
+                <div class="example-title">Example:</div>
+                <div class="question-a">A: Shall we catch the 10.30 train?</div>
+                <div class="question-b">B: No. (arrive too early)</div>
+                <div><strong>Answer:</strong> If we caught the 10.30 train, we'd arrive too early.</div>
+            </div>
+            <!-- Exercise items will be generated here -->
+        </div>
+        
+        <div class="results" id="results"></div>
+        
+        <div class="controls">
+            <button class="check-all-btn" id="checkAllBtn">Check All Answers</button>
+        </div>
+    </div>
+
+    <script>
+        // Exercise data
+        const exercises = [
+            {
+                questionA: "Is Kevin going to take his driving test?",
+                questionB: "No. (fail)",
+                answer: "If he took his driving test, he would fail",
+                hint: "Use the second conditional structure"
+            },
+            {
+                questionA: "Why don't we stay at a hotel?",
+                questionB: "No. (cost too much)",
+                answer: "If we stayed at a hotel, it would cost too much",
+                hint: "Use the second conditional structure"
+            },
+            {
+                questionA: "Is Sally going to apply for the job?",
+                questionB: "No. (not / get it)",
+                answer: "If she applied for the job, she wouldn't get it",
+                hint: "Use the second conditional structure"
+            },
+            {
+                questionA: "Let's tell them the truth.",
+                questionB: "No. (not / believe us)",
+                answer: "If we told them the truth, they wouldn't believe us",
+                hint: "Use the second conditional structure"
+            },
+            {
+                questionA: "Why don't we invite Bill to the party?",
+                questionB: "No. (have to invite his friends too)",
+                answer: "If we invited Bill to the party, we would have to invite his friends too",
+                hint: "Use the second conditional structure"
+            }
+        ];
+
+        // Initialize the exercise
+        function initExercise() {
+            const container = document.getElementById('exerciseContainer');
+            
+            exercises.forEach((exercise, index) => {
+                const exerciseItem = document.createElement('div');
+                exerciseItem.className = 'exercise-item';
+                exerciseItem.id = `exercise-${index}`;
+                
+                exerciseItem.innerHTML = `
+                    <div class="question-a">A: ${exercise.questionA}</div>
+                    <div class="question-b">B: ${exercise.questionB}</div>
+                    <div class="hint">${exercise.hint}</div>
+                    <div class="input-container">
+                        <input type="text" class="input-field" id="input-${index}" placeholder="Type your answer here...">
+                        <button class="check-btn" data-index="${index}">Check Answer</button>
+                    </div>
+                    <div class="feedback" id="feedback-${index}"></div>
+                `;
+                
+                container.appendChild(exerciseItem);
+            });
+            
+            // Add event listeners to check buttons
+            document.querySelectorAll('.check-btn').forEach(button => {
+                button.addEventListener('click', checkAnswer);
+            });
+            
+            // Add event listeners to input fields for Enter key
+            document.querySelectorAll('.input-field').forEach(input => {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        const index = parseInt(this.id.split('-')[1]);
+                        checkAnswerByIndex(index);
+                    }
+                });
+            });
+            
+            // Add event listener to check all button
+            document.getElementById('checkAllBtn').addEventListener('click', checkAllAnswers);
+        }
+
+        // Check answer for a specific exercise
+        function checkAnswerByIndex(index) {
+            const input = document.getElementById(`input-${index}`);
+            const feedback = document.getElementById(`feedback-${index}`);
+            
+            if (!input) return;
+            
+            const userAnswer = input.value.trim().toLowerCase();
+            const correctAnswer = exercises[index].answer.toLowerCase();
+            
+            // Simple normalization for comparison
+            const normalizedUser = userAnswer
+                .replace(/'/g, '’')
+                .replace(/\s+/g, ' ')
+                .replace(/\.$/, '');
+                
+            const normalizedCorrect = correctAnswer
+                .replace(/'/g, '’')
+                .replace(/\s+/g, ' ')
+                .replace(/\.$/, '');
+            
+            // More flexible matching for contractions
+            const userVariations = [
+                normalizedUser,
+                normalizedUser.replace("would not", "wouldn't"),
+                normalizedUser.replace("wouldn't", "would not")
+            ];
+            
+            if (userVariations.includes(normalizedCorrect) || 
+                normalizedUser === normalizedCorrect) {
+                feedback.textContent = "Correct! Well done.";
+                feedback.className = "feedback correct";
+                feedback.style.display = 'block';
+                input.style.borderColor = '#28a745';
+                return true;
+            } else {
+                feedback.innerHTML = `Incorrect. The correct answer is: <strong>"${exercises[index].answer}"</strong>`;
+                feedback.className = "feedback incorrect";
+                feedback.style.display = 'block';
+                input.style.borderColor = '#dc3545';
+                return false;
+            }
+        }
+
+        // Check answer when button is clicked
+        function checkAnswer(e) {
+            const index = parseInt(e.target.getAttribute('data-index'));
+            checkAnswerByIndex(index);
+        }
+
+        // Check all answers
+        function checkAllAnswers() {
+            let correctCount = 0;
+            
+            exercises.forEach((exercise, index) => {
+                if (checkAnswerByIndex(index)) {
+                    correctCount++;
+                }
+            });
+            
+            const results = document.getElementById('results');
+            results.textContent = `You got ${correctCount} out of ${exercises.length} correct!`;
+            results.style.display = 'block';
+            
+            if (correctCount === exercises.length) {
+                results.className = 'results correct';
+                results.textContent += " Excellent work!";
+            } else if (correctCount >= exercises.length / 2) {
+                results.className = 'results';
+                results.style.backgroundColor = '#fff3cd';
+                results.style.color = '#856404';
+                results.textContent += " Good job! Keep practicing.";
+            } else {
+                results.className = 'results incorrect';
+                results.textContent += " Don't worry, try again!";
+            }
+            
+            // Scroll to results
+            results.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Initialize the exercise when the page loads
+        document.addEventListener('DOMContentLoaded', initExercise);
+    </script>
+</body>
+</html>
