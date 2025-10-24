@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Wish Sentences Exercise</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(to right, #4b6cb7, #182848);
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .instructions {
+            font-size: 1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .exercise-container {
+            padding: 25px;
+        }
+        
+        .exercise-item {
+            margin-bottom: 20px;
+            padding: 18px;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            transition: all 0.3s ease;
+            border-left: 4px solid #3498db;
+        }
+        
+        .exercise-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .sentence {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+        
+        .wish-text {
+            font-weight: 600;
+            color: #e74c3c;
+        }
+        
+        .input-field {
+            padding: 10px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            width: 280px;
+            transition: border-color 0.3s;
+            display: inline-block;
+            margin: 0 5px;
+        }
+        
+        .input-field:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        .check-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+            margin-left: 10px;
+        }
+        
+        .check-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: 500;
+            display: none;
+        }
+        
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .example {
+            background-color: #e8f4fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .example-title {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background-color: #f1f3f5;
+            border-top: 1px solid #dee2e6;
+        }
+        
+        .check-all-btn {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        .check-all-btn:hover {
+            background-color: #219653;
+        }
+        
+        .results {
+            text-align: center;
+            padding: 15px;
+            font-weight: 500;
+            display: none;
+            margin: 20px;
+            border-radius: 8px;
+        }
+        
+        .hint {
+            font-size: 0.9rem;
+            color: #6c757d;
+            font-style: italic;
+            margin-top: 5px;
+        }
+        
+        @media (max-width: 600px) {
+            .input-field {
+                width: 100%;
+                margin: 10px 0;
+            }
+            
+            .check-btn {
+                width: 100%;
+                margin-left: 0;
+                margin-top: 10px;
+            }
+            
+            .sentence {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>I Wish Sentences Exercise</h1>
+            <p class="instructions">Complete each sentence using "I wish" with the correct form of the verb in parentheses.</p>
+        </header>
+        
+        <div class="exercise-container" id="exerciseContainer">
+            <div class="example">
+                <div class="example-title">Examples:</div>
+                <div class="sentence">1. It was a stupid thing to say. <span class="wish-text">I wish I hadn't said it.</span> (I / not / say)</div>
+                <div class="sentence">2. I'm fed up with this rain. <span class="wish-text">I wish it would stop.</span> (it / stop)</div>
+            </div>
+            <!-- Exercise items will be generated here -->
+        </div>
+        
+        <div class="results" id="results"></div>
+        
+        <div class="controls">
+            <button class="check-all-btn" id="checkAllBtn">Check All Answers</button>
+        </div>
+    </div>
+
+    <script>
+        // Exercise data
+        const exercises = [
+            {
+                sentence: "It's a difficult question. I wish __________ the answer.",
+                answer: "I knew",
+                hint: "(I / know)",
+                fullAnswer: "I wish I knew the answer"
+            },
+            {
+                sentence: "I should have listened to you. I wish __________ your advice.",
+                answer: "I had taken",
+                hint: "(I / take)",
+                fullAnswer: "I wish I had taken your advice"
+            },
+            {
+                sentence: "You're lucky to be going away. I wish __________ with you.",
+                answer: "I could come",
+                hint: "(I / can / come)",
+                fullAnswer: "I wish I could come with you"
+            },
+            {
+                sentence: "I have no energy at the moment. I wish __________ so tired.",
+                answer: "I weren't",
+                hint: "(I / not / be)",
+                fullAnswer: "I wish I weren't so tired"
+            },
+            {
+                sentence: "Aren't they ready yet? I wish __________ up.",
+                answer: "they would hurry",
+                hint: "(they / hurry)",
+                fullAnswer: "I wish they would hurry up"
+            },
+            {
+                sentence: "It would be nice to stay here longer. I wish __________ to leave now.",
+                answer: "we didn't have",
+                hint: "(we / not / have)",
+                fullAnswer: "I wish we didn't have to leave now"
+            },
+            {
+                sentence: "When we were in London last year, we didn't have time to see all the things we wanted to see. I wish __________ longer.",
+                answer: "we could have stayed",
+                hint: "(we / can / stay)",
+                fullAnswer: "I wish we could have stayed longer"
+            },
+            {
+                sentence: "It's freezing today. I wish __________ so cold. I hate cold weather.",
+                answer: "it weren't",
+                hint: "(it / not / be)",
+                fullAnswer: "I wish it weren't so cold"
+            },
+            {
+                sentence: "Joe still doesn't know what he wants to do. I wish __________",
+                answer: "he would decide",
+                hint: "(he / decide)",
+                fullAnswer: "I wish he would decide"
+            },
+            {
+                sentence: "I really didn't enjoy the party. I wish __________",
+                answer: "we hadn't gone",
+                hint: "(we / not / go)",
+                fullAnswer: "I wish we hadn't gone"
+            }
+        ];
+
+        // Initialize the exercise
+        function initExercise() {
+            const container = document.getElementById('exerciseContainer');
+            
+            exercises.forEach((exercise, index) => {
+                const exerciseItem = document.createElement('div');
+                exerciseItem.className = 'exercise-item';
+                exerciseItem.id = `exercise-${index}`;
+                
+                exerciseItem.innerHTML = `
+                    <div class="sentence">
+                        ${index + 3}. ${exercise.sentence} 
+                        <div class="hint">${exercise.hint}</div>
+                    </div>
+                    <div class="input-container">
+                        <span class="wish-text">I wish</span>
+                        <input type="text" class="input-field" id="input-${index}" placeholder="complete the sentence">
+                        <button class="check-btn" data-index="${index}">Check Answer</button>
+                    </div>
+                    <div class="feedback" id="feedback-${index}"></div>
+                `;
+                
+                container.appendChild(exerciseItem);
+            });
+            
+            // Add event listeners to check buttons
+            document.querySelectorAll('.check-btn').forEach(button => {
+                button.addEventListener('click', checkAnswer);
+            });
+            
+            // Add event listeners to input fields for Enter key
+            document.querySelectorAll('.input-field').forEach(input => {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        const index = parseInt(this.id.split('-')[1]);
+                        checkAnswerByIndex(index);
+                    }
+                });
+            });
+            
+            // Add event listener to check all button
+            document.getElementById('checkAllBtn').addEventListener('click', checkAllAnswers);
+        }
+
+        // Check answer for a specific exercise
+        function checkAnswerByIndex(index) {
+            const input = document.getElementById(`input-${index}`);
+            const feedback = document.getElementById(`feedback-${index}`);
+            
+            if (!input) return;
+            
+            const userAnswer = input.value.trim().toLowerCase();
+            const correctAnswer = exercises[index].answer.toLowerCase();
+            const fullCorrectAnswer = exercises[index].fullAnswer.toLowerCase();
+            
+            // Simple normalization for comparison
+            const normalizedUser = userAnswer
+                .replace(/'/g, '’')
+                .replace(/\s+/g, ' ')
+                .replace(/\.$/, '');
+                
+            const normalizedCorrect = correctAnswer
+                .replace(/'/g, '’')
+                .replace(/\s+/g, ' ')
+                .replace(/\.$/, '');
+            
+            // Flexible matching for contractions and variations
+            const userVariations = [
+                normalizedUser,
+                normalizedUser.replace("were not", "weren't"),
+                normalizedUser.replace("weren't", "were not"),
+                normalizedUser.replace("had not", "hadn't"),
+                normalizedUser.replace("hadn't", "had not"),
+                normalizedUser.replace("would not", "wouldn't"),
+                normalizedUser.replace("wouldn't", "would not")
+            ];
+            
+            if (userVariations.includes(normalizedCorrect) || 
+                normalizedUser === normalizedCorrect) {
+                feedback.textContent = "Correct! Well done.";
+                feedback.className = "feedback correct";
+                feedback.style.display = 'block';
+                input.style.borderColor = '#27ae60';
+                return true;
+            } else {
+                feedback.innerHTML = `Incorrect. The correct answer is: <strong>"${exercises[index].answer}"</strong>`;
+                feedback.className = "feedback incorrect";
+                feedback.style.display = 'block';
+                input.style.borderColor = '#e74c3c';
+                return false;
+            }
+        }
+
+        // Check answer when button is clicked
+        function checkAnswer(e) {
+            const index = parseInt(e.target.getAttribute('data-index'));
+            checkAnswerByIndex(index);
+        }
+
+        // Check all answers
+        function checkAllAnswers() {
+            let correctCount = 0;
+            
+            exercises.forEach((exercise, index) => {
+                if (checkAnswerByIndex(index)) {
+                    correctCount++;
+                }
+            });
+            
+            const results = document.getElementById('results');
+            results.textContent = `You got ${correctCount} out of ${exercises.length} correct!`;
+            results.style.display = 'block';
+            
+            if (correctCount === exercises.length) {
+                results.className = 'results correct';
+                results.textContent += " Excellent work!";
+            } else if (correctCount >= exercises.length / 2) {
+                results.className = 'results';
+                results.style.backgroundColor = '#fff3cd';
+                results.style.color = '#856404';
+                results.textContent += " Good job! Keep practicing.";
+            } else {
+                results.className = 'results incorrect';
+                results.textContent += " Don't worry, try again!";
+            }
+            
+            // Scroll to results
+            results.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Initialize the exercise when the page loads
+        document.addEventListener('DOMContentLoaded', initExercise);
+    </script>
+</body>
+</html>
