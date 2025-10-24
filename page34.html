@@ -74,7 +74,7 @@
         
         .wish-text {
             font-weight: 600;
-            color: #e74c3c;
+            color: #2c3e50;
         }
         
         .input-field {
@@ -205,14 +205,14 @@
     <div class="container">
         <header>
             <h1>I Wish Sentences Exercise</h1>
-            <p class="instructions">Complete each sentence using "I wish" with the correct form of the verb in parentheses.</p>
+            <p class="instructions">Complete each sentence using the correct form of the verb in parentheses.</p>
         </header>
         
         <div class="exercise-container" id="exerciseContainer">
             <div class="example">
                 <div class="example-title">Examples:</div>
-                <div class="sentence">1. It was a stupid thing to say. <span class="wish-text">I wish I hadn't said it.</span> (I / not / say)</div>
-                <div class="sentence">2. I'm fed up with this rain. <span class="wish-text">I wish it would stop.</span> (it / stop)</div>
+                <div class="sentence">1. It was a stupid thing to say. <span class="wish-text">I wish</span> I <strong>hadn't said</strong> it. (I / not / say)</div>
+                <div class="sentence">2. I'm fed up with this rain. <span class="wish-text">I wish</span> <strong>it would stop</strong>. (it / stop)</div>
             </div>
             <!-- Exercise items will be generated here -->
         </div>
@@ -228,64 +228,54 @@
         // Exercise data
         const exercises = [
             {
-                sentence: "It's a difficult question. I wish __________ the answer.",
+                sentence: "It's a difficult question. <span class='wish-text'>I wish</span> __________ the answer.",
                 answer: "I knew",
-                hint: "(I / know)",
-                fullAnswer: "I wish I knew the answer"
+                hint: "(I / know)"
             },
             {
-                sentence: "I should have listened to you. I wish __________ your advice.",
+                sentence: "I should have listened to you. <span class='wish-text'>I wish</span> __________ your advice.",
                 answer: "I had taken",
-                hint: "(I / take)",
-                fullAnswer: "I wish I had taken your advice"
+                hint: "(I / take)"
             },
             {
-                sentence: "You're lucky to be going away. I wish __________ with you.",
+                sentence: "You're lucky to be going away. <span class='wish-text'>I wish</span> __________ with you.",
                 answer: "I could come",
-                hint: "(I / can / come)",
-                fullAnswer: "I wish I could come with you"
+                hint: "(I / can / come)"
             },
             {
-                sentence: "I have no energy at the moment. I wish __________ so tired.",
+                sentence: "I have no energy at the moment. <span class='wish-text'>I wish</span> __________ so tired.",
                 answer: "I weren't",
-                hint: "(I / not / be)",
-                fullAnswer: "I wish I weren't so tired"
+                hint: "(I / not / be)"
             },
             {
-                sentence: "Aren't they ready yet? I wish __________ up.",
+                sentence: "Aren't they ready yet? <span class='wish-text'>I wish</span> __________ up.",
                 answer: "they would hurry",
-                hint: "(they / hurry)",
-                fullAnswer: "I wish they would hurry up"
+                hint: "(they / hurry)"
             },
             {
-                sentence: "It would be nice to stay here longer. I wish __________ to leave now.",
+                sentence: "It would be nice to stay here longer. <span class='wish-text'>I wish</span> __________ to leave now.",
                 answer: "we didn't have",
-                hint: "(we / not / have)",
-                fullAnswer: "I wish we didn't have to leave now"
+                hint: "(we / not / have)"
             },
             {
-                sentence: "When we were in London last year, we didn't have time to see all the things we wanted to see. I wish __________ longer.",
+                sentence: "When we were in London last year, we didn't have time to see all the things we wanted to see. <span class='wish-text'>I wish</span> __________ longer.",
                 answer: "we could have stayed",
-                hint: "(we / can / stay)",
-                fullAnswer: "I wish we could have stayed longer"
+                hint: "(we / can / stay)"
             },
             {
-                sentence: "It's freezing today. I wish __________ so cold. I hate cold weather.",
+                sentence: "It's freezing today. <span class='wish-text'>I wish</span> __________ so cold. I hate cold weather.",
                 answer: "it weren't",
-                hint: "(it / not / be)",
-                fullAnswer: "I wish it weren't so cold"
+                hint: "(it / not / be)"
             },
             {
-                sentence: "Joe still doesn't know what he wants to do. I wish __________",
+                sentence: "Joe still doesn't know what he wants to do. <span class='wish-text'>I wish</span> __________",
                 answer: "he would decide",
-                hint: "(he / decide)",
-                fullAnswer: "I wish he would decide"
+                hint: "(he / decide)"
             },
             {
-                sentence: "I really didn't enjoy the party. I wish __________",
+                sentence: "I really didn't enjoy the party. <span class='wish-text'>I wish</span> __________",
                 answer: "we hadn't gone",
-                hint: "(we / not / go)",
-                fullAnswer: "I wish we hadn't gone"
+                hint: "(we / not / go)"
             }
         ];
 
@@ -304,9 +294,8 @@
                         <div class="hint">${exercise.hint}</div>
                     </div>
                     <div class="input-container">
-                        <span class="wish-text">I wish</span>
-                        <input type="text" class="input-field" id="input-${index}" placeholder="complete the sentence">
-                        <button class="check-btn" data-index="${index}">Check Answer</button>
+                        <input type="text" class="input-field" id="input-${index}" placeholder="type your answer here">
+                        <button class="check-btn" data-index="${index}">Check</button>
                     </div>
                     <div class="feedback" id="feedback-${index}"></div>
                 `;
@@ -342,7 +331,6 @@
             
             const userAnswer = input.value.trim().toLowerCase();
             const correctAnswer = exercises[index].answer.toLowerCase();
-            const fullCorrectAnswer = exercises[index].fullAnswer.toLowerCase();
             
             // Simple normalization for comparison
             const normalizedUser = userAnswer
