@@ -52,19 +52,6 @@
             padding: 25px;
         }
         
-        .section {
-            margin-bottom: 30px;
-        }
-        
-        .section-title {
-            background: linear-gradient(to right, #3498db, #2980b9);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-        
         .exercise-item {
             margin-bottom: 20px;
             padding: 18px;
@@ -79,39 +66,26 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
         }
         
-        .situation {
+        .sentence {
             font-size: 1.1rem;
-            margin-bottom: 12px;
-            color: #2c3e50;
-            font-weight: 500;
-        }
-        
-        .response {
             margin-bottom: 15px;
-            font-style: italic;
-            color: #7f8c8d;
-        }
-        
-        .input-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            align-items: center;
+            line-height: 1.8;
         }
         
         .wish-text {
             font-weight: 600;
-            color: #e74c3c;
+            color: #2c3e50;
         }
         
         .input-field {
-            flex: 1;
-            min-width: 250px;
             padding: 10px 15px;
             border: 2px solid #ddd;
             border-radius: 8px;
             font-size: 1rem;
+            width: 280px;
             transition: border-color 0.3s;
+            display: inline-block;
+            margin: 0 5px;
         }
         
         .input-field:focus {
@@ -129,6 +103,7 @@
             cursor: pointer;
             font-size: 0.9rem;
             transition: background-color 0.3s;
+            margin-left: 10px;
         }
         
         .check-btn:hover {
@@ -201,17 +176,27 @@
             border-radius: 8px;
         }
         
+        .hint {
+            font-size: 0.9rem;
+            color: #6c757d;
+            font-style: italic;
+            margin-top: 5px;
+        }
+        
         @media (max-width: 600px) {
-            .input-container {
-                flex-direction: column;
-            }
-            
             .input-field {
-                min-width: auto;
+                width: 100%;
+                margin: 10px 0;
             }
             
             .check-btn {
                 width: 100%;
+                margin-left: 0;
+                margin-top: 10px;
+            }
+            
+            .sentence {
+                font-size: 1rem;
             }
         }
     </style>
@@ -220,25 +205,16 @@
     <div class="container">
         <header>
             <h1>I Wish Sentences Exercise</h1>
-            <p class="instructions">Complete the sentences using "I wish... would..." or "I wish... wouldn't..." based on each situation.</p>
+            <p class="instructions">Complete each sentence using the correct form of the verb in parentheses.</p>
         </header>
         
         <div class="exercise-container" id="exerciseContainer">
             <div class="example">
-                <div class="example-title">Example:</div>
-                <div class="situation">It's raining. You want to go out, but not in the rain.</div>
-                <div class="response">You say: <span class="wish-text">I wish it would stop raining.</span></div>
+                <div class="example-title">Examples:</div>
+                <div class="sentence">1. It was a stupid thing to say. <span class="wish-text">I wish</span> <strong>I hadn't said</strong> it. (I / not / say)</div>
+                <div class="sentence">2. I'm fed up with this rain. <span class="wish-text">I wish</span> <strong>it would stop</strong>. (it / stop)</div>
             </div>
-            
-            <div class="section">
-                <div class="section-title">Write sentences with I wish ... would ...</div>
-                <!-- Section 1 items will be generated here -->
-            </div>
-            
-            <div class="section">
-                <div class="section-title">Write sentences with I wish ... wouldn't ...</div>
-                <!-- Section 2 items will be generated here -->
-            </div>
+            <!-- Exercise items will be generated here -->
         </div>
         
         <div class="results" id="results"></div>
@@ -251,64 +227,61 @@
     <script>
         // Exercise data
         const exercises = [
-            // Section 1: I wish ... would ...
             {
-                section: 1,
-                situation: "You're waiting for Jane. She's late and you're getting impatient.",
-                response: "You say to yourself: I wish",
-                answer: "she would come",
-                fullAnswer: "I wish she would come"
+                sentence: "It's a difficult question. <span class='wish-text'>I wish</span> __________ the answer.",
+                answer: "I knew",
+                hint: "(I / know)"
             },
             {
-                section: 1,
-                situation: "You're looking for a job – so far without success. Nobody will give you a job.",
-                response: "You say: I wish somebody",
-                answer: "would give me a job",
-                fullAnswer: "I wish somebody would give me a job"
+                sentence: "I should have listened to you. <span class='wish-text'>I wish</span> __________ your advice.",
+                answer: "I had taken",
+                hint: "(I / take)"
             },
             {
-                section: 1,
-                situation: "You can hear a baby crying. It's been crying for a long time and you're trying to study.",
-                response: "You say:",
-                answer: "I wish the baby would stop crying",
-                fullAnswer: "I wish the baby would stop crying"
+                sentence: "You're lucky to be going away. <span class='wish-text'>I wish</span> __________ with you.",
+                answer: "I could come",
+                hint: "(I / can / come)"
             },
             {
-                section: 1,
-                situation: "Brian has been wearing the same clothes for years. You think he needs some new clothes.",
-                response: "You say to Brian:",
-                answer: "I wish you would buy some new clothes",
-                fullAnswer: "I wish you would buy some new clothes"
-            },
-            // Section 2: I wish ... wouldn't ...
-            {
-                section: 2,
-                situation: "Your friend drives very fast. You don't like this.",
-                response: "You say to your friend: I wish you",
-                answer: "wouldn't drive so fast",
-                fullAnswer: "I wish you wouldn't drive so fast"
+                sentence: "I have no energy at the moment. <span class='wish-text'>I wish</span> __________ so tired.",
+                answer: "I weren't",
+                hint: "(I / not / be)"
             },
             {
-                section: 2,
-                situation: "Joe leaves the door open all the time. This annoys you.",
-                response: "You say to Joe:",
-                answer: "I wish you wouldn't leave the door open all the time",
-                fullAnswer: "I wish you wouldn't leave the door open all the time"
+                sentence: "Aren't they ready yet? <span class='wish-text'>I wish</span> __________ up.",
+                answer: "they would hurry",
+                hint: "(they / hurry)"
             },
             {
-                section: 2,
-                situation: "A lot of people drop litter in the street. You don't like this.",
-                response: "You say: I wish people",
-                answer: "wouldn't drop litter in the street",
-                fullAnswer: "I wish people wouldn't drop litter in the street"
+                sentence: "It would be nice to stay here longer. <span class='wish-text'>I wish</span> __________ to leave now.",
+                answer: "we didn't have",
+                hint: "(we / not / have)"
+            },
+            {
+                sentence: "When we were in London last year, we didn't have time to see all the things we wanted to see. <span class='wish-text'>I wish</span> __________ longer.",
+                answer: "we could have stayed",
+                hint: "(we / can / stay)"
+            },
+            {
+                sentence: "It's freezing today. <span class='wish-text'>I wish</span> __________ so cold. I hate cold weather.",
+                answer: "it weren't",
+                hint: "(it / not / be)"
+            },
+            {
+                sentence: "Joe still doesn't know what he wants to do. <span class='wish-text'>I wish</span> __________",
+                answer: "he would decide",
+                hint: "(he / decide)"
+            },
+            {
+                sentence: "I really didn't enjoy the party. <span class='wish-text'>I wish</span> __________",
+                answer: "we hadn't gone",
+                hint: "(we / not / go)"
             }
         ];
 
         // Initialize the exercise
         function initExercise() {
             const container = document.getElementById('exerciseContainer');
-            const section1 = container.querySelector('.section:nth-child(2)');
-            const section2 = container.querySelector('.section:nth-child(3)');
             
             exercises.forEach((exercise, index) => {
                 const exerciseItem = document.createElement('div');
@@ -316,21 +289,18 @@
                 exerciseItem.id = `exercise-${index}`;
                 
                 exerciseItem.innerHTML = `
-                    <div class="situation">${exercise.situation}</div>
-                    <div class="response">${exercise.response} <span class="wish-text">I wish</span></div>
+                    <div class="sentence">
+                        ${index + 3}. ${exercise.sentence} 
+                        <div class="hint">${exercise.hint}</div>
+                    </div>
                     <div class="input-container">
-                        <input type="text" class="input-field" id="input-${index}" placeholder="Complete the sentence after 'I wish'">
-                        <button class="check-btn" data-index="${index}">Check Answer</button>
+                        <input type="text" class="input-field" id="input-${index}" placeholder="type your answer here">
+                        <button class="check-btn" data-index="${index}">Check</button>
                     </div>
                     <div class="feedback" id="feedback-${index}"></div>
                 `;
                 
-                // Add to appropriate section
-                if (exercise.section === 1) {
-                    section1.appendChild(exerciseItem);
-                } else {
-                    section2.appendChild(exerciseItem);
-                }
+                container.appendChild(exerciseItem);
             });
             
             // Add event listeners to check buttons
@@ -361,7 +331,6 @@
             
             const userAnswer = input.value.trim().toLowerCase();
             const correctAnswer = exercises[index].answer.toLowerCase();
-            const fullCorrectAnswer = exercises[index].fullAnswer.toLowerCase();
             
             // Simple normalization for comparison
             const normalizedUser = userAnswer
@@ -374,19 +343,19 @@
                 .replace(/\s+/g, ' ')
                 .replace(/\.$/, '');
             
-            // Check if user included "I wish" or just the continuation
-            let isCorrect = false;
-            if (normalizedUser === normalizedCorrect) {
-                isCorrect = true;
-            } else if (userAnswer.includes("i wish")) {
-                // If user included "I wish", check against full answer
-                const userWithoutIWish = userAnswer.replace("i wish", "").trim();
-                if (userWithoutIWish === correctAnswer) {
-                    isCorrect = true;
-                }
-            }
+            // Flexible matching for contractions and variations
+            const userVariations = [
+                normalizedUser,
+                normalizedUser.replace("were not", "weren't"),
+                normalizedUser.replace("weren't", "were not"),
+                normalizedUser.replace("had not", "hadn't"),
+                normalizedUser.replace("hadn't", "had not"),
+                normalizedUser.replace("would not", "wouldn't"),
+                normalizedUser.replace("wouldn't", "would not")
+            ];
             
-            if (isCorrect) {
+            if (userVariations.includes(normalizedCorrect) || 
+                normalizedUser === normalizedCorrect) {
                 feedback.textContent = "Correct! Well done.";
                 feedback.className = "feedback correct";
                 feedback.style.display = 'block';
