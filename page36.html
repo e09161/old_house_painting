@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grammar Exercise - Mixed Tenses Review</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #333;
+    }
+
+    .container {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 800px;
+      overflow: hidden;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    header {
+      background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+      color: white;
+      padding: 25px 30px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    header p {
+      opacity: 0.9;
+      font-size: 17px;
+    }
+
+    .instructions {
+      background-color: #f0f4ff;
+      padding: 15px 25px;
+      border-bottom: 1px solid #e1e8ff;
+      font-size: 16px;
+      color: #555;
+    }
+
+    .explanation {
+      background-color: #f9f9f9;
+      padding: 15px 25px;
+      border-bottom: 1px solid #e1e8ff;
+      font-size: 15px;
+      color: #555;
+    }
+
+    .explanation h3 {
+      color: #4b6cb7;
+      margin-bottom: 8px;
+    }
+
+    .tenses-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .tense-item {
+      background: #eef2ff;
+      padding: 8px;
+      border-radius: 6px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .exercise-container {
+      padding: 25px 30px 30px;
+    }
+
+    .sentences {
+      margin: 20px 0;
+    }
+
+    .sentence {
+      margin-bottom: 22px;
+      font-size: 18px;
+      line-height: 1.6;
+      padding: 15px;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+      background-color: #f9f9f9;
+      border-left: 4px solid transparent;
+    }
+
+    .sentence:hover {
+      background-color: #f0f0f0;
+    }
+
+    .sentence.correct {
+      border-left-color: #4CAF50;
+      background-color: #f1f8e9;
+    }
+
+    .sentence.incorrect {
+      border-left-color: #f44336;
+      background-color: #ffebee;
+    }
+
+    select {
+      padding: 8px 12px;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      font-size: 16px;
+      background-color: white;
+      cursor: pointer;
+      transition: all 0.3s;
+      min-width: 120px;
+      margin: 0 5px;
+    }
+
+    select:focus {
+      outline: none;
+      border-color: #4b6cb7;
+      box-shadow: 0 0 0 3px rgba(75, 108, 183, 0.2);
+    }
+
+    select.correct {
+      border-color: #4CAF50;
+      background-color: #e8f5e9;
+    }
+
+    select.incorrect {
+      border-color: #f44336;
+      background-color: #ffebee;
+    }
+
+    .progress-container {
+      margin: 25px 0 20px;
+    }
+
+    .progress-bar {
+      height: 12px;
+      background-color: #f1f2f6;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #666;
+      margin-top: 8px;
+    }
+
+    .message {
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      text-align: center;
+      font-weight: 600;
+      display: none;
+      animation: fadeIn 0.5s;
+    }
+
+    .success {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      border: 1px solid #c8e6c9;
+    }
+
+    .error {
+      background-color: #ffebee;
+      color: #c62828;
+      border: 1px solid #ffcdd2;
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .controls button {
+      padding: 14px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: transform 0.15s, opacity 0.25s, background-color 0.25s;
+      min-width: 160px;
+      font-size: 16px;
+    }
+
+    .controls button:hover {
+      transform: translateY(-2px);
+      opacity: 0.95;
+    }
+
+    #check-btn {
+      background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+      color: white;
+    }
+
+    #reset-btn {
+      background-color: #757575;
+      color: white;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      color: #777;
+      font-size: 14px;
+      border-top: 1px solid #f1f2f6;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive styles */
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+        display: block;
+      }
+      
+      .container {
+        border-radius: 10px;
+      }
+      
+      header {
+        padding: 20px;
+      }
+      
+      h1 {
+        font-size: 24px;
+      }
+      
+      header p {
+        font-size: 16px;
+      }
+      
+      .instructions, .explanation {
+        padding: 12px 20px;
+        font-size: 15px;
+      }
+      
+      .tenses-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .exercise-container {
+        padding: 20px;
+      }
+      
+      .sentence {
+        font-size: 17px;
+        margin-bottom: 18px;
+      }
+      
+      select {
+        min-width: 100px;
+        font-size: 15px;
+      }
+      
+      .controls {
+        flex-direction: column;
+      }
+      
+      .controls button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Grammar — Mixed Tenses Review</h1>
+      <p>Complete the sentences with the correct auxiliary verbs and verb forms.</p>
+    </header>
+
+    <div class="instructions">
+      <p>Select the correct auxiliary verb and main verb form for each sentence. Pay attention to time expressions and context clues.</p>
+    </div>
+
+    <div class="explanation">
+      <h3>Tenses Covered in This Exercise</h3>
+      <div class="tenses-grid">
+        <div class="tense-item">Present Simple</div>
+        <div class="tense-item">Present Continuous</div>
+        <div class="tense-item">Present Perfect</div>
+        <div class="tense-item">Past Simple</div>
+        <div class="tense-item">Past Continuous</div>
+        <div class="tense-item">Past Perfect</div>
+        <div class="tense-item">Future Simple</div>
+        <div class="tense-item">Future Continuous</div>
+        <div class="tense-item">Future Perfect</div>
+      </div>
+    </div>
+
+    <div class="exercise-container">
+      <div class="sentences">
+        <div class="sentence" id="sentence1">
+          1. By next month, I <select id="q1a">
+            <option value="">-- Select --</option>
+            <option value="will have">will have</option>
+            <option value="will">will</option>
+            <option value="have">have</option>
+            <option value="am">am</option>
+          </select> <select id="q1b">
+            <option value="">-- Select --</option>
+            <option value="worked">worked</option>
+            <option value="working">working</option>
+            <option value="work">work</option>
+            <option value="works">works</option>
+          </select> at this company for five years.
+        </div>
+
+        <div class="sentence" id="sentence2">
+          2. She <select id="q2a">
+            <option value="">-- Select --</option>
+            <option value="has been">has been</option>
+            <option value="is">is</option>
+            <option value="was">was</option>
+            <option value="will be">will be</option>
+          </select> <select id="q2b">
+            <option value="">-- Select --</option>
+            <option value="studying">studying</option>
+            <option value="studied">studied</option>
+            <option value="study">study</option>
+            <option value="studies">studies</option>
+          </select> English for three hours when I called her.
+        </div>
+
+        <div class="sentence" id="sentence3">
+          3. If it <select id="q3a">
+            <option value="">-- Select --</option>
+            <option value="rains">rains</option>
+            <option value="will rain">will rain</option>
+            <option value="rained">rained</option>
+            <option value="is raining">is raining</option>
+          </select> tomorrow, we <select id="q3b">
+            <option value="">-- Select --</option>
+            <option value="will cancel">will cancel</option>
+            <option value="cancel">cancel</option>
+            <option value="would cancel">would cancel</option>
+            <option value="are canceling">are canceling</option>
+          </select> the picnic.
+        </div>
+
+        <div class="sentence" id="sentence4">
+          4. When I arrived at the party, everyone <select id="q4a">
+            <option value="">-- Select --</option>
+            <option value="was">was</option>
+            <option value="had">had</option>
+            <option value="has">has</option>
+            <option value="is">is</option>
+          </select> already <select id="q4b">
+            <option value="">-- Select --</option>
+            <option value="left">left</option>
+            <option value="leaving">leaving</option>
+            <option value="leave">leave</option>
+            <option value="been leaving">been leaving</option>
+          </select>.
+        </div>
+
+        <div class="sentence" id="sentence5">
+          5. This time next week, we <select id="q5a">
+            <option value="">-- Select --</option>
+            <option value="will be">will be</option>
+            <option value="are">are</option>
+            <option value="were">were</option>
+            <option value="have been">have been</option>
+          </select> <select id="q5b">
+            <option value="">-- Select --</option>
+            <option value="sitting">sitting</option>
+            <option value="sit">sit</option>
+            <option value="sat">sat</option>
+            <option value="sits">sits</option>
+          </select> on a beach in Hawaii.
+        </div>
+
+        <div class="sentence" id="sentence6">
+          6. He <select id="q6a">
+            <option value="">-- Select --</option>
+            <option value="has">has</option>
+            <option value="had">had</option>
+            <option value="is">is</option>
+            <option value="was">was</option>
+          </select> never <select id="q6b">
+            <option value="">-- Select --</option>
+            <option value="been">been</option>
+            <option value="being">being</option>
+            <option value="be">be</option>
+            <option value="was">was</option>
+          </select> to Japan, but he hopes to go next year.
+        </div>
+
+        <div class="sentence" id="sentence7">
+          7. By the time you receive this letter, I <select id="q7a">
+            <option value="">-- Select --</option>
+            <option value="will have">will have</option>
+            <option value="will">will</option>
+            <option value="have">have</option>
+            <option value="am">am</option>
+          </select> already <select id="q7b">
+            <option value="">-- Select --</option>
+            <option value="left">left</option>
+            <option value="leaving">leaving</option>
+            <option value="leave">leave</option>
+            <option value="been leaving">been leaving</option>
+          </select> the country.
+        </div>
+
+        <div class="sentence" id="sentence8">
+          8. While I <select id="q8a">
+            <option value="">-- Select --</option>
+            <option value="was walking">was walking</option>
+            <option value="walked">walked</option>
+            <option value="am walking">am walking</option>
+            <option value="had walked">had walked</option>
+          </select> home yesterday, I <select id="q8b">
+            <option value="">-- Select --</option>
+            <option value="saw">saw</option>
+            <option value="was seeing">was seeing</option>
+            <option value="have seen">have seen</option>
+            <option value="see">see</option>
+          </select> an old friend from school.
+        </div>
+
+        <div class="sentence" id="sentence9">
+          9. She <select id="q9a">
+            <option value="">-- Select --</option>
+            <option value="has been">has been</option>
+            <option value="is">is</option>
+            <option value="was">was</option>
+            <option value="will be">will be</option>
+          </select> <select id="q9b">
+            <option value="">-- Select --</option>
+            <option value="working">working</option>
+            <option value="worked">worked</option>
+            <option value="work">work</option>
+            <option value="works">works</option>
+          </select> on that project since January.
+        </div>
+
+        <div class="sentence" id="sentence10">
+          10. If he <select id="q10a">
+            <option value="">-- Select --</option>
+            <option value="had studied">had studied</option>
+            <option value="studied">studied</option>
+            <option value="would study">would study</option>
+            <option value="has studied">has studied</option>
+          </select> harder, he <select id="q10b">
+            <option value="">-- Select --</option>
+            <option value="would have passed">would have passed</option>
+            <option value="passed">passed</option>
+            <option value="would pass">would pass</option>
+            <option value="had passed">had passed</option>
+          </select> the exam.
+        </div>
+      </div>
+
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress" id="progress-bar"></div>
+        </div>
+        <div class="progress-text">
+          <span>Progress</span>
+          <span id="progress-text">0%</span>
+        </div>
+      </div>
+
+      <div class="message success" id="success-message">
+        Excellent! All answers are correct. You have a good understanding of English tenses.
+      </div>
+
+      <div class="message error" id="error-message">
+        Some answers are incorrect. Review the tenses and try again.
+      </div>
+
+      <div class="controls">
+        <button id="check-btn">Check answers</button>
+        <button id="reset-btn">Reset</button>
+      </div>
+    </div>
+
+    <footer>
+      <p>Grammar Exercise • Mixed Tenses Review (Upper-Intermediate)</p>
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get DOM elements
+      const sentences = document.querySelectorAll('.sentence');
+      const selects = document.querySelectorAll('select');
+      const progressBar = document.getElementById('progress-bar');
+      const progressText = document.getElementById('progress-text');
+      const successMessage = document.getElementById('success-message');
+      const errorMessage = document.getElementById('error-message');
+      const checkBtn = document.getElementById('check-btn');
+      const resetBtn = document.getElementById('reset-btn');
+      
+      // Correct answers
+      const correctAnswers = {
+        q1a: 'will have',
+        q1b: 'worked',
+        q2a: 'had been',
+        q2b: 'studying',
+        q3a: 'rains',
+        q3b: 'will cancel',
+        q4a: 'had',
+        q4b: 'left',
+        q5a: 'will be',
+        q5b: 'sitting',
+        q6a: 'has',
+        q6b: 'been',
+        q7a: 'will have',
+        q7b: 'left',
+        q8a: 'was walking',
+        q8b: 'saw',
+        q9a: 'has been',
+        q9b: 'working',
+        q10a: 'had studied',
+        q10b: 'would have passed'
+      };
+      
+      let answeredQuestions = 0;
+      const totalQuestions = selects.length;
+      let hasCheckedAnswers = false;
+      
+      // Initialize progress
+      updateProgress();
+      
+      // Add event listeners to selects
+      selects.forEach(select => {
+        select.addEventListener('change', function() {
+          // Remove previous styling when user changes answer
+          if (hasCheckedAnswers) {
+            this.classList.remove('correct', 'incorrect');
+            const sentenceId = this.id.substring(0, 2); // Get q1, q2, etc.
+            document.getElementById(`sentence${sentenceId.substring(1)}`).classList.remove('correct', 'incorrect');
+          }
+          
+          // Update progress
+          updateProgress();
+          
+          // Hide messages when user makes changes
+          successMessage.style.display = 'none';
+          errorMessage.style.display = 'none';
+          hasCheckedAnswers = false;
+        });
+      });
+      
+      // Update progress bar and text
+      function updateProgress() {
+        answeredQuestions = 0;
+        selects.forEach(select => {
+          if (select.value !== '') {
+            answeredQuestions++;
+          }
+        });
+        
+        const progress = (answeredQuestions / totalQuestions) * 100;
+        progressBar.style.width = `${progress}%`;
+        progressText.textContent = `${Math.round(progress)}%`;
+      }
+      
+      // Check answers
+      function checkAnswers() {
+        let allCorrect = true;
+        let allAnswered = true;
+        
+        selects.forEach(select => {
+          const questionId = select.id;
+          const userAnswer = select.value;
+          const correctAnswer = correctAnswers[questionId];
+          const sentenceId = questionId.substring(0, 2); // Get q1, q2, etc.
+          const sentence = document.getElementById(`sentence${sentenceId.substring(1)}`);
+          
+          if (userAnswer === '') {
+            allAnswered = false;
+            select.classList.remove('correct', 'incorrect');
+            sentence.classList.remove('correct', 'incorrect');
+          } else if (userAnswer === correctAnswer) {
+            select.classList.add('correct');
+            select.classList.remove('incorrect');
+            sentence.classList.add('correct');
+            sentence.classList.remove('incorrect');
+          } else {
+            select.classList.add('incorrect');
+            select.classList.remove('correct');
+            sentence.classList.add('incorrect');
+            sentence.classList.remove('correct');
+            allCorrect = false;
+          }
+        });
+        
+        if (!allAnswered) {
+          errorMessage.textContent = 'Please answer all questions before checking.';
+          errorMessage.style.display = 'block';
+          successMessage.style.display = 'none';
+        } else if (allCorrect) {
+          successMessage.style.display = 'block';
+          errorMessage.style.display = 'none';
+        } else {
+          errorMessage.textContent = 'Some answers are incorrect. Review the tenses and try again.';
+          errorMessage.style.display = 'block';
+          successMessage.style.display = 'none';
+        }
+        
+        hasCheckedAnswers = true;
+      }
+      
+      // Handle check button click
+      checkBtn.addEventListener('click', checkAnswers);
+      
+      // Handle reset button click
+      resetBtn.addEventListener('click', function() {
+        selects.forEach(select => {
+          select.value = '';
+          select.classList.remove('correct', 'incorrect');
+          const sentenceId = select.id.substring(0, 2); // Get q1, q2, etc.
+          document.getElementById(`sentence${sentenceId.substring(1)}`).classList.remove('correct', 'incorrect');
+        });
+        
+        answeredQuestions = 0;
+        updateProgress();
+        successMessage.style.display = 'none';
+        errorMessage.style.display = 'none';
+        hasCheckedAnswers = false;
+      });
+    });
+  </script>
+</body>
+</html>
