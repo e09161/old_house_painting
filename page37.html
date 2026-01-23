@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grammar Exercise - Possessive Case & Contractions</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #333;
+    }
+
+    .container {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 900px;
+      overflow: hidden;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    header {
+      background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+      color: white;
+      padding: 25px 30px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    header p {
+      opacity: 0.9;
+      font-size: 17px;
+    }
+
+    .instructions {
+      background-color: #f0f4ff;
+      padding: 15px 25px;
+      border-bottom: 1px solid #e1e8ff;
+      font-size: 16px;
+      color: #555;
+    }
+
+    .instructions p {
+      margin-bottom: 8px;
+    }
+
+    .warning {
+      background-color: #fff8e1;
+      border-left: 4px solid #ffc107;
+      padding: 10px 15px;
+      margin-top: 10px;
+      font-size: 15px;
+    }
+
+    .rules-section {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      padding: 20px 25px;
+      border-bottom: 1px solid #e1e8ff;
+      background-color: #f9f9f9;
+    }
+
+    .rules-column h3 {
+      color: #4b6cb7;
+      margin-bottom: 12px;
+      font-size: 18px;
+    }
+
+    .rules-column ul {
+      list-style-type: none;
+      padding-left: 5px;
+    }
+
+    .rules-column li {
+      margin-bottom: 10px;
+      padding-left: 20px;
+      position: relative;
+      font-size: 15px;
+    }
+
+    .rules-column li:before {
+      content: "•";
+      color: #4b6cb7;
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+    }
+
+    .example-box {
+      background-color: #eef2ff;
+      padding: 12px;
+      border-radius: 6px;
+      margin-top: 5px;
+      font-size: 14px;
+    }
+
+    .highlight {
+      background-color: #fffacd;
+      padding: 2px 4px;
+      border-radius: 3px;
+      font-weight: 600;
+    }
+
+    .exercise-container {
+      padding: 25px 30px 30px;
+    }
+
+    .section-title {
+      color: #4b6cb7;
+      margin: 20px 0 15px;
+      font-size: 20px;
+      border-bottom: 2px solid #eef2ff;
+      padding-bottom: 8px;
+    }
+
+    .sentences {
+      margin: 10px 0;
+    }
+
+    .sentence {
+      margin-bottom: 22px;
+      font-size: 18px;
+      line-height: 1.6;
+      padding: 15px;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+      background-color: #f9f9f9;
+      border-left: 4px solid transparent;
+    }
+
+    .sentence:hover {
+      background-color: #f0f0f0;
+    }
+
+    .sentence.correct {
+      border-left-color: #4CAF50;
+      background-color: #f1f8e9;
+    }
+
+    .sentence.incorrect {
+      border-left-color: #f44336;
+      background-color: #ffebee;
+    }
+
+    select {
+      padding: 8px 12px;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      font-size: 16px;
+      background-color: white;
+      cursor: pointer;
+      transition: all 0.3s;
+      min-width: 120px;
+      margin: 0 5px;
+    }
+
+    select:focus {
+      outline: none;
+      border-color: #4b6cb7;
+      box-shadow: 0 0 0 3px rgba(75, 108, 183, 0.2);
+    }
+
+    select.correct {
+      border-color: #4CAF50;
+      background-color: #e8f5e9;
+    }
+
+    select.incorrect {
+      border-color: #f44336;
+      background-color: #ffebee;
+    }
+
+    .progress-container {
+      margin: 25px 0 20px;
+    }
+
+    .progress-bar {
+      height: 12px;
+      background-color: #f1f2f6;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #666;
+      margin-top: 8px;
+    }
+
+    .message {
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      text-align: center;
+      font-weight: 600;
+      display: none;
+      animation: fadeIn 0.5s;
+    }
+
+    .success {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      border: 1px solid #c8e6c9;
+    }
+
+    .error {
+      background-color: #ffebee;
+      color: #c62828;
+      border: 1px solid #ffcdd2;
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .controls button {
+      padding: 14px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: transform 0.15s, opacity 0.25s, background-color 0.25s;
+      min-width: 160px;
+      font-size: 16px;
+    }
+
+    .controls button:hover {
+      transform: translateY(-2px);
+      opacity: 0.95;
+    }
+
+    #check-btn {
+      background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+      color: white;
+    }
+
+    #reset-btn {
+      background-color: #757575;
+      color: white;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      color: #777;
+      font-size: 14px;
+      border-top: 1px solid #f1f2f6;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+        display: block;
+      }
+      
+      .container {
+        border-radius: 10px;
+      }
+      
+      header {
+        padding: 20px;
+      }
+      
+      h1 {
+        font-size: 24px;
+      }
+      
+      header p {
+        font-size: 16px;
+      }
+      
+      .rules-section {
+        grid-template-columns: 1fr;
+        padding: 15px 20px;
+      }
+      
+      .exercise-container {
+        padding: 20px;
+      }
+      
+      .sentence {
+        font-size: 17px;
+        margin-bottom: 18px;
+      }
+      
+      select {
+        min-width: 100px;
+        font-size: 15px;
+        margin: 5px 0;
+        display: block;
+      }
+      
+      .controls {
+        flex-direction: column;
+      }
+      
+      .controls button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Grammar — Possessive Case & Contractions</h1>
+      <p>Choose the correct form: possessive case or contraction of "is"</p>
+    </header>
+
+    <div class="instructions">
+      <p>Select the correct form for each sentence. Pay attention to context to determine if it's a possessive form (showing ownership) or a contraction of "is".</p>
+      <div class="warning">
+        <strong>Important:</strong> The form "'s" can mean two different things: 1) possessive (John's car = the car of John) or 2) contraction of "is" (John's here = John is here).
+      </div>
+    </div>
+
+    <div class="rules-section">
+      <div class="rules-column">
+        <h3>Possessive Forms</h3>
+        <ul>
+          <li><strong>Singular nouns:</strong> add <span class="highlight">'s</span>
+            <div class="example-box">John's computer, the cat's tail</div>
+          </li>
+          <li><strong>Plural nouns ending in s:</strong> add <span class="highlight">'</span>
+            <div class="example-box">my parents' house, the girls' room</div>
+          </li>
+          <li><strong>Irregular plurals:</strong> add <span class="highlight">'s</span>
+            <div class="example-box">children's toys, women's rights</div>
+          </li>
+          <li><strong>Names ending in s:</strong> usually add <span class="highlight">'s</span> (or just <span class="highlight">'</span>)
+            <div class="example-box">James's book OR James' book</div>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="rules-column">
+        <h3>Contractions of "Is"</h3>
+        <ul>
+          <li><strong>Noun/Name + 's = is</strong>
+            <div class="example-box">John's here = John is here</div>
+          </li>
+          <li><strong>Pronoun + 's = is</strong>
+            <div class="example-box">He's happy = He is happy</div>
+          </li>
+          <li><strong>Question word + 's = is</strong>
+            <div class="example-box">What's that? = What is that?</div>
+          </li>
+          <li><strong>There + 's = There is</strong>
+            <div class="example-box">There's a problem = There is a problem</div>
+          </li>
+          <li><strong>That + 's = That is</strong>
+            <div class="example-box">That's mine = That is mine</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exercise-container">
+      <h3 class="section-title">Part 1: Choose the Correct Possessive Form</h3>
+      <div class="sentences">
+        <div class="sentence" id="sentence1">
+          1. All the <select id="q1">
+            <option value="">-- Select --</option>
+            <option value="students">students</option>
+            <option value="student's">student's</option>
+            <option value="students'">students'</option>
+          </select> lockers are in the hallway.
+        </div>
+
+        <div class="sentence" id="sentence2">
+          2. I need to buy some <select id="q2">
+            <option value="">-- Select --</option>
+            <option value="children">children</option>
+            <option value="children's">children's</option>
+            <option value="childrens'">childrens'</option>
+          </select> books for the library.
+        </div>
+
+        <div class="sentence" id="sentence3">
+          3. This is my <select id="q3">
+            <option value="">-- Select --</option>
+            <option value="boss">boss</option>
+            <option value="bosses">bosses</option>
+            <option value="boss's">boss's</option>
+            <option value="bosses'">bosses'</option>
+          </select> office. She works here every day.
+        </div>
+
+        <div class="sentence" id="sentence4">
+          4. The <select id="q4">
+            <option value="">-- Select --</option>
+            <option value="women">women</option>
+            <option value="womans">womans</option>
+            <option value="women's">women's</option>
+          </select> department is on the third floor.
+        </div>
+      </div>
+
+      <h3 class="section-title">Part 2: Possessive or Contraction of "Is"?</h3>
+      <div class="sentences">
+        <div class="sentence" id="sentence5">
+          5. <select id="q5">
+            <option value="">-- Select --</option>
+            <option value="Johns">Johns</option>
+            <option value="John's">John's</option>
+            <option value="Johns'">Johns'</option>
+          </select> coming to the party tonight. (John is coming)
+        </div>
+
+        <div class="sentence" id="sentence6">
+          6. I need to return <select id="q6">
+            <option value="">-- Select --</option>
+            <option value="Johns">Johns</option>
+            <option value="John's">John's</option>
+            <option value="Johns'">Johns'</option>
+          </select> book that I borrowed. (the book of John)
+        </div>
+
+        <div class="sentence" id="sentence7">
+          7. <select id="q7">
+            <option value="">-- Select --</option>
+            <option value="My brothers">My brothers</option>
+            <option value="My brother's">My brother's</option>
+            <option value="My brothers'">My brothers'</option>
+          </select> a doctor at the local hospital. (My brother is a doctor)
+        </div>
+
+        <div class="sentence" id="sentence8">
+          8. I'm going to <select id="q8">
+            <option value="">-- Select --</option>
+            <option value="my brothers">my brothers</option>
+            <option value="my brother's">my brother's</option>
+            <option value="my brothers'">my brothers'</option>
+          </select> house for dinner. (the house of my brother)
+        </div>
+
+        <div class="sentence" id="sentence9">
+          9. <select id="q9">
+            <option value="">-- Select --</option>
+            <option value="Thats">Thats</option>
+            <option value="That's">That's</option>
+            <option value="Thats'">Thats'</option>
+          </select> a great idea! (That is a great idea)
+        </div>
+
+        <div class="sentence" id="sentence10">
+          10. Look at <select id="q10">
+            <option value="">-- Select --</option>
+            <option value="that cats">that cats</option>
+            <option value="that cat's">that cat's</option>
+            <option value="that cats'">that cats'</option>
+          </select> tail! It's so fluffy. (the tail of that cat)
+        </div>
+
+        <div class="sentence" id="sentence11">
+          11. <select id="q11">
+            <option value="">-- Select --</option>
+            <option value="The dogs">The dogs</option>
+            <option value="The dog's">The dog's</option>
+            <option value="The dogs'">The dogs'</option>
+          </select> barking at the mailman. (The dog is barking)
+        </div>
+
+        <div class="sentence" id="sentence12">
+          12. I can hear <select id="q12">
+            <option value="">-- Select --</option>
+            <option value="the dogs">the dogs</option>
+            <option value="the dog's">the dog's</option>
+            <option value="the dogs'">the dogs'</option>
+          </select> bark from my window. (the bark of the dog)
+        </div>
+      </div>
+
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress" id="progress-bar"></div>
+        </div>
+        <div class="progress-text">
+          <span>Progress</span>
+          <span id="progress-text">0%</span>
+        </div>
+      </div>
+
+      <div class="message success" id="success-message">
+        Excellent! You understand the difference between possessive forms and contractions of "is".
+      </div>
+
+      <div class="message error" id="error-message">
+        Some answers are incorrect. Review the rules above and pay attention to whether the context shows ownership (possessive) or a state/action (contraction of "is").
+      </div>
+
+      <div class="controls">
+        <button id="check-btn">Check answers</button>
+        <button id="reset-btn">Reset</button>
+      </div>
+    </div>
+
+    <footer>
+      <p>Grammar Exercise • Possessive Case vs. Contractions of "Is"</p>
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get DOM elements
+      const sentences = document.querySelectorAll('.sentence');
+      const selects = document.querySelectorAll('select');
+      const progressBar = document.getElementById('progress-bar');
+      const progressText = document.getElementById('progress-text');
+      const successMessage = document.getElementById('success-message');
+      const errorMessage = document.getElementById('error-message');
+      const checkBtn = document.getElementById('check-btn');
+      const resetBtn = document.getElementById('reset-btn');
+      
+      // Correct answers
+      const correctAnswers = {
+        q1: 'students\'',
+        q2: 'children\'s',
+        q3: 'boss\'s',
+        q4: 'women\'s',
+        q5: 'John\'s',
+        q6: 'John\'s',
+        q7: 'My brother\'s',
+        q8: 'my brother\'s',
+        q9: 'That\'s',
+        q10: 'that cat\'s',
+        q11: 'The dog\'s',
+        q12: 'the dog\'s'
+      };
+      
+      // Alternative correct answers (for cases with multiple correct forms)
+      const alternativeCorrectAnswers = {
+        q3: ['boss\'', 'boss\'s'],
+        q5: ['John\'s'], // Only possessive form works in this context
+        q6: ['John\'s'], // Only contraction works in this context
+        q7: ['My brother\'s'], // Only contraction works in this context
+        q8: ['my brother\'s'], // Only possessive works in this context
+        q11: ['The dog\'s'], // Only contraction works in this context
+        q12: ['the dog\'s'], // Only possessive works in this context
+      };
+      
+      let answeredQuestions = 0;
+      const totalQuestions = selects.length;
+      let hasCheckedAnswers = false;
+      
+      // Initialize progress
+      updateProgress();
+      
+      // Add event listeners to selects
+      selects.forEach(select => {
+        select.addEventListener('change', function() {
+          // Remove previous styling when user changes answer
+          if (hasCheckedAnswers) {
+            this.classList.remove('correct', 'incorrect');
+            const sentenceId = this.id.substring(1); // Get 1, 2, etc.
+            document.getElementById(`sentence${sentenceId}`).classList.remove('correct', 'incorrect');
+          }
+          
+          // Update progress
+          updateProgress();
+          
+          // Hide messages when user makes changes
+          successMessage.style.display = 'none';
+          errorMessage.style.display = 'none';
+          hasCheckedAnswers = false;
+        });
+      });
+      
+      // Update progress bar and text
+      function updateProgress() {
+        answeredQuestions = 0;
+        selects.forEach(select => {
+          if (select.value !== '') {
+            answeredQuestions++;
+          }
+        });
+        
+        const progress = (answeredQuestions / totalQuestions) * 100;
+        progressBar.style.width = `${progress}%`;
+        progressText.textContent = `${Math.round(progress)}%`;
+      }
+      
+      // Check if answer is correct (including alternatives)
+      function isAnswerCorrect(questionId, userAnswer) {
+        const correctAnswer = correctAnswers[questionId];
+        
+        // Check if it matches the main correct answer
+        if (userAnswer === correctAnswer) {
+          return true;
+        }
+        
+        // Check if there are alternative correct answers
+        if (alternativeCorrectAnswers[questionId]) {
+          return alternativeCorrectAnswers[questionId].includes(userAnswer);
+        }
+        
+        return false;
+      }
+      
+      // Check answers
+      function checkAnswers() {
+        let allCorrect = true;
+        let allAnswered = true;
+        
+        selects.forEach(select => {
+          const questionId = select.id;
+          const userAnswer = select.value;
+          const sentenceId = questionId.substring(1); // Get 1, 2, etc.
+          const sentence = document.getElementById(`sentence${sentenceId}`);
+          
+          if (userAnswer === '') {
+            allAnswered = false;
+            select.classList.remove('correct', 'incorrect');
+            sentence.classList.remove('correct', 'incorrect');
+          } else if (isAnswerCorrect(questionId, userAnswer)) {
+            select.classList.add('correct');
+            select.classList.remove('incorrect');
+            sentence.classList.add('correct');
+            sentence.classList.remove('incorrect');
+          } else {
+            select.classList.add('incorrect');
+            select.classList.remove('correct');
+            sentence.classList.add('incorrect');
+            sentence.classList.remove('correct');
+            allCorrect = false;
+          }
+        });
+        
+        if (!allAnswered) {
+          errorMessage.textContent = 'Please answer all questions before checking.';
+          errorMessage.style.display = 'block';
+          successMessage.style.display = 'none';
+        } else if (allCorrect) {
+          successMessage.style.display = 'block';
+          errorMessage.style.display = 'none';
+        } else {
+          errorMessage.textContent = 'Some answers are incorrect. Review the rules above and pay attention to whether the context shows ownership (possessive) or a state/action (contraction of "is").';
+          errorMessage.style.display = 'block';
+          successMessage.style.display = 'none';
+        }
+        
+        hasCheckedAnswers = true;
+      }
+      
+      // Handle check button click
+      checkBtn.addEventListener('click', checkAnswers);
+      
+      // Handle reset button click
+      resetBtn.addEventListener('click', function() {
+        selects.forEach(select => {
+          select.value = '';
+          select.classList.remove('correct', 'incorrect');
+          const sentenceId = select.id.substring(1); // Get 1, 2, etc.
+          document.getElementById(`sentence${sentenceId}`).classList.remove('correct', 'incorrect');
+        });
+        
+        answeredQuestions = 0;
+        updateProgress();
+        successMessage.style.display = 'none';
+        errorMessage.style.display = 'none';
+        hasCheckedAnswers = false;
+      });
+      
+      // Add keyboard shortcuts
+      document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && e.key === 'Enter') {
+          checkAnswers();
+        }
+        if (e.key === 'Escape') {
+          resetBtn.click();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
