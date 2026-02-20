@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seoul • Describing a place (gap‑fill)</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+        body {
+            background: linear-gradient(145deg, #e7eef4 0%, #d9e2eb 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+            color: #1e2b37;
+        }
+        .card {
+            max-width: 1000px;
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 32px;
+            box-shadow: 0 20px 35px -8px rgba(0, 20, 40, 0.25);
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+        .header {
+            background: linear-gradient(135deg, #0b4f6c 0%, #197b9b 100%);
+            color: white;
+            padding: 2rem 2rem 1.8rem;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.4rem;
+        }
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        .split {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .side-panel {
+            flex: 1.1;
+            min-width: 260px;
+            background-color: #f3f8fc;
+            padding: 1.8rem 1.5rem;
+            border-right: 1px solid #cbd6e3;
+        }
+        .side-panel h2 {
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: #0b4f6c;
+            border-bottom: 3px solid #197b9b;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .stats-badge {
+            background: white;
+            border-radius: 60px;
+            padding: 0.5rem 1.2rem;
+            display: inline-block;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 1.8rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            color: #0b4f6c;
+            border: 1px solid #b7d3e8;
+        }
+        .facts {
+            list-style: none;
+            margin: 1.5rem 0 2.5rem;
+        }
+        .facts li {
+            margin-bottom: 1rem;
+            padding-left: 1.8rem;
+            position: relative;
+            font-weight: 500;
+            font-size: 1.05rem;
+        }
+        .facts li::before {
+            content: "🏙️";
+            position: absolute;
+            left: 0;
+            top: -2px;
+            font-size: 1.2rem;
+        }
+        .facts li:nth-child(2)::before { content: "🌉"; }
+        .facts li:nth-child(3)::before { content: "🛍️"; }
+        .facts li:nth-child(4)::before { content: "⛰️"; }
+        .facts li:nth-child(5)::before { content: "🎢"; }
+        .facts li:nth-child(6)::before { content: "📸"; }
+
+        .note-box {
+            background: #dbeaf3;
+            border-radius: 24px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        .note-box h3 {
+            color: #0b4f6c;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .note-box ul {
+            list-style: none;
+        }
+        .note-box li {
+            margin-bottom: 0.7rem;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 0.98rem;
+        }
+        .note-box li::before {
+            content: "▹";
+            color: #197b9b;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        /* main exercise */
+        .exercise-col {
+            flex: 2.2;
+            min-width: 420px;
+            padding: 2rem 2rem 2rem 1.8rem;
+        }
+        .bubble-note {
+            background: #eef2f6;
+            padding: 1rem 1.5rem;
+            border-radius: 40px 40px 40px 12px;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            color: #1e4054;
+            border-left: 5px solid #0b4f6c;
+        }
+        .story {
+            background: #ffffff;
+            border: 1px solid #cbdae7;
+            border-radius: 28px;
+            padding: 2rem 2rem 1.8rem;
+            box-shadow: inset 0 1px 5px rgba(0,0,0,0.02), 0 8px 18px -10px #afc3d4;
+            margin-bottom: 1.8rem;
+        }
+        .story-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #152b36;
+        }
+        .story-text p {
+            margin-top: 1rem;
+        }
+        .story-text p:first-child {
+            margin-top: 0;
+        }
+        .gap {
+            display: inline-block;
+            min-width: 80px;
+            background-color: #f2f7ff;
+            border-bottom: 3px solid #7fa9c7;
+            color: #1c3f53;
+            padding: 0 4px 2px;
+            margin: 0 2px;
+            text-align: center;
+            font-weight: 500;
+            border-radius: 0 0 6px 6px;
+            transition: 0.15s;
+        }
+        .gap.filled {
+            background-color: #e3f2e9;
+            border-bottom-color: #2e8b6c;
+            color: #1b6b4c;
+            font-weight: 600;
+            border-bottom-width: 3px;
+        }
+        .gap.active {
+            background-color: #fee9c7;
+            border-bottom-color: #e68a2e;
+            transform: scale(1.02);
+            box-shadow: 0 3px 8px rgba(230,138,46,0.15);
+        }
+        .progress-block {
+            margin: 1rem 0 1.5rem;
+        }
+        .progress-bar-bg {
+            height: 10px;
+            background: #d6e2ec;
+            border-radius: 30px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #197b9b, #0b4f6c);
+            border-radius: 30px;
+            transition: width 0.3s ease;
+        }
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #2f4b62;
+            margin-top: 6px;
+        }
+        .message-area {
+            min-height: 52px;
+        }
+        .msg {
+            padding: 10px 18px;
+            border-radius: 60px;
+            font-weight: 500;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+        .msg.correct {
+            background: #d9f0e1;
+            color: #136b47;
+            display: flex;
+            border-left: 5px solid #1e9b6b;
+        }
+        .msg.wrong {
+            background: #ffe2dd;
+            color: #b13b2d;
+            display: flex;
+            border-left: 5px solid #d95b4a;
+        }
+        .input-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .input-wrapper {
+            flex: 3;
+            min-width: 220px;
+            position: relative;
+        }
+        .input-wrapper label {
+            position: absolute;
+            left: 18px;
+            top: -9px;
+            background: white;
+            padding: 0 6px;
+            font-size: 0.8rem;
+            color: #3b5f78;
+            font-weight: 500;
+        }
+        #wordInput {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #b8cee2;
+            border-radius: 50px;
+            font-size: 1rem;
+            background: white;
+            transition: 0.2s;
+        }
+        #wordInput:focus {
+            outline: none;
+            border-color: #0b4f6c;
+            box-shadow: 0 0 0 4px rgba(25,123,155,0.15);
+        }
+        #submitBtn {
+            background: #0b4f6c;
+            border: none;
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding: 0 32px;
+            border-radius: 60px;
+            cursor: pointer;
+            letter-spacing: 0.3px;
+            transition: 0.15s;
+            border: 2px solid #0b4f6c;
+            flex: 1;
+            min-width: 120px;
+        }
+        #submitBtn:hover {
+            background: #136f94;
+            border-color: #136f94;
+            transform: scale(1.02);
+        }
+        .action-bar {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+        .action-bar button {
+            flex: 1;
+            background: white;
+            border: 2px solid #c1d6e8;
+            padding: 12px 10px;
+            border-radius: 50px;
+            font-weight: 600;
+            color: #1b4e69;
+            cursor: pointer;
+            transition: 0.15s;
+            font-size: 0.95rem;
+        }
+        .action-bar button:hover {
+            background: #eaf1f8;
+            border-color: #197b9b;
+        }
+        footer {
+            background: #ecf3f9;
+            padding: 1rem 2rem;
+            text-align: center;
+            color: #466b82;
+            font-weight: 300;
+            font-size: 0.95rem;
+            border-top: 1px solid #bfd5e7;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <div class="header">
+        <h1>✍️ Describing a place – Seoul</h1>
+        <p>fill in the missing words · based on your notes</p>
+    </div>
+
+    <div class="split">
+        <!-- left panel: facts & notes -->
+        <div class="side-panel">
+            <h2>📍 Seoul</h2>
+            <div class="stats-badge">10 million · 1000+ years</div>
+            <ul class="facts">
+                <li>By Han River · “capital city”</li>
+                <li>Sinchon, Myeongdong — cool shops</li>
+                <li>Namsan — hiking</li>
+                <li>Lotte World — amusement park</li>
+                <li>New camera from Yongsan market</li>
+            </ul>
+            <div class="note-box">
+                <h3>🗒️ writer’s notes</h3>
+                <ul>
+                    <li>biggest city in Korea</li>
+                    <li>moved to U.S. in 2005 (sister)</li>
+                    <li>founded > 1000 years ago</li>
+                    <li>important because Han River</li>
+                    <li>wars + industry → changed</li>
+                    <li>“Seoul” = capital city</li>
+                    <li>temples + skyscrapers (old & new)</li>
+                    <li>Sinchon / Myeongdong shops</li>
+                    <li>hiking Namsan park</li>
+                    <li>Lotte World (indoor!)</li>
+                    <li>Yongsan electronics market (biggest in Asia)</li>
+                    <li>tiny flat camera, jealous friends</li>
+                    <li>delicious food</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- right column: interactive story -->
+        <div class="exercise-col">
+            <div class="bubble-note">
+                💡 type one word → press ENTER (or click Submit)
+            </div>
+
+            <div class="story">
+                <div class="story-text" id="storyContainer">
+                    I come <span class="gap" data-word="from">______</span> Seoul in South Korea. 
+                    <span class="gap" data-word="seoul">______</span> is the biggest city in Korea, so I am a 
+                    <span class="gap" data-word="big">______</span> city person! In fact, Seoul is one of the 
+                    <span class="gap" data-word="biggest">______</span> cities in the whole 
+                    <span class="gap" data-word="world">______</span> with over 10 million people. I’m not living there 
+                    <span class="gap" data-word="now">______</span>, but it’s still my 
+                    <span class="gap" data-word="hometown">______</span>.<br><br>
+
+                    My sister and <span class="gap" data-word="i">______</span> moved to the U.S. in 2005.<br>
+                    Seoul <span class="gap" data-word="has">______</span> a very long history. It was 
+                    <span class="gap" data-word="founded">______</span> over a thousand years 
+                    <span class="gap" data-word="ago">______</span>. It had a different name then, but it was 
+                    <span class="gap" data-word="always">______</span> an important 
+                    <span class="gap" data-word="city">______</span> because of its 
+                    <span class="gap" data-word="position">______</span> next to the Han 
+                    <span class="gap" data-word="river">______</span>. Seoul has changed a lot over the 
+                    <span class="gap" data-word="years">______</span> because of wars 
+                    <span class="gap" data-word="and">______</span> the rise of industry, 
+                    <span class="gap" data-word="but">______</span> it still remains our “ 
+                    <span class="gap" data-word="capital">______</span> city”, which is what the word “ 
+                    <span class="gap" data-word="seoul">______</span>” means. These days, you 
+                    <span class="gap" data-word="can">______</span> see temples right 
+                    <span class="gap" data-word="next">______</span> to skyscrapers – that is what Seoul is like, a mix of old and 
+                    <span class="gap" data-word="new">______</span>.<br><br>
+
+                    When I <span class="gap" data-word="lived">______</span> in Seoul, there were 
+                    <span class="gap" data-word="many">______</span> things I liked to do. I 
+                    <span class="gap" data-word="liked">______</span> to spend time in the Sinchon area 
+                    <span class="gap" data-word="because">______</span> there are cool 
+                    <span class="gap" data-word="shops">______</span> and restaurants. I 
+                    <span class="gap" data-word="met">______</span> my friends there after school and on 
+                    <span class="gap" data-word="weekends">______</span>. 
+                    <span class="gap" data-word="sometimes">______</span> we’d go to other parts of town, 
+                    <span class="gap" data-word="like">______</span> Myeongdong, 
+                    <span class="gap" data-word="where">______</span> there are a lot of great 
+                    <span class="gap" data-word="stores">______</span>. Some of the stores 
+                    <span class="gap" data-word="are">______</span> American. We liked to 
+                    <span class="gap" data-word="hike">______</span> in Namsan 
+                    <span class="gap" data-word="park">______</span>, and a couple of times each year we 
+                    <span class="gap" data-word="went">______</span> to Lotte World, 
+                    <span class="gap" data-word="which">______</span> is an amazing amusement 
+                    <span class="gap" data-word="park">______</span>. It’s indoors!<br><br>
+
+                    The last <span class="gap" data-word="time">______</span> I visited Seoul, I bought a great new 
+                    <span class="gap" data-word="camera">______</span> at the Yongsan electronics 
+                    <span class="gap" data-word="market">______</span>. Yongsan is the biggest electronics market in 
+                    <span class="gap" data-word="all">______</span> of Asia, and they 
+                    <span class="gap" data-word="have">______</span> everything! My 
+                    <span class="gap" data-word="friends">______</span> in the U.S. were jealous when they saw 
+                    <span class="gap" data-word="my">______</span> new camera. It’s very tiny and 
+                    <span class="gap" data-word="very">______</span> flat! This kind of camera 
+                    <span class="gap" data-word="won’t">______</span> come to the U.S. for at least 
+                    <span class="gap" data-word="another">______</span> year.<br><br>
+
+                    If you <span class="gap" data-word="ever">______</span> get the chance to 
+                    <span class="gap" data-word="visit">______</span> my hometown, you 
+                    <span class="gap" data-word="should">______</span> go. It’s a great city, and in case I didn’t mention it, 
+                    <span class="gap" data-word="there">______</span> is a lot of 
+                    <span class="gap" data-word="really">______</span> delicious food!
+                </div>
+
+                <!-- progress & messages -->
+                <div class="progress-block">
+                    <div class="progress-bar-bg"><div class="progress-fill" id="progressFill"></div></div>
+                    <div class="progress-stats">
+                        <span id="completedCount">0</span> / <span id="totalGaps">0</span> words completed
+                    </div>
+                </div>
+
+                <div class="message-area">
+                    <div id="correctMsg" class="msg correct">✅ Correct! well done.</div>
+                    <div id="wrongMsg" class="msg wrong">❌ Incorrect. try again.</div>
+                </div>
+
+                <!-- input + buttons -->
+                <div class="input-row">
+                    <div class="input-wrapper">
+                        <label for="wordInput">Enter word</label>
+                        <input type="text" id="wordInput" placeholder="e.g. from, seoul, capital..." autofocus>
+                    </div>
+                    <button id="submitBtn">↵ ENTER</button>
+                </div>
+
+                <div class="action-bar">
+                    <button id="hintBtn">💡 Hint</button>
+                    <button id="resetBtn">⟲ Reset</button>
+                    <button id="solutionBtn">🔍 Show solution</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>Educasa.pe, 2025 — inspired by the Seoul description</footer>
+</div>
+
+<script>
+(function() {
+    // ---------- Gaps setup ----------
+    const story = document.getElementById('storyContainer');
+    const gaps = Array.from(document.querySelectorAll('.gap'));
+    const total = gaps.length;
+    document.getElementById('totalGaps').textContent = total;
+
+    let completed = 0;
+    let currentActiveIndex = 0;   // first unfilled gap
+
+    // helper: update progress bar & counter
+    function refreshProgress() {
+        completed = gaps.filter(g => g.classList.contains('filled')).length;
+        document.getElementById('completedCount').textContent = completed;
+        const percent = (completed / total) * 100;
+        document.getElementById('progressFill').style.width = percent + '%';
+    }
+
+    // activate the next unfilled gap (starting from 0)
+    function activateNextUnfilled() {
+        // remove active from all
+        gaps.forEach(g => g.classList.remove('active'));
+        // find first without 'filled'
+        const idx = gaps.findIndex(g => !g.classList.contains('filled'));
+        if (idx !== -1) {
+            gaps[idx].classList.add('active');
+            currentActiveIndex = idx;
+        } else {
+            // all filled – no active
+            currentActiveIndex = -1;
+        }
+    }
+
+    // fill a specific gap (by index) with word
+    function fillGap(index, word) {
+        const g = gaps[index];
+        if (g.classList.contains('filled')) return false;
+        g.textContent = word;
+        g.classList.add('filled');
+        g.classList.remove('active');
+        refreshProgress();
+        return true;
+    }
+
+    // reset everything
+    function resetExercise() {
+        gaps.forEach(g => {
+            g.textContent = '______';
+            g.classList.remove('filled', 'active');
+        });
+        // reactivate first
+        gaps[0].classList.add('active');
+        currentActiveIndex = 0;
+        refreshProgress();
+        document.getElementById('wordInput').value = '';
+        document.getElementById('wordInput').disabled = false;
+        document.getElementById('submitBtn').disabled = false;
+        document.getElementById('correctMsg').style.display = 'none';
+        document.getElementById('wrongMsg').style.display = 'none';
+        document.getElementById('wordInput').focus();
+    }
+
+    // check typed word (case‑insensitive trim)
+    function handleSubmission() {
+        // hide messages
+        document.getElementById('correctMsg').style.display = 'none';
+        document.getElementById('wrongMsg').style.display = 'none';
+
+        const raw = document.getElementById('wordInput').value.trim();
+        if (raw === '') return;
+
+        const lowerInput = raw.toLowerCase();
+        let anyFilled = false;
+        let alreadyFilledWord = false;
+        let matchedIndices = [];
+
+        // find all gaps that match this word AND are not filled
+        gaps.forEach((gap, idx) => {
+            const correct = gap.getAttribute('data-word').toLowerCase();
+            if (correct === lowerInput) {
+                if (!gap.classList.contains('filled')) {
+                    matchedIndices.push(idx);
+                } else {
+                    alreadyFilledWord = true;
+                }
+            }
+        });
+
+        if (matchedIndices.length > 0) {
+            // fill every matching unfilled gap
+            matchedIndices.forEach(idx => {
+                fillGap(idx, gaps[idx].getAttribute('data-word')); // use original casing
+            });
+            document.getElementById('correctMsg').style.display = 'flex';
+            document.getElementById('wrongMsg').style.display = 'none';
+
+            // if all gaps filled, disable input
+            if (completed === total) {
+                document.getElementById('wordInput').disabled = true;
+                document.getElementById('submitBtn').disabled = true;
+                document.getElementById('correctMsg').textContent = '🎉 Congratulations! You completed the Seoul story.';
+            } else {
+                // reactivate next unfilled
+                activateNextUnfilled();
+            }
+            document.getElementById('wordInput').value = '';
+            document.getElementById('wordInput').focus();
+        } else {
+            // incorrect or already filled
+            if (alreadyFilledWord) {
+                document.getElementById('wrongMsg').textContent = '⚠️ That word is already filled.';
+            } else {
+                document.getElementById('wrongMsg').textContent = '❌ Not the right word. check your notes.';
+            }
+            document.getElementById('wrongMsg').style.display = 'flex';
+            document.getElementById('correctMsg').style.display = 'none';
+            document.getElementById('wordInput').select();
+        }
+    }
+
+    // hint: fill active gap with first letter of correct word (if any active)
+    function giveHint() {
+        const activeGap = gaps.find(g => g.classList.contains('active') && !g.classList.contains('filled'));
+        if (!activeGap) {
+            // maybe all filled, or no active — pick first unfilled
+            const firstUnfilled = gaps.find(g => !g.classList.contains('filled'));
+            if (firstUnfilled) {
+                const word = firstUnfilled.getAttribute('data-word');
+                document.getElementById('wordInput').value = word.charAt(0);
+                firstUnfilled.classList.add('active'); // ensure active
+                gaps.forEach(g => g.classList.remove('active'));
+                firstUnfilled.classList.add('active');
+            } else {
+                document.getElementById('wordInput').value = '';
+            }
+        } else {
+            const word = activeGap.getAttribute('data-word');
+            document.getElementById('wordInput').value = word.charAt(0);
+        }
+        document.getElementById('wordInput').focus();
+    }
+
+    // show all answers (fill everything)
+    function showSolution() {
+        gaps.forEach(gap => {
+            if (!gap.classList.contains('filled')) {
+                gap.textContent = gap.getAttribute('data-word');
+                gap.classList.add('filled');
+            }
+            gap.classList.remove('active');
+        });
+        completed = total;
+        refreshProgress();
+        document.getElementById('wordInput').disabled = true;
+        document.getElementById('submitBtn').disabled = true;
+        document.getElementById('correctMsg').style.display = 'flex';
+        document.getElementById('correctMsg').textContent = '📘 Full solution displayed.';
+        document.getElementById('wrongMsg').style.display = 'none';
+    }
+
+    // ---------- attach events ----------
+    window.addEventListener('DOMContentLoaded', () => {
+        resetExercise(); // sets initial active & progress
+
+        const submitBtn = document.getElementById('submitBtn');
+        const wordInput = document.getElementById('wordInput');
+        const hintBtn = document.getElementById('hintBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const solutionBtn = document.getElementById('solutionBtn');
+
+        submitBtn.addEventListener('click', handleSubmission);
+        wordInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                handleSubmission();
+            }
+        });
+        hintBtn.addEventListener('click', giveHint);
+        resetBtn.addEventListener('click', resetExercise);
+        solutionBtn.addEventListener('click', showSolution);
+
+        // re-activate after reset if needed (reset already does)
+    });
+})();
+</script>
+</body>
+</html>
