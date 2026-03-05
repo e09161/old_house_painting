@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grammar Exercise - Advanced Structures Mastery</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #333;
+    }
+
+    .container {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 900px;
+      overflow: hidden;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    header {
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 25px 30px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    header p {
+      opacity: 0.9;
+      font-size: 17px;
+    }
+
+    .instructions {
+      background-color: #f0f4ff;
+      padding: 15px 25px;
+      border-bottom: 1px solid #e1e8ff;
+      font-size: 16px;
+      color: #555;
+    }
+
+    .grammar-section {
+      margin: 0 25px 25px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-header {
+      padding: 12px 20px;
+      font-weight: 700;
+      font-size: 18px;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-header span {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 14px;
+    }
+
+    .section-content {
+      padding: 20px;
+      background-color: #fafafa;
+    }
+
+    /* Section colors */
+    .section-1 .section-header { background: linear-gradient(90deg, #ef5350 0%, #d32f2f 100%); }
+    .section-2 .section-header { background: linear-gradient(90deg, #66bb6a 0%, #2e7d32 100%); }
+    .section-3 .section-header { background: linear-gradient(90deg, #ffa726 0%, #f57c00 100%); }
+    .section-4 .section-header { background: linear-gradient(90deg, #42a5f5 0%, #1565c0 100%); }
+    .section-5 .section-header { background: linear-gradient(90deg, #ab47bc 0%, #6a1b9a 100%); }
+    .section-6 .section-header { background: linear-gradient(90deg, #26c6da 0%, #00838f 100%); }
+
+    .exercise-container {
+      padding: 0 30px 30px;
+    }
+
+    .sentences {
+      margin: 20px 0;
+    }
+
+    .sentence {
+      margin-bottom: 22px;
+      font-size: 18px;
+      line-height: 1.6;
+      padding: 15px;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+      background-color: #f9f9f9;
+      border-left: 4px solid transparent;
+    }
+
+    .sentence:hover {
+      background-color: #f0f0f0;
+    }
+
+    .sentence.correct {
+      border-left-color: #4CAF50;
+      background-color: #f1f8e9;
+    }
+
+    .sentence.incorrect {
+      border-left-color: #f44336;
+      background-color: #ffebee;
+    }
+
+    select {
+      padding: 8px 12px;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      font-size: 16px;
+      background-color: white;
+      cursor: pointer;
+      transition: all 0.3s;
+      min-width: 160px;
+      margin: 0 5px;
+    }
+
+    select:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+    }
+
+    select.correct {
+      border-color: #4CAF50;
+      background-color: #e8f5e9;
+    }
+
+    select.incorrect {
+      border-color: #f44336;
+      background-color: #ffebee;
+    }
+
+    .grammar-tip {
+      display: inline-block;
+      background-color: #e3f2fd;
+      color: #1565c0;
+      font-size: 13px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-left: 10px;
+      font-weight: normal;
+    }
+
+    .progress-container {
+      margin: 25px 0 20px;
+    }
+
+    .progress-bar {
+      height: 12px;
+      background-color: #f1f2f6;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #666;
+      margin-top: 8px;
+    }
+
+    .message {
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      text-align: center;
+      font-weight: 600;
+      display: none;
+      animation: fadeIn 0.5s;
+    }
+
+    .success {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      border: 1px solid #c8e6c9;
+    }
+
+    .error {
+      background-color: #ffebee;
+      color: #c62828;
+      border: 1px solid #ffcdd2;
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .controls button {
+      padding: 14px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: transform 0.15s, opacity 0.25s, background-color 0.25s;
+      min-width: 160px;
+      font-size: 16px;
+    }
+
+    .controls button:hover {
+      transform: translateY(-2px);
+      opacity: 0.95;
+    }
+
+    #check-btn {
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    #reset-btn {
+      background-color: #757575;
+      color: white;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      color: #777;
+      font-size: 14px;
+      border-top: 1px solid #f1f2f6;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive styles */
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+        display: block;
+      }
+      
+      .container {
+        border-radius: 10px;
+      }
+      
+      header {
+        padding: 20px;
+      }
+      
+      h1 {
+        font-size: 24px;
+      }
+      
+      header p {
+        font-size: 16px;
+      }
+      
+      .instructions {
+        padding: 12px 20px;
+        font-size: 15px;
+      }
+      
+      .exercise-container {
+        padding: 0 20px 20px;
+      }
+      
+      .sentence {
+        font-size: 17px;
+        margin-bottom: 18px;
+      }
+      
+      select {
+        min-width: 140px;
+        font-size: 15px;
+      }
+      
+      .controls {
+        flex-direction: column;
+      }
+      
+      .controls button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Grammar — Advanced Structures Mastery</h1>
+      <p>Master 6 essential grammar patterns with 40 practice questions</p>
+    </header>
+
+    <div class="instructions">
+      <p>Complete each sentence by selecting the correct option. Each section focuses on a specific grammar structure.</p>
+    </div>
+
+    <div class="exercise-container">
+      <div class="sentences" id="sentences-container">
+        <!-- Sentences will be dynamically inserted here by JavaScript -->
+      </div>
+
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress" id="progress-bar"></div>
+        </div>
+        <div class="progress-text">
+          <span>Progress</span>
+          <span id="progress-text">0/40 (0%)</span>
+        </div>
+      </div>
+
+      <div class="message success" id="success-message">
+        🎉 Excellent! All answers are correct. You've mastered these grammar structures!
+      </div>
+
+      <div class="message error" id="error-message">
+        Some answers are incorrect. Keep trying!
+      </div>
+
+      <div class="controls">
+        <button id="check-btn">Check answers</button>
+        <button id="reset-btn">Reset all answers</button>
+      </div>
+    </div>
+
+    <footer>
+      <p>Grammar Exercise • 6 Structures • 40 Questions</p>
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Define all questions with randomized options
+      const questions = [
+        // SECTION 1: at the latest (6 questions)
+        {
+          id: 1,
+          section: 1,
+          text: "Please submit your assignment by Friday",
+          options: [
+            { value: "at the latest", correct: true },
+            { value: "at the last", correct: false },
+            { value: "at least", correct: false },
+            { value: "lastly", correct: false }
+          ],
+          tip: "at the latest"
+        },
+        {
+          id: 2,
+          section: 1,
+          text: "The guests should arrive by 8 PM",
+          options: [
+            { value: "at the latest", correct: true },
+            { value: "at last", correct: false },
+            { value: "lately", correct: false },
+            { value: "the latest", correct: false }
+          ],
+          tip: "at the latest"
+        },
+        {
+          id: 3,
+          section: 1,
+          text: "You need to finish this report by Monday",
+          options: [
+            { value: "at the latest", correct: true },
+            { value: "at least", correct: false },
+            { value: "at last", correct: false },
+            { value: "latest", correct: false }
+          ],
+          tip: "at the latest"
+        },
+        {
+          id: 4,
+          section: 1,
+          text: "The payment must be received by tomorrow",
+          options: [
+            { value: "at the latest", correct: true },
+            { value: "lastly", correct: false },
+            { value: "at the last minute", correct: false },
+            { value: "late", correct: false }
+          ],
+          tip: "at the latest"
+        },
+        {
+          id: 5,
+          section: 1,
+          text: "We need your decision by Thursday",
+          options: [
+            { value: "at the latest", correct: true },
+            { value: "the last", correct: false },
+            { value: "at least", correct: false },
+            { value: "finally", correct: false }
+          ],
+          tip: "at the latest"
+        },
+        {
+          id: 6,
+          section: 1,
+          text: "The documents should be here by noon",
+          options: [
+            { value: "at the latest", correct: true },
+            { value: "latest", correct: false },
+            { value: "at last", correct: false },
+            { value: "lately", correct: false }
+          ],
+          tip: "at the latest"
+        },
+
+        // SECTION 2: not only...but also (6 questions)
+        {
+          id: 7,
+          section: 2,
+          text: "She",
+          options: [
+            { value: "not only sings but also", correct: true },
+            { value: "sings not only but", correct: false },
+            { value: "not only sings also", correct: false },
+            { value: "sings not only also", correct: false }
+          ],
+          tip: "not only...but also"
+        },
+        {
+          id: 8,
+          section: 2,
+          text: "The movie was",
+          options: [
+            { value: "not only entertaining but also", correct: true },
+            { value: "not only entertaining also", correct: false },
+            { value: "entertaining not only but", correct: false },
+            { value: "not entertaining but also", correct: false }
+          ],
+          tip: "not only...but also"
+        },
+        {
+          id: 9,
+          section: 2,
+          text: "He",
+          options: [
+            { value: "not only speaks French but also", correct: true },
+            { value: "speaks not only French but", correct: false },
+            { value: "not only speaks French also", correct: false },
+            { value: "speaks French not only but", correct: false }
+          ],
+          tip: "not only...but also"
+        },
+        {
+          id: 10,
+          section: 2,
+          text: "The restaurant serves",
+          options: [
+            { value: "not only delicious food but also", correct: true },
+            { value: "delicious not only food but also", correct: false },
+            { value: "not only delicious food also", correct: false },
+            { value: "delicious food not only but", correct: false }
+          ],
+          tip: "not only...but also"
+        },
+        {
+          id: 11,
+          section: 2,
+          text: "This car is",
+          options: [
+            { value: "not only fast but also", correct: true },
+            { value: "not only fast also", correct: false },
+            { value: "fast not only but", correct: false },
+            { value: "not fast but also", correct: false }
+          ],
+          tip: "not only...but also"
+        },
+        {
+          id: 12,
+          section: 2,
+          text: "They",
+          options: [
+            { value: "not only visited Paris but also", correct: true },
+            { value: "visited not only Paris but", correct: false },
+            { value: "not only visited Paris also", correct: false },
+            { value: "visited Paris not only but", correct: false }
+          ],
+          tip: "not only...but also"
+        },
+
+        // SECTION 3: I'd rather you (7 questions)
+        {
+          id: 13,
+          section: 3,
+          text: "I'd rather you",
+          options: [
+            { value: "didn't smoke", correct: true },
+            { value: "don't smoke", correct: false },
+            { value: "not smoke", correct: false },
+            { value: "to not smoke", correct: false }
+          ],
+          tip: "I'd rather you + past simple"
+        },
+        {
+          id: 14,
+          section: 3,
+          text: "I'd rather you",
+          options: [
+            { value: "told", correct: true },
+            { value: "tell", correct: false },
+            { value: "to tell", correct: false },
+            { value: "telling", correct: false }
+          ],
+          tip: "I'd rather you + past simple"
+        },
+        {
+          id: 15,
+          section: 3,
+          text: "I'd rather you",
+          options: [
+            { value: "came", correct: true },
+            { value: "come", correct: false },
+            { value: "to come", correct: false },
+            { value: "coming", correct: false }
+          ],
+          tip: "I'd rather you + past simple"
+        },
+        {
+          id: 16,
+          section: 3,
+          text: "I'd rather you",
+          options: [
+            { value: "didn't tell", correct: true },
+            { value: "don't tell", correct: false },
+            { value: "not tell", correct: false },
+            { value: "to not tell", correct: false }
+          ],
+          tip: "I'd rather you + past simple"
+        },
+        {
+          id: 17,
+          section: 3,
+          text: "I'd rather you",
+          options: [
+            { value: "were", correct: true },
+            { value: "are", correct: false },
+            { value: "be", correct: false },
+            { value: "being", correct: false }
+          ],
+          tip: "I'd rather you + past simple"
+        },
+        {
+          id: 18,
+          section: 3,
+          text: "I'd rather you",
+          options: [
+            { value: "stayed", correct: true },
+            { value: "stay", correct: false },
+            { value: "to stay", correct: false },
+            { value: "staying", correct: false }
+          ],
+          tip: "I'd rather you + past simple"
+        },
+        {
+          id: 19,
+          section: 3,
+          text: "I'd rather you",
+          options: [
+            { value: "didn't do", correct: true },
+            { value: "don't do", correct: false },
+            { value: "not do", correct: false },
+            { value: "to not do", correct: false }
+          ],
+          tip: "I'd rather you + past simple"
+        },
+
+        // SECTION 4: verb be for obligations (7 questions)
+        {
+          id: 20,
+          section: 4,
+          text: "All employees",
+          options: [
+            { value: "are to wear", correct: true },
+            { value: "are wear", correct: false },
+            { value: "have wear", correct: false },
+            { value: "are wearing", correct: false }
+          ],
+          tip: "are to + infinitive"
+        },
+        {
+          id: 21,
+          section: 4,
+          text: "You",
+          options: [
+            { value: "are to finish", correct: true },
+            { value: "are finish", correct: false },
+            { value: "have finish", correct: false },
+            { value: "are to finishing", correct: false }
+          ],
+          tip: "are to + infinitive"
+        },
+        {
+          id: 22,
+          section: 4,
+          text: "The students",
+          options: [
+            { value: "are to submit", correct: true },
+            { value: "are submit", correct: false },
+            { value: "have submit", correct: false },
+            { value: "are to submitting", correct: false }
+          ],
+          tip: "are to + infinitive"
+        },
+        {
+          id: 23,
+          section: 4,
+          text: "Nobody",
+          options: [
+            { value: "is to leave", correct: true },
+            { value: "is leave", correct: false },
+            { value: "has leave", correct: false },
+            { value: "is to leaving", correct: false }
+          ],
+          tip: "is to + infinitive"
+        },
+        {
+          id: 24,
+          section: 4,
+          text: "The documents",
+          options: [
+            { value: "are to be signed", correct: true },
+            { value: "are be signed", correct: false },
+            { value: "have be signed", correct: false },
+            { value: "are to signing", correct: false }
+          ],
+          tip: "are to + infinitive"
+        },
+        {
+          id: 25,
+          section: 4,
+          text: "All visitors",
+          options: [
+            { value: "are to register", correct: true },
+            { value: "are register", correct: false },
+            { value: "have register", correct: false },
+            { value: "are to registering", correct: false }
+          ],
+          tip: "are to + infinitive"
+        },
+        {
+          id: 26,
+          section: 4,
+          text: "Each participant",
+          options: [
+            { value: "is to bring", correct: true },
+            { value: "is bring", correct: false },
+            { value: "has bring", correct: false },
+            { value: "is to bringing", correct: false }
+          ],
+          tip: "is to + infinitive"
+        },
+
+        // SECTION 5: no sooner...than (7 questions)
+        {
+          id: 27,
+          section: 5,
+          text: "No sooner",
+          options: [
+            { value: "had I arrived than", correct: true },
+            { value: "I had arrived than", correct: false },
+            { value: "had I arrived then", correct: false },
+            { value: "I arrived than", correct: false }
+          ],
+          tip: "No sooner + had + subject + past participle + than"
+        },
+        {
+          id: 28,
+          section: 5,
+          text: "No sooner",
+          options: [
+            { value: "had she left than", correct: true },
+            { value: "she had left than", correct: false },
+            { value: "had she left then", correct: false },
+            { value: "she left than", correct: false }
+          ],
+          tip: "No sooner + had + subject + past participle + than"
+        },
+        {
+          id: 29,
+          section: 5,
+          text: "No sooner",
+          options: [
+            { value: "had the movie started than", correct: true },
+            { value: "the movie had started than", correct: false },
+            { value: "had the movie started then", correct: false },
+            { value: "the movie started than", correct: false }
+          ],
+          tip: "No sooner + had + subject + past participle + than"
+        },
+        {
+          id: 30,
+          section: 5,
+          text: "No sooner",
+          options: [
+            { value: "had we sat down than", correct: true },
+            { value: "we had sat down than", correct: false },
+            { value: "had we sat down then", correct: false },
+            { value: "we sat down than", correct: false }
+          ],
+          tip: "No sooner + had + subject + past participle + than"
+        },
+        {
+          id: 31,
+          section: 5,
+          text: "No sooner",
+          options: [
+            { value: "had they finished than", correct: true },
+            { value: "they had finished than", correct: false },
+            { value: "had they finished then", correct: false },
+            { value: "they finished than", correct: false }
+          ],
+          tip: "No sooner + had + subject + past participle + than"
+        },
+        {
+          id: 32,
+          section: 5,
+          text: "No sooner",
+          options: [
+            { value: "had the phone rung than", correct: true },
+            { value: "the phone had rung than", correct: false },
+            { value: "had the phone rung then", correct: false },
+            { value: "the phone rang than", correct: false }
+          ],
+          tip: "No sooner + had + subject + past participle + than"
+        },
+        {
+          id: 33,
+          section: 5,
+          text: "No sooner",
+          options: [
+            { value: "had the teacher entered than", correct: true },
+            { value: "the teacher had entered than", correct: false },
+            { value: "had the teacher entered then", correct: false },
+            { value: "the teacher entered than", correct: false }
+          ],
+          tip: "No sooner + had + subject + past participle + than"
+        },
+
+        // SECTION 6: suggested that (7 questions)
+        {
+          id: 34,
+          section: 6,
+          text: "The manager suggested that the team",
+          options: [
+            { value: "work", correct: true },
+            { value: "works", correct: false },
+            { value: "to work", correct: false },
+            { value: "working", correct: false }
+          ],
+          tip: "suggested that + bare infinitive"
+        },
+        {
+          id: 35,
+          section: 6,
+          text: "The doctor suggested that my father",
+          options: [
+            { value: "exercise", correct: true },
+            { value: "exercises", correct: false },
+            { value: "to exercise", correct: false },
+            { value: "exercising", correct: false }
+          ],
+          tip: "suggested that + bare infinitive"
+        },
+        {
+          id: 36,
+          section: 6,
+          text: "She suggested that he",
+          options: [
+            { value: "apply", correct: true },
+            { value: "applies", correct: false },
+            { value: "to apply", correct: false },
+            { value: "applying", correct: false }
+          ],
+          tip: "suggested that + bare infinitive"
+        },
+        {
+          id: 37,
+          section: 6,
+          text: "I suggested that they",
+          options: [
+            { value: "arrive", correct: true },
+            { value: "arrives", correct: false },
+            { value: "to arrive", correct: false },
+            { value: "arriving", correct: false }
+          ],
+          tip: "suggested that + bare infinitive"
+        },
+        {
+          id: 38,
+          section: 6,
+          text: "The consultant suggested that the company",
+          options: [
+            { value: "restructure", correct: true },
+            { value: "restructures", correct: false },
+            { value: "to restructure", correct: false },
+            { value: "restructuring", correct: false }
+          ],
+          tip: "suggested that + bare infinitive"
+        },
+        {
+          id: 39,
+          section: 6,
+          text: "They suggested that we",
+          options: [
+            { value: "wait", correct: true },
+            { value: "waits", correct: false },
+            { value: "to wait", correct: false },
+            { value: "waiting", correct: false }
+          ],
+          tip: "suggested that + bare infinitive"
+        },
+        {
+          id: 40,
+          section: 6,
+          text: "The report suggested that the government",
+          options: [
+            { value: "invest", correct: true },
+            { value: "invests", correct: false },
+            { value: "to invest", correct: false },
+            { value: "investing", correct: false }
+          ],
+          tip: "suggested that + bare infinitive"
+        }
+      ];
+
+      // Shuffle options for each question to randomize correct answer position
+      function shuffleOptions(question) {
+        const shuffled = [...question.options];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
+      }
+
+      // Apply shuffling to all questions
+      const shuffledQuestions = questions.map(q => ({
+        ...q,
+        options: shuffleOptions(q)
+      }));
+
+      // Build the HTML with sections
+      function buildExerciseHTML() {
+        const container = document.getElementById('sentences-container');
+        let html = '';
+        
+        for (let section = 1; section <= 6; section++) {
+          const sectionQuestions = shuffledQuestions.filter(q => q.section === section);
+          if (sectionQuestions.length === 0) continue;
+          
+          let sectionTitle = '';
+          let sectionColor = '';
+          
+          switch(section) {
+            case 1:
+              sectionTitle = 'at the latest';
+              sectionColor = 'section-1';
+              break;
+            case 2:
+              sectionTitle = 'not only...but also';
+              sectionColor = 'section-2';
+              break;
+            case 3:
+              sectionTitle = 'I\'d rather you';
+              sectionColor = 'section-3';
+              break;
+            case 4:
+              sectionTitle = 'verb be for obligations';
+              sectionColor = 'section-4';
+              break;
+            case 5:
+              sectionTitle = 'no sooner...than';
+              sectionColor = 'section-5';
+              break;
+            case 6:
+              sectionTitle = 'suggested that (+ bare infinitive)';
+              sectionColor = 'section-6';
+              break;
+          }
+          
+          html += `<div class="grammar-section ${sectionColor}">`;
+          html += `<div class="section-header">`;
+          html += `${sectionTitle} <span>${sectionQuestions.length} questions</span>`;
+          html += `</div>`;
+          html += `<div class="section-content">`;
+          
+          sectionQuestions.forEach(q => {
+            html += `<div class="sentence" id="sentence${q.id}">`;
+            html += `${q.id}. ${q.text} <select id="q${q.id}">`;
+            html += `<option value="">-- Select --</option>`;
+            
+            q.options.forEach(opt => {
+              html += `<option value="${opt.value}">${opt.value}</option>`;
+            });
+            
+            html += `</select>`;
+            html += `<span class="grammar-tip">${q.tip}</span>`;
+            html += `</div>`;
+          });
+          
+          html += `</div></div>`;
+        }
+        
+        container.innerHTML = html;
+      }
+
+      buildExerciseHTML();
+
+      // Get DOM elements
+      const sentences = document.querySelectorAll('.sentence');
+      const selects = document.querySelectorAll('select');
+      const progressBar = document.getElementById('progress-bar');
+      const progressText = document.getElementById('progress-text');
+      const successMessage = document.getElementById('success-message');
+      const errorMessage = document.getElementById('error-message');
+      const checkBtn = document.getElementById('check-btn');
+      const resetBtn = document.getElementById('reset-btn');
+      
+      // Create correct answers map from shuffled questions
+      const correctAnswers = {};
+      shuffledQuestions.forEach(q => {
+        const correctOption = q.options.find(opt => opt.correct);
+        correctAnswers[`q${q.id}`] = correctOption.value;
+      });
+      
+      let answeredQuestions = 0;
+      const totalQuestions = selects.length;
+      let hasCheckedAnswers = false;
+      
+      // Initialize progress
+      updateProgress();
+      
+      // Add event listeners to selects
+      selects.forEach(select => {
+        select.addEventListener('change', function() {
+          // Remove previous styling when user changes answer
+          if (hasCheckedAnswers) {
+            this.classList.remove('correct', 'incorrect');
+            const sentenceId = this.id.replace('q', 'sentence');
+            document.getElementById(sentenceId).classList.remove('correct', 'incorrect');
+          }
+          
+          // Update progress
+          updateProgress();
+          
+          // Hide messages when user makes changes
+          successMessage.style.display = 'none';
+          errorMessage.style.display = 'none';
+          hasCheckedAnswers = false;
+        });
+      });
+      
+      // Update progress bar and text
+      function updateProgress() {
+        answeredQuestions = 0;
+        selects.forEach(select => {
+          if (select.value !== '') {
+            answeredQuestions++;
+          }
+        });
+        
+        const progress = (answeredQuestions / totalQuestions) * 100;
+        progressBar.style.width = `${progress}%`;
+        progressText.textContent = `${answeredQuestions}/${totalQuestions} (${Math.round(progress)}%)`;
+      }
+      
+      // Check answers
+      function checkAnswers() {
+        let allCorrect = true;
+        let allAnswered = true;
+        
+        selects.forEach(select => {
+          const questionId = select.id;
+          const userAnswer = select.value;
+          const correctAnswer = correctAnswers[questionId];
+          const sentence = document.getElementById(`sentence${questionId.substring(1)}`);
+          
+          if (userAnswer === '') {
+            allAnswered = false;
+            select.classList.remove('correct', 'incorrect');
+            sentence.classList.remove('correct', 'incorrect');
+          } else if (userAnswer === correctAnswer) {
+            select.classList.add('correct');
+            select.classList.remove('incorrect');
+            sentence.classList.add('correct');
+            sentence.classList.remove('incorrect');
+          } else {
+            select.classList.add('incorrect');
+            select.classList.remove('correct');
+            sentence.classList.add('incorrect');
+            sentence.classList.remove('correct');
+            allCorrect = false;
+          }
+        });
+        
+        if (!allAnswered) {
+          errorMessage.textContent = '⚠️ Please answer all questions before checking.';
+          errorMessage.style.display = 'block';
+          successMessage.style.display = 'none';
+        } else if (allCorrect) {
+          successMessage.style.display = 'block';
+          errorMessage.style.display = 'none';
+        } else {
+          errorMessage.textContent = '❌ Some answers are incorrect. Keep trying!';
+          errorMessage.style.display = 'block';
+          successMessage.style.display = 'none';
+        }
+        
+        hasCheckedAnswers = true;
+      }
+      
+      // Handle check button click
+      checkBtn.addEventListener('click', checkAnswers);
+      
+      // Handle reset button click
+      resetBtn.addEventListener('click', function() {
+        selects.forEach(select => {
+          select.value = '';
+          select.classList.remove('correct', 'incorrect');
+          const sentenceId = select.id.replace('q', 'sentence');
+          document.getElementById(sentenceId).classList.remove('correct', 'incorrect');
+        });
+        
+        answeredQuestions = 0;
+        updateProgress();
+        successMessage.style.display = 'none';
+        errorMessage.style.display = 'none';
+        hasCheckedAnswers = false;
+      });
+    });
+  </script>
+</body>
+</html>
