@@ -1,108 +1,605 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Text Reconstruction Exercises</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grammar drill · multiple gaps</title>
   <style>
-    body {
+    * {
       margin: 0;
-      font-family: system-ui, sans-serif;
-      background: #fff;
-      color: #333;
-      padding: 2rem;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    header {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-    }
-    p {
-      line-height: 1.6;
-    }
-    ul {
-      list-style: none;
       padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
     }
-    li {
-      margin: 1rem 0;
+
+    body {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
     }
-    a {
-      text-decoration: none;
-      color: #0077cc;
+
+    .card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(4px);
+      width: 100%;
+      max-width: 1050px;
+      border-radius: 42px;
+      box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
     }
-    a:hover {
-      text-decoration: underline;
+
+    .header {
+      background: white;
+      padding: 30px 40px 20px 40px;
+      border-bottom: 2px solid #e5e1fa;
     }
-    footer {
-      margin-top: 3rem;
+
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 600;
+      background: linear-gradient(145deg, #14435c, #4f3270);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.02em;
+    }
+
+    .meta {
+      display: flex;
+      gap: 20px;
+      margin-top: 10px;
+      color: #2b3f59;
+    }
+
+    .pill {
+      background: #dcd4ff;
+      padding: 6px 18px;
+      border-radius: 50px;
       font-size: 0.9rem;
+      font-weight: 600;
+      color: #20144a;
+    }
+
+    .instruction-block {
+      background: #edf2f9;
+      padding: 18px 40px;
+      border-bottom: 1px solid #ccd9f0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      font-weight: 500;
+      color: #10324c;
+    }
+
+    .instruction-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .num-badge {
+      background: #b1c6e8;
+      width: 30px;
+      height: 30px;
+      border-radius: 30px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #101c33;
+    }
+
+    .section {
+      margin: 28px 30px 32px 30px;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 10px 20px -5px rgba(0, 20, 30, 0.2);
+      border: 1px solid #e1daf5;
+    }
+
+    .section-title {
+      padding: 18px 26px;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .section-title span:first-child {
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .section-title .q-count {
+      background: #ffffff30;
+      padding: 4px 18px;
+      border-radius: 60px;
+      font-size: 0.9rem;
+    }
+
+    /* gradient palettes for each section */
+    .s1 .section-title { background: linear-gradient(145deg, #fb8b2c, #ea5b0c); }
+    .s2 .section-title { background: linear-gradient(145deg, #2b6c8f, #1d3b66); }
+    .s3 .section-title { background: linear-gradient(145deg, #b4267a, #650d55); }
+    .s4 .section-title { background: linear-gradient(145deg, #30835c, #104d3d); }
+    .s5 .section-title { background: linear-gradient(145deg, #cf8b2c, #a45100); }
+    .s6 .section-title { background: linear-gradient(145deg, #6366f1, #2e3b7c); }
+
+    .section-content {
+      background: #f9faff;
+      padding: 25px 30px;
+    }
+
+    .multi-gap-sentence {
+      background: white;
+      border-radius: 20px;
+      padding: 20px 25px;
+      margin-bottom: 22px;
+      border: 1px solid #e3dcff;
+      box-shadow: 0 5px 12px -8px #b7a8e6;
+      font-size: 1.1rem;
+      line-height: 2.2;
+      transition: 0.1s;
+    }
+
+    .multi-gap-sentence:hover {
+      border-color: #9479e0;
+      background: #fefdff;
+    }
+
+    .multi-gap-sentence.correct-sentence {
+      background: #e7f6ec;
+      border-left: 8px solid #0d7530;
+    }
+
+    .multi-gap-sentence.incorrect-sentence {
+      background: #ffeae9;
+      border-left: 8px solid #bb2525;
+    }
+
+    .gap {
+      display: inline-block;
+      margin: 0 4px;
+    }
+
+    .gap-input {
+      border: none;
+      background: #eae5fc;
+      border-bottom: 4px solid #a28ed6;
+      font-size: 1.05rem;
+      padding: 8px 12px;
+      width: 110px;
+      border-radius: 16px 16px 6px 6px;
       text-align: center;
-      color: #777;
+      font-weight: 600;
+      color: #1b153b;
+      transition: 0.1s;
+    }
+
+    .gap-input:focus {
+      outline: none;
+      background: #ffffff;
+      border-bottom-color: #480ecc;
+      box-shadow: 0 6px 12px -8px #480ecc;
+    }
+
+    .gap-input.correct-gap {
+      background: #dcfce7;
+      border-bottom: 4px solid #0f973d;
+    }
+
+    .gap-input.incorrect-gap {
+      background: #ffe2e2;
+      border-bottom: 4px solid #ca2f2f;
+    }
+
+    .hint-tag {
+      background: #e1d8fd;
+      color: #2e2352;
+      font-size: 0.75rem;
+      padding: 3px 10px;
+      border-radius: 30px;
+      margin-left: 12px;
+      font-weight: 500;
+      display: inline-block;
+    }
+
+    .global-progress {
+      margin: 0 40px 15px 40px;
+    }
+
+    .progress-track {
+      background: #dad3f0;
+      height: 12px;
+      border-radius: 30px;
+    }
+
+    .progress-fill {
+      background: linear-gradient(90deg, #284b7c, #8046af);
+      height: 12px;
+      width: 0%;
+      border-radius: 30px;
+      transition: width 0.3s;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      font-size: 0.95rem;
+      color: #1d304b;
+    }
+
+    .global-message {
+      margin: 10px 40px 5px;
+      padding: 16px 25px;
+      border-radius: 50px;
+      font-weight: 600;
+      display: none;
+      text-align: center;
+    }
+
+    .win-msg {
+      background: #e0ffdd;
+      color: #19663b;
+      border: 1px solid #acebb5;
+    }
+
+    .error-msg {
+      background: #ffe2dd;
+      color: #a22b2b;
+      border: 1px solid #fdbbbb;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin: 30px 40px 40px;
+    }
+
+    .btn-primary, .btn-secondary {
+      flex: 1 1 200px;
+      padding: 18px 18px;
+      border: none;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(90deg, #1f2f5a, #473e7c);
+      color: white;
+      box-shadow: 0 8px 18px -10px #101c3a;
+    }
+
+    .btn-primary:hover {
+      transform: scale(1.02);
+      background: linear-gradient(90deg, #293e72, #5d4e9b);
+    }
+
+    .btn-secondary {
+      background: #d8d0f5;
+      color: #1a1744;
+      box-shadow: 0 8px 12px -10px #3f3270;
+    }
+
+    .btn-secondary:hover {
+      background: #c5b8f2;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #3a3866;
+      background: #eff2ff;
+      border-top: 1px solid #cfc7f0;
+    }
+
+    @media (max-width: 700px) {
+      .gap-input { width: 80px; }
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Text Reconstruction Exercises</h1>
-    <p>Explore modular writing tasks designed to challenge comprehension, sequencing, and grammar reconstruction.</p>
-  </header>
+  <div class="card">
+    <div class="header">
+      <h1>🕸️ multiple‑gap challenge</h1>
+      <div class="meta">
+        <span class="pill">6 sections</span>
+        <span class="pill">40 sentences · 2‑3 gaps each</span>
+      </div>
+    </div>
+    <div class="instruction-block">
+      <div class="instruction-item"><span class="num-badge">①</span> type into every gap</div>
+      <div class="instruction-item"><span class="num-badge">②</span> check your answers</div>
+      <div class="instruction-item"><span class="num-badge">③</span> learn from coloured hints</div>
+    </div>
 
-  <main>
-    <ul>
-      <li><a href="https://e09161.github.io/old_house_painting/page1.html">Old House Painting</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page2.html">Modal Verbs 1</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page3.html">Modal Verbs 2</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page4.html">Forest</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page5.html">Dancers</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page6.html">Narrative tenses</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page7.html">Verb to be 1</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page8.html">Pronunciation of live / life</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page9.html">Advanced phrases 1</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page10.html">Critical Thinking Vocabulary</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page11.html">Advanced Vocabulary 1 </a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page12.html">Advanced Vocabulary 2</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page13.html">Comparatives 1</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page14.html">Possesive adjectives</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page15.html">Big numbers</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page16.html">Supervolcanoes</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page17.html">Vacations</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page18.html">Indicative Pronouns</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page19.html">Tenses</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page20.html">Letter of Application</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page21.html">Passive Voice</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page22.html">A letter</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page23.html">My life in a different town</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page24.html">The case for and against living abroad</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page25.html">Wide / width, etc.</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page26.html">Restaurant Dialogue</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page27.html">Conditionals 2</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page28.html">Conditionals 3</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page29.html">Conditionals 4</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page30.html">Conditionals 5</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page31.html">Conditionals 6</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page32.html">Conditionals 7</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page33.html">Wish 1</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page34.html">Wish 2</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page35.html">-ing</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page36.html">Tenses mix</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page37.html">Possesive case vs contractions</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page38.html">Seoul</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page39.html">Advanced Grammar Structures 1a</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page40.html">Advanced Grammar Structures 1b</a></li>
-      <li><a href="lost_key.html">The Lost Key</a></li>
-      <!-- Add more exercises here -->
-    </ul>
-  </main>
+    <div id="sentences-root"></div>
 
-  <footer>
-    &copy; 2025 Educasa.pe
-  </footer>
+    <div class="global-progress">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="stats">
+        <span>✅ filled <span id="filledCount">0</span>/<span id="totalGaps">0</span></span>
+        <span id="percentDisplay">0%</span>
+      </div>
+    </div>
+
+    <div class="global-message win-msg" id="winMessage">🎉 all gaps correct! language master.</div>
+    <div class="global-message error-msg" id="failMessage">⚠️ some gaps are empty or wrong – try again.</div>
+
+    <div class="actions">
+      <button class="btn-primary" id="checkBtn">🔍 check everything</button>
+      <button class="btn-secondary" id="resetBtn">⟲ reset all gaps</button>
+    </div>
+
+    <footer>multiple gaps · each pattern is tested · hints show structure</footer>
+  </div>
+
+  <script>
+    (function() {
+      // ----- DEFINITIONS: each sentence contains multiple gaps -----
+      const sentences = [
+        // section 1: at the latest (2 gaps each? but we insert gaps creatively)
+        { id:1, section:1, parts: [
+          "Please submit your assignment", { gap: "by", len:'short' }, "Friday", { gap: "at the latest", len:'long' }
+        ], hint: 'by ... at the latest' },
+        { id:2, section:1, parts: [ "The guests should arrive", { gap: "by", len:'short' }, "8 PM", { gap: "at the latest", len:'long' } ], hint: 'by ... at the latest' },
+        { id:3, section:1, parts: [ "You need to finish this report", { gap: "by", len:'short' }, "Monday", { gap: "at the latest", len:'long' } ], hint: 'by + at the latest' },
+        { id:4, section:1, parts: [ "The payment must be received", { gap: "by", len:'short' }, "tomorrow", { gap: "at the latest", len:'long' } ], hint: 'by ... at the latest' },
+        { id:5, section:1, parts: [ "We need your decision", { gap: "by", len:'short' }, "Thursday", { gap: "at the latest", len:'long' } ], hint: 'by ... at the latest' },
+        { id:6, section:1, parts: [ "The documents should be here", { gap: "by", len:'short' }, "noon", { gap: "at the latest", len:'long' } ], hint: 'by + at the latest' },
+
+        // section 2: not only ... but also (three gaps? we'll make two gaps visible)
+        { id:7, section:2, parts: [ "She", { gap: "not only", len:'medium' }, "sings", { gap: "but also", len:'medium' }, "dances." ], hint: 'not only ... but also' },
+        { id:8, section:2, parts: [ "The movie was", { gap: "not only", len:'medium' }, "entertaining", { gap: "but also", len:'medium' }, "thought-provoking." ], hint: 'not only ... but also' },
+        { id:9, section:2, parts: [ "He", { gap: "not only", len:'medium' }, "speaks French", { gap: "but also", len:'medium' }, "German." ], hint: 'not only / but also' },
+        { id:10, section:2, parts: [ "The restaurant serves", { gap: "not only", len:'medium' }, "delicious food", { gap: "but also", len:'medium' }, "great wine." ], hint: 'not only ... but also' },
+        { id:11, section:2, parts: [ "This car is", { gap: "not only", len:'medium' }, "fast", { gap: "but also", len:'medium' }, "reliable." ], hint: 'not only / but also' },
+        { id:12, section:2, parts: [ "They", { gap: "not only", len:'medium' }, "visited Paris", { gap: "but also", len:'medium' }, "went to Lyon." ], hint: 'not only ... but also' },
+
+        // section 3: I'd rather you + past (2 gaps – 'rather you' + past verb)
+        { id:13, section:3, parts: [ "I'd", { gap: "rather you", len:'medium' }, { gap: "didn't smoke", len:'long' }, "here." ], hint: 'rather you + past' },
+        { id:14, section:3, parts: [ "I'd", { gap: "rather you", len:'medium' }, { gap: "told", len:'short' }, "me the truth." ], hint: 'rather you + past' },
+        { id:15, section:3, parts: [ "I'd", { gap: "rather you", len:'medium' }, { gap: "came", len:'short' }, "earlier." ], hint: 'past: came' },
+        { id:16, section:3, parts: [ "I'd", { gap: "rather you", len:'medium' }, { gap: "didn't tell", len:'medium' }, "anyone." ], hint: "didn't tell" },
+        { id:17, section:3, parts: [ "I'd", { gap: "rather you", len:'medium' }, { gap: "were", len:'short' }, "more careful." ], hint: 'were (past)' },
+        { id:18, section:3, parts: [ "I'd", { gap: "rather you", len:'medium' }, { gap: "stayed", len:'short' }, "at home." ], hint: 'stayed' },
+        { id:19, section:3, parts: [ "I'd", { gap: "rather you", len:'medium' }, { gap: "didn't do", len:'medium' }, "that." ], hint: "didn't do" },
+
+        // section 4: be to + infinitive (multiple gaps – 'are to' etc + verb)
+        { id:20, section:4, parts: [ "All employees", { gap: "are to", len:'short' }, { gap: "wear", len:'short' }, "uniforms." ], hint: 'are to + inf' },
+        { id:21, section:4, parts: [ "You", { gap: "are to", len:'short' }, { gap: "finish", len:'short' }, "by 6 PM." ], hint: 'are to finish' },
+        { id:22, section:4, parts: [ "The students", { gap: "are to", len:'short' }, { gap: "submit", len:'short' }, "their essays." ], hint: 'are to submit' },
+        { id:23, section:4, parts: [ "Nobody", { gap: "is to", len:'short' }, { gap: "leave", len:'short' }, "the room." ], hint: 'is to leave' },
+        { id:24, section:4, parts: [ "The documents", { gap: "are to be", len:'medium' }, { gap: "signed", len:'short' }, "by the manager." ], hint: 'are to be signed' },
+        { id:25, section:4, parts: [ "All visitors", { gap: "are to", len:'short' }, { gap: "register", len:'short' }, "at reception." ], hint: 'are to register' },
+        { id:26, section:4, parts: [ "Each participant", { gap: "is to", len:'short' }, { gap: "bring", len:'short' }, "their own laptop." ], hint: 'is to bring' },
+
+        // section 5: no sooner ... than (two gaps: inversion + 'than')
+        { id:27, section:5, parts: [ "No sooner", { gap: "had I arrived", len:'long' }, "than", { gap: "the phone rang", len:'medium' } ], hint: 'No sooner + had + subj ... than' },
+        { id:28, section:5, parts: [ "No sooner", { gap: "had she left", len:'long' }, "than", { gap: "it started raining", len:'medium' } ], hint: 'had she left than' },
+        { id:29, section:5, parts: [ "No sooner", { gap: "had the movie started", len:'long' }, "than", { gap: "the fire alarm went off", len:'medium' } ], hint: 'had ... than' },
+        { id:30, section:5, parts: [ "No sooner", { gap: "had we sat down", len:'long' }, "than", { gap: "the waiter came", len:'medium' } ], hint: 'had we sat down than' },
+        { id:31, section:5, parts: [ "No sooner", { gap: "had they finished", len:'long' }, "than", { gap: "the bell rang", len:'medium' } ], hint: 'had they finished than' },
+        { id:32, section:5, parts: [ "No sooner", { gap: "had the phone rung", len:'long' }, "than", { gap: "I answered it", len:'medium' } ], hint: 'had the phone rung than' },
+        { id:33, section:5, parts: [ "No sooner", { gap: "had the teacher entered", len:'long' }, "than", { gap: "the students stood up", len:'medium' } ], hint: 'had ... entered than' },
+
+        // section 6: suggested that + bare infinitive (two gaps: 'suggested that' + bare inf)
+        { id:34, section:6, parts: [ "The manager suggested that the team", { gap: "work", len:'short' }, "harder." ], hint: 'bare inf' },
+        { id:35, section:6, parts: [ "The doctor suggested that my father", { gap: "exercise", len:'short' }, "more." ], hint: 'exercise' },
+        { id:36, section:6, parts: [ "She suggested that he", { gap: "apply", len:'short' }, "for the job." ], hint: 'apply' },
+        { id:37, section:6, parts: [ "I suggested that they", { gap: "arrive", len:'short' }, "early." ], hint: 'arrive' },
+        { id:38, section:6, parts: [ "The consultant suggested that the company", { gap: "restructure", len:'short' }, "its structure." ], hint: 'restructure' },
+        { id:39, section:6, parts: [ "They suggested that we", { gap: "wait", len:'short' }, "here." ], hint: 'wait' },
+        { id:40, section:6, parts: [ "The report suggested that the government", { gap: "invest", len:'short' }, "more." ], hint: 'invest' },
+      ];
+
+      // ---- helper: collect all gap keys with correct answer ----
+      const gapAnswers = {};   // key: `senId-gapIndex` -> correct answer (lowercase trimmed)
+      const totalGapCount = (() => {
+        let cnt = 0;
+        sentences.forEach(sen => {
+          sen.parts.forEach((p, idx) => {
+            if (typeof p === 'object' && p.gap) {
+              const key = `${sen.id}-${idx}`;
+              gapAnswers[key] = p.gap.trim().toLowerCase();
+              cnt++;
+            }
+          });
+        });
+        return cnt;
+      })();
+
+      // ---- render everything with sections ----
+      const root = document.getElementById('sentences-root');
+      function render() {
+        let html = '';
+        for (let sec = 1; sec <= 6; sec++) {
+          const secSentences = sentences.filter(s => s.section === sec);
+          if (!secSentences.length) continue;
+
+          let secName = '';
+          if (sec === 1) secName = '⏰ at the latest';
+          else if (sec === 2) secName = '🔁 not only … but also';
+          else if (sec === 3) secName = '👤 I’d rather you + past';
+          else if (sec === 4) secName = '⚙️ be to + infinitive';
+          else if (sec === 5) secName = '⚡ no sooner … than';
+          else if (sec === 6) secName = '💡 suggest + bare infinitive';
+
+          html += `<div class="section s${sec}">`;
+          html += `<div class="section-title"><span>${secName}</span><span class="q-count">${secSentences.length} sentences</span></div>`;
+          html += `<div class="section-content">`;
+
+          secSentences.forEach(sen => {
+            html += `<div class="multi-gap-sentence" id="sen-${sen.id}">`;
+            html += `<span style="font-weight:600; margin-right:8px;">${sen.id}.</span>`;
+
+            sen.parts.forEach((part, idx) => {
+              if (typeof part === 'string') {
+                html += part + ' ';
+              } else {
+                // gap object
+                const gapKey = `${sen.id}-${idx}`;
+                const placeholder = part.len === 'short' ? 'short' : (part.len === 'long' ? 'phrase' : 'word');
+                html += `<span class="gap"><input type="text" class="gap-input" data-gapkey="${gapKey}" id="gap-${gapKey}" placeholder="${placeholder}"></span> `;
+              }
+            });
+
+            html += `<span class="hint-tag">💡 ${sen.hint}</span>`;
+            html += `</div>`; // close sentence
+          });
+
+          html += `</div></div>`; // close content & section
+        }
+        root.innerHTML = html;
+      }
+      render();
+
+      // ---- get all inputs, progress etc ----
+      const gapInputs = document.querySelectorAll('.gap-input');
+      const totalGapsSpan = document.getElementById('totalGaps');
+      const filledSpan = document.getElementById('filledCount');
+      const progressFill = document.getElementById('progressFill');
+      const percentSpan = document.getElementById('percentDisplay');
+      const winMsg = document.getElementById('winMessage');
+      const failMsg = document.getElementById('failMessage');
+      const checkBtn = document.getElementById('checkBtn');
+      const resetBtn = document.getElementById('resetBtn');
+
+      totalGapsSpan.innerText = totalGapCount;
+
+      function countFilled() {
+        let filled = 0;
+        gapInputs.forEach(inp => { if (inp.value.trim() !== '') filled++; });
+        return filled;
+      }
+
+      function updateProgress() {
+        const filled = countFilled();
+        const percent = (filled / totalGapCount) * 100;
+        progressFill.style.width = percent + '%';
+        filledSpan.innerText = filled;
+        percentSpan.innerText = Math.round(percent) + '%';
+      }
+
+      function resetAllStyles() {
+        gapInputs.forEach(inp => {
+          inp.classList.remove('correct-gap', 'incorrect-gap');
+        });
+        document.querySelectorAll('.multi-gap-sentence').forEach(s => {
+          s.classList.remove('correct-sentence', 'incorrect-sentence');
+        });
+      }
+
+      // reset button
+      resetBtn.addEventListener('click', () => {
+        gapInputs.forEach(inp => { inp.value = ''; });
+        resetAllStyles();
+        updateProgress();
+        winMsg.style.display = 'none';
+        failMsg.style.display = 'none';
+      });
+
+      // check answers
+      function checkAll() {
+        let anyEmpty = false;
+        const gapCorrectness = new Map(); // gapKey -> boolean
+
+        // check each input
+        gapInputs.forEach(inp => {
+          const gapKey = inp.dataset.gapkey;
+          const correct = gapAnswers[gapKey];
+          const userVal = inp.value.trim().toLowerCase();
+          const isCorrect = (userVal !== '' && userVal === correct);
+          
+          if (userVal === '') anyEmpty = true;
+          
+          if (userVal !== '' && isCorrect) {
+            inp.classList.add('correct-gap');
+            inp.classList.remove('incorrect-gap');
+          } else if (userVal !== '' && !isCorrect) {
+            inp.classList.add('incorrect-gap');
+            inp.classList.remove('correct-gap');
+          } else {
+            inp.classList.remove('correct-gap', 'incorrect-gap');
+          }
+          gapCorrectness.set(gapKey, isCorrect);
+        });
+
+        // color sentences based on their gaps
+        sentences.forEach(sen => {
+          const senDiv = document.getElementById(`sen-${sen.id}`);
+          if (!senDiv) return;
+          let allCorrect = true;
+          let hasAnyFilled = false;
+
+          sen.parts.forEach((part, idx) => {
+            if (typeof part === 'object') {
+              const key = `${sen.id}-${idx}`;
+              const correct = gapCorrectness.get(key);
+              if (correct === true) hasAnyFilled = true;
+              if (correct !== true) allCorrect = false;  // either false or undefined
+            }
+          });
+
+          if (!hasAnyFilled) {
+            senDiv.classList.remove('correct-sentence', 'incorrect-sentence');
+          } else if (allCorrect) {
+            senDiv.classList.add('correct-sentence');
+            senDiv.classList.remove('incorrect-sentence');
+          } else {
+            senDiv.classList.add('incorrect-sentence');
+            senDiv.classList.remove('correct-sentence');
+          }
+        });
+
+        // global message logic
+        const totalCorrect = Array.from(gapCorrectness.values()).filter(v => v === true).length;
+        const allFilled = !anyEmpty && gapInputs.length === countFilled();
+
+        if (!allFilled) {
+          failMsg.innerText = '⚠️ you left some gaps empty – fill everything.';
+          failMsg.style.display = 'block';
+          winMsg.style.display = 'none';
+        } else if (totalCorrect === totalGapCount) {
+          winMsg.style.display = 'block';
+          failMsg.style.display = 'none';
+        } else {
+          failMsg.innerText = '❌ some answers are incorrect. adjust and check again.';
+          failMsg.style.display = 'block';
+          winMsg.style.display = 'none';
+        }
+        updateProgress();
+      }
+
+      checkBtn.addEventListener('click', checkAll);
+
+      gapInputs.forEach(inp => {
+        inp.addEventListener('input', function() {
+          // remove sentence highlight if user edits after check
+          const gapKey = this.dataset.gapkey;
+          const [senId] = gapKey.split('-');
+          const senDiv = document.getElementById(`sen-${senId}`);
+          if (senDiv) {
+            senDiv.classList.remove('correct-sentence', 'incorrect-sentence');
+          }
+          this.classList.remove('correct-gap', 'incorrect-gap');
+          winMsg.style.display = 'none';
+          failMsg.style.display = 'none';
+          updateProgress();
+        });
+      });
+
+      updateProgress();
+    })();
+  </script>
 </body>
 </html>
