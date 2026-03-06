@@ -1,108 +1,1191 @@
+html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Text Reconstruction Exercises</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: system-ui, sans-serif;
-      background: #fff;
-      color: #333;
-      padding: 2rem;
-      max-width: 700px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    header {
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-    }
-    p {
-      line-height: 1.6;
-    }
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-    li {
-      margin: 1rem 0;
-    }
-    a {
-      text-decoration: none;
-      color: #0077cc;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    footer {
-      margin-top: 3rem;
-      font-size: 0.9rem;
-      text-align: center;
-      color: #777;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grammar Exercise - Advanced Gap Filling Challenge</title>
+<style>
+* {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+min-height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 20px;
+color: #333;
+}
+
+.container {
+background-color: white;
+border-radius: 12px;
+box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+width: 100%;
+max-width: 900px;
+overflow: hidden;
+animation: fadeIn 0.5s ease-in-out;
+}
+
+header {
+background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+color: white;
+padding: 25px 30px;
+text-align: center;
+}
+
+h1 {
+font-size: 28px;
+margin-bottom: 8px;
+font-weight: 700;
+}
+
+header p {
+opacity: 0.9;
+font-size: 17px;
+}
+
+.instructions {
+background-color: #f0f4ff;
+padding: 15px 25px;
+border-bottom: 1px solid #e1e8ff;
+font-size: 16px;
+color: #555;
+}
+
+.grammar-section {
+margin: 0 25px 25px;
+border-radius: 10px;
+overflow: hidden;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.section-header {
+padding: 12px 20px;
+font-weight: 700;
+font-size: 18px;
+color: white;
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+.section-header span {
+background: rgba(255, 255, 255, 0.2);
+padding: 4px 10px;
+border-radius: 20px;
+font-size: 14px;
+}
+
+.section-content {
+padding: 20px;
+background-color: #fafafa;
+}
+
+/* Section colors */
+.section-1 .section-header { background: linear-gradient(90deg, #ef5350 0%, #d32f2f 100%); }
+.section-2 .section-header { background: linear-gradient(90deg, #66bb6a 0%, #2e7d32 100%); }
+.section-3 .section-header { background: linear-gradient(90deg, #ffa726 0%, #f57c00 100%); }
+.section-4 .section-header { background: linear-gradient(90deg, #42a5f5 0%, #1565c0 100%); }
+.section-5 .section-header { background: linear-gradient(90deg, #ab47bc 0%, #6a1b9a 100%); }
+.section-6 .section-header { background: linear-gradient(90deg, #26c6da 0%, #00838f 100%); }
+
+.exercise-container {
+padding: 0 30px 30px;
+}
+
+.sentences {
+margin: 20px 0;
+}
+
+.sentence {
+margin-bottom: 22px;
+font-size: 18px;
+line-height: 1.6;
+padding: 15px;
+border-radius: 8px;
+transition: background-color 0.3s;
+background-color: #f9f9f9;
+border-left: 4px solid transparent;
+}
+
+.sentence:hover {
+background-color: #f0f0f0;
+}
+
+.sentence.correct {
+border-left-color: #4CAF50;
+background-color: #f1f8e9;
+}
+
+.sentence.incorrect {
+border-left-color: #f44336;
+background-color: #ffebee;
+}
+
+.gap {
+display: inline-block;
+min-width: 180px;
+margin: 0 5px;
+}
+
+select {
+padding: 8px 12px;
+border: 2px solid #ddd;
+border-radius: 6px;
+font-size: 16px;
+background-color: white;
+cursor: pointer;
+transition: all 0.3s;
+width: 100%;
+}
+
+select:focus {
+outline: none;
+border-color: #667eea;
+box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+select.correct {
+border-color: #4CAF50;
+background-color: #e8f5e9;
+}
+
+select.incorrect {
+border-color: #f44336;
+background-color: #ffebee;
+}
+
+.grammar-tip {
+display: block;
+background-color: #e3f2fd;
+color: #1565c0;
+font-size: 14px;
+padding: 8px 12px;
+border-radius: 6px;
+margin-top: 10px;
+font-weight: normal;
+border-left: 3px solid #42a5f5;
+}
+
+.hint {
+display: inline-block;
+background-color: #fff3e0;
+color: #ef6c00;
+font-size: 12px;
+padding: 2px 8px;
+border-radius: 4px;
+margin-left: 8px;
+font-style: italic;
+}
+
+.progress-container {
+margin: 25px 0 20px;
+}
+
+.progress-bar {
+height: 12px;
+background-color: #f1f2f6;
+border-radius: 6px;
+overflow: hidden;
+}
+
+.progress {
+height: 100%;
+background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+width: 0%;
+transition: width 0.5s ease;
+}
+
+.progress-text {
+display: flex;
+justify-content: space-between;
+align-items: center;
+font-size: 14px;
+color: #666;
+margin-top: 8px;
+}
+
+.message {
+padding: 15px;
+border-radius: 8px;
+margin-bottom: 15px;
+text-align: center;
+font-weight: 600;
+display: none;
+animation: fadeIn 0.5s;
+}
+
+.success {
+background-color: #e8f5e9;
+color: #2e7d32;
+border: 1px solid #c8e6c9;
+}
+
+.error {
+background-color: #ffebee;
+color: #c62828;
+border: 1px solid #ffcdd2;
+}
+
+.controls {
+display: flex;
+gap: 12px;
+margin-top: 20px;
+flex-wrap: wrap;
+justify-content: center;
+}
+
+.controls button {
+padding: 14px 20px;
+border: none;
+border-radius: 8px;
+cursor: pointer;
+font-weight: 600;
+transition: transform 0.15s, opacity 0.25s, background-color 0.25s;
+min-width: 160px;
+font-size: 16px;
+}
+
+.controls button:hover {
+transform: translateY(-2px);
+opacity: 0.95;
+}
+
+#check-btn {
+background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+color: white;
+}
+
+#reset-btn {
+background-color: #757575;
+color: white;
+}
+
+#show-hints-btn {
+background: linear-gradient(90deg, #ffa726 0%, #f57c00 100%);
+color: white;
+}
+
+footer {
+text-align: center;
+padding: 15px;
+color: #777;
+font-size: 14px;
+border-top: 1px solid #f1f2f6;
+}
+
+@keyframes fadeIn {
+from {
+opacity: 0;
+transform: translateY(10px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+body {
+padding: 10px;
+display: block;
+}
+
+.container {
+border-radius: 10px;
+}
+
+header {
+padding: 20px;
+}
+
+h1 {
+font-size: 24px;
+}
+
+header p {
+font-size: 16px;
+}
+
+.instructions {
+padding: 12px 20px;
+font-size: 15px;
+}
+
+.exercise-container {
+padding: 0 20px 20px;
+}
+
+.sentence {
+font-size: 17px;
+margin-bottom: 18px;
+}
+
+.gap {
+min-width: 150px;
+}
+
+select {
+font-size: 15px;
+}
+
+.controls {
+flex-direction: column;
+}
+
+.controls button {
+width: 100%;
+}
+}
+</style>
 </head>
 <body>
-  <header>
-    <h1>Text Reconstruction Exercises</h1>
-    <p>Explore modular writing tasks designed to challenge comprehension, sequencing, and grammar reconstruction.</p>
-  </header>
+<div class="container">
+<header>
+<h1>Grammar — Advanced Gap Filling Challenge</h1>
+<p>Fill in the gaps with the correct grammar structures. Sentences are mixed up!</p>
+</header>
 
-  <main>
-    <ul>
-      <li><a href="https://e09161.github.io/old_house_painting/page1.html">Old House Painting</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page2.html">Modal Verbs 1</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page3.html">Modal Verbs 2</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page4.html">Forest</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page5.html">Dancers</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page6.html">Narrative tenses</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page7.html">Verb to be 1</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page8.html">Pronunciation of live / life</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page9.html">Advanced phrases 1</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page10.html">Critical Thinking Vocabulary</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page11.html">Advanced Vocabulary 1 </a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page12.html">Advanced Vocabulary 2</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page13.html">Comparatives 1</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page14.html">Possesive adjectives</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page15.html">Big numbers</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page16.html">Supervolcanoes</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page17.html">Vacations</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page18.html">Indicative Pronouns</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page19.html">Tenses</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page20.html">Letter of Application</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page21.html">Passive Voice</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page22.html">A letter</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page23.html">My life in a different town</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page24.html">The case for and against living abroad</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page25.html">Wide / width, etc.</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page26.html">Restaurant Dialogue</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page27.html">Conditionals 2</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page28.html">Conditionals 3</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page29.html">Conditionals 4</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page30.html">Conditionals 5</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page31.html">Conditionals 6</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page32.html">Conditionals 7</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page33.html">Wish 1</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page34.html">Wish 2</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page35.html">-ing</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page36.html">Tenses mix</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page37.html">Possesive case vs contractions</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page38.html">Seoul</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page39.html">Advanced Grammar Structures 1a</a></li>
-      <li><a href="https://e09161.github.io/old_house_painting/page39.html">Advanced Grammar Structures 1b</a></li>
-      <li><a href="lost_key.html">The Lost Key</a></li>
-      <!-- Add more exercises here -->
-    </ul>
-  </main>
+<div class="instructions">
+<p>Complete each sentence by selecting the correct option. Sentences from different grammar structures are mixed together. Use the hints if needed!</p>
+</div>
 
-  <footer>
-    &copy; 2025 Educasa.pe
-  </footer>
+<div class="exercise-container">
+<div class="sentences" id="sentences-container">
+<!-- Sentences will be dynamically inserted here by JavaScript -->
+</div>
+
+<div class="progress-container">
+<div class="progress-bar">
+<div class="progress" id="progress-bar"></div>
+</div>
+<div class="progress-text">
+<span>Progress</span>
+<span id="progress-text">0/40 (0%)</span>
+</div>
+</div>
+
+<div class="message success" id="success-message">
+🎉 Excellent! All answers are correct. You've mastered these grammar structures!
+</div>
+
+<div class="message error" id="error-message">
+Some answers are incorrect. Keep trying!
+</div>
+
+<div class="controls">
+<button id="check-btn">Check answers</button>
+<button id="show-hints-btn">Show hints</button>
+<button id="reset-btn">Reset all answers</button>
+</div>
+</div>
+
+<footer>
+<p>Mixed Grammar Exercise • 6 Structures • 40 Questions</p>
+</footer>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+// Define all questions with mixed structures
+const questions = [
+// Mixed structure 1: at the latest
+{
+id: 1,
+section: 1,
+text: "The project deadline is Friday, so please submit your report by then",
+options: [
+{ value: "at the latest", correct: true },
+{ value: "at least", correct: false },
+{ value: "lastly", correct: false },
+{ value: "the latest", correct: false }
+],
+tip: "Use 'at the latest' to indicate the final acceptable time",
+hint: "Final time expression"
+},
+{
+id: 2,
+section: 1,
+text: "We need your RSVP for the wedding by next Monday",
+options: [
+{ value: "at the latest", correct: true },
+{ value: "at last", correct: false },
+{ value: "lately", correct: false },
+{ value: "the last", correct: false }
+],
+tip: "'At the latest' sets the absolute deadline",
+hint: "Deadline expression"
+},
+
+// Mixed structure 2: not only...but also
+{
+id: 3,
+section: 2,
+text: "The new smartphone is",
+options: [
+{ value: "not only waterproof but also", correct: true },
+{ value: "waterproof not only but", correct: false },
+{ value: "not only waterproof also", correct: false },
+{ value: "waterproof not only also", correct: false }
+],
+tip: "Use 'not only...but also' to add two positive qualities",
+hint: "Two qualities structure"
+},
+{
+id: 4,
+section: 2,
+text: "She",
+options: [
+{ value: "not only completed her degree but also", correct: true },
+{ value: "completed not only her degree but", correct: false },
+{ value: "not only completed her degree also", correct: false },
+{ value: "completed her degree not only but", correct: false }
+],
+tip: "'Not only' comes before the first verb",
+hint: "Achievement structure"
+},
+
+// Mixed structure 3: I'd rather you
+{
+id: 5,
+section: 3,
+text: "I'd rather you",
+options: [
+{ value: "didn't call", correct: true },
+{ value: "don't call", correct: false },
+{ value: "not call", correct: false },
+{ value: "to not call", correct: false }
+],
+tip: "Use past simple after 'I'd rather you'",
+hint: "Preference about someone else"
+},
+{
+id: 6,
+section: 3,
+text: "I'd rather you",
+options: [
+{ value: "were", correct: true },
+{ value: "are", correct: false },
+{ value: "be", correct: false },
+{ value: "being", correct: false }
+],
+tip: "'Were' is used for hypothetical situations",
+hint: "Hypothetical preference"
+},
+
+// Mixed structure 4: verb be for obligations
+{
+id: 7,
+section: 4,
+text: "All participants",
+options: [
+{ value: "are to arrive", correct: true },
+{ value: "are arrive", correct: false },
+{ value: "have arrive", correct: false },
+{ value: "are to arriving", correct: false }
+],
+tip: "Use 'are to + infinitive' for formal obligations",
+hint: "Formal requirement"
+},
+{
+id: 8,
+section: 4,
+text: "The contract states that payments",
+options: [
+{ value: "are to be made", correct: true },
+{ value: "are be made", correct: false },
+{ value: "have be made", correct: false },
+{ value: "are to making", correct: false }
+],
+tip: "Passive form: 'are to be + past participle'",
+hint: "Contractual obligation"
+},
+
+// Mixed structure 5: no sooner...than
+{
+id: 9,
+section: 5,
+text: "No sooner",
+options: [
+{ value: "had we started hiking than", correct: true },
+{ value: "we had started hiking than", correct: false },
+{ value: "had we started hiking then", correct: false },
+{ value: "we started hiking than", correct: false }
+],
+tip: "Inversion: 'had + subject + past participle'",
+hint: "Immediate sequence"
+},
+{
+id: 10,
+section: 5,
+text: "No sooner",
+options: [
+{ value: "had the meeting ended than", correct: true },
+{ value: "the meeting had ended than", correct: false },
+{ value: "had the meeting ended then", correct: false },
+{ value: "the meeting ended than", correct: false }
+],
+tip: "Remember 'than' not 'then'",
+hint: "One event immediately after another"
+},
+
+// Mixed structure 6: suggested that
+{
+id: 11,
+section: 6,
+text: "The committee suggested that the proposal",
+options: [
+{ value: "be revised", correct: true },
+{ value: "is revised", correct: false },
+{ value: "to be revised", correct: false },
+{ value: "revising", correct: false }
+],
+tip: "Use bare infinitive after 'suggested that'",
+hint: "Recommendation structure"
+},
+{
+id: 12,
+section: 6,
+text: "My lawyer suggested that I",
+options: [
+{ value: "consult", correct: true },
+{ value: "consults", correct: false },
+{ value: "to consult", correct: false },
+{ value: "consulting", correct: false }
+],
+tip: "No 'to' after 'suggested that'",
+hint: "Professional advice"
+},
+
+// Continue mixing all structures...
+{
+id: 13,
+section: 1,
+text: "The train should depart by 9:15",
+options: [
+{ value: "at the latest", correct: true },
+{ value: "at last", correct: false },
+{ value: "lately", correct: false },
+{ value: "the latest", correct: false }
+],
+tip: "Transportation schedules often use 'at the latest'",
+hint: "Schedule deadline"
+},
+{
+id: 14,
+section: 2,
+text: "This software is",
+options: [
+{ value: "not only user-friendly but also", correct: true },
+{ value: "user-friendly not only but", correct: false },
+{ value: "not only user-friendly also", correct: false },
+{ value: "user-friendly not only also", correct: false }
+],
+tip: "Balance the structure: 'not only A but also B'",
+hint: "Software features"
+},
+{
+id: 15,
+section: 3,
+text: "I'd rather you",
+options: [
+{ value: "didn't mention", correct: true },
+{ value: "don't mention", correct: false },
+{ value: "not mention", correct: false },
+{ value: "to not mention", correct: false }
+],
+tip: "Negative form: 'didn't + verb'",
+hint: "Preference about information"
+},
+{
+id: 16,
+section: 4,
+text: "According to regulations, all equipment",
+options: [
+{ value: "is to be inspected", correct: true },
+{ value: "is be inspected", correct: false },
+{ value: "has be inspected", correct: false },
+{ value: "is to inspecting", correct: false }
+],
+tip: "Singular subject needs 'is to be'",
+hint: "Safety regulation"
+},
+{
+id: 17,
+section: 5,
+text: "No sooner",
+options: [
+{ value: "had I closed my eyes than", correct: true },
+{ value: "I had closed my eyes than", correct: false },
+{ value: "had I closed my eyes then", correct: false },
+{ value: "I closed my eyes than", correct: false }
+],
+tip: "Personal experience often uses this structure",
+hint: "Personal sequence"
+},
+{
+id: 18,
+section: 6,
+text: "The doctor suggested that she",
+options: [
+{ value: "rest", correct: true },
+{ value: "rests", correct: false },
+{ value: "to rest", correct: false },
+{ value: "resting", correct: false }
+],
+tip: "Medical advice uses 'suggested that'",
+hint: "Medical recommendation"
+},
+{
+id: 19,
+section: 1,
+text: "Please complete the survey by Friday",
+options: [
+{ value: "at the latest", correct: true },
+{ value: "at least", correct: false },
+{ value: "lastly", correct: false },
+{ value: "the last", correct: false }
+],
+tip: "Surveys and forms often have deadlines",
+hint: "Survey deadline"
+},
+{
+id: 20,
+section: 2,
+text: "The conference will feature",
+options: [
+{ value: "not only keynote speeches but also", correct: true },
+{ value: "keynote speeches not only but", correct: false },
+{ value: "not only keynote speeches also", correct: false },
+{ value: "keynote speeches not only also", correct: false }
+],
+tip: "Events often use this structure to list features",
+hint: "Event features"
+},
+{
+id: 21,
+section: 3,
+text: "I'd rather you",
+options: [
+{ value: "told", correct: true },
+{ value: "tell", correct: false },
+{ value: "to tell", correct: false },
+{ value: "telling", correct: false }
+],
+tip: "Past simple for telling information",
+hint: "Information sharing preference"
+},
+{
+id: 22,
+section: 4,
+text: "The instructions state that users",
+options: [
+{ value: "are to follow", correct: true },
+{ value: "are follow", correct: false },
+{ value: "have follow", correct: false },
+{ value: "are to following", correct: false }
+],
+tip: "Instructions use formal obligation language",
+hint: "User instructions"
+},
+{
+id: 23,
+section: 5,
+text: "No sooner",
+options: [
+{ value: "had the rain stopped than", correct: true },
+{ value: "the rain had stopped than", correct: false },
+{ value: "had the rain stopped then", correct: false },
+{ value: "the rain stopped than", correct: false }
+],
+tip: "Weather events work well with this structure",
+hint: "Weather sequence"
+},
+{
+id: 24,
+section: 6,
+text: "The teacher suggested that we",
+options: [
+{ value: "practice", correct: true },
+{ value: "practices", correct: false },
+{ value: "to practice", correct: false },
+{ value: "practicing", correct: false }
+],
+tip: "Educational recommendations use this form",
+hint: "Educational advice"
+},
+{
+id: 25,
+section: 1,
+text: "Applications must be submitted by January 31st",
+options: [
+{ value: "at the latest", correct: true },
+{ value: "at last", correct: false },
+{ value: "lately", correct: false },
+{ value: "the latest", correct: false }
+],
+tip: "Application deadlines are strict",
+hint: "Application deadline"
+},
+{
+id: 26,
+section: 2,
+text: "He has",
+options: [
+{ value: "not only traveled extensively but also", correct: true },
+{ value: "traveled not only extensively but", correct: false },
+{ value: "not only traveled extensively also", correct: false },
+{ value: "traveled extensively not only but", correct: false }
+],
+tip: "Experiences often use this structure",
+hint: "Travel experience"
+},
+{
+id: 27,
+section: 3,
+text: "I'd rather you",
+options: [
+{ value: "didn't worry", correct: true },
+{ value: "don't worry", correct: false },
+{ value: "not worry", correct: false },
+{ value: "to not worry", correct: false }
+],
+tip: "Reassurance uses this structure",
+hint: "Reassurance preference"
+},
+{
+id: 28,
+section: 4,
+text: "The new policy requires that all emails",
+options: [
+{ value: "are to be encrypted", correct: true },
+{ value: "are be encrypted", correct: false },
+{ value: "have be encrypted", correct: false },
+{ value: "are to encrypting", correct: false }
+],
+tip: "Policies use formal obligation language",
+hint: "Policy requirement"
+},
+{
+id: 29,
+section: 5,
+text: "No sooner",
+options: [
+{ value: "had she answered the phone than", correct: true },
+{ value: "she had answered the phone than", correct: false },
+{ value: "had she answered the phone then", correct: false },
+{ value: "she answered the phone than", correct: false }
+],
+tip: "Phone calls create immediate sequences",
+hint: "Phone call sequence"
+},
+{
+id: 30,
+section: 6,
+text: "The consultant suggested that the process",
+options: [
+{ value: "be streamlined", correct: true },
+{ value: "is streamlined", correct: false },
+{ value: "to be streamlined", correct: false },
+{ value: "streamlining", correct: false }
+],
+tip: "Business recommendations use this form",
+hint: "Business improvement"
+},
+{
+id: 31,
+section: 1,
+text: "The package should arrive by tomorrow",
+options: [
+{ value: "at the latest", correct: true },
+{ value: "at least", correct: false },
+{ value: "lastly", correct: false },
+{ value: "the last", correct: false }
+],
+tip: "Delivery estimates use this phrase",
+hint: "Delivery estimate"
+},
+{
+id: 32,
+section: 2,
+text: "The museum offers",
+options: [
+{ value: "not only guided tours but also", correct: true },
+{ value: "guided tours not only but", correct: false },
+{ value: "not only guided tours also", correct: false },
+{ value: "guided tours not only also", correct: false }
+],
+tip: "Cultural institutions list offerings this way",
+hint: "Museum offerings"
+},
+{
+id: 33,
+section: 3,
+text: "I'd rather you",
+options: [
+{ value: "came", correct: true },
+{ value: "come", correct: false },
+{ value: "to come", correct: false },
+{ value: "coming", correct: false }
+],
+tip: "Invitations can use this polite form",
+hint: "Invitation preference"
+},
+{
+id: 34,
+section: 4,
+text: "Security protocol dictates that visitors",
+options: [
+{ value: "are to be escorted", correct: true },
+{ value: "are be escorted", correct: false },
+{ value: "have be escorted", correct: false },
+{ value: "are to escorting", correct: false }
+],
+tip: "Security uses very formal language",
+hint: "Security protocol"
+},
+{
+id: 35,
+section: 5,
+text: "No sooner",
+options: [
+{ value: "had the concert begun than", correct: true },
+{ value: "the concert had begun than", correct: false },
+{ value: "had the concert begun then", correct: false },
+{ value: "the concert began than", correct: false }
+],
+tip: "Events create memorable sequences",
+hint: "Event sequence"
+},
+{
+id: 36,
+section: 6,
+text: "The nutritionist suggested that I",
+options: [
+{ value: "reduce", correct: true },
+{ value: "reduces", correct: false },
+{ value: "to reduce", correct: false },
+{ value: "reducing", correct: false }
+],
+tip: "Health advice follows this pattern",
+hint: "Nutrition advice"
+},
+{
+id: 37,
+section: 1,
+text: "Payment is due by the 15th of each month",
+options: [
+{ value: "at the latest", correct: true },
+{ value: "at last", correct: false },
+{ value: "lately", correct: false },
+{ value: "the latest", correct: false }
+],
+tip: "Financial deadlines are important",
+hint: "Payment deadline"
+},
+{
+id: 38,
+section: 2,
+text: "The research provides",
+options: [
+{ value: "not only statistical data but also", correct: true },
+{ value: "statistical data not only but", correct: false },
+{ value: "not only statistical data also", correct: false },
+{ value: "statistical data not only also", correct: false }
+],
+tip: "Academic work uses this structure",
+hint: "Research findings"
+},
+{
+id: 39,
+section: 3,
+text: "I'd rather you",
+options: [
+{ value: "didn't interrupt", correct: true },
+{ value: "don't interrupt", correct: false },
+{ value: "not interrupt", correct: false },
+{ value: "to not interrupt", correct: false }
+],
+tip: "Meeting etiquette uses this polite form",
+hint: "Meeting behavior"
+},
+{
+id: 40,
+section: 4,
+text: "The agreement specifies that changes",
+options: [
+{ value: "are to be approved", correct: true },
+{ value: "are be approved", correct: false },
+{ value: "have be approved", correct: false },
+{ value: "are to approving", correct: false }
+],
+tip: "Legal agreements use precise language",
+hint: "Agreement term"
+}
+];
+
+// Shuffle the questions to mix up structures
+function shuffleArray(array) {
+for (let i = array.length - 1; i > 0; i--) {
+const j = Math.floor(Math.random() * (i + 1));
+[array[i], array[j]] = [array[j], array[i]];
+}
+return array;
+}
+
+// Shuffle options for each question
+function shuffleOptions(question) {
+const shuffled = [...question.options];
+for (let i = shuffled.length - 1; i > 0; i--) {
+const j = Math.floor(Math.random() * (i + 1));
+[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+}
+return shuffled;
+}
+
+// Apply shuffling
+const shuffledQuestions = shuffleArray(questions.map(q => ({
+...q,
+options: shuffleOptions(q)
+})));
+
+// Build the HTML with mixed sections
+function buildExerciseHTML() {
+const container = document.getElementById('sentences-container');
+let html = '';
+
+// Group by section for display (but questions are shuffled)
+const sections = {};
+shuffledQuestions.forEach(q => {
+if (!sections[q.section]) {
+sections[q.section] = [];
+}
+sections[q.section].push(q);
+});
+
+// Section titles
+const sectionTitles = {
+1: 'at the latest',
+2: 'not only...but also',
+3: 'I\'d rather you',
+4: 'verb be for obligations',
+5: 'no sooner...than',
+6: 'suggested that'
+};
+
+const sectionColors = {
+1: 'section-1',
+2: 'section-2',
+3: 'section-3',
+4: 'section-4',
+5: 'section-5',
+6: 'section-6'
+};
+
+// Display sections in order
+for (let section = 1; section <= 6; section++) {
+if (!sections[section] || sections[section].length === 0) continue;
+
+html += `<div class="grammar-section ${sectionColors[section]}">`;
+html += `<div class="section-header">`;
+html += `${sectionTitles[section]} <span>${sections[section].length} questions</span>`;
+html += `</div>`;
+html += `<div class="section-content">`;
+
+sections[section].forEach(q => {
+html += `<div class="sentence" id="sentence${q.id}">`;
+html += `<div>${q.id}. ${q.text} <span class="hint">${q.hint}</span></div>`;
+html += `<div class="gap"><select id="q${q.id}">`;
+html += `<option value="">-- Select an option --</option>`;
+
+q.options.forEach(opt => {
+html += `<option value="${opt.value}">${opt.value}</option>`;
+});
+
+html += `</select></div>`;
+html += `<div class="grammar-tip" style="display: none;">💡 ${q.tip}</div>`;
+html += `</div>`;
+});
+
+html += `</div></div>`;
+}
+
+container.innerHTML = html;
+}
+
+buildExerciseHTML();
+
+// Get DOM elements
+const sentences = document.querySelectorAll('.sentence');
+const selects = document.querySelectorAll('select');
+const progressBar = document.getElementById('progress-bar');
+const progressText = document.getElementById('progress-text');
+const successMessage = document.getElementById('success-message');
+const errorMessage = document.getElementById('error-message');
+const checkBtn = document.getElementById('check-btn');
+const resetBtn = document.getElementById('reset-btn');
+const showHintsBtn = document.getElementById('show-hints-btn');
+
+// Create correct answers map
+const correctAnswers = {};
+shuffledQuestions.forEach(q => {
+const correctOption = q.options.find(opt => opt.correct);
+correctAnswers[`q${q.id}`] = correctOption.value;
+});
+
+let answeredQuestions = 0;
+const totalQuestions = selects.length;
+let hasCheckedAnswers = false;
+let hintsVisible = false;
+
+// Initialize progress
+updateProgress();
+
+// Add event listeners to selects
+selects.forEach(select => {
+select.addEventListener('change', function() {
+// Remove previous styling when user changes answer
+if (hasCheckedAnswers) {
+this.classList.remove('correct', 'incorrect');
+const sentenceId = this.id.replace('q', 'sentence');
+document.getElementById(sentenceId).classList.remove('correct', 'incorrect');
+}
+
+// Update progress
+updateProgress();
+
+// Hide messages when user makes changes
+successMessage.style.display = 'none';
+errorMessage.style
+```
+.style.display = 'none';
+hasCheckedAnswers = false;
+});
+});
+
+// Update progress bar and text
+function updateProgress() {
+answeredQuestions = 0;
+selects.forEach(select => {
+if (select.value !== '') {
+answeredQuestions++;
+}
+});
+
+const progress = (answeredQuestions / totalQuestions) * 100;
+progressBar.style.width = `${progress}%`;
+progressText.textContent = `${answeredQuestions}/${totalQuestions} (${Math.round(progress)}%)`;
+}
+
+// Toggle hints visibility
+function toggleHints() {
+hintsVisible = !hintsVisible;
+const tips = document.querySelectorAll('.grammar-tip');
+tips.forEach(tip => {
+tip.style.display = hintsVisible ? 'block' : 'none';
+});
+showHintsBtn.textContent = hintsVisible ? 'Hide hints' : 'Show hints';
+}
+
+// Check answers
+function checkAnswers() {
+let allCorrect = true;
+let allAnswered = true;
+
+selects.forEach(select => {
+const questionId = select.id;
+const userAnswer = select.value;
+const correctAnswer = correctAnswers[questionId];
+const sentence = document.getElementById(`sentence${questionId.substring(1)}`);
+
+if (userAnswer === '') {
+allAnswered = false;
+select.classList.remove('correct', 'incorrect');
+sentence.classList.remove('correct', 'incorrect');
+} else if (userAnswer === correctAnswer) {
+select.classList.add('correct');
+select.classList.remove('incorrect');
+sentence.classList.add('correct');
+sentence.classList.remove('incorrect');
+} else {
+select.classList.add('incorrect');
+select.classList.remove('correct');
+sentence.classList.add('incorrect');
+sentence.classList.remove('correct');
+allCorrect = false;
+}
+});
+
+if (!allAnswered) {
+errorMessage.textContent = '⚠️ Please answer all questions before checking.';
+errorMessage.style.display = 'block';
+successMessage.style.display = 'none';
+} else if (allCorrect) {
+successMessage.style.display = 'block';
+errorMessage.style.display = 'none';
+} else {
+errorMessage.textContent = '❌ Some answers are incorrect. Keep trying!';
+errorMessage.style.display = 'block';
+successMessage.style.display = 'none';
+}
+
+hasCheckedAnswers = true;
+}
+
+// Handle check button click
+checkBtn.addEventListener('click', checkAnswers);
+
+// Handle show hints button click
+showHintsBtn.addEventListener('click', toggleHints);
+
+// Handle reset button click
+resetBtn.addEventListener('click', function() {
+selects.forEach(select => {
+select.value = '';
+select.classList.remove('correct', 'incorrect');
+const sentenceId = select.id.replace('q', 'sentence');
+document.getElementById(sentenceId).classList.remove('correct', 'incorrect');
+});
+
+answeredQuestions = 0;
+updateProgress();
+successMessage.style.display = 'none';
+errorMessage.style.display = 'none';
+hasCheckedAnswers = false;
+
+// Hide hints if they're visible
+if (hintsVisible) {
+toggleHints();
+}
+});
+
+// Add keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+// Ctrl+Enter to check answers
+if (e.ctrlKey && e.key === 'Enter') {
+e.preventDefault();
+checkAnswers();
+}
+// Ctrl+R to reset
+if (e.ctrlKey && e.key === 'r') {
+e.preventDefault();
+resetBtn.click();
+}
+// Ctrl+H to toggle hints
+if (e.ctrlKey && e.key === 'h') {
+e.preventDefault();
+toggleHints();
+}
+});
+});
+</script>
 </body>
 </html>
