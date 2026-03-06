@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Grammar drill · multiple gaps</title>
+  <title>mixed multiple‑gap drill · subtle hints</title>
   <style>
     * {
       margin: 0;
@@ -91,47 +91,9 @@
       color: #101c33;
     }
 
-    .section {
+    /* ----- single list (no section grouping) ----- */
+    .sentence-list {
       margin: 28px 30px 32px 30px;
-      border-radius: 24px;
-      overflow: hidden;
-      box-shadow: 0 10px 20px -5px rgba(0, 20, 30, 0.2);
-      border: 1px solid #e1daf5;
-    }
-
-    .section-title {
-      padding: 18px 26px;
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .section-title span:first-child {
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .section-title .q-count {
-      background: #ffffff30;
-      padding: 4px 18px;
-      border-radius: 60px;
-      font-size: 0.9rem;
-    }
-
-    /* gradient palettes for each section */
-    .s1 .section-title { background: linear-gradient(145deg, #fb8b2c, #ea5b0c); }
-    .s2 .section-title { background: linear-gradient(145deg, #2b6c8f, #1d3b66); }
-    .s3 .section-title { background: linear-gradient(145deg, #b4267a, #650d55); }
-    .s4 .section-title { background: linear-gradient(145deg, #30835c, #104d3d); }
-    .s5 .section-title { background: linear-gradient(145deg, #cf8b2c, #a45100); }
-    .s6 .section-title { background: linear-gradient(145deg, #6366f1, #2e3b7c); }
-
-    .section-content {
-      background: #f9faff;
-      padding: 25px 30px;
     }
 
     .multi-gap-sentence {
@@ -197,14 +159,17 @@
       border-bottom: 4px solid #ca2f2f;
     }
 
+    /* subtle hint style — only pattern, no answer */
     .hint-tag {
-      background: #e1d8fd;
-      color: #2e2352;
-      font-size: 0.75rem;
-      padding: 3px 10px;
+      background: #f0ebff;
+      color: #51457e;
+      font-size: 0.7rem;
+      padding: 2px 12px;
       border-radius: 30px;
       margin-left: 12px;
-      font-weight: 500;
+      font-weight: 400;
+      letter-spacing: 0.2px;
+      border: 1px dotted #aa9ace;
       display: inline-block;
     }
 
@@ -310,19 +275,19 @@
 <body>
   <div class="card">
     <div class="header">
-      <h1>🕸️ multiple‑gap challenge</h1>
+      <h1>🔄 mixed‑up gaps · subtle hints</h1>
       <div class="meta">
-        <span class="pill">6 sections</span>
-        <span class="pill">40 sentences · 2‑3 gaps each</span>
+        <span class="pill">40 sentences (shuffled)</span>
+        <span class="pill">2‑3 gaps each</span>
       </div>
     </div>
     <div class="instruction-block">
       <div class="instruction-item"><span class="num-badge">①</span> type into every gap</div>
       <div class="instruction-item"><span class="num-badge">②</span> check your answers</div>
-      <div class="instruction-item"><span class="num-badge">③</span> learn from coloured hints</div>
+      <div class="instruction-item"><span class="num-badge">③</span> hints = pattern only</div>
     </div>
 
-    <div id="sentences-root"></div>
+    <div id="sentences-root" class="sentence-list"></div>
 
     <div class="global-progress">
       <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
@@ -340,132 +305,120 @@
       <button class="btn-secondary" id="resetBtn">⟲ reset all gaps</button>
     </div>
 
-    <footer>multiple gaps · each pattern is tested · hints show structure</footer>
+    <footer>mixed order · hints show structure only (no answers)</footer>
   </div>
 
   <script>
     (function() {
-      // ----- DEFINITIONS: each sentence contains multiple gaps -----
-      const sentences = [
-        // section 1: at the latest (2 gaps each? but we insert gaps creatively)
-        { id:1, section:1, parts: [
-          "Please submit your assignment", { gap: "by", len:'short' }, "Friday", { gap: "at the latest", len:'long' }
-        ], hint: 'by ... at the latest' },
-        { id:2, section:1, parts: [ "The guests should arrive", { gap: "by", len:'short' }, "8 PM", { gap: "at the latest", len:'long' } ], hint: 'by ... at the latest' },
-        { id:3, section:1, parts: [ "You need to finish this report", { gap: "by", len:'short' }, "Monday", { gap: "at the latest", len:'long' } ], hint: 'by + at the latest' },
-        { id:4, section:1, parts: [ "The payment must be received", { gap: "by", len:'short' }, "tomorrow", { gap: "at the latest", len:'long' } ], hint: 'by ... at the latest' },
-        { id:5, section:1, parts: [ "We need your decision", { gap: "by", len:'short' }, "Thursday", { gap: "at the latest", len:'long' } ], hint: 'by ... at the latest' },
-        { id:6, section:1, parts: [ "The documents should be here", { gap: "by", len:'short' }, "noon", { gap: "at the latest", len:'long' } ], hint: 'by + at the latest' },
+      // ----- base sentences (with clear, but we'll use subtle hints) -----
+      const rawSentences = [
+        // section 1: at the latest (hidden pattern)
+        { id:1, parts: [ "Please submit your assignment", { gap: "by" }, "Friday", { gap: "at the latest" } ], hint: 'deadline pattern' },
+        { id:2, parts: [ "The guests should arrive", { gap: "by" }, "8 PM", { gap: "at the latest" } ], hint: 'deadline pattern' },
+        { id:3, parts: [ "You need to finish this report", { gap: "by" }, "Monday", { gap: "at the latest" } ], hint: 'deadline pattern' },
+        { id:4, parts: [ "The payment must be received", { gap: "by" }, "tomorrow", { gap: "at the latest" } ], hint: 'deadline pattern' },
+        { id:5, parts: [ "We need your decision", { gap: "by" }, "Thursday", { gap: "at the latest" } ], hint: 'deadline pattern' },
+        { id:6, parts: [ "The documents should be here", { gap: "by" }, "noon", { gap: "at the latest" } ], hint: 'deadline pattern' },
 
-        // section 2: not only ... but also (three gaps? we'll make two gaps visible)
-        { id:7, section:2, parts: [ "She", { gap: "not only", len:'medium' }, "sings", { gap: "but also", len:'medium' }, "dances." ], hint: 'not only ... but also' },
-        { id:8, section:2, parts: [ "The movie was", { gap: "not only", len:'medium' }, "entertaining", { gap: "but also", len:'medium' }, "thought-provoking." ], hint: 'not only ... but also' },
-        { id:9, section:2, parts: [ "He", { gap: "not only", len:'medium' }, "speaks French", { gap: "but also", len:'medium' }, "German." ], hint: 'not only / but also' },
-        { id:10, section:2, parts: [ "The restaurant serves", { gap: "not only", len:'medium' }, "delicious food", { gap: "but also", len:'medium' }, "great wine." ], hint: 'not only ... but also' },
-        { id:11, section:2, parts: [ "This car is", { gap: "not only", len:'medium' }, "fast", { gap: "but also", len:'medium' }, "reliable." ], hint: 'not only / but also' },
-        { id:12, section:2, parts: [ "They", { gap: "not only", len:'medium' }, "visited Paris", { gap: "but also", len:'medium' }, "went to Lyon." ], hint: 'not only ... but also' },
+        // section 2: not only ... but also (hint: 'correlative pair')
+        { id:7, parts: [ "She", { gap: "not only" }, "sings", { gap: "but also" }, "dances." ], hint: 'correlative pair' },
+        { id:8, parts: [ "The movie was", { gap: "not only" }, "entertaining", { gap: "but also" }, "thought-provoking." ], hint: 'correlative pair' },
+        { id:9, parts: [ "He", { gap: "not only" }, "speaks French", { gap: "but also" }, "German." ], hint: 'correlative pair' },
+        { id:10, parts: [ "The restaurant serves", { gap: "not only" }, "delicious food", { gap: "but also" }, "great wine." ], hint: 'correlative pair' },
+        { id:11, parts: [ "This car is", { gap: "not only" }, "fast", { gap: "but also" }, "reliable." ], hint: 'correlative pair' },
+        { id:12, parts: [ "They", { gap: "not only" }, "visited Paris", { gap: "but also" }, "went to Lyon." ], hint: 'correlative pair' },
 
-        // section 3: I'd rather you + past (2 gaps – 'rather you' + past verb)
-        { id:13, section:3, parts: [ "I'd", { gap: "rather you", len:'medium' }, { gap: "didn't smoke", len:'long' }, "here." ], hint: 'rather you + past' },
-        { id:14, section:3, parts: [ "I'd", { gap: "rather you", len:'medium' }, { gap: "told", len:'short' }, "me the truth." ], hint: 'rather you + past' },
-        { id:15, section:3, parts: [ "I'd", { gap: "rather you", len:'medium' }, { gap: "came", len:'short' }, "earlier." ], hint: 'past: came' },
-        { id:16, section:3, parts: [ "I'd", { gap: "rather you", len:'medium' }, { gap: "didn't tell", len:'medium' }, "anyone." ], hint: "didn't tell" },
-        { id:17, section:3, parts: [ "I'd", { gap: "rather you", len:'medium' }, { gap: "were", len:'short' }, "more careful." ], hint: 'were (past)' },
-        { id:18, section:3, parts: [ "I'd", { gap: "rather you", len:'medium' }, { gap: "stayed", len:'short' }, "at home." ], hint: 'stayed' },
-        { id:19, section:3, parts: [ "I'd", { gap: "rather you", len:'medium' }, { gap: "didn't do", len:'medium' }, "that." ], hint: "didn't do" },
+        // section 3: I'd rather you + past (hint: 'past after rather')
+        { id:13, parts: [ "I'd", { gap: "rather you" }, { gap: "didn't smoke" }, "here." ], hint: 'past after rather' },
+        { id:14, parts: [ "I'd", { gap: "rather you" }, { gap: "told" }, "me the truth." ], hint: 'past after rather' },
+        { id:15, parts: [ "I'd", { gap: "rather you" }, { gap: "came" }, "earlier." ], hint: 'past after rather' },
+        { id:16, parts: [ "I'd", { gap: "rather you" }, { gap: "didn't tell" }, "anyone." ], hint: 'past after rather' },
+        { id:17, parts: [ "I'd", { gap: "rather you" }, { gap: "were" }, "more careful." ], hint: 'past after rather' },
+        { id:18, parts: [ "I'd", { gap: "rather you" }, { gap: "stayed" }, "at home." ], hint: 'past after rather' },
+        { id:19, parts: [ "I'd", { gap: "rather you" }, { gap: "didn't do" }, "that." ], hint: 'past after rather' },
 
-        // section 4: be to + infinitive (multiple gaps – 'are to' etc + verb)
-        { id:20, section:4, parts: [ "All employees", { gap: "are to", len:'short' }, { gap: "wear", len:'short' }, "uniforms." ], hint: 'are to + inf' },
-        { id:21, section:4, parts: [ "You", { gap: "are to", len:'short' }, { gap: "finish", len:'short' }, "by 6 PM." ], hint: 'are to finish' },
-        { id:22, section:4, parts: [ "The students", { gap: "are to", len:'short' }, { gap: "submit", len:'short' }, "their essays." ], hint: 'are to submit' },
-        { id:23, section:4, parts: [ "Nobody", { gap: "is to", len:'short' }, { gap: "leave", len:'short' }, "the room." ], hint: 'is to leave' },
-        { id:24, section:4, parts: [ "The documents", { gap: "are to be", len:'medium' }, { gap: "signed", len:'short' }, "by the manager." ], hint: 'are to be signed' },
-        { id:25, section:4, parts: [ "All visitors", { gap: "are to", len:'short' }, { gap: "register", len:'short' }, "at reception." ], hint: 'are to register' },
-        { id:26, section:4, parts: [ "Each participant", { gap: "is to", len:'short' }, { gap: "bring", len:'short' }, "their own laptop." ], hint: 'is to bring' },
+        // section 4: be to + infinitive (hint: 'be to + verb')
+        { id:20, parts: [ "All employees", { gap: "are to" }, { gap: "wear" }, "uniforms." ], hint: 'be to + verb' },
+        { id:21, parts: [ "You", { gap: "are to" }, { gap: "finish" }, "by 6 PM." ], hint: 'be to + verb' },
+        { id:22, parts: [ "The students", { gap: "are to" }, { gap: "submit" }, "their essays." ], hint: 'be to + verb' },
+        { id:23, parts: [ "Nobody", { gap: "is to" }, { gap: "leave" }, "the room." ], hint: 'be to + verb' },
+        { id:24, parts: [ "The documents", { gap: "are to be" }, { gap: "signed" }, "by the manager." ], hint: 'be to + verb' },
+        { id:25, parts: [ "All visitors", { gap: "are to" }, { gap: "register" }, "at reception." ], hint: 'be to + verb' },
+        { id:26, parts: [ "Each participant", { gap: "is to" }, { gap: "bring" }, "their own laptop." ], hint: 'be to + verb' },
 
-        // section 5: no sooner ... than (two gaps: inversion + 'than')
-        { id:27, section:5, parts: [ "No sooner", { gap: "had I arrived", len:'long' }, "than", { gap: "the phone rang", len:'medium' } ], hint: 'No sooner + had + subj ... than' },
-        { id:28, section:5, parts: [ "No sooner", { gap: "had she left", len:'long' }, "than", { gap: "it started raining", len:'medium' } ], hint: 'had she left than' },
-        { id:29, section:5, parts: [ "No sooner", { gap: "had the movie started", len:'long' }, "than", { gap: "the fire alarm went off", len:'medium' } ], hint: 'had ... than' },
-        { id:30, section:5, parts: [ "No sooner", { gap: "had we sat down", len:'long' }, "than", { gap: "the waiter came", len:'medium' } ], hint: 'had we sat down than' },
-        { id:31, section:5, parts: [ "No sooner", { gap: "had they finished", len:'long' }, "than", { gap: "the bell rang", len:'medium' } ], hint: 'had they finished than' },
-        { id:32, section:5, parts: [ "No sooner", { gap: "had the phone rung", len:'long' }, "than", { gap: "I answered it", len:'medium' } ], hint: 'had the phone rung than' },
-        { id:33, section:5, parts: [ "No sooner", { gap: "had the teacher entered", len:'long' }, "than", { gap: "the students stood up", len:'medium' } ], hint: 'had ... entered than' },
+        // section 5: no sooner ... than (hint: 'inversion with than')
+        { id:27, parts: [ "No sooner", { gap: "had I arrived" }, "than", { gap: "the phone rang" } ], hint: 'inversion with than' },
+        { id:28, parts: [ "No sooner", { gap: "had she left" }, "than", { gap: "it started raining" } ], hint: 'inversion with than' },
+        { id:29, parts: [ "No sooner", { gap: "had the movie started" }, "than", { gap: "the fire alarm went off" } ], hint: 'inversion with than' },
+        { id:30, parts: [ "No sooner", { gap: "had we sat down" }, "than", { gap: "the waiter came" } ], hint: 'inversion with than' },
+        { id:31, parts: [ "No sooner", { gap: "had they finished" }, "than", { gap: "the bell rang" } ], hint: 'inversion with than' },
+        { id:32, parts: [ "No sooner", { gap: "had the phone rung" }, "than", { gap: "I answered it" } ], hint: 'inversion with than' },
+        { id:33, parts: [ "No sooner", { gap: "had the teacher entered" }, "than", { gap: "the students stood up" } ], hint: 'inversion with than' },
 
-        // section 6: suggested that + bare infinitive (two gaps: 'suggested that' + bare inf)
-        { id:34, section:6, parts: [ "The manager suggested that the team", { gap: "work", len:'short' }, "harder." ], hint: 'bare inf' },
-        { id:35, section:6, parts: [ "The doctor suggested that my father", { gap: "exercise", len:'short' }, "more." ], hint: 'exercise' },
-        { id:36, section:6, parts: [ "She suggested that he", { gap: "apply", len:'short' }, "for the job." ], hint: 'apply' },
-        { id:37, section:6, parts: [ "I suggested that they", { gap: "arrive", len:'short' }, "early." ], hint: 'arrive' },
-        { id:38, section:6, parts: [ "The consultant suggested that the company", { gap: "restructure", len:'short' }, "its structure." ], hint: 'restructure' },
-        { id:39, section:6, parts: [ "They suggested that we", { gap: "wait", len:'short' }, "here." ], hint: 'wait' },
-        { id:40, section:6, parts: [ "The report suggested that the government", { gap: "invest", len:'short' }, "more." ], hint: 'invest' },
+        // section 6: suggest + bare infinitive (hint: 'bare inf after suggest')
+        { id:34, parts: [ "The manager suggested that the team", { gap: "work" }, "harder." ], hint: 'bare inf after suggest' },
+        { id:35, parts: [ "The doctor suggested that my father", { gap: "exercise" }, "more." ], hint: 'bare inf after suggest' },
+        { id:36, parts: [ "She suggested that he", { gap: "apply" }, "for the job." ], hint: 'bare inf after suggest' },
+        { id:37, parts: [ "I suggested that they", { gap: "arrive" }, "early." ], hint: 'bare inf after suggest' },
+        { id:38, parts: [ "The consultant suggested that the company", { gap: "restructure" }, "its structure." ], hint: 'bare inf after suggest' },
+        { id:39, parts: [ "They suggested that we", { gap: "wait" }, "here." ], hint: 'bare inf after suggest' },
+        { id:40, parts: [ "The report suggested that the government", { gap: "invest" }, "more." ], hint: 'bare inf after suggest' },
       ];
 
-      // ---- helper: collect all gap keys with correct answer ----
-      const gapAnswers = {};   // key: `senId-gapIndex` -> correct answer (lowercase trimmed)
-      const totalGapCount = (() => {
-        let cnt = 0;
-        sentences.forEach(sen => {
-          sen.parts.forEach((p, idx) => {
-            if (typeof p === 'object' && p.gap) {
-              const key = `${sen.id}-${idx}`;
-              gapAnswers[key] = p.gap.trim().toLowerCase();
-              cnt++;
-            }
-          });
-        });
-        return cnt;
-      })();
+      // ----- shuffle sentences array (random order, no section grouping) -----
+      function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+      }
 
-      // ---- render everything with sections ----
+      const sentences = shuffleArray([...rawSentences]);  // shuffled, sections mixed
+
+      // ---- build gapAnswers map and total count ----
+      const gapAnswers = {};   // key: `senId-gapIndex` -> correct answer (lowercase)
+      let totalGapCount = 0;
+      sentences.forEach(sen => {
+        sen.parts.forEach((p, idx) => {
+          if (typeof p === 'object' && p.gap) {
+            const key = `${sen.id}-${idx}`;
+            gapAnswers[key] = p.gap.trim().toLowerCase();
+            totalGapCount++;
+          }
+        });
+      });
+
+      // ---- render all sentences in one list (no section wrappers) ----
       const root = document.getElementById('sentences-root');
       function render() {
         let html = '';
-        for (let sec = 1; sec <= 6; sec++) {
-          const secSentences = sentences.filter(s => s.section === sec);
-          if (!secSentences.length) continue;
+        sentences.forEach(sen => {
+          html += `<div class="multi-gap-sentence" id="sen-${sen.id}">`;
+          html += `<span style="font-weight:600; margin-right:8px;">${sen.id}.</span>`;
 
-          let secName = '';
-          if (sec === 1) secName = '⏰ at the latest';
-          else if (sec === 2) secName = '🔁 not only … but also';
-          else if (sec === 3) secName = '👤 I’d rather you + past';
-          else if (sec === 4) secName = '⚙️ be to + infinitive';
-          else if (sec === 5) secName = '⚡ no sooner … than';
-          else if (sec === 6) secName = '💡 suggest + bare infinitive';
-
-          html += `<div class="section s${sec}">`;
-          html += `<div class="section-title"><span>${secName}</span><span class="q-count">${secSentences.length} sentences</span></div>`;
-          html += `<div class="section-content">`;
-
-          secSentences.forEach(sen => {
-            html += `<div class="multi-gap-sentence" id="sen-${sen.id}">`;
-            html += `<span style="font-weight:600; margin-right:8px;">${sen.id}.</span>`;
-
-            sen.parts.forEach((part, idx) => {
-              if (typeof part === 'string') {
-                html += part + ' ';
-              } else {
-                // gap object
-                const gapKey = `${sen.id}-${idx}`;
-                const placeholder = part.len === 'short' ? 'short' : (part.len === 'long' ? 'phrase' : 'word');
-                html += `<span class="gap"><input type="text" class="gap-input" data-gapkey="${gapKey}" id="gap-${gapKey}" placeholder="${placeholder}"></span> `;
-              }
-            });
-
-            html += `<span class="hint-tag">💡 ${sen.hint}</span>`;
-            html += `</div>`; // close sentence
+          sen.parts.forEach((part, idx) => {
+            if (typeof part === 'string') {
+              html += part + ' ';
+            } else {
+              const gapKey = `${sen.id}-${idx}`;
+              // placeholder only hints at length, not answer
+              const placeholder = '___';
+              html += `<span class="gap"><input type="text" class="gap-input" data-gapkey="${gapKey}" id="gap-${gapKey}" placeholder="${placeholder}"></span> `;
+            }
           });
 
-          html += `</div></div>`; // close content & section
-        }
+          // subtle hint: pattern only
+          html += `<span class="hint-tag">ⓘ ${sen.hint}</span>`;
+          html += `</div>`;
+        });
         root.innerHTML = html;
       }
       render();
 
-      // ---- get all inputs, progress etc ----
+      // ---- DOM elements & helpers ----
       const gapInputs = document.querySelectorAll('.gap-input');
-      const totalGapsSpan = document.getElementById('totalGaps');
+      const totalSpan = document.getElementById('totalGaps');
       const filledSpan = document.getElementById('filledCount');
       const progressFill = document.getElementById('progressFill');
       const percentSpan = document.getElementById('percentDisplay');
@@ -474,12 +427,10 @@
       const checkBtn = document.getElementById('checkBtn');
       const resetBtn = document.getElementById('resetBtn');
 
-      totalGapsSpan.innerText = totalGapCount;
+      totalSpan.innerText = totalGapCount;
 
       function countFilled() {
-        let filled = 0;
-        gapInputs.forEach(inp => { if (inp.value.trim() !== '') filled++; });
-        return filled;
+        return Array.from(gapInputs).filter(inp => inp.value.trim() !== '').length;
       }
 
       function updateProgress() {
@@ -499,7 +450,6 @@
         });
       }
 
-      // reset button
       resetBtn.addEventListener('click', () => {
         gapInputs.forEach(inp => { inp.value = ''; });
         resetAllStyles();
@@ -508,49 +458,45 @@
         failMsg.style.display = 'none';
       });
 
-      // check answers
       function checkAll() {
         let anyEmpty = false;
-        const gapCorrectness = new Map(); // gapKey -> boolean
+        const gapCorrectness = new Map();
 
-        // check each input
         gapInputs.forEach(inp => {
-          const gapKey = inp.dataset.gapkey;
-          const correct = gapAnswers[gapKey];
-          const userVal = inp.value.trim().toLowerCase();
-          const isCorrect = (userVal !== '' && userVal === correct);
-          
-          if (userVal === '') anyEmpty = true;
-          
-          if (userVal !== '' && isCorrect) {
+          const key = inp.dataset.gapkey;
+          const correct = gapAnswers[key];
+          const val = inp.value.trim().toLowerCase();
+          const isCorrect = (val !== '' && val === correct);
+
+          if (val === '') anyEmpty = true;
+
+          if (val !== '' && isCorrect) {
             inp.classList.add('correct-gap');
             inp.classList.remove('incorrect-gap');
-          } else if (userVal !== '' && !isCorrect) {
+          } else if (val !== '' && !isCorrect) {
             inp.classList.add('incorrect-gap');
             inp.classList.remove('correct-gap');
           } else {
             inp.classList.remove('correct-gap', 'incorrect-gap');
           }
-          gapCorrectness.set(gapKey, isCorrect);
+          gapCorrectness.set(key, isCorrect);
         });
 
-        // color sentences based on their gaps
+        // colour sentences based on their gaps
         sentences.forEach(sen => {
           const senDiv = document.getElementById(`sen-${sen.id}`);
           if (!senDiv) return;
           let allCorrect = true;
-          let hasAnyFilled = false;
-
+          let hasAny = false;
           sen.parts.forEach((part, idx) => {
             if (typeof part === 'object') {
               const key = `${sen.id}-${idx}`;
-              const correct = gapCorrectness.get(key);
-              if (correct === true) hasAnyFilled = true;
-              if (correct !== true) allCorrect = false;  // either false or undefined
+              if (gapCorrectness.get(key) === true) hasAny = true;
+              if (gapCorrectness.get(key) !== true) allCorrect = false;
             }
           });
 
-          if (!hasAnyFilled) {
+          if (!hasAny) {
             senDiv.classList.remove('correct-sentence', 'incorrect-sentence');
           } else if (allCorrect) {
             senDiv.classList.add('correct-sentence');
@@ -561,9 +507,8 @@
           }
         });
 
-        // global message logic
         const totalCorrect = Array.from(gapCorrectness.values()).filter(v => v === true).length;
-        const allFilled = !anyEmpty && gapInputs.length === countFilled();
+        const allFilled = !anyEmpty && countFilled() === totalGapCount;
 
         if (!allFilled) {
           failMsg.innerText = '⚠️ you left some gaps empty – fill everything.';
@@ -584,13 +529,10 @@
 
       gapInputs.forEach(inp => {
         inp.addEventListener('input', function() {
-          // remove sentence highlight if user edits after check
-          const gapKey = this.dataset.gapkey;
-          const [senId] = gapKey.split('-');
+          const key = this.dataset.gapkey;
+          const [senId] = key.split('-');
           const senDiv = document.getElementById(`sen-${senId}`);
-          if (senDiv) {
-            senDiv.classList.remove('correct-sentence', 'incorrect-sentence');
-          }
+          if (senDiv) senDiv.classList.remove('correct-sentence', 'incorrect-sentence');
           this.classList.remove('correct-gap', 'incorrect-gap');
           winMsg.style.display = 'none';
           failMsg.style.display = 'none';
