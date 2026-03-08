@@ -3,563 +3,595 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>mixed multiple‑gap · scrambled & verb prompts</title>
+  <title>Grammar Exercise — Advanced Structures Mastery</title>
   <style>
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     body {
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       padding: 20px;
+      color: #333;
     }
 
-    .card {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(4px);
+    .container {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
       width: 100%;
-      max-width: 1050px;
-      border-radius: 42px;
-      box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.5);
+      max-width: 900px;
       overflow: hidden;
+      animation: fadeIn 0.5s ease-in-out;
     }
 
-    .header {
-      background: white;
-      padding: 30px 40px 20px 40px;
-      border-bottom: 2px solid #e5e1fa;
+    header {
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 25px 30px;
+      text-align: center;
     }
 
-    .header h1 {
-      font-size: 2.5rem;
-      font-weight: 600;
-      background: linear-gradient(145deg, #14435c, #4f3270);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: -0.02em;
+    h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+      font-weight: 700;
     }
 
-    .meta {
-      display: flex;
-      gap: 20px;
-      margin-top: 10px;
-      color: #2b3f59;
+    header p {
+      opacity: 0.9;
+      font-size: 17px;
     }
 
-    .pill {
-      background: #dcd4ff;
-      padding: 6px 18px;
-      border-radius: 50px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: #20144a;
+    .instructions {
+      background-color: #f0f4ff;
+      padding: 15px 25px;
+      border-bottom: 1px solid #e1e8ff;
+      font-size: 16px;
+      color: #555;
     }
 
-    .instruction-block {
-      background: #edf2f9;
-      padding: 18px 40px;
-      border-bottom: 1px solid #ccd9f0;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 30px;
-      font-weight: 500;
-      color: #10324c;
+    .grammar-section {
+      margin: 0 25px 25px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
-    .instruction-item {
+    .section-header {
+      padding: 12px 20px;
+      font-weight: 700;
+      font-size: 18px;
+      color: white;
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
-    .num-badge {
-      background: #b1c6e8;
-      width: 30px;
-      height: 30px;
-      border-radius: 30px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      color: #101c33;
-    }
-
-    /* ----- single list (no section grouping) ----- */
-    .sentence-list {
-      margin: 28px 30px 32px 30px;
-    }
-
-    .multi-gap-sentence {
-      background: white;
+    .section-header span {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 4px 10px;
       border-radius: 20px;
-      padding: 20px 25px;
+      font-size: 14px;
+    }
+
+    .section-content {
+      padding: 20px;
+      background-color: #fafafa;
+    }
+
+    /* Section colors */
+    .section-1 .section-header { background: linear-gradient(90deg, #ef5350 0%, #d32f2f 100%); }
+    .section-2 .section-header { background: linear-gradient(90deg, #66bb6a 0%, #2e7d32 100%); }
+    .section-3 .section-header { background: linear-gradient(90deg, #ffa726 0%, #f57c00 100%); }
+    .section-4 .section-header { background: linear-gradient(90deg, #42a5f5 0%, #1565c0 100%); }
+    .section-5 .section-header { background: linear-gradient(90deg, #ab47bc 0%, #6a1b9a 100%); }
+    .section-6 .section-header { background: linear-gradient(90deg, #26c6da 0%, #00838f 100%); }
+
+    .exercise-container {
+      padding: 0 30px 30px;
+    }
+
+    .sentences {
+      margin: 20px 0;
+    }
+
+    .sentence {
       margin-bottom: 22px;
-      border: 1px solid #e3dcff;
-      box-shadow: 0 5px 12px -8px #b7a8e6;
-      font-size: 1.1rem;
-      line-height: 2.2;
-      transition: 0.1s;
+      font-size: 18px;
+      line-height: 1.6;
+      padding: 15px;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+      background-color: #f9f9f9;
+      border-left: 4px solid transparent;
     }
 
-    .multi-gap-sentence:hover {
-      border-color: #9479e0;
-      background: #fefdff;
+    .sentence:hover {
+      background-color: #f0f0f0;
     }
 
-    .multi-gap-sentence.correct-sentence {
-      background: #e7f6ec;
-      border-left: 8px solid #0d7530;
+    .sentence.correct {
+      border-left-color: #4CAF50;
+      background-color: #f1f8e9;
     }
 
-    .multi-gap-sentence.incorrect-sentence {
-      background: #ffeae9;
-      border-left: 8px solid #bb2525;
+    .sentence.incorrect {
+      border-left-color: #f44336;
+      background-color: #ffebee;
     }
 
-    .gap {
-      display: inline-block;
-      margin: 0 4px;
-    }
-
-    .gap-input {
-      border: none;
-      background: #eae5fc;
-      border-bottom: 4px solid #a28ed6;
-      font-size: 1.05rem;
+    select {
       padding: 8px 12px;
-      width: 110px;
-      border-radius: 16px 16px 6px 6px;
-      text-align: center;
-      font-weight: 600;
-      color: #1b153b;
-      transition: 0.1s;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      font-size: 16px;
+      background-color: white;
+      cursor: pointer;
+      transition: all 0.3s;
+      min-width: 160px;
+      margin: 0 5px;
     }
 
-    .gap-input:focus {
+    select:focus {
       outline: none;
-      background: #ffffff;
-      border-bottom-color: #480ecc;
-      box-shadow: 0 6px 12px -8px #480ecc;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
     }
 
-    .gap-input.correct-gap {
-      background: #dcfce7;
-      border-bottom: 4px solid #0f973d;
+    select.correct {
+      border-color: #4CAF50;
+      background-color: #e8f5e9;
     }
 
-    .gap-input.incorrect-gap {
-      background: #ffe2e2;
-      border-bottom: 4px solid #ca2f2f;
+    select.incorrect {
+      border-color: #f44336;
+      background-color: #ffebee;
     }
 
-    /* subtle hint style + extra prompt for some sentences */
-    .hint-tag {
-      background: #f0ebff;
-      color: #51457e;
-      font-size: 0.7rem;
-      padding: 2px 12px;
-      border-radius: 30px;
-      margin-left: 12px;
-      font-weight: 400;
-      letter-spacing: 0.2px;
-      border: 1px dotted #aa9ace;
+    .grammar-tip {
       display: inline-block;
-    }
-
-    .extra-prompt {
-      background: #fde9c5;
-      color: #7d5d27;
-      font-size: 0.75rem;
-      padding: 3px 12px;
-      border-radius: 30px;
+      background-color: #e3f2fd;
+      color: #1565c0;
+      font-size: 13px;
+      padding: 2px 8px;
+      border-radius: 4px;
       margin-left: 10px;
-      font-weight: 500;
-      display: inline-block;
-      border: 1px solid #e6b568;
+      font-weight: normal;
     }
 
-    .global-progress {
-      margin: 0 40px 15px 40px;
+    .progress-container {
+      margin: 25px 0 20px;
     }
 
-    .progress-track {
-      background: #dad3f0;
+    .progress-bar {
       height: 12px;
-      border-radius: 30px;
+      background-color: #f1f2f6;
+      border-radius: 6px;
+      overflow: hidden;
     }
 
-    .progress-fill {
-      background: linear-gradient(90deg, #284b7c, #8046af);
-      height: 12px;
+    .progress {
+      height: 100%;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
       width: 0%;
-      border-radius: 30px;
-      transition: width 0.3s;
+      transition: width 0.5s ease;
     }
 
-    .stats {
+    .progress-text {
       display: flex;
       justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #666;
       margin-top: 8px;
-      font-size: 0.95rem;
-      color: #1d304b;
     }
 
-    .global-message {
-      margin: 10px 40px 5px;
-      padding: 16px 25px;
-      border-radius: 50px;
+    .message {
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      text-align: center;
       font-weight: 600;
       display: none;
-      text-align: center;
+      animation: fadeIn 0.5s;
     }
 
-    .win-msg {
-      background: #e0ffdd;
-      color: #19663b;
-      border: 1px solid #acebb5;
+    .success {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      border: 1px solid #c8e6c9;
     }
 
-    .error-msg {
-      background: #ffe2dd;
-      color: #a22b2b;
-      border: 1px solid #fdbbbb;
+    .error {
+      background-color: #ffebee;
+      color: #c62828;
+      border: 1px solid #ffcdd2;
     }
 
-    .actions {
+    .controls {
       display: flex;
+      gap: 12px;
+      margin-top: 20px;
       flex-wrap: wrap;
-      gap: 20px;
-      margin: 30px 40px 40px;
+      justify-content: center;
     }
 
-    .btn-primary, .btn-secondary {
-      flex: 1 1 200px;
-      padding: 18px 18px;
+    .controls button {
+      padding: 14px 20px;
       border: none;
-      border-radius: 50px;
-      font-weight: 700;
-      font-size: 1.1rem;
+      border-radius: 8px;
       cursor: pointer;
-      transition: 0.15s;
+      font-weight: 600;
+      transition: transform 0.15s, opacity 0.25s, background-color 0.25s;
+      min-width: 160px;
+      font-size: 16px;
     }
 
-    .btn-primary {
-      background: linear-gradient(90deg, #1f2f5a, #473e7c);
+    .controls button:hover {
+      transform: translateY(-2px);
+      opacity: 0.95;
+    }
+
+    #check-btn {
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
       color: white;
-      box-shadow: 0 8px 18px -10px #101c3a;
     }
 
-    .btn-primary:hover {
-      transform: scale(1.02);
-      background: linear-gradient(90deg, #293e72, #5d4e9b);
-    }
-
-    .btn-secondary {
-      background: #d8d0f5;
-      color: #1a1744;
-      box-shadow: 0 8px 12px -10px #3f3270;
-    }
-
-    .btn-secondary:hover {
-      background: #c5b8f2;
+    #reset-btn {
+      background-color: #757575;
+      color: white;
     }
 
     footer {
       text-align: center;
-      padding: 20px;
-      color: #3a3866;
-      background: #eff2ff;
-      border-top: 1px solid #cfc7f0;
+      padding: 15px;
+      color: #777;
+      font-size: 14px;
+      border-top: 1px solid #f1f2f6;
     }
 
-    @media (max-width: 700px) {
-      .gap-input { width: 80px; }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive styles */
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+        display: block;
+      }
+      
+      .container {
+        border-radius: 10px;
+      }
+      
+      header {
+        padding: 20px;
+      }
+      
+      h1 {
+        font-size: 24px;
+      }
+      
+      header p {
+        font-size: 16px;
+      }
+      
+      .instructions {
+        padding: 12px 20px;
+        font-size: 15px;
+      }
+      
+      .exercise-container {
+        padding: 0 20px 20px;
+      }
+      
+      .sentence {
+        font-size: 17px;
+        margin-bottom: 18px;
+      }
+      
+      select {
+        min-width: 140px;
+        font-size: 15px;
+      }
+      
+      .controls {
+        flex-direction: column;
+      }
+      
+      .controls button {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <div class="header">
-      <h1>🔄 mixed gaps · verb prompts & scrambled</h1>
-      <div class="meta">
-        <span class="pill">40 sentences (reshuffled)</span>
-        <span class="pill">extra clues for 13-19 & 27-33</span>
+  <div class="container">
+    <header>
+      <h1>Grammar — Advanced Structures Mastery</h1>
+      <p>Master 6 essential grammar patterns with 40 practice questions</p>
+    </header>
+
+    <div class="instructions">
+      <p>Complete each sentence by selecting the correct option. Each section focuses on a specific grammar structure.</p>
+    </div>
+
+    <div class="exercise-container">
+      <div class="sentences" id="sentences-container">
+        <!-- Sentences will be dynamically inserted here by JavaScript -->
+      </div>
+
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress" id="progress-bar"></div>
+        </div>
+        <div class="progress-text">
+          <span>Progress</span>
+          <span id="progress-text">0/40 (0%)</span>
+        </div>
+      </div>
+
+      <div class="message success" id="success-message">
+        🎉 Excellent! All answers are correct. You've mastered these grammar structures!
+      </div>
+
+      <div class="message error" id="error-message">
+        Some answers are incorrect. Keep trying!
+      </div>
+
+      <div class="controls">
+        <button id="check-btn">Check answers</button>
+        <button id="reset-btn">Reset all answers</button>
       </div>
     </div>
-    <div class="instruction-block">
-      <div class="instruction-item"><span class="num-badge">①</span> type into every gap</div>
-      <div class="instruction-item"><span class="num-badge">②</span> check your answers</div>
-      <div class="instruction-item"><span class="num-badge">③</span> coloured hints = pattern</div>
-    </div>
 
-    <div id="sentences-root" class="sentence-list"></div>
-
-    <div class="global-progress">
-      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-      <div class="stats">
-        <span>✅ filled <span id="filledCount">0</span>/<span id="totalGaps">0</span></span>
-        <span id="percentDisplay">0%</span>
-      </div>
-    </div>
-
-    <div class="global-message win-msg" id="winMessage">🎉 all gaps correct! language master.</div>
-    <div class="global-message error-msg" id="failMessage">⚠️ some gaps are empty or wrong – try again.</div>
-
-    <div class="actions">
-      <button class="btn-primary" id="checkBtn">🔍 check everything</button>
-      <button class="btn-secondary" id="resetBtn">⟲ reset all gaps</button>
-    </div>
-
-    <footer>mixed order · verb hints (13‑19) · scrambled word sets (27‑33)</footer>
+    <footer>
+      <p>Grammar Exercise • 6 Structures • 40 Questions</p>
+    </footer>
   </div>
 
   <script>
-    (function() {
-      // ----- enhanced sentences with extra prompts for specific ids -----
-      const rawSentences = [
-        // section 1: at the latest (ids 1-6)
-        { id:1, parts: [ "Please submit your assignment", { gap: "by" }, "Friday", { gap: "at the latest" } ], hint: 'deadline pattern' },
-        { id:2, parts: [ "The guests should arrive", { gap: "by" }, "8 PM", { gap: "at the latest" } ], hint: 'deadline pattern' },
-        { id:3, parts: [ "You need to finish this report", { gap: "by" }, "Monday", { gap: "at the latest" } ], hint: 'deadline pattern' },
-        { id:4, parts: [ "The payment must be received", { gap: "by" }, "tomorrow", { gap: "at the latest" } ], hint: 'deadline pattern' },
-        { id:5, parts: [ "We need your decision", { gap: "by" }, "Thursday", { gap: "at the latest" } ], hint: 'deadline pattern' },
-        { id:6, parts: [ "The documents should be here", { gap: "by" }, "noon", { gap: "at the latest" } ], hint: 'deadline pattern' },
+    document.addEventListener('DOMContentLoaded', function() {
+      // All 40 questions – each now forms a coherent sentence when the correct option is chosen.
+      // The prompts (incomplete fragments) have been removed: every question stem is a full
+      // beginning of a sentence, and the dropdown completes it logically.
+      const questions = [
+        // SECTION 1: at the latest (6)
+        { id: 1, section: 1, text: "Please submit your assignment by Friday", options: [{ value: "at the latest", correct: true }, { value: "at the last", correct: false }, { value: "at least", correct: false }, { value: "lastly", correct: false }], tip: "at the latest" },
+        { id: 2, section: 1, text: "The guests should arrive by 8 PM", options: [{ value: "at the latest", correct: true }, { value: "at last", correct: false }, { value: "lately", correct: false }, { value: "the latest", correct: false }], tip: "at the latest" },
+        { id: 3, section: 1, text: "You need to finish this report by Monday", options: [{ value: "at the latest", correct: true }, { value: "at least", correct: false }, { value: "at last", correct: false }, { value: "latest", correct: false }], tip: "at the latest" },
+        { id: 4, section: 1, text: "The payment must be received by tomorrow", options: [{ value: "at the latest", correct: true }, { value: "lastly", correct: false }, { value: "at the last minute", correct: false }, { value: "late", correct: false }], tip: "at the latest" },
+        { id: 5, section: 1, text: "We need your decision by Thursday", options: [{ value: "at the latest", correct: true }, { value: "the last", correct: false }, { value: "at least", correct: false }, { value: "finally", correct: false }], tip: "at the latest" },
+        { id: 6, section: 1, text: "The documents should be here by noon", options: [{ value: "at the latest", correct: true }, { value: "latest", correct: false }, { value: "at last", correct: false }, { value: "lately", correct: false }], tip: "at the latest" },
 
-        // section 2: not only / but also (ids 7-12)
-        { id:7, parts: [ "She", { gap: "not only" }, "sings", { gap: "but also" }, "dances." ], hint: 'correlative pair' },
-        { id:8, parts: [ "The movie was", { gap: "not only" }, "entertaining", { gap: "but also" }, "thought-provoking." ], hint: 'correlative pair' },
-        { id:9, parts: [ "He", { gap: "not only" }, "speaks French", { gap: "but also" }, "German." ], hint: 'correlative pair' },
-        { id:10, parts: [ "The restaurant serves", { gap: "not only" }, "delicious food", { gap: "but also" }, "great wine." ], hint: 'correlative pair' },
-        { id:11, parts: [ "This car is", { gap: "not only" }, "fast", { gap: "but also" }, "reliable." ], hint: 'correlative pair' },
-        { id:12, parts: [ "They", { gap: "not only" }, "visited Paris", { gap: "but also" }, "went to Lyon." ], hint: 'correlative pair' },
+        // SECTION 2: not only...but also (6) – each stem plus correct option forms a natural sentence
+        { id: 7, section: 2, text: "She", options: [{ value: "not only sings but also", correct: true }, { value: "sings not only but", correct: false }, { value: "not only sings also", correct: false }, { value: "sings not only also", correct: false }], tip: "not only...but also" },
+        { id: 8, section: 2, text: "The movie was", options: [{ value: "not only entertaining but also", correct: true }, { value: "not only entertaining also", correct: false }, { value: "entertaining not only but", correct: false }, { value: "not entertaining but also", correct: false }], tip: "not only...but also" },
+        { id: 9, section: 2, text: "He", options: [{ value: "not only speaks French but also", correct: true }, { value: "speaks not only French but", correct: false }, { value: "not only speaks French also", correct: false }, { value: "speaks French not only but", correct: false }], tip: "not only...but also" },
+        { id: 10, section: 2, text: "The restaurant serves", options: [{ value: "not only delicious food but also", correct: true }, { value: "delicious not only food but also", correct: false }, { value: "not only delicious food also", correct: false }, { value: "delicious food not only but", correct: false }], tip: "not only...but also" },
+        { id: 11, section: 2, text: "This car is", options: [{ value: "not only fast but also", correct: true }, { value: "not only fast also", correct: false }, { value: "fast not only but", correct: false }, { value: "not fast but also", correct: false }], tip: "not only...but also" },
+        { id: 12, section: 2, text: "They", options: [{ value: "not only visited Paris but also", correct: true }, { value: "visited not only Paris but", correct: false }, { value: "not only visited Paris also", correct: false }, { value: "visited Paris not only but", correct: false }], tip: "not only...but also" },
 
-        // section 3: I'd rather you + past (ids 13-19) – added verb prompts
-        { id:13, parts: [ "I'd", { gap: "rather you" }, { gap: "didn't smoke" }, "here." ], hint: 'past after rather', prompt: '[smoke]' },
-        { id:14, parts: [ "I'd", { gap: "rather you" }, { gap: "told" }, "me the truth." ], hint: 'past after rather', prompt: '[tell]' },
-        { id:15, parts: [ "I'd", { gap: "rather you" }, { gap: "came" }, "earlier." ], hint: 'past after rather', prompt: '[come]' },
-        { id:16, parts: [ "I'd", { gap: "rather you" }, { gap: "didn't tell" }, "anyone." ], hint: 'past after rather', prompt: '[not tell]' },
-        { id:17, parts: [ "I'd", { gap: "rather you" }, { gap: "were" }, "more careful." ], hint: 'past after rather', prompt: '[be]' },
-        { id:18, parts: [ "I'd", { gap: "rather you" }, { gap: "stayed" }, "at home." ], hint: 'past after rather', prompt: '[stay]' },
-        { id:19, parts: [ "I'd", { gap: "rather you" }, { gap: "didn't do" }, "that." ], hint: 'past after rather', prompt: '[not do]' },
+        // SECTION 3: I'd rather you (7) – each stem includes "I'd rather you", then a verb in past simple completes it
+        { id: 13, section: 3, text: "I'd rather you", options: [{ value: "didn't smoke", correct: true }, { value: "don't smoke", correct: false }, { value: "not smoke", correct: false }, { value: "to not smoke", correct: false }], tip: "I'd rather you + past simple" },
+        { id: 14, section: 3, text: "I'd rather you", options: [{ value: "told", correct: true }, { value: "tell", correct: false }, { value: "to tell", correct: false }, { value: "telling", correct: false }], tip: "I'd rather you + past simple" },
+        { id: 15, section: 3, text: "I'd rather you", options: [{ value: "came", correct: true }, { value: "come", correct: false }, { value: "to come", correct: false }, { value: "coming", correct: false }], tip: "I'd rather you + past simple" },
+        { id: 16, section: 3, text: "I'd rather you", options: [{ value: "didn't tell", correct: true }, { value: "don't tell", correct: false }, { value: "not tell", correct: false }, { value: "to not tell", correct: false }], tip: "I'd rather you + past simple" },
+        { id: 17, section: 3, text: "I'd rather you", options: [{ value: "were", correct: true }, { value: "are", correct: false }, { value: "be", correct: false }, { value: "being", correct: false }], tip: "I'd rather you + past simple" },
+        { id: 18, section: 3, text: "I'd rather you", options: [{ value: "stayed", correct: true }, { value: "stay", correct: false }, { value: "to stay", correct: false }, { value: "staying", correct: false }], tip: "I'd rather you + past simple" },
+        { id: 19, section: 3, text: "I'd rather you", options: [{ value: "didn't do", correct: true }, { value: "don't do", correct: false }, { value: "not do", correct: false }, { value: "to not do", correct: false }], tip: "I'd rather you + past simple" },
 
-        // section 4: be to + infinitive (ids 20-26)
-        { id:20, parts: [ "All employees", { gap: "are to" }, { gap: "wear" }, "uniforms." ], hint: 'be to + verb' },
-        { id:21, parts: [ "You", { gap: "are to" }, { gap: "finish" }, "by 6 PM." ], hint: 'be to + verb' },
-        { id:22, parts: [ "The students", { gap: "are to" }, { gap: "submit" }, "their essays." ], hint: 'be to + verb' },
-        { id:23, parts: [ "Nobody", { gap: "is to" }, { gap: "leave" }, "the room." ], hint: 'be to + verb' },
-        { id:24, parts: [ "The documents", { gap: "are to be" }, { gap: "signed" }, "by the manager." ], hint: 'be to + verb' },
-        { id:25, parts: [ "All visitors", { gap: "are to" }, { gap: "register" }, "at reception." ], hint: 'be to + verb' },
-        { id:26, parts: [ "Each participant", { gap: "is to" }, { gap: "bring" }, "their own laptop." ], hint: 'be to + verb' },
+        // SECTION 4: verb be for obligations (7) – correct option completes the obligation pattern
+        { id: 20, section: 4, text: "All employees", options: [{ value: "are to wear", correct: true }, { value: "are wear", correct: false }, { value: "have wear", correct: false }, { value: "are wearing", correct: false }], tip: "are to + infinitive" },
+        { id: 21, section: 4, text: "You", options: [{ value: "are to finish", correct: true }, { value: "are finish", correct: false }, { value: "have finish", correct: false }, { value: "are to finishing", correct: false }], tip: "are to + infinitive" },
+        { id: 22, section: 4, text: "The students", options: [{ value: "are to submit", correct: true }, { value: "are submit", correct: false }, { value: "have submit", correct: false }, { value: "are to submitting", correct: false }], tip: "are to + infinitive" },
+        { id: 23, section: 4, text: "Nobody", options: [{ value: "is to leave", correct: true }, { value: "is leave", correct: false }, { value: "has leave", correct: false }, { value: "is to leaving", correct: false }], tip: "is to + infinitive" },
+        { id: 24, section: 4, text: "The documents", options: [{ value: "are to be signed", correct: true }, { value: "are be signed", correct: false }, { value: "have be signed", correct: false }, { value: "are to signing", correct: false }], tip: "are to + infinitive" },
+        { id: 25, section: 4, text: "All visitors", options: [{ value: "are to register", correct: true }, { value: "are register", correct: false }, { value: "have register", correct: false }, { value: "are to registering", correct: false }], tip: "are to + infinitive" },
+        { id: 26, section: 4, text: "Each participant", options: [{ value: "is to bring", correct: true }, { value: "is bring", correct: false }, { value: "has bring", correct: false }, { value: "is to bringing", correct: false }], tip: "is to + infinitive" },
 
-        // section 5: no sooner ... than (ids 27-33) – add scrambled word prompts
-        { id:27, parts: [ "No sooner", { gap: "had I arrived" }, "than", { gap: "the phone rang" } ], hint: 'inversion with than', scramble: '[I / had / arrived] — [rang / phone / the]' },
-        { id:28, parts: [ "No sooner", { gap: "had she left" }, "than", { gap: "it started raining" } ], hint: 'inversion with than', scramble: '[she / had / left] — [started / raining / it]' },
-        { id:29, parts: [ "No sooner", { gap: "had the movie started" }, "than", { gap: "the fire alarm went off" } ], hint: 'inversion with than', scramble: '[movie / the / had / started] — [fire / alarm / the / went / off]' },
-        { id:30, parts: [ "No sooner", { gap: "had we sat down" }, "than", { gap: "the waiter came" } ], hint: 'inversion with than', scramble: '[we / had / sat / down] — [waiter / the / came]' },
-        { id:31, parts: [ "No sooner", { gap: "had they finished" }, "than", { gap: "the bell rang" } ], hint: 'inversion with than', scramble: '[they / had / finished] — [bell / the / rang]' },
-        { id:32, parts: [ "No sooner", { gap: "had the phone rung" }, "than", { gap: "I answered it" } ], hint: 'inversion with than', scramble: '[phone / the / had / rung] — [I / answered / it]' },
-        { id:33, parts: [ "No sooner", { gap: "had the teacher entered" }, "than", { gap: "the students stood up" } ], hint: 'inversion with than', scramble: '[teacher / the / had / entered] — [students / the / stood / up]' },
+        // SECTION 5: no sooner...than (7) – correct option inverts subject and uses 'than'
+        { id: 27, section: 5, text: "No sooner", options: [{ value: "had I arrived than", correct: true }, { value: "I had arrived than", correct: false }, { value: "had I arrived then", correct: false }, { value: "I arrived than", correct: false }], tip: "No sooner + had + subject + past participle + than" },
+        { id: 28, section: 5, text: "No sooner", options: [{ value: "had she left than", correct: true }, { value: "she had left than", correct: false }, { value: "had she left then", correct: false }, { value: "she left than", correct: false }], tip: "No sooner + had + subject + past participle + than" },
+        { id: 29, section: 5, text: "No sooner", options: [{ value: "had the movie started than", correct: true }, { value: "the movie had started than", correct: false }, { value: "had the movie started then", correct: false }, { value: "the movie started than", correct: false }], tip: "No sooner + had + subject + past participle + than" },
+        { id: 30, section: 5, text: "No sooner", options: [{ value: "had we sat down than", correct: true }, { value: "we had sat down than", correct: false }, { value: "had we sat down then", correct: false }, { value: "we sat down than", correct: false }], tip: "No sooner + had + subject + past participle + than" },
+        { id: 31, section: 5, text: "No sooner", options: [{ value: "had they finished than", correct: true }, { value: "they had finished than", correct: false }, { value: "had they finished then", correct: false }, { value: "they finished than", correct: false }], tip: "No sooner + had + subject + past participle + than" },
+        { id: 32, section: 5, text: "No sooner", options: [{ value: "had the phone rung than", correct: true }, { value: "the phone had rung than", correct: false }, { value: "had the phone rung then", correct: false }, { value: "the phone rang than", correct: false }], tip: "No sooner + had + subject + past participle + than" },
+        { id: 33, section: 5, text: "No sooner", options: [{ value: "had the teacher entered than", correct: true }, { value: "the teacher had entered than", correct: false }, { value: "had the teacher entered then", correct: false }, { value: "the teacher entered than", correct: false }], tip: "No sooner + had + subject + past participle + than" },
 
-        // section 6: suggest + bare infinitive (ids 34-40)
-        { id:34, parts: [ "The manager suggested that the team", { gap: "work" }, "harder." ], hint: 'bare inf after suggest' },
-        { id:35, parts: [ "The doctor suggested that my father", { gap: "exercise" }, "more." ], hint: 'bare inf after suggest' },
-        { id:36, parts: [ "She suggested that he", { gap: "apply" }, "for the job." ], hint: 'bare inf after suggest' },
-        { id:37, parts: [ "I suggested that they", { gap: "arrive" }, "early." ], hint: 'bare inf after suggest' },
-        { id:38, parts: [ "The consultant suggested that the company", { gap: "restructure" }, "its structure." ], hint: 'bare inf after suggest' },
-        { id:39, parts: [ "They suggested that we", { gap: "wait" }, "here." ], hint: 'bare inf after suggest' },
-        { id:40, parts: [ "The report suggested that the government", { gap: "invest" }, "more." ], hint: 'bare inf after suggest' },
+        // SECTION 6: suggested that (7) – correct option = bare infinitive
+        { id: 34, section: 6, text: "The manager suggested that the team", options: [{ value: "work", correct: true }, { value: "works", correct: false }, { value: "to work", correct: false }, { value: "working", correct: false }], tip: "suggested that + bare infinitive" },
+        { id: 35, section: 6, text: "The doctor suggested that my father", options: [{ value: "exercise", correct: true }, { value: "exercises", correct: false }, { value: "to exercise", correct: false }, { value: "exercising", correct: false }], tip: "suggested that + bare infinitive" },
+        { id: 36, section: 6, text: "She suggested that he", options: [{ value: "apply", correct: true }, { value: "applies", correct: false }, { value: "to apply", correct: false }, { value: "applying", correct: false }], tip: "suggested that + bare infinitive" },
+        { id: 37, section: 6, text: "I suggested that they", options: [{ value: "arrive", correct: true }, { value: "arrives", correct: false }, { value: "to arrive", correct: false }, { value: "arriving", correct: false }], tip: "suggested that + bare infinitive" },
+        { id: 38, section: 6, text: "The consultant suggested that the company", options: [{ value: "restructure", correct: true }, { value: "restructures", correct: false }, { value: "to restructure", correct: false }, { value: "restructuring", correct: false }], tip: "suggested that + bare infinitive" },
+        { id: 39, section: 6, text: "They suggested that we", options: [{ value: "wait", correct: true }, { value: "waits", correct: false }, { value: "to wait", correct: false }, { value: "waiting", correct: false }], tip: "suggested that + bare infinitive" },
+        { id: 40, section: 6, text: "The report suggested that the government", options: [{ value: "invest", correct: true }, { value: "invests", correct: false }, { value: "to invest", correct: false }, { value: "investing", correct: false }], tip: "suggested that + bare infinitive" }
       ];
 
-      // ----- SHUFFLE sentences to mix order -----
-      function shuffleArray(arr) {
-        for (let i = arr.length - 1; i > 0; i--) {
+      // Shuffle options for each question to randomize correct answer position
+      function shuffleOptions(question) {
+        const shuffled = [...question.options];
+        for (let i = shuffled.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
-          [arr[i], arr[j]] = [arr[j], arr[i]];
+          [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
         }
-        return arr;
+        return shuffled;
       }
 
-      const sentences = shuffleArray([...rawSentences]);
+      // Apply shuffling to all questions
+      const shuffledQuestions = questions.map(q => ({
+        ...q,
+        options: shuffleOptions(q)
+      }));
 
-      // ---- build gapAnswers map ----
-      const gapAnswers = {};
-      let totalGapCount = 0;
-      sentences.forEach(sen => {
-        sen.parts.forEach((p, idx) => {
-          if (typeof p === 'object' && p.gap) {
-            const key = `${sen.id}-${idx}`;
-            gapAnswers[key] = p.gap.trim().toLowerCase();
-            totalGapCount++;
-          }
-        });
-      });
-
-      // ---- render sentences with extra prompts where available ----
-      const root = document.getElementById('sentences-root');
-      function render() {
+      // Build the HTML with sections
+      function buildExerciseHTML() {
+        const container = document.getElementById('sentences-container');
         let html = '';
-        sentences.forEach(sen => {
-          html += `<div class="multi-gap-sentence" id="sen-${sen.id}">`;
-          html += `<span style="font-weight:600; margin-right:8px;">${sen.id}.</span>`;
-
-          sen.parts.forEach((part, idx) => {
-            if (typeof part === 'string') {
-              html += part + ' ';
-            } else {
-              const gapKey = `${sen.id}-${idx}`;
-              html += `<span class="gap"><input type="text" class="gap-input" data-gapkey="${gapKey}" id="gap-${gapKey}" placeholder="___"></span> `;
-            }
+        
+        for (let section = 1; section <= 6; section++) {
+          const sectionQuestions = shuffledQuestions.filter(q => q.section === section);
+          if (sectionQuestions.length === 0) continue;
+          
+          let sectionTitle = '';
+          let sectionColor = '';
+          
+          switch(section) {
+            case 1: sectionTitle = 'at the latest'; sectionColor = 'section-1'; break;
+            case 2: sectionTitle = 'not only...but also'; sectionColor = 'section-2'; break;
+            case 3: sectionTitle = 'I\'d rather you'; sectionColor = 'section-3'; break;
+            case 4: sectionTitle = 'verb be for obligations'; sectionColor = 'section-4'; break;
+            case 5: sectionTitle = 'no sooner...than'; sectionColor = 'section-5'; break;
+            case 6: sectionTitle = 'suggested that (+ bare infinitive)'; sectionColor = 'section-6'; break;
+          }
+          
+          html += `<div class="grammar-section ${sectionColor}">`;
+          html += `<div class="section-header">${sectionTitle} <span>${sectionQuestions.length} questions</span></div>`;
+          html += `<div class="section-content">`;
+          
+          sectionQuestions.forEach(q => {
+            html += `<div class="sentence" id="sentence${q.id}">`;
+            html += `${q.id}. ${q.text} <select id="q${q.id}">`;
+            html += `<option value="">-- Select --</option>`;
+            q.options.forEach(opt => {
+              html += `<option value="${opt.value}">${opt.value}</option>`;
+            });
+            html += `</select>`;
+            html += `<span class="grammar-tip">${q.tip}</span>`;
+            html += `</div>`;
           });
-
-          // subtle hint
-          html += `<span class="hint-tag">ⓘ ${sen.hint}</span>`;
-
-          // extra prompt for id 13-19 (verb) and 27-33 (scrambled)
-          if (sen.id >= 13 && sen.id <= 19 && sen.prompt) {
-            html += `<span class="extra-prompt">verb: ${sen.prompt}</span>`;
-          }
-          if (sen.id >= 27 && sen.id <= 33 && sen.scramble) {
-            html += `<span class="extra-prompt">words: ${sen.scramble}</span>`;
-          }
-
-          html += `</div>`;
-        });
-        root.innerHTML = html;
-      }
-      render();
-
-      // ---- DOM elements & helpers ----
-      const gapInputs = document.querySelectorAll('.gap-input');
-      const totalSpan = document.getElementById('totalGaps');
-      const filledSpan = document.getElementById('filledCount');
-      const progressFill = document.getElementById('progressFill');
-      const percentSpan = document.getElementById('percentDisplay');
-      const winMsg = document.getElementById('winMessage');
-      const failMsg = document.getElementById('failMessage');
-      const checkBtn = document.getElementById('checkBtn');
-      const resetBtn = document.getElementById('resetBtn');
-
-      totalSpan.innerText = totalGapCount;
-
-      function countFilled() {
-        return Array.from(gapInputs).filter(inp => inp.value.trim() !== '').length;
-      }
-
-      function updateProgress() {
-        const filled = countFilled();
-        const percent = (filled / totalGapCount) * 100;
-        progressFill.style.width = percent + '%';
-        filledSpan.innerText = filled;
-        percentSpan.innerText = Math.round(percent) + '%';
-      }
-
-      function resetAllStyles() {
-        gapInputs.forEach(inp => {
-          inp.classList.remove('correct-gap', 'incorrect-gap');
-        });
-        document.querySelectorAll('.multi-gap-sentence').forEach(s => {
-          s.classList.remove('correct-sentence', 'incorrect-sentence');
-        });
-      }
-
-      resetBtn.addEventListener('click', () => {
-        gapInputs.forEach(inp => { inp.value = ''; });
-        resetAllStyles();
-        updateProgress();
-        winMsg.style.display = 'none';
-        failMsg.style.display = 'none';
-      });
-
-      function checkAll() {
-        let anyEmpty = false;
-        const gapCorrectness = new Map();
-
-        gapInputs.forEach(inp => {
-          const key = inp.dataset.gapkey;
-          const correct = gapAnswers[key];
-          const val = inp.value.trim().toLowerCase();
-          const isCorrect = (val !== '' && val === correct);
-
-          if (val === '') anyEmpty = true;
-
-          if (val !== '' && isCorrect) {
-            inp.classList.add('correct-gap');
-            inp.classList.remove('incorrect-gap');
-          } else if (val !== '' && !isCorrect) {
-            inp.classList.add('incorrect-gap');
-            inp.classList.remove('correct-gap');
-          } else {
-            inp.classList.remove('correct-gap', 'incorrect-gap');
-          }
-          gapCorrectness.set(key, isCorrect);
-        });
-
-        sentences.forEach(sen => {
-          const senDiv = document.getElementById(`sen-${sen.id}`);
-          if (!senDiv) return;
-          let allCorrect = true;
-          let hasAny = false;
-          sen.parts.forEach((part, idx) => {
-            if (typeof part === 'object') {
-              const key = `${sen.id}-${idx}`;
-              if (gapCorrectness.get(key) === true) hasAny = true;
-              if (gapCorrectness.get(key) !== true) allCorrect = false;
-            }
-          });
-
-          if (!hasAny) {
-            senDiv.classList.remove('correct-sentence', 'incorrect-sentence');
-          } else if (allCorrect) {
-            senDiv.classList.add('correct-sentence');
-            senDiv.classList.remove('incorrect-sentence');
-          } else {
-            senDiv.classList.add('incorrect-sentence');
-            senDiv.classList.remove('correct-sentence');
-          }
-        });
-
-        const totalCorrect = Array.from(gapCorrectness.values()).filter(v => v === true).length;
-        const allFilled = !anyEmpty && countFilled() === totalGapCount;
-
-        if (!allFilled) {
-          failMsg.innerText = '⚠️ you left some gaps empty – fill everything.';
-          failMsg.style.display = 'block';
-          winMsg.style.display = 'none';
-        } else if (totalCorrect === totalGapCount) {
-          winMsg.style.display = 'block';
-          failMsg.style.display = 'none';
-        } else {
-          failMsg.innerText = '❌ some answers are incorrect. adjust and check again.';
-          failMsg.style.display = 'block';
-          winMsg.style.display = 'none';
+          
+          html += `</div></div>`;
         }
-        updateProgress();
+        
+        container.innerHTML = html;
       }
 
-      checkBtn.addEventListener('click', checkAll);
+      buildExerciseHTML();
 
-      gapInputs.forEach(inp => {
-        inp.addEventListener('input', function() {
-          const key = this.dataset.gapkey;
-          const [senId] = key.split('-');
-          const senDiv = document.getElementById(`sen-${senId}`);
-          if (senDiv) senDiv.classList.remove('correct-sentence', 'incorrect-sentence');
-          this.classList.remove('correct-gap', 'incorrect-gap');
-          winMsg.style.display = 'none';
-          failMsg.style.display = 'none';
+      // Get DOM elements
+      const selects = document.querySelectorAll('select');
+      const progressBar = document.getElementById('progress-bar');
+      const progressText = document.getElementById('progress-text');
+      const successMessage = document.getElementById('success-message');
+      const errorMessage = document.getElementById('error-message');
+      const checkBtn = document.getElementById('check-btn');
+      const resetBtn = document.getElementById('reset-btn');
+      
+      // Create correct answers map from shuffled questions
+      const correctAnswers = {};
+      shuffledQuestions.forEach(q => {
+        const correctOption = q.options.find(opt => opt.correct);
+        correctAnswers[`q${q.id}`] = correctOption.value;
+      });
+      
+      let hasCheckedAnswers = false;
+      const totalQuestions = selects.length;
+      
+      // Initialize progress
+      updateProgress();
+      
+      // Add event listeners to selects
+      selects.forEach(select => {
+        select.addEventListener('change', function() {
+          // Remove previous styling if answers were checked
+          if (hasCheckedAnswers) {
+            this.classList.remove('correct', 'incorrect');
+            const sentenceId = this.id.replace('q', 'sentence');
+            document.getElementById(sentenceId).classList.remove('correct', 'incorrect');
+          }
           updateProgress();
+          successMessage.style.display = 'none';
+          errorMessage.style.display = 'none';
+          hasCheckedAnswers = false;
         });
       });
-
-      updateProgress();
-    })();
+      
+      // Update progress bar and text
+      function updateProgress() {
+        let answered = 0;
+        selects.forEach(select => { if (select.value !== '') answered++; });
+        const progress = (answered / totalQuestions) * 100;
+        progressBar.style.width = `${progress}%`;
+        progressText.textContent = `${answered}/${totalQuestions} (${Math.round(progress)}%)`;
+      }
+      
+      // Check answers
+      function checkAnswers() {
+        let allCorrect = true;
+        let allAnswered = true;
+        
+        selects.forEach(select => {
+          const questionId = select.id;
+          const userAnswer = select.value;
+          const correctAnswer = correctAnswers[questionId];
+          const sentence = document.getElementById(`sentence${questionId.substring(1)}`);
+          
+          if (userAnswer === '') {
+            allAnswered = false;
+            select.classList.remove('correct', 'incorrect');
+            sentence.classList.remove('correct', 'incorrect');
+          } else if (userAnswer === correctAnswer) {
+            select.classList.add('correct');
+            select.classList.remove('incorrect');
+            sentence.classList.add('correct');
+            sentence.classList.remove('incorrect');
+          } else {
+            select.classList.add('incorrect');
+            select.classList.remove('correct');
+            sentence.classList.add('incorrect');
+            sentence.classList.remove('correct');
+            allCorrect = false;
+          }
+        });
+        
+        if (!allAnswered) {
+          errorMessage.textContent = '⚠️ Please answer all questions before checking.';
+          errorMessage.style.display = 'block';
+          successMessage.style.display = 'none';
+        } else if (allCorrect) {
+          successMessage.style.display = 'block';
+          errorMessage.style.display = 'none';
+        } else {
+          errorMessage.textContent = '❌ Some answers are incorrect. Keep trying!';
+          errorMessage.style.display = 'block';
+          successMessage.style.display = 'none';
+        }
+        hasCheckedAnswers = true;
+      }
+      
+      checkBtn.addEventListener('click', checkAnswers);
+      
+      resetBtn.addEventListener('click', function() {
+        selects.forEach(select => {
+          select.value = '';
+          select.classList.remove('correct', 'incorrect');
+          const sentenceId = select.id.replace('q', 'sentence');
+          document.getElementById(sentenceId).classList.remove('correct', 'incorrect');
+        });
+        updateProgress();
+        successMessage.style.display = 'none';
+        errorMessage.style.display = 'none';
+        hasCheckedAnswers = false;
+      });
+    });
   </script>
 </body>
 </html>
