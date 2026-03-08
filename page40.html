@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>mixed multiple‑gap drill · subtle hints</title>
+  <title>mixed multiple‑gap · scrambled & verb prompts</title>
   <style>
     * {
       margin: 0;
@@ -159,7 +160,7 @@
       border-bottom: 4px solid #ca2f2f;
     }
 
-    /* subtle hint style — only pattern, no answer */
+    /* subtle hint style + extra prompt for some sentences */
     .hint-tag {
       background: #f0ebff;
       color: #51457e;
@@ -171,6 +172,18 @@
       letter-spacing: 0.2px;
       border: 1px dotted #aa9ace;
       display: inline-block;
+    }
+
+    .extra-prompt {
+      background: #fde9c5;
+      color: #7d5d27;
+      font-size: 0.75rem;
+      padding: 3px 12px;
+      border-radius: 30px;
+      margin-left: 10px;
+      font-weight: 500;
+      display: inline-block;
+      border: 1px solid #e6b568;
     }
 
     .global-progress {
@@ -275,16 +288,16 @@
 <body>
   <div class="card">
     <div class="header">
-      <h1>🔄 mixed‑up gaps · subtle hints</h1>
+      <h1>🔄 mixed gaps · verb prompts & scrambled</h1>
       <div class="meta">
-        <span class="pill">40 sentences (shuffled)</span>
-        <span class="pill">2‑3 gaps each</span>
+        <span class="pill">40 sentences (reshuffled)</span>
+        <span class="pill">extra clues for 13-19 & 27-33</span>
       </div>
     </div>
     <div class="instruction-block">
       <div class="instruction-item"><span class="num-badge">①</span> type into every gap</div>
       <div class="instruction-item"><span class="num-badge">②</span> check your answers</div>
-      <div class="instruction-item"><span class="num-badge">③</span> hints = pattern only</div>
+      <div class="instruction-item"><span class="num-badge">③</span> coloured hints = pattern</div>
     </div>
 
     <div id="sentences-root" class="sentence-list"></div>
@@ -305,14 +318,14 @@
       <button class="btn-secondary" id="resetBtn">⟲ reset all gaps</button>
     </div>
 
-    <footer>mixed order · hints show structure only (no answers)</footer>
+    <footer>mixed order · verb hints (13‑19) · scrambled word sets (27‑33)</footer>
   </div>
 
   <script>
     (function() {
-      // ----- base sentences (with clear, but we'll use subtle hints) -----
+      // ----- enhanced sentences with extra prompts for specific ids -----
       const rawSentences = [
-        // section 1: at the latest (hidden pattern)
+        // section 1: at the latest (ids 1-6)
         { id:1, parts: [ "Please submit your assignment", { gap: "by" }, "Friday", { gap: "at the latest" } ], hint: 'deadline pattern' },
         { id:2, parts: [ "The guests should arrive", { gap: "by" }, "8 PM", { gap: "at the latest" } ], hint: 'deadline pattern' },
         { id:3, parts: [ "You need to finish this report", { gap: "by" }, "Monday", { gap: "at the latest" } ], hint: 'deadline pattern' },
@@ -320,7 +333,7 @@
         { id:5, parts: [ "We need your decision", { gap: "by" }, "Thursday", { gap: "at the latest" } ], hint: 'deadline pattern' },
         { id:6, parts: [ "The documents should be here", { gap: "by" }, "noon", { gap: "at the latest" } ], hint: 'deadline pattern' },
 
-        // section 2: not only ... but also (hint: 'correlative pair')
+        // section 2: not only / but also (ids 7-12)
         { id:7, parts: [ "She", { gap: "not only" }, "sings", { gap: "but also" }, "dances." ], hint: 'correlative pair' },
         { id:8, parts: [ "The movie was", { gap: "not only" }, "entertaining", { gap: "but also" }, "thought-provoking." ], hint: 'correlative pair' },
         { id:9, parts: [ "He", { gap: "not only" }, "speaks French", { gap: "but also" }, "German." ], hint: 'correlative pair' },
@@ -328,16 +341,16 @@
         { id:11, parts: [ "This car is", { gap: "not only" }, "fast", { gap: "but also" }, "reliable." ], hint: 'correlative pair' },
         { id:12, parts: [ "They", { gap: "not only" }, "visited Paris", { gap: "but also" }, "went to Lyon." ], hint: 'correlative pair' },
 
-        // section 3: I'd rather you + past (hint: 'past after rather')
-        { id:13, parts: [ "I'd", { gap: "rather you" }, { gap: "didn't smoke" }, "here." ], hint: 'past after rather' },
-        { id:14, parts: [ "I'd", { gap: "rather you" }, { gap: "told" }, "me the truth." ], hint: 'past after rather' },
-        { id:15, parts: [ "I'd", { gap: "rather you" }, { gap: "came" }, "earlier." ], hint: 'past after rather' },
-        { id:16, parts: [ "I'd", { gap: "rather you" }, { gap: "didn't tell" }, "anyone." ], hint: 'past after rather' },
-        { id:17, parts: [ "I'd", { gap: "rather you" }, { gap: "were" }, "more careful." ], hint: 'past after rather' },
-        { id:18, parts: [ "I'd", { gap: "rather you" }, { gap: "stayed" }, "at home." ], hint: 'past after rather' },
-        { id:19, parts: [ "I'd", { gap: "rather you" }, { gap: "didn't do" }, "that." ], hint: 'past after rather' },
+        // section 3: I'd rather you + past (ids 13-19) – added verb prompts
+        { id:13, parts: [ "I'd", { gap: "rather you" }, { gap: "didn't smoke" }, "here." ], hint: 'past after rather', prompt: '[smoke]' },
+        { id:14, parts: [ "I'd", { gap: "rather you" }, { gap: "told" }, "me the truth." ], hint: 'past after rather', prompt: '[tell]' },
+        { id:15, parts: [ "I'd", { gap: "rather you" }, { gap: "came" }, "earlier." ], hint: 'past after rather', prompt: '[come]' },
+        { id:16, parts: [ "I'd", { gap: "rather you" }, { gap: "didn't tell" }, "anyone." ], hint: 'past after rather', prompt: '[not tell]' },
+        { id:17, parts: [ "I'd", { gap: "rather you" }, { gap: "were" }, "more careful." ], hint: 'past after rather', prompt: '[be]' },
+        { id:18, parts: [ "I'd", { gap: "rather you" }, { gap: "stayed" }, "at home." ], hint: 'past after rather', prompt: '[stay]' },
+        { id:19, parts: [ "I'd", { gap: "rather you" }, { gap: "didn't do" }, "that." ], hint: 'past after rather', prompt: '[not do]' },
 
-        // section 4: be to + infinitive (hint: 'be to + verb')
+        // section 4: be to + infinitive (ids 20-26)
         { id:20, parts: [ "All employees", { gap: "are to" }, { gap: "wear" }, "uniforms." ], hint: 'be to + verb' },
         { id:21, parts: [ "You", { gap: "are to" }, { gap: "finish" }, "by 6 PM." ], hint: 'be to + verb' },
         { id:22, parts: [ "The students", { gap: "are to" }, { gap: "submit" }, "their essays." ], hint: 'be to + verb' },
@@ -346,16 +359,16 @@
         { id:25, parts: [ "All visitors", { gap: "are to" }, { gap: "register" }, "at reception." ], hint: 'be to + verb' },
         { id:26, parts: [ "Each participant", { gap: "is to" }, { gap: "bring" }, "their own laptop." ], hint: 'be to + verb' },
 
-        // section 5: no sooner ... than (hint: 'inversion with than')
-        { id:27, parts: [ "No sooner", { gap: "had I arrived" }, "than", { gap: "the phone rang" } ], hint: 'inversion with than' },
-        { id:28, parts: [ "No sooner", { gap: "had she left" }, "than", { gap: "it started raining" } ], hint: 'inversion with than' },
-        { id:29, parts: [ "No sooner", { gap: "had the movie started" }, "than", { gap: "the fire alarm went off" } ], hint: 'inversion with than' },
-        { id:30, parts: [ "No sooner", { gap: "had we sat down" }, "than", { gap: "the waiter came" } ], hint: 'inversion with than' },
-        { id:31, parts: [ "No sooner", { gap: "had they finished" }, "than", { gap: "the bell rang" } ], hint: 'inversion with than' },
-        { id:32, parts: [ "No sooner", { gap: "had the phone rung" }, "than", { gap: "I answered it" } ], hint: 'inversion with than' },
-        { id:33, parts: [ "No sooner", { gap: "had the teacher entered" }, "than", { gap: "the students stood up" } ], hint: 'inversion with than' },
+        // section 5: no sooner ... than (ids 27-33) – add scrambled word prompts
+        { id:27, parts: [ "No sooner", { gap: "had I arrived" }, "than", { gap: "the phone rang" } ], hint: 'inversion with than', scramble: '[I / had / arrived] — [rang / phone / the]' },
+        { id:28, parts: [ "No sooner", { gap: "had she left" }, "than", { gap: "it started raining" } ], hint: 'inversion with than', scramble: '[she / had / left] — [started / raining / it]' },
+        { id:29, parts: [ "No sooner", { gap: "had the movie started" }, "than", { gap: "the fire alarm went off" } ], hint: 'inversion with than', scramble: '[movie / the / had / started] — [fire / alarm / the / went / off]' },
+        { id:30, parts: [ "No sooner", { gap: "had we sat down" }, "than", { gap: "the waiter came" } ], hint: 'inversion with than', scramble: '[we / had / sat / down] — [waiter / the / came]' },
+        { id:31, parts: [ "No sooner", { gap: "had they finished" }, "than", { gap: "the bell rang" } ], hint: 'inversion with than', scramble: '[they / had / finished] — [bell / the / rang]' },
+        { id:32, parts: [ "No sooner", { gap: "had the phone rung" }, "than", { gap: "I answered it" } ], hint: 'inversion with than', scramble: '[phone / the / had / rung] — [I / answered / it]' },
+        { id:33, parts: [ "No sooner", { gap: "had the teacher entered" }, "than", { gap: "the students stood up" } ], hint: 'inversion with than', scramble: '[teacher / the / had / entered] — [students / the / stood / up]' },
 
-        // section 6: suggest + bare infinitive (hint: 'bare inf after suggest')
+        // section 6: suggest + bare infinitive (ids 34-40)
         { id:34, parts: [ "The manager suggested that the team", { gap: "work" }, "harder." ], hint: 'bare inf after suggest' },
         { id:35, parts: [ "The doctor suggested that my father", { gap: "exercise" }, "more." ], hint: 'bare inf after suggest' },
         { id:36, parts: [ "She suggested that he", { gap: "apply" }, "for the job." ], hint: 'bare inf after suggest' },
@@ -365,7 +378,7 @@
         { id:40, parts: [ "The report suggested that the government", { gap: "invest" }, "more." ], hint: 'bare inf after suggest' },
       ];
 
-      // ----- shuffle sentences array (random order, no section grouping) -----
+      // ----- SHUFFLE sentences to mix order -----
       function shuffleArray(arr) {
         for (let i = arr.length - 1; i > 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));
@@ -374,10 +387,10 @@
         return arr;
       }
 
-      const sentences = shuffleArray([...rawSentences]);  // shuffled, sections mixed
+      const sentences = shuffleArray([...rawSentences]);
 
-      // ---- build gapAnswers map and total count ----
-      const gapAnswers = {};   // key: `senId-gapIndex` -> correct answer (lowercase)
+      // ---- build gapAnswers map ----
+      const gapAnswers = {};
       let totalGapCount = 0;
       sentences.forEach(sen => {
         sen.parts.forEach((p, idx) => {
@@ -389,7 +402,7 @@
         });
       });
 
-      // ---- render all sentences in one list (no section wrappers) ----
+      // ---- render sentences with extra prompts where available ----
       const root = document.getElementById('sentences-root');
       function render() {
         let html = '';
@@ -402,14 +415,21 @@
               html += part + ' ';
             } else {
               const gapKey = `${sen.id}-${idx}`;
-              // placeholder only hints at length, not answer
-              const placeholder = '___';
-              html += `<span class="gap"><input type="text" class="gap-input" data-gapkey="${gapKey}" id="gap-${gapKey}" placeholder="${placeholder}"></span> `;
+              html += `<span class="gap"><input type="text" class="gap-input" data-gapkey="${gapKey}" id="gap-${gapKey}" placeholder="___"></span> `;
             }
           });
 
-          // subtle hint: pattern only
+          // subtle hint
           html += `<span class="hint-tag">ⓘ ${sen.hint}</span>`;
+
+          // extra prompt for id 13-19 (verb) and 27-33 (scrambled)
+          if (sen.id >= 13 && sen.id <= 19 && sen.prompt) {
+            html += `<span class="extra-prompt">verb: ${sen.prompt}</span>`;
+          }
+          if (sen.id >= 27 && sen.id <= 33 && sen.scramble) {
+            html += `<span class="extra-prompt">words: ${sen.scramble}</span>`;
+          }
+
           html += `</div>`;
         });
         root.innerHTML = html;
@@ -482,7 +502,6 @@
           gapCorrectness.set(key, isCorrect);
         });
 
-        // colour sentences based on their gaps
         sentences.forEach(sen => {
           const senDiv = document.getElementById(`sen-${sen.id}`);
           if (!senDiv) return;
