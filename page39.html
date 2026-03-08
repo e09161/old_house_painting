@@ -136,7 +136,7 @@
       background-color: white;
       cursor: pointer;
       transition: all 0.3s;
-      min-width: 180px;
+      min-width: 200px;
       margin: 0 5px;
     }
 
@@ -154,17 +154,6 @@
     select.incorrect {
       border-color: #f44336;
       background-color: #ffebee;
-    }
-
-    .grammar-tip {
-      display: inline-block;
-      background-color: #e3f2fd;
-      color: #1565c0;
-      font-size: 13px;
-      padding: 2px 8px;
-      border-radius: 4px;
-      margin-left: 10px;
-      font-weight: normal;
     }
 
     .progress-container {
@@ -307,7 +296,7 @@
       }
       
       select {
-        min-width: 160px;
+        min-width: 180px;
         font-size: 15px;
       }
       
@@ -369,58 +358,59 @@
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // All 40 questions – each now forms a complete, meaningful sentence
+      // Blue grammar tips have been removed
       const questions = [
         // SECTION 1: at the latest (6)
-        { id: 1, section: 1, text: "Please submit your assignment by Friday", options: [{ value: "at the latest", correct: true }, { value: "at the last", correct: false }, { value: "at least", correct: false }, { value: "lastly", correct: false }], tip: "at the latest" },
-        { id: 2, section: 1, text: "The guests should arrive by 8 PM", options: [{ value: "at the latest", correct: true }, { value: "at last", correct: false }, { value: "lately", correct: false }, { value: "the latest", correct: false }], tip: "at the latest" },
-        { id: 3, section: 1, text: "You need to finish this report by Monday", options: [{ value: "at the latest", correct: true }, { value: "at least", correct: false }, { value: "at last", correct: false }, { value: "latest", correct: false }], tip: "at the latest" },
-        { id: 4, section: 1, text: "The payment must be received by tomorrow", options: [{ value: "at the latest", correct: true }, { value: "lastly", correct: false }, { value: "at the last minute", correct: false }, { value: "late", correct: false }], tip: "at the latest" },
-        { id: 5, section: 1, text: "We need your decision by Thursday", options: [{ value: "at the latest", correct: true }, { value: "the last", correct: false }, { value: "at least", correct: false }, { value: "finally", correct: false }], tip: "at the latest" },
-        { id: 6, section: 1, text: "The documents should be here by noon", options: [{ value: "at the latest", correct: true }, { value: "latest", correct: false }, { value: "at last", correct: false }, { value: "lately", correct: false }], tip: "at the latest" },
+        { id: 1, section: 1, text: "Please submit your assignment by Friday", options: [{ value: "at the latest", correct: true }, { value: "at the last", correct: false }, { value: "at least", correct: false }, { value: "lastly", correct: false }] },
+        { id: 2, section: 1, text: "The guests should arrive by 8 PM", options: [{ value: "at the latest", correct: true }, { value: "at last", correct: false }, { value: "lately", correct: false }, { value: "the latest", correct: false }] },
+        { id: 3, section: 1, text: "You need to finish this report by Monday", options: [{ value: "at the latest", correct: true }, { value: "at least", correct: false }, { value: "at last", correct: false }, { value: "latest", correct: false }] },
+        { id: 4, section: 1, text: "The payment must be received by tomorrow", options: [{ value: "at the latest", correct: true }, { value: "lastly", correct: false }, { value: "at the last minute", correct: false }, { value: "late", correct: false }] },
+        { id: 5, section: 1, text: "We need your decision by Thursday", options: [{ value: "at the latest", correct: true }, { value: "the last", correct: false }, { value: "at least", correct: false }, { value: "finally", correct: false }] },
+        { id: 6, section: 1, text: "The documents should be here by noon", options: [{ value: "at the latest", correct: true }, { value: "latest", correct: false }, { value: "at last", correct: false }, { value: "lately", correct: false }] },
 
-        // SECTION 2: not only...but also (6) – now with complete endings
-        { id: 7, section: 2, text: "She not only sings but also", options: [{ value: "dances professionally", correct: true }, { value: "dance professionally", correct: false }, { value: "dancing professionally", correct: false }, { value: "to dance professionally", correct: false }], tip: "not only...but also + verb" },
-        { id: 8, section: 2, text: "The movie was not only entertaining but also", options: [{ value: "thought-provoking", correct: true }, { value: "thought-provoke", correct: false }, { value: "thought-provokes", correct: false }, { value: "to provoke thought", correct: false }], tip: "not only...but also + adjective" },
-        { id: 9, section: 2, text: "He not only speaks French but also", options: [{ value: "German", correct: true }, { value: "speaks German", correct: false }, { value: "to speak German", correct: false }, { value: "speaking German", correct: false }], tip: "not only...but also + noun" },
-        { id: 10, section: 2, text: "The restaurant serves not only delicious food but also", options: [{ value: "excellent wine", correct: true }, { value: "excellent wines", correct: false }, { value: "an excellent wine", correct: false }, { value: "the excellent wine", correct: false }], tip: "not only...but also + noun phrase" },
-        { id: 11, section: 2, text: "This car is not only fast but also", options: [{ value: "surprisingly fuel-efficient", correct: true }, { value: "surprise fuel-efficient", correct: false }, { value: "surprisingly fuel efficiency", correct: false }, { value: "surprise fuel efficiency", correct: false }], tip: "not only...but also + adjective" },
-        { id: 12, section: 2, text: "They not only visited Paris but also", options: [{ value: "went to Rome", correct: true }, { value: "go to Rome", correct: false }, { value: "going to Rome", correct: false }, { value: "to go to Rome", correct: false }], tip: "not only...but also + past tense" },
+        // SECTION 2: not only...but also (6) – with complete endings
+        { id: 7, section: 2, text: "She not only sings but also", options: [{ value: "dances professionally", correct: true }, { value: "dance professionally", correct: false }, { value: "dancing professionally", correct: false }, { value: "to dance professionally", correct: false }] },
+        { id: 8, section: 2, text: "The movie was not only entertaining but also", options: [{ value: "thought-provoking", correct: true }, { value: "thought-provoke", correct: false }, { value: "thought-provokes", correct: false }, { value: "to provoke thought", correct: false }] },
+        { id: 9, section: 2, text: "He not only speaks French but also", options: [{ value: "German", correct: true }, { value: "speaks German", correct: false }, { value: "to speak German", correct: false }, { value: "speaking German", correct: false }] },
+        { id: 10, section: 2, text: "The restaurant serves not only delicious food but also", options: [{ value: "excellent wine", correct: true }, { value: "excellent wines", correct: false }, { value: "an excellent wine", correct: false }, { value: "the excellent wine", correct: false }] },
+        { id: 11, section: 2, text: "This car is not only fast but also", options: [{ value: "surprisingly fuel-efficient", correct: true }, { value: "surprise fuel-efficient", correct: false }, { value: "surprisingly fuel efficiency", correct: false }, { value: "surprise fuel efficiency", correct: false }] },
+        { id: 12, section: 2, text: "They not only visited Paris but also", options: [{ value: "went to Rome", correct: true }, { value: "go to Rome", correct: false }, { value: "going to Rome", correct: false }, { value: "to go to Rome", correct: false }] },
 
         // SECTION 3: I'd rather you (7) – complete sentences
-        { id: 13, section: 3, text: "I'd rather you", options: [{ value: "didn't smoke in here", correct: true }, { value: "don't smoke in here", correct: false }, { value: "not smoke in here", correct: false }, { value: "to not smoke in here", correct: false }], tip: "I'd rather you + past simple" },
-        { id: 14, section: 3, text: "I'd rather you", options: [{ value: "told me the truth", correct: true }, { value: "tell me the truth", correct: false }, { value: "to tell me the truth", correct: false }, { value: "telling me the truth", correct: false }], tip: "I'd rather you + past simple" },
-        { id: 15, section: 3, text: "I'd rather you", options: [{ value: "came to the party", correct: true }, { value: "come to the party", correct: false }, { value: "to come to the party", correct: false }, { value: "coming to the party", correct: false }], tip: "I'd rather you + past simple" },
-        { id: 16, section: 3, text: "I'd rather you", options: [{ value: "didn't tell anyone", correct: true }, { value: "don't tell anyone", correct: false }, { value: "not tell anyone", correct: false }, { value: "to not tell anyone", correct: false }], tip: "I'd rather you + past simple" },
-        { id: 17, section: 3, text: "I'd rather you", options: [{ value: "were more careful", correct: true }, { value: "are more careful", correct: false }, { value: "be more careful", correct: false }, { value: "being more careful", correct: false }], tip: "I'd rather you + past simple" },
-        { id: 18, section: 3, text: "I'd rather you", options: [{ value: "stayed at home", correct: true }, { value: "stay at home", correct: false }, { value: "to stay at home", correct: false }, { value: "staying at home", correct: false }], tip: "I'd rather you + past simple" },
-        { id: 19, section: 3, text: "I'd rather you", options: [{ value: "didn't do that", correct: true }, { value: "don't do that", correct: false }, { value: "not do that", correct: false }, { value: "to not do that", correct: false }], tip: "I'd rather you + past simple" },
+        { id: 13, section: 3, text: "I'd rather you", options: [{ value: "didn't smoke in here", correct: true }, { value: "don't smoke in here", correct: false }, { value: "not smoke in here", correct: false }, { value: "to not smoke in here", correct: false }] },
+        { id: 14, section: 3, text: "I'd rather you", options: [{ value: "told me the truth", correct: true }, { value: "tell me the truth", correct: false }, { value: "to tell me the truth", correct: false }, { value: "telling me the truth", correct: false }] },
+        { id: 15, section: 3, text: "I'd rather you", options: [{ value: "came to the party", correct: true }, { value: "come to the party", correct: false }, { value: "to come to the party", correct: false }, { value: "coming to the party", correct: false }] },
+        { id: 16, section: 3, text: "I'd rather you", options: [{ value: "didn't tell anyone", correct: true }, { value: "don't tell anyone", correct: false }, { value: "not tell anyone", correct: false }, { value: "to not tell anyone", correct: false }] },
+        { id: 17, section: 3, text: "I'd rather you", options: [{ value: "were more careful", correct: true }, { value: "are more careful", correct: false }, { value: "be more careful", correct: false }, { value: "being more careful", correct: false }] },
+        { id: 18, section: 3, text: "I'd rather you", options: [{ value: "stayed at home", correct: true }, { value: "stay at home", correct: false }, { value: "to stay at home", correct: false }, { value: "staying at home", correct: false }] },
+        { id: 19, section: 3, text: "I'd rather you", options: [{ value: "didn't do that", correct: true }, { value: "don't do that", correct: false }, { value: "not do that", correct: false }, { value: "to not do that", correct: false }] },
 
         // SECTION 4: verb be for obligations (7) – complete sentences
-        { id: 20, section: 4, text: "All employees", options: [{ value: "are to wear safety goggles", correct: true }, { value: "are wear safety goggles", correct: false }, { value: "have wear safety goggles", correct: false }, { value: "are wearing safety goggles", correct: false }], tip: "are to + infinitive" },
-        { id: 21, section: 4, text: "You", options: [{ value: "are to finish the report by noon", correct: true }, { value: "are finish the report by noon", correct: false }, { value: "have finish the report by noon", correct: false }, { value: "are to finishing the report by noon", correct: false }], tip: "are to + infinitive" },
-        { id: 22, section: 4, text: "The students", options: [{ value: "are to submit their essays Friday", correct: true }, { value: "are submit their essays Friday", correct: false }, { value: "have submit their essays Friday", correct: false }, { value: "are to submitting their essays Friday", correct: false }], tip: "are to + infinitive" },
-        { id: 23, section: 4, text: "Nobody", options: [{ value: "is to leave the building", correct: true }, { value: "is leave the building", correct: false }, { value: "has leave the building", correct: false }, { value: "is to leaving the building", correct: false }], tip: "is to + infinitive" },
-        { id: 24, section: 4, text: "The documents", options: [{ value: "are to be signed by the manager", correct: true }, { value: "are be signed by the manager", correct: false }, { value: "have be signed by the manager", correct: false }, { value: "are to signing by the manager", correct: false }], tip: "are to + infinitive" },
-        { id: 25, section: 4, text: "All visitors", options: [{ value: "are to register at the front desk", correct: true }, { value: "are register at the front desk", correct: false }, { value: "have register at the front desk", correct: false }, { value: "are to registering at the front desk", correct: false }], tip: "are to + infinitive" },
-        { id: 26, section: 4, text: "Each participant", options: [{ value: "is to bring a photo ID", correct: true }, { value: "is bring a photo ID", correct: false }, { value: "has bring a photo ID", correct: false }, { value: "is to bringing a photo ID", correct: false }], tip: "is to + infinitive" },
+        { id: 20, section: 4, text: "All employees", options: [{ value: "are to wear safety goggles", correct: true }, { value: "are wear safety goggles", correct: false }, { value: "have wear safety goggles", correct: false }, { value: "are wearing safety goggles", correct: false }] },
+        { id: 21, section: 4, text: "You", options: [{ value: "are to finish the report by noon", correct: true }, { value: "are finish the report by noon", correct: false }, { value: "have finish the report by noon", correct: false }, { value: "are to finishing the report by noon", correct: false }] },
+        { id: 22, section: 4, text: "The students", options: [{ value: "are to submit their essays Friday", correct: true }, { value: "are submit their essays Friday", correct: false }, { value: "have submit their essays Friday", correct: false }, { value: "are to submitting their essays Friday", correct: false }] },
+        { id: 23, section: 4, text: "Nobody", options: [{ value: "is to leave the building", correct: true }, { value: "is leave the building", correct: false }, { value: "has leave the building", correct: false }, { value: "is to leaving the building", correct: false }] },
+        { id: 24, section: 4, text: "The documents", options: [{ value: "are to be signed by the manager", correct: true }, { value: "are be signed by the manager", correct: false }, { value: "have be signed by the manager", correct: false }, { value: "are to signing by the manager", correct: false }] },
+        { id: 25, section: 4, text: "All visitors", options: [{ value: "are to register at the front desk", correct: true }, { value: "are register at the front desk", correct: false }, { value: "have register at the front desk", correct: false }, { value: "are to registering at the front desk", correct: false }] },
+        { id: 26, section: 4, text: "Each participant", options: [{ value: "is to bring a photo ID", correct: true }, { value: "is bring a photo ID", correct: false }, { value: "has bring a photo ID", correct: false }, { value: "is to bringing a photo ID", correct: false }] },
 
-        // SECTION 5: no sooner...than (7) – complete sentences
-        { id: 27, section: 5, text: "No sooner had I arrived than", options: [{ value: "the meeting started", correct: true }, { value: "the meeting starts", correct: false }, { value: "the meeting had started", correct: false }, { value: "the meeting was starting", correct: false }], tip: "No sooner + had + subject + past participle + than + past simple" },
-        { id: 28, section: 5, text: "No sooner had she left than", options: [{ value: "the phone rang", correct: true }, { value: "the phone rings", correct: false }, { value: "the phone had rung", correct: false }, { value: "the phone was ringing", correct: false }], tip: "No sooner + had + subject + past participle + than + past simple" },
-        { id: 29, section: 5, text: "No sooner had the movie started than", options: [{ value: "the fire alarm went off", correct: true }, { value: "the fire alarm goes off", correct: false }, { value: "the fire alarm had gone off", correct: false }, { value: "the fire alarm was going off", correct: false }], tip: "No sooner + had + subject + past participle + than + past simple" },
-        { id: 30, section: 5, text: "No sooner had we sat down than", options: [{ value: "the waiter arrived", correct: true }, { value: "the waiter arrives", correct: false }, { value: "the waiter had arrived", correct: false }, { value: "the waiter was arriving", correct: false }], tip: "No sooner + had + subject + past participle + than + past simple" },
-        { id: 31, section: 5, text: "No sooner had they finished than", options: [{ value: "the boss walked in", correct: true }, { value: "the boss walks in", correct: false }, { value: "the boss had walked in", correct: false }, { value: "the boss was walking in", correct: false }], tip: "No sooner + had + subject + past participle + than + past simple" },
-        { id: 32, section: 5, text: "No sooner had the phone rung than", options: [{ value: "he answered it", correct: true }, { value: "he answers it", correct: false }, { value: "he had answered it", correct: false }, { value: "he was answering it", correct: false }], tip: "No sooner + had + subject + past participle + than + past simple" },
-        { id: 33, section: 5, text: "No sooner had the teacher entered than", options: [{ value: "the students stood up", correct: true }, { value: "the students stand up", correct: false }, { value: "the students had stood up", correct: false }, { value: "the students were standing up", correct: false }], tip: "No sooner + had + subject + past participle + than + past simple" },
+        // SECTION 5: no sooner...than (7) – with complete endings after "than"
+        { id: 27, section: 5, text: "No sooner had I arrived than", options: [{ value: "the meeting started", correct: true }, { value: "the meeting starts", correct: false }, { value: "the meeting had started", correct: false }, { value: "the meeting was starting", correct: false }] },
+        { id: 28, section: 5, text: "No sooner had she left than", options: [{ value: "the phone rang", correct: true }, { value: "the phone rings", correct: false }, { value: "the phone had rung", correct: false }, { value: "the phone was ringing", correct: false }] },
+        { id: 29, section: 5, text: "No sooner had the movie started than", options: [{ value: "the fire alarm went off", correct: true }, { value: "the fire alarm goes off", correct: false }, { value: "the fire alarm had gone off", correct: false }, { value: "the fire alarm was going off", correct: false }] },
+        { id: 30, section: 5, text: "No sooner had we sat down than", options: [{ value: "the waiter arrived", correct: true }, { value: "the waiter arrives", correct: false }, { value: "the waiter had arrived", correct: false }, { value: "the waiter was arriving", correct: false }] },
+        { id: 31, section: 5, text: "No sooner had they finished than", options: [{ value: "the boss walked in", correct: true }, { value: "the boss walks in", correct: false }, { value: "the boss had walked in", correct: false }, { value: "the boss was walking in", correct: false }] },
+        { id: 32, section: 5, text: "No sooner had the phone rung than", options: [{ value: "he answered it", correct: true }, { value: "he answers it", correct: false }, { value: "he had answered it", correct: false }, { value: "he was answering it", correct: false }] },
+        { id: 33, section: 5, text: "No sooner had the teacher entered than", options: [{ value: "the students stood up", correct: true }, { value: "the students stand up", correct: false }, { value: "the students had stood up", correct: false }, { value: "the students were standing up", correct: false }] },
 
         // SECTION 6: suggested that (7) – complete sentences
-        { id: 34, section: 6, text: "The manager suggested that the team", options: [{ value: "work overtime this week", correct: true }, { value: "works overtime this week", correct: false }, { value: "to work overtime this week", correct: false }, { value: "working overtime this week", correct: false }], tip: "suggested that + bare infinitive" },
-        { id: 35, section: 6, text: "The doctor suggested that my father", options: [{ value: "exercise more regularly", correct: true }, { value: "exercises more regularly", correct: false }, { value: "to exercise more regularly", correct: false }, { value: "exercising more regularly", correct: false }], tip: "suggested that + bare infinitive" },
-        { id: 36, section: 6, text: "She suggested that he", options: [{ value: "apply for the position", correct: true }, { value: "applies for the position", correct: false }, { value: "to apply for the position", correct: false }, { value: "applying for the position", correct: false }], tip: "suggested that + bare infinitive" },
-        { id: 37, section: 6, text: "I suggested that they", options: [{ value: "arrive early tomorrow", correct: true }, { value: "arrives early tomorrow", correct: false }, { value: "to arrive early tomorrow", correct: false }, { value: "arriving early tomorrow", correct: false }], tip: "suggested that + bare infinitive" },
-        { id: 38, section: 6, text: "The consultant suggested that the company", options: [{ value: "restructure its operations", correct: true }, { value: "restructures its operations", correct: false }, { value: "to restructure its operations", correct: false }, { value: "restructuring its operations", correct: false }], tip: "suggested that + bare infinitive" },
-        { id: 39, section: 6, text: "They suggested that we", options: [{ value: "wait until next week", correct: true }, { value: "waits until next week", correct: false }, { value: "to wait until next week", correct: false }, { value: "waiting until next week", correct: false }], tip: "suggested that + bare infinitive" },
-        { id: 40, section: 6, text: "The report suggested that the government", options: [{ value: "invest in renewable energy", correct: true }, { value: "invests in renewable energy", correct: false }, { value: "to invest in renewable energy", correct: false }, { value: "investing in renewable energy", correct: false }], tip: "suggested that + bare infinitive" }
+        { id: 34, section: 6, text: "The manager suggested that the team", options: [{ value: "work overtime this week", correct: true }, { value: "works overtime this week", correct: false }, { value: "to work overtime this week", correct: false }, { value: "working overtime this week", correct: false }] },
+        { id: 35, section: 6, text: "The doctor suggested that my father", options: [{ value: "exercise more regularly", correct: true }, { value: "exercises more regularly", correct: false }, { value: "to exercise more regularly", correct: false }, { value: "exercising more regularly", correct: false }] },
+        { id: 36, section: 6, text: "She suggested that he", options: [{ value: "apply for the position", correct: true }, { value: "applies for the position", correct: false }, { value: "to apply for the position", correct: false }, { value: "applying for the position", correct: false }] },
+        { id: 37, section: 6, text: "I suggested that they", options: [{ value: "arrive early tomorrow", correct: true }, { value: "arrives early tomorrow", correct: false }, { value: "to arrive early tomorrow", correct: false }, { value: "arriving early tomorrow", correct: false }] },
+        { id: 38, section: 6, text: "The consultant suggested that the company", options: [{ value: "restructure its operations", correct: true }, { value: "restructures its operations", correct: false }, { value: "to restructure its operations", correct: false }, { value: "restructuring its operations", correct: false }] },
+        { id: 39, section: 6, text: "They suggested that we", options: [{ value: "wait until next week", correct: true }, { value: "waits until next week", correct: false }, { value: "to wait until next week", correct: false }, { value: "waiting until next week", correct: false }] },
+        { id: 40, section: 6, text: "The report suggested that the government", options: [{ value: "invest in renewable energy", correct: true }, { value: "invests in renewable energy", correct: false }, { value: "to invest in renewable energy", correct: false }, { value: "investing in renewable energy", correct: false }] }
       ];
 
       // Shuffle options for each question to randomize correct answer position
@@ -472,7 +462,7 @@
               html += `<option value="${opt.value}">${opt.value}</option>`;
             });
             html += `</select>`;
-            html += `<span class="grammar-tip">${q.tip}</span>`;
+            // Grammar tip span removed
             html += `</div>`;
           });
           
