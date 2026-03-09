@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>fresh grammar mix · inversion · conditionals · patterns</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1e2b3a, #2b4c5f, #1f3a47);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(4px);
+      width: 100%;
+      max-width: 1080px;
+      border-radius: 40px;
+      box-shadow: 0 30px 60px -10px rgba(0, 20, 30, 0.6);
+      overflow: hidden;
+    }
+
+    .header {
+      background: white;
+      padding: 30px 40px 20px 40px;
+      border-bottom: 2px solid #c9dff2;
+    }
+
+    .header h1 {
+      font-size: 2.4rem;
+      font-weight: 600;
+      background: linear-gradient(145deg, #0d4a5c, #3d2b68);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.02em;
+    }
+
+    .meta {
+      display: flex;
+      gap: 20px;
+      margin-top: 10px;
+      color: #2d4b61;
+    }
+
+    .pill {
+      background: #c8e2f0;
+      padding: 6px 18px;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #123c4e;
+    }
+
+    .instruction-block {
+      background: #e6f0f7;
+      padding: 18px 40px;
+      border-bottom: 1px solid #bdd3e6;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      font-weight: 500;
+      color: #10324c;
+    }
+
+    .instruction-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .num-badge {
+      background: #9bbddb;
+      width: 30px;
+      height: 30px;
+      border-radius: 30px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #0b2637;
+    }
+
+    .sentence-list {
+      margin: 28px 30px 32px 30px;
+    }
+
+    .multi-gap-sentence {
+      background: white;
+      border-radius: 20px;
+      padding: 20px 25px;
+      margin-bottom: 22px;
+      border: 1px solid #d2e2f2;
+      box-shadow: 0 5px 12px -8px #7f9ebf;
+      font-size: 1.1rem;
+      line-height: 2.2;
+      transition: 0.1s;
+    }
+
+    .multi-gap-sentence:hover {
+      border-color: #4f8bbf;
+      background: #f6fafe;
+    }
+
+    .multi-gap-sentence.correct-sentence {
+      background: #e2f3e2;
+      border-left: 8px solid #1f8b4c;
+    }
+
+    .multi-gap-sentence.incorrect-sentence {
+      background: #ffebea;
+      border-left: 8px solid #c73e3e;
+    }
+
+    .gap {
+      display: inline-block;
+      margin: 0 4px;
+    }
+
+    .gap-input {
+      border: none;
+      background: #e3edf6;
+      border-bottom: 4px solid #7a9bc2;
+      font-size: 1.05rem;
+      padding: 8px 12px;
+      width: 120px;
+      border-radius: 16px 16px 6px 6px;
+      text-align: center;
+      font-weight: 600;
+      color: #103c5c;
+      transition: 0.1s;
+    }
+
+    .gap-input:focus {
+      outline: none;
+      background: #ffffff;
+      border-bottom-color: #2660a9;
+      box-shadow: 0 6px 12px -8px #2660a9;
+    }
+
+    .gap-input.correct-gap {
+      background: #dff5e3;
+      border-bottom: 4px solid #1c8a3c;
+    }
+
+    .gap-input.incorrect-gap {
+      background: #ffe3e3;
+      border-bottom: 4px solid #c13d3d;
+    }
+
+    .hint-tag {
+      background: #dceaf5;
+      color: #254e6e;
+      font-size: 0.7rem;
+      padding: 2px 14px;
+      border-radius: 30px;
+      margin-left: 12px;
+      font-weight: 500;
+      border: 1px dotted #6992c2;
+      display: inline-block;
+    }
+
+    .extra-prompt {
+      background: #fde6c4;
+      color: #8a621f;
+      font-size: 0.75rem;
+      padding: 3px 14px;
+      border-radius: 30px;
+      margin-left: 10px;
+      font-weight: 500;
+      display: inline-block;
+      border: 1px solid #cea453;
+    }
+
+    .global-progress {
+      margin: 0 40px 15px 40px;
+    }
+
+    .progress-track {
+      background: #d3e2f0;
+      height: 12px;
+      border-radius: 30px;
+    }
+
+    .progress-fill {
+      background: linear-gradient(90deg, #266b8c, #5f3fa0);
+      height: 12px;
+      width: 0%;
+      border-radius: 30px;
+      transition: width 0.3s;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      font-size: 0.95rem;
+      color: #1d4b63;
+    }
+
+    .global-message {
+      margin: 10px 40px 5px;
+      padding: 16px 25px;
+      border-radius: 50px;
+      font-weight: 600;
+      display: none;
+      text-align: center;
+    }
+
+    .win-msg {
+      background: #daface;
+      color: #1c6e32;
+      border: 1px solid #a2e0a2;
+    }
+
+    .error-msg {
+      background: #ffe3dc;
+      color: #b13b3b;
+      border: 1px solid #fbbaba;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin: 30px 40px 40px;
+    }
+
+    .btn-primary, .btn-secondary {
+      flex: 1 1 200px;
+      padding: 18px 18px;
+      border: none;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(90deg, #1f4b6e, #3f3470);
+      color: white;
+      box-shadow: 0 8px 18px -10px #0d3145;
+    }
+
+    .btn-primary:hover {
+      transform: scale(1.02);
+      background: linear-gradient(90deg, #25638c, #554392);
+    }
+
+    .btn-secondary {
+      background: #d3e2f2;
+      color: #173e57;
+    }
+
+    .btn-secondary:hover {
+      background: #bdd4ec;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #23516b;
+      background: #e1eff9;
+      border-top: 1px solid #b9cfec;
+    }
+
+    @media (max-width: 700px) {
+      .gap-input { width: 90px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <h1>🌀 fresh mix · inversion & conditionals</h1>
+      <div class="meta">
+        <span class="pill">6 fresh patterns</span>
+        <span class="pill">40 brand‑new sentences</span>
+      </div>
+    </div>
+    <div class="instruction-block">
+      <div class="instruction-item"><span class="num-badge">①</span> type into every gap</div>
+      <div class="instruction-item"><span class="num-badge">②</span> check your answers</div>
+      <div class="instruction-item"><span class="num-badge">③</span> extra clues for hard ones</div>
+    </div>
+
+    <div id="sentences-root" class="sentence-list"></div>
+
+    <div class="global-progress">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="stats">
+        <span>✅ filled <span id="filledCount">0</span>/<span id="totalGaps">0</span></span>
+        <span id="percentDisplay">0%</span>
+      </div>
+    </div>
+
+    <div class="global-message win-msg" id="winMessage">🏆 perfect! all gaps correct.</div>
+    <div class="global-message error-msg" id="failMessage">⚠️ some gaps are empty or wrong – try again.</div>
+
+    <div class="actions">
+      <button class="btn-primary" id="checkBtn">🔍 check everything</button>
+      <button class="btn-secondary" id="resetBtn">⟲ reset all gaps</button>
+    </div>
+
+    <footer>inversion · wish · as if · emphatic structures · mixed conditionals</footer>
+  </div>
+
+  <script>
+    (function() {
+      // ----- BRAND NEW EXERCISE: different patterns, all fresh sentences -----
+      const rawSentences = [
+
+        // ---- Pattern A: inversion after negative adverbials (never, seldom, not only) – IDs 1-6
+        { id:1, parts: [ "Never", { gap: "have I seen" }, "such a beautiful sunset." ], hint: 'inversion · negative' },
+        { id:2, parts: [ "Seldom", { gap: "does he eat" }, "meat; he's almost vegetarian." ], hint: 'inversion · seldom' },
+        { id:3, parts: [ "Not only", { gap: "did she finish" }, "the report, but she also helped others." ], hint: 'not only inversion' },
+        { id:4, parts: [ "Rarely", { gap: "do we find" }, "such dedicated volunteers." ], hint: 'inversion · rarely' },
+        { id:5, parts: [ "No sooner", { gap: "had the concert begun" }, "than", { gap: "the lights went out" } ], hint: 'no sooner ... than', scramble: '[concert / the / had / begun] — [lights / the / went / out]' },
+        { id:6, parts: [ "Under no circumstances", { gap: "should you open" }, "this door." ], hint: 'inversion · emphatic' },
+
+        // ---- Pattern B: wish / if only (past / would) – IDs 7-12
+        { id:7, parts: [ "I wish I", { gap: "knew" }, "the answer." ], hint: 'wish + past', prompt: '[know]' },
+        { id:8, parts: [ "If only it", { gap: "would stop" }, "raining." ], hint: 'if only + would', prompt: '[stop]' },
+        { id:9, parts: [ "She wishes she", { gap: "had studied" }, "harder for the exam." ], hint: 'wish + past perfect', prompt: '[study]' },
+        { id:10, parts: [ "I wish you", { gap: "wouldn't interrupt" }, "me all the time." ], hint: 'wish + would', prompt: '[not interrupt]' },
+        { id:11, parts: [ "He wishes he", { gap: "could travel" }, "more often." ], hint: 'wish + could', prompt: '[can travel]' },
+        { id:12, parts: [ "If only we", { gap: "had left" }, "earlier, we wouldn't be late." ], hint: 'if only + past perfect', prompt: '[leave]' },
+
+        // ---- Pattern C: as if / as though (unreal moods) – IDs 13-18
+        { id:13, parts: [ "He talks as if he", { gap: "knew" }, "everything." ], hint: 'as if + past', prompt: '[know]' },
+        { id:14, parts: [ "She looked as though she", { gap: "had seen" }, "a ghost." ], hint: 'as though + past perfect', prompt: '[see]' },
+        { id:15, parts: [ "They treat me as if I", { gap: "were" }, "a child." ], hint: 'as if + were', prompt: '[be]' },
+        { id:16, parts: [ "He acts as though he", { gap: "owned" }, "the place." ], hint: 'as though + past', prompt: '[own]' },
+        { id:17, parts: [ "You talk as if it", { gap: "were" }, "impossible." ], hint: 'as if + were', prompt: '[be]' },
+        { id:18, parts: [ "She cried as if her heart", { gap: "were broken" }, "." ], hint: 'as if + were', prompt: '[be broken]' },
+
+        // ---- Pattern D: mixed conditionals (3rd / 2nd etc) – IDs 19-24
+        { id:19, parts: [ "If I", { gap: "had taken" }, "your advice, I", { gap: "would be" }, "better off now." ], hint: 'mixed 3rd/2nd', prompt1: '[take]', prompt2: '[be]' },
+        { id:20, parts: [ "If she", { gap: "wasn't" }, "afraid of heights, she", { gap: "would have climbed" }, "the tower." ], hint: 'mixed 2nd/3rd', prompt1: '[be not]', prompt2: '[climb]' },
+        { id:21, parts: [ "We", { gap: "wouldn't be" }, "lost if we", { gap: "had brought" }, "a map." ], hint: 'mixed', prompt1: '[be not]', prompt2: '[bring]' },
+        { id:22, parts: [ "If they", { gap: "had invested" }, "earlier, they", { gap: "would be" }, "rich now." ], hint: 'mixed 3rd/2nd', prompt1: '[invest]', prompt2: '[be]' },
+        { id:23, parts: [ "I", { gap: "wouldn't have" }, "bought the car if I", { gap: "didn't like" }, "the colour." ], hint: 'mixed', prompt1: '[not have]', prompt2: '[not like]' },
+        { id:24, parts: [ "If he", { gap: "were" }, "more confident, he", { gap: "would have applied" }, "for the job." ], hint: 'mixed 2nd/3rd', prompt1: '[be]', prompt2: '[apply]' },
+
+        // ---- Pattern E: emphatic structures (do/does/did + infinitive ; it is/was … that) – IDs 25-31
+        { id:25, parts: [ "I", { gap: "do believe" }, "you are right." ], hint: 'emphatic do' },
+        { id:26, parts: [ "She", { gap: "did finish" }, "the marathon, despite the rain." ], hint: 'emphatic did', prompt: '[finish]' },
+        { id:27, parts: [ "It was in Paris", { gap: "that" }, "they first met." ], hint: 'cleft sentence' },
+        { id:28, parts: [ "What I need", { gap: "is" }, "a long holiday." ], hint: 'pseudo-cleft' },
+        { id:29, parts: [ "It was Maria", { gap: "who" }, "solved the puzzle." ], hint: 'cleft · person' },
+        { id:30, parts: [ "He", { gap: "does enjoy" }, "playing chess, doesn't he?" ], hint: 'emphatic do' },
+        { id:31, parts: [ "The one thing she", { gap: "did mention" }, "was the deadline." ], hint: 'emphatic did', prompt: '[mention]' },
+
+        // ---- Pattern F: advanced verb patterns (have sth done, be going to, used to) – IDs 32-40
+        { id:32, parts: [ "I", { gap: "need to have" }, "my hair cut." ], hint: 'causative have' },
+        { id:33, parts: [ "She", { gap: "is having" }, "her house painted." ], hint: 'causative have' },
+        { id:34, parts: [ "We", { gap: "used to live" }, "in London when I was young." ], hint: 'used to', prompt: '[live]' },
+        { id:35, parts: [ "He", { gap: "didn't use to like" }, "spicy food." ], hint: 'used to negative', prompt: '[not like]' },
+        { id:36, parts: [ "They", { gap: "are going to launch" }, "a new product next month." ], hint: 'going to future', prompt: '[launch]' },
+        { id:37, parts: [ "By next year, I", { gap: "will have been working" }, "here for ten years." ], hint: 'future perfect continuous' },
+        { id:38, parts: [ "This time next week, we", { gap: "will be lying" }, "on a beach." ], hint: 'future continuous', prompt: '[lie]' },
+        { id:39, parts: [ "She", { gap: "had better" }, "see a doctor soon." ], hint: 'had better' },
+        { id:40, parts: [ "You", { gap: "are to report" }, "to the manager immediately." ], hint: 'be to + infinitive' },
+      ];
+
+      // ----- SHUFFLE for random order -----
+      function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+      }
+
+      const sentences = shuffleArray([...rawSentences]);
+
+      // ---- gapAnswers map ----
+      const gapAnswers = {};
+      let totalGapCount = 0;
+      sentences.forEach(sen => {
+        sen.parts.forEach((p, idx) => {
+          if (typeof p === 'object' && p.gap) {
+            const key = `${sen.id}-${idx}`;
+            gapAnswers[key] = p.gap.trim().toLowerCase();
+            totalGapCount++;
+          }
+        });
+      });
+
+      // ---- render with extra prompts where defined ----
+      const root = document.getElementById('sentences-root');
+      function render() {
+        let html = '';
+        sentences.forEach(sen => {
+          html += `<div class="multi-gap-sentence" id="sen-${sen.id}">`;
+          html += `<span style="font-weight:600; margin-right:8px;">${sen.id}.</span>`;
+
+          sen.parts.forEach((part, idx) => {
+            if (typeof part === 'string') {
+              html += part + ' ';
+            } else {
+              const gapKey = `${sen.id}-${idx}`;
+              html += `<span class="gap"><input type="text" class="gap-input" data-gapkey="${gapKey}" id="gap-${gapKey}" placeholder="___"></span> `;
+            }
+          });
+
+          // base hint
+          html += `<span class="hint-tag">ⓘ ${sen.hint}</span>`;
+
+          // extra prompt for specific ids
+          if (sen.id >= 7 && sen.id <= 18 && sen.prompt) {
+            html += `<span class="extra-prompt">verb: ${sen.prompt}</span>`;
+          }
+          if (sen.id >= 19 && sen.id <= 24) {
+            if (sen.prompt1) html += `<span class="extra-prompt">1: ${sen.prompt1}</span>`;
+            if (sen.prompt2) html += `<span class="extra-prompt">2: ${sen.prompt2}</span>`;
+          }
+          if (sen.id === 5 && sen.scramble) {
+            html += `<span class="extra-prompt">scramble: ${sen.scramble}</span>`;
+          }
+          if ((sen.id >= 32 && sen.id <= 40) && sen.prompt) {
+            html += `<span class="extra-prompt">base: ${sen.prompt}</span>`;
+          }
+
+          html += `</div>`;
+        });
+        root.innerHTML = html;
+      }
+      render();
+
+      // ---- progress & logic (same as before) ----
+      const gapInputs = document.querySelectorAll('.gap-input');
+      const totalSpan = document.getElementById('totalGaps');
+      const filledSpan = document.getElementById('filledCount');
+      const progressFill = document.getElementById('progressFill');
+      const percentSpan = document.getElementById('percentDisplay');
+      const winMsg = document.getElementById('winMessage');
+      const failMsg = document.getElementById('failMessage');
+      const checkBtn = document.getElementById('checkBtn');
+      const resetBtn = document.getElementById('resetBtn');
+
+      totalSpan.innerText = totalGapCount;
+
+      function countFilled() {
+        return Array.from(gapInputs).filter(inp => inp.value.trim() !== '').length;
+      }
+
+      function updateProgress() {
+        const filled = countFilled();
+        const percent = (filled / totalGapCount) * 100;
+        progressFill.style.width = percent + '%';
+        filledSpan.innerText = filled;
+        percentSpan.innerText = Math.round(percent) + '%';
+      }
+
+      function resetAllStyles() {
+        gapInputs.forEach(inp => inp.classList.remove('correct-gap', 'incorrect-gap'));
+        document.querySelectorAll('.multi-gap-sentence').forEach(s => s.classList.remove('correct-sentence', 'incorrect-sentence'));
+      }
+
+      resetBtn.addEventListener('click', () => {
+        gapInputs.forEach(inp => { inp.value = ''; });
+        resetAllStyles();
+        updateProgress();
+        winMsg.style.display = 'none';
+        failMsg.style.display = 'none';
+      });
+
+      function checkAll() {
+        let anyEmpty = false;
+        const gapCorrectness = new Map();
+
+        gapInputs.forEach(inp => {
+          const key = inp.dataset.gapkey;
+          const correct = gapAnswers[key];
+          const val = inp.value.trim().toLowerCase();
+          const isCorrect = (val !== '' && val === correct);
+
+          if (val === '') anyEmpty = true;
+
+          if (val !== '' && isCorrect) {
+            inp.classList.add('correct-gap');
+            inp.classList.remove('incorrect-gap');
+          } else if (val !== '' && !isCorrect) {
+            inp.classList.add('incorrect-gap');
+            inp.classList.remove('correct-gap');
+          } else {
+            inp.classList.remove('correct-gap', 'incorrect-gap');
+          }
+          gapCorrectness.set(key, isCorrect);
+        });
+
+        sentences.forEach(sen => {
+          const senDiv = document.getElementById(`sen-${sen.id}`);
+          if (!senDiv) return;
+          let allCorrect = true;
+          let hasAny = false;
+          sen.parts.forEach((part, idx) => {
+            if (typeof part === 'object') {
+              const key = `${sen.id}-${idx}`;
+              if (gapCorrectness.get(key) === true) hasAny = true;
+              if (gapCorrectness.get(key) !== true) allCorrect = false;
+            }
+          });
+          if (!hasAny) senDiv.classList.remove('correct-sentence', 'incorrect-sentence');
+          else if (allCorrect) {
+            senDiv.classList.add('correct-sentence');
+            senDiv.classList.remove('incorrect-sentence');
+          } else {
+            senDiv.classList.add('incorrect-sentence');
+            senDiv.classList.remove('correct-sentence');
+          }
+        });
+
+        const totalCorrect = Array.from(gapCorrectness.values()).filter(v => v === true).length;
+        const allFilled = !anyEmpty && countFilled() === totalGapCount;
+
+        if (!allFilled) {
+          failMsg.innerText = '⚠️ you left some gaps empty – fill everything.';
+          failMsg.style.display = 'block';
+          winMsg.style.display = 'none';
+        } else if (totalCorrect === totalGapCount) {
+          winMsg.style.display = 'block';
+          failMsg.style.display = 'none';
+        } else {
+          failMsg.innerText = '❌ some answers are incorrect. adjust and check again.';
+          failMsg.style.display = 'block';
+          winMsg.style.display = 'none';
+        }
+        updateProgress();
+      }
+
+      checkBtn.addEventListener('click', checkAll);
+
+      gapInputs.forEach(inp => {
+        inp.addEventListener('input', function() {
+          const key = this.dataset.gapkey;
+          const [senId] = key.split('-');
+          const senDiv = document.getElementById(`sen-${senId}`);
+          if (senDiv) senDiv.classList.remove('correct-sentence', 'incorrect-sentence');
+          this.classList.remove('correct-gap', 'incorrect-gap');
+          winMsg.style.display = 'none';
+          failMsg.style.display = 'none';
+          updateProgress();
+        });
+      });
+
+      updateProgress();
+    })();
+  </script>
+</body>
+</html>
