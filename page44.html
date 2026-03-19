@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vocabulary Exercise – Meaning in Context</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #333;
+    }
+
+    .container {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 750px;
+      overflow: hidden;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    header {
+      background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+      color: white;
+      padding: 25px 30px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    header p {
+      opacity: 0.9;
+      font-size: 17px;
+    }
+
+    .instructions {
+      background-color: #f0f4ff;
+      padding: 15px 25px;
+      border-bottom: 1px solid #e1e8ff;
+      font-size: 16px;
+      color: #555;
+    }
+
+    .exercise-container {
+      padding: 25px 30px 30px;
+    }
+
+    .sentences {
+      margin: 20px 0;
+    }
+
+    .sentence {
+      margin-bottom: 22px;
+      font-size: 18px;
+      line-height: 1.6;
+      padding: 15px;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+      background-color: #f9f9f9;
+      border-left: 4px solid transparent;
+    }
+
+    .sentence:hover {
+      background-color: #f0f0f0;
+    }
+
+    .sentence.correct {
+      border-left-color: #4CAF50;
+      background-color: #f1f8e9;
+    }
+
+    .sentence.incorrect {
+      border-left-color: #f44336;
+      background-color: #ffebee;
+    }
+
+    .highlight {
+      font-weight: 700;
+      color: #d32f2f;
+      background-color: #ffebee;
+      padding: 2px 6px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    select {
+      padding: 8px 12px;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      font-size: 16px;
+      background-color: white;
+      cursor: pointer;
+      transition: all 0.3s;
+      min-width: 160px;
+      margin: 5px 0 0 5px;
+      display: inline-block;
+    }
+
+    select:focus {
+      outline: none;
+      border-color: #4b6cb7;
+      box-shadow: 0 0 0 3px rgba(75, 108, 183, 0.2);
+    }
+
+    select.correct {
+      border-color: #4CAF50;
+      background-color: #e8f5e9;
+    }
+
+    select.incorrect {
+      border-color: #f44336;
+      background-color: #ffebee;
+    }
+
+    .progress-container {
+      margin: 25px 0 20px;
+    }
+
+    .progress-bar {
+      height: 12px;
+      background-color: #f1f2f6;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #666;
+      margin-top: 8px;
+    }
+
+    .message {
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      text-align: center;
+      font-weight: 600;
+      display: none;
+      animation: fadeIn 0.5s;
+    }
+
+    .success {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      border: 1px solid #c8e6c9;
+    }
+
+    .error {
+      background-color: #ffebee;
+      color: #c62828;
+      border: 1px solid #ffcdd2;
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .controls button {
+      padding: 14px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: transform 0.15s, opacity 0.25s, background-color 0.25s;
+      min-width: 160px;
+      font-size: 16px;
+    }
+
+    .controls button:hover {
+      transform: translateY(-2px);
+      opacity: 0.95;
+    }
+
+    #check-btn {
+      background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+      color: white;
+    }
+
+    #reset-btn {
+      background-color: #757575;
+      color: white;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      color: #777;
+      font-size: 14px;
+      border-top: 1px solid #f1f2f6;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+      .container {
+        border-radius: 10px;
+      }
+      header {
+        padding: 20px;
+      }
+      h1 {
+        font-size: 24px;
+      }
+      .exercise-container {
+        padding: 20px;
+      }
+      .sentence {
+        font-size: 17px;
+      }
+      select {
+        min-width: 140px;
+        font-size: 15px;
+        margin-left: 0;
+        width: 100%;
+        margin-top: 8px;
+      }
+      .controls {
+        flex-direction: column;
+      }
+      .controls button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Vocabulary — meaning in context</h1>
+      <p>Choose the option that best explains the meaning of the highlighted word.</p>
+    </header>
+
+    <div class="instructions">
+      <p>Each sentence contains a word in <span class="highlight">red</span>. Select the correct definition or paraphrase.</p>
+    </div>
+
+    <div class="exercise-container">
+      <div class="sentences">
+
+        <!-- 1. disbelief -->
+        <div class="sentence" id="sentence1">
+          1. Elsie looked at Ingrid in <span class="highlight">complete disbelief</span>.
+          <br>
+          <select id="q1">
+            <option value="">-- Choose meaning --</option>
+            <option value="amazement">amazement / wonder</option>
+            <option value="inability to believe">inability to believe</option>
+            <option value="anger">anger / frustration</option>
+            <option value="confusion">confusion</option>
+          </select>
+        </div>
+
+        <!-- 2. don't improve -->
+        <div class="sentence" id="sentence2">
+          2. If my son's exam scores <span class="highlight">don't improve</span>, he won't get into college.
+          <br>
+          <select id="q2">
+            <option value="">-- Choose meaning --</option>
+            <option value="don't stay the same">don't stay the same</option>
+            <option value="don't get worse">don't get worse</option>
+            <option value="don't get better">don't get better</option>
+            <option value="don't change">don't change</option>
+          </select>
+        </div>
+
+        <!-- 3. almost unused -->
+        <div class="sentence" id="sentence3">
+          3. That bike looks <span class="highlight">almost unused</span>. Is it brand‑new?
+          <br>
+          <select id="q3">
+            <option value="">-- Choose meaning --</option>
+            <option value="like new, very few signs of use">like new, very few signs of use</option>
+            <option value="broken">broken</option>
+            <option value="dirty">dirty</option>
+            <option value="old‑fashioned">old‑fashioned</option>
+          </select>
+        </div>
+
+        <!-- 4. irresponsible -->
+        <div class="sentence" id="sentence4">
+          4. Amy is so <span class="highlight">irresponsible</span>. I can't trust her to do anything.
+          <br>
+          <select id="q4">
+            <option value="">-- Choose meaning --</option>
+            <option value="not reliable, doesn't do what she should">not reliable, doesn't do what she should</option>
+            <option value="very funny">very funny</option>
+            <option value="extremely kind">extremely kind</option>
+            <option value="always late">always late</option>
+          </select>
+        </div>
+
+        <!-- 5. incomplete -->
+        <div class="sentence" id="sentence5">
+          5. Charles Dickens's last book was <span class="highlight">incomplete</span>. He died before he finished it.
+          <br>
+          <select id="q5">
+            <option value="">-- Choose meaning --</option>
+            <option value="not finished">not finished</option>
+            <option value="badly written">badly written</option>
+            <option value="too long">too long</option>
+            <option value="lost">lost</option>
+          </select>
+        </div>
+
+        <!-- 6. unbelievable -->
+        <div class="sentence" id="sentence6">
+          6. If you've never seen Starship Troopers, you have to see it. It's <span class="highlight">unbelievable</span>!
+          <br>
+          <select id="q6">
+            <option value="">-- Choose meaning --</option>
+            <option value="hard to believe">hard to believe</option>
+            <option value="amazing / extremely good (slang)">amazing / extremely good (slang)</option>
+            <option value="very long">very long</option>
+            <option value="confusing">confusing</option>
+          </select>
+        </div>
+
+        <!-- 7. illegal -->
+        <div class="sentence" id="sentence7">
+          7. In many states, it is <span class="highlight">illegal</span> to smoke cigarettes in restaurants.
+          <br>
+          <select id="q7">
+            <option value="">-- Choose meaning --</option>
+            <option value="against the rules / forbidden by law">against the rules / forbidden by law</option>
+            <option value="unhealthy">unhealthy</option>
+            <option value="impolite">impolite</option>
+            <option value="expensive">expensive</option>
+          </select>
+        </div>
+
+        <!-- 8. implausible -->
+        <div class="sentence" id="sentence8">
+          8. His story was <span class="highlight">implausible</span>, so the police arrested him.
+          <br>
+          <select id="q8">
+            <option value="">-- Choose meaning --</option>
+            <option value="not believable / unlikely to be true">not believable / unlikely to be true</option>
+            <option value="full of details">full of details</option>
+            <option value="frightening">frightening</option>
+            <option value="too short">too short</option>
+          </select>
+        </div>
+
+      </div> <!-- sentences -->
+
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress" id="progress-bar"></div>
+        </div>
+        <div class="progress-text">
+          <span>Progress</span>
+          <span id="progress-text">0%</span>
+        </div>
+      </div>
+
+      <div class="message success" id="success-message">
+        ✓ Excellent! All answers are correct.
+      </div>
+      <div class="message error" id="error-message">
+        ✗ Some answers are incorrect. Try again.
+      </div>
+
+      <div class="controls">
+        <button id="check-btn">Check answers</button>
+        <button id="reset-btn">Reset</button>
+      </div>
+    </div>
+
+    <footer>
+      <p>Vocabulary Exercise • Context Clues</p>
+    </footer>
+  </div>
+
+  <script>
+    (function() {
+      const selects = document.querySelectorAll('select');
+      const progressBar = document.getElementById('progress-bar');
+      const progressText = document.getElementById('progress-text');
+      const successMsg = document.getElementById('success-message');
+      const errorMsg = document.getElementById('error-message');
+      const checkBtn = document.getElementById('check-btn');
+      const resetBtn = document.getElementById('reset-btn');
+
+      // ----- CORRECT MEANINGS (based on the third image) -----
+      const correctAnswers = {
+        q1: 'inability to believe',            // disbelief
+        q2: 'don\'t get better',                // don't improve
+        q3: 'like new, very few signs of use',  // almost unused
+        q4: 'not reliable, doesn\'t do what she should', // irresponsible
+        q5: 'not finished',                      // incomplete
+        q6: 'amazing / extremely good (slang)',  // unbelievable (positive slang)
+        q7: 'against the rules / forbidden by law', // illegal
+        q8: 'not believable / unlikely to be true'   // implausible
+      };
+
+      const total = selects.length;
+      let checkedFlag = false;
+
+      // ---- update progress bar ----
+      function updateProgress() {
+        let answered = 0;
+        selects.forEach(s => { if (s.value !== '') answered++; });
+        let percent = (answered / total) * 100;
+        progressBar.style.width = percent + '%';
+        progressText.textContent = Math.round(percent) + '%';
+      }
+
+      // ---- remove all colour classes ----
+      function removeAllStyles() {
+        selects.forEach(select => {
+          select.classList.remove('correct', 'incorrect');
+          let idNum = select.id.substring(1);
+          let sentenceDiv = document.getElementById('sentence' + idNum);
+          if (sentenceDiv) sentenceDiv.classList.remove('correct', 'incorrect');
+        });
+      }
+
+      // initial progress
+      updateProgress();
+
+      // ---- event: user changes dropdown ----
+      selects.forEach(select => {
+        select.addEventListener('change', function() {
+          if (checkedFlag) {
+            removeAllStyles();
+            checkedFlag = false;
+          }
+          updateProgress();
+          successMsg.style.display = 'none';
+          errorMsg.style.display = 'none';
+        });
+      });
+
+      // ---- check answers ----
+      function checkAnswers() {
+        let allAnswered = true;
+        let allCorrect = true;
+
+        selects.forEach(select => {
+          const qId = select.id;
+          const userVal = select.value;
+          const correctVal = correctAnswers[qId];
+          const sentenceDiv = document.getElementById('sentence' + qId.substring(1));
+
+          // remove old classes before applying new ones
+          select.classList.remove('correct', 'incorrect');
+          if (sentenceDiv) sentenceDiv.classList.remove('correct', 'incorrect');
+
+          if (userVal === '') {
+            allAnswered = false;
+            // leave unmarked
+          } else {
+            if (userVal === correctVal) {
+              select.classList.add('correct');
+              if (sentenceDiv) sentenceDiv.classList.add('correct');
+            } else {
+              select.classList.add('incorrect');
+              if (sentenceDiv) sentenceDiv.classList.add('incorrect');
+              allCorrect = false;
+            }
+          }
+        });
+
+        successMsg.style.display = 'none';
+        errorMsg.style.display = 'none';
+
+        if (!allAnswered) {
+          errorMsg.textContent = 'Please answer all questions before checking.';
+          errorMsg.style.display = 'block';
+        } else if (allCorrect) {
+          successMsg.style.display = 'block';
+        } else {
+          errorMsg.textContent = 'Some answers are incorrect. Please try again.';
+          errorMsg.style.display = 'block';
+        }
+
+        checkedFlag = true;
+      }
+
+      // ---- reset everything ----
+      function resetExercise() {
+        selects.forEach(select => {
+          select.value = '';
+          select.classList.remove('correct', 'incorrect');
+          let sentenceDiv = document.getElementById('sentence' + select.id.substring(1));
+          if (sentenceDiv) sentenceDiv.classList.remove('correct', 'incorrect');
+        });
+        updateProgress();
+        successMsg.style.display = 'none';
+        errorMsg.style.display = 'none';
+        checkedFlag = false;
+      }
+
+      checkBtn.addEventListener('click', checkAnswers);
+      resetBtn.addEventListener('click', resetExercise);
+    })();
+  </script>
+</body>
+</html>
