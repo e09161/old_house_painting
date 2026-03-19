@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Speaking Exercise – Polite Conversations</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #333;
+    }
+
+    .container {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 750px;
+      overflow: hidden;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    header {
+      background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+      color: white;
+      padding: 25px 30px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    header p {
+      opacity: 0.9;
+      font-size: 17px;
+    }
+
+    .instructions {
+      background-color: #f0f4ff;
+      padding: 15px 25px;
+      border-bottom: 1px solid #e1e8ff;
+      font-size: 16px;
+      color: #555;
+    }
+
+    .exercise-container {
+      padding: 25px 30px 30px;
+    }
+
+    .sentences {
+      margin: 20px 0;
+    }
+
+    .sentence {
+      margin-bottom: 22px;
+      font-size: 18px;
+      line-height: 1.6;
+      padding: 15px;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+      background-color: #f9f9f9;
+      border-left: 4px solid transparent;
+    }
+
+    .sentence:hover {
+      background-color: #f0f0f0;
+    }
+
+    .sentence.correct {
+      border-left-color: #4CAF50;
+      background-color: #f1f8e9;
+    }
+
+    .sentence.incorrect {
+      border-left-color: #f44336;
+      background-color: #ffebee;
+    }
+
+    .speaker-a {
+      font-weight: 600;
+      color: #4b6cb7;
+    }
+
+    .speaker-b {
+      font-weight: 600;
+      color: #182848;
+    }
+
+    select {
+      padding: 8px 12px;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      font-size: 16px;
+      background-color: white;
+      cursor: pointer;
+      transition: all 0.3s;
+      min-width: 180px;
+      margin: 5px 0;
+      display: inline-block;
+    }
+
+    select:focus {
+      outline: none;
+      border-color: #4b6cb7;
+      box-shadow: 0 0 0 3px rgba(75, 108, 183, 0.2);
+    }
+
+    select.correct {
+      border-color: #4CAF50;
+      background-color: #e8f5e9;
+    }
+
+    select.incorrect {
+      border-color: #f44336;
+      background-color: #ffebee;
+    }
+
+    .progress-container {
+      margin: 25px 0 20px;
+    }
+
+    .progress-bar {
+      height: 12px;
+      background-color: #f1f2f6;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #666;
+      margin-top: 8px;
+    }
+
+    .message {
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      text-align: center;
+      font-weight: 600;
+      display: none;
+      animation: fadeIn 0.5s;
+    }
+
+    .success {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      border: 1px solid #c8e6c9;
+    }
+
+    .error {
+      background-color: #ffebee;
+      color: #c62828;
+      border: 1px solid #ffcdd2;
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .controls button {
+      padding: 14px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: transform 0.15s, opacity 0.25s, background-color 0.25s;
+      min-width: 160px;
+      font-size: 16px;
+    }
+
+    .controls button:hover {
+      transform: translateY(-2px);
+      opacity: 0.95;
+    }
+
+    #check-btn {
+      background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+      color: white;
+    }
+
+    #reset-btn {
+      background-color: #757575;
+      color: white;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      color: #777;
+      font-size: 14px;
+      border-top: 1px solid #f1f2f6;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+      .container {
+        border-radius: 10px;
+      }
+      header {
+        padding: 20px;
+      }
+      h1 {
+        font-size: 24px;
+      }
+      .exercise-container {
+        padding: 20px;
+      }
+      .sentence {
+        font-size: 17px;
+      }
+      select {
+        min-width: 100%;
+        font-size: 15px;
+      }
+      .controls {
+        flex-direction: column;
+      }
+      .controls button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Polite Conversations — Complete the dialogue</h1>
+      <p>Choose the phrase that best completes each polite exchange.</p>
+    </header>
+
+    <div class="instructions">
+      <p><span class="speaker-a">A</span> says something. <span class="speaker-b">B</span> replies. Select the correct option for the missing part.</p>
+    </div>
+
+    <div class="exercise-container">
+      <div class="sentences">
+
+        <!-- 1. Would you like to go to a movie tomorrow?  B: ______, but I'm busy. -->
+        <div class="sentence" id="sentence1">
+          1. <span class="speaker-a">A:</span> Would you like to go to a movie tomorrow?<br>
+          <span class="speaker-b">B:</span> <select id="q1">
+            <option value="">-- Choose B's reply --</option>
+            <option value="I'd love to">I'd love to</option>
+            <option value="That's nice of you">That's nice of you</option>
+            <option value="I wonder">I wonder</option>
+            <option value="Could you possibly">Could you possibly</option>
+          </select>, but I'm busy.
+        </div>
+
+        <!-- 2. A: ______ talking on your cell phone in here? B: Oh, I'm sorry. I'll put it away. -->
+        <div class="sentence" id="sentence2">
+          2. <span class="speaker-a">A:</span> <select id="q2">
+            <option value="">-- Choose A's question --</option>
+            <option value="Would you mind not">Would you mind not</option>
+            <option value="Can I give you a ride">Can I give you a ride</option>
+            <option value="Do you know">Do you know</option>
+            <option value="I wonder if you could">I wonder if you could</option>
+          </select> talking on your cell phone in here?<br>
+          <span class="speaker-b">B:</span> Oh, I'm sorry. I'll put it away.
+        </div>
+
+        <!-- 3. A: Can I give you a ride to work? B: ______, but tomorrow is my day off. -->
+        <div class="sentence" id="sentence3">
+          3. <span class="speaker-a">A:</span> Can I give you a ride to work?<br>
+          <span class="speaker-b">B:</span> <select id="q3">
+            <option value="">-- Choose B's reply --</option>
+            <option value="I'd love to">I'd love to</option>
+            <option value="That's nice of you">That's nice of you</option>
+            <option value="I wonder">I wonder</option>
+            <option value="Would you mind">Would you mind</option>
+          </select>, but tomorrow is my day off.
+        </div>
+
+        <!-- 4. A: ______ give me the time? B: Sure! It's about 2 o'clock. -->
+        <div class="sentence" id="sentence4">
+          4. <span class="speaker-a">A:</span> <select id="q4">
+            <option value="">-- Choose A's request --</option>
+            <option value="I wonder if you could">I wonder if you could</option>
+            <option value="Could you possibly">Could you possibly</option>
+            <option value="Would you mind not">Would you mind not</option>
+            <option value="Do you know">Do you know</option>
+          </select> give me the time?<br>
+          <span class="speaker-b">B:</span> Sure! It's about 2 o'clock.
+        </div>
+
+        <!-- 5. A: ______ where I can find Melvin Atkins? B: No, I'm sorry. I don't know him. -->
+        <div class="sentence" id="sentence5">
+          5. <span class="speaker-a">A:</span> <select id="q5">
+            <option value="">-- Choose A's question --</option>
+            <option value="Do you know">Do you know</option>
+            <option value="Could you possibly">Could you possibly</option>
+            <option value="I wonder">I wonder</option>
+            <option value="Would you mind not">Would you mind not</option>
+          </select> where I can find Melvin Atkins?<br>
+          <span class="speaker-b">B:</span> No, I'm sorry. I don't know him.
+        </div>
+
+        <!-- 6. A: Excuse me. ______ talking during the movie? B: Sorry. We'll move. -->
+        <div class="sentence" id="sentence6">
+          6. <span class="speaker-a">A:</span> Excuse me. <select id="q6">
+            <option value="">-- Choose A's polite request --</option>
+            <option value="Would you mind not">Would you mind not</option>
+            <option value="Could you possibly">Could you possibly</option>
+            <option value="Do you know">Do you know</option>
+            <option value="I wonder if you could">I wonder if you could</option>
+          </select> talking during the movie?<br>
+          <span class="speaker-b">B:</span> Sorry. We'll move.
+        </div>
+
+        <!-- 7. A: ______ take me to the airport on Friday? B: Yes, of course. I'd be happy to. -->
+        <div class="sentence" id="sentence7">
+          7. <span class="speaker-a">A:</span> <select id="q7">
+            <option value="">-- Choose A's request --</option>
+            <option value="Could you possibly">Could you possibly</option>
+            <option value="I wonder if you could">I wonder if you could</option>
+            <option value="Would you mind not">Would you mind not</option>
+            <option value="Do you know">Do you know</option>
+          </select> take me to the airport on Friday?<br>
+          <span class="speaker-b">B:</span> Yes, of course. I'd be happy to.
+        </div>
+
+        <!-- 8. A: ______ if you could turn down your music a bit? B: I'm sorry. It's too low now! -->
+        <div class="sentence" id="sentence8">
+          8. <span class="speaker-a">A:</span> <select id="q8">
+            <option value="">-- Choose A's polite opening --</option>
+            <option value="I wonder">I wonder</option>
+            <option value="Could you possibly">Could you possibly</option>
+            <option value="Would you mind not">Would you mind not</option>
+            <option value="Do you know">Do you know</option>
+          </select> if you could turn down your music a bit?<br>
+          <span class="speaker-b">B:</span> I'm sorry. It's too low now!
+        </div>
+
+      </div> <!-- sentences -->
+
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress" id="progress-bar"></div>
+        </div>
+        <div class="progress-text">
+          <span>Progress</span>
+          <span id="progress-text">0%</span>
+        </div>
+      </div>
+
+      <div class="message success" id="success-message">
+        ✓ Perfect! All answers are correct.
+      </div>
+      <div class="message error" id="error-message">
+        ✗ Some answers are incorrect. Try again.
+      </div>
+
+      <div class="controls">
+        <button id="check-btn">Check answers</button>
+        <button id="reset-btn">Reset</button>
+      </div>
+    </div>
+
+    <footer>
+      <p>Speaking Exercise • Politeness & Conversation</p>
+    </footer>
+  </div>
+
+  <script>
+    (function() {
+      const selects = document.querySelectorAll('select');
+      const progressBar = document.getElementById('progress-bar');
+      const progressText = document.getElementById('progress-text');
+      const successMsg = document.getElementById('success-message');
+      const errorMsg = document.getElementById('error-message');
+      const checkBtn = document.getElementById('check-btn');
+      const resetBtn = document.getElementById('reset-btn');
+
+      // ----- CORRECT ANSWERS (based on the fourth image + dialogue logic) -----
+      const correctAnswers = {
+        q1: 'I\'d love to',                    // 1: I'd love to, but I'm busy.
+        q2: 'Would you mind not',               // 2: Would you mind not talking...
+        q3: 'That\'s nice of you',              // 3: That's nice of you, but tomorrow...
+        q4: 'I wonder if you could',             // 4: I wonder if you could give me the time? (matches image)
+        q5: 'Do you know',                       // 5: Do you know where I can find...?
+        q6: 'Would you mind not',                // 6: Would you mind not talking during the movie?
+        q7: 'Could you possibly',                 // 7: Could you possibly take me...? (yes, of course)
+        q8: 'I wonder'                            // 8: I wonder if you could turn down... (matches image)
+      };
+
+      const total = selects.length;
+      let checkedFlag = false;
+
+      // ---- update progress bar ----
+      function updateProgress() {
+        let answered = 0;
+        selects.forEach(s => { if (s.value !== '') answered++; });
+        let percent = (answered / total) * 100;
+        progressBar.style.width = percent + '%';
+        progressText.textContent = Math.round(percent) + '%';
+      }
+
+      // ---- remove all colour classes ----
+      function removeAllStyles() {
+        selects.forEach(select => {
+          select.classList.remove('correct', 'incorrect');
+          let idNum = select.id.substring(1);
+          let sentenceDiv = document.getElementById('sentence' + idNum);
+          if (sentenceDiv) sentenceDiv.classList.remove('correct', 'incorrect');
+        });
+      }
+
+      // initial progress
+      updateProgress();
+
+      // ---- event: user changes dropdown ----
+      selects.forEach(select => {
+        select.addEventListener('change', function() {
+          if (checkedFlag) {
+            removeAllStyles();
+            checkedFlag = false;
+          }
+          updateProgress();
+          successMsg.style.display = 'none';
+          errorMsg.style.display = 'none';
+        });
+      });
+
+      // ---- check answers ----
+      function checkAnswers() {
+        let allAnswered = true;
+        let allCorrect = true;
+
+        selects.forEach(select => {
+          const qId = select.id;
+          const userVal = select.value;
+          const correctVal = correctAnswers[qId];
+          const sentenceDiv = document.getElementById('sentence' + qId.substring(1));
+
+          // remove old classes before applying new ones
+          select.classList.remove('correct', 'incorrect');
+          if (sentenceDiv) sentenceDiv.classList.remove('correct', 'incorrect');
+
+          if (userVal === '') {
+            allAnswered = false;
+            // leave unmarked
+          } else {
+            if (userVal === correctVal) {
+              select.classList.add('correct');
+              if (sentenceDiv) sentenceDiv.classList.add('correct');
+            } else {
+              select.classList.add('incorrect');
+              if (sentenceDiv) sentenceDiv.classList.add('incorrect');
+              allCorrect = false;
+            }
+          }
+        });
+
+        successMsg.style.display = 'none';
+        errorMsg.style.display = 'none';
+
+        if (!allAnswered) {
+          errorMsg.textContent = 'Please answer all questions before checking.';
+          errorMsg.style.display = 'block';
+        } else if (allCorrect) {
+          successMsg.style.display = 'block';
+        } else {
+          errorMsg.textContent = 'Some answers are incorrect. Please try again.';
+          errorMsg.style.display = 'block';
+        }
+
+        checkedFlag = true;
+      }
+
+      // ---- reset everything ----
+      function resetExercise() {
+        selects.forEach(select => {
+          select.value = '';
+          select.classList.remove('correct', 'incorrect');
+          let sentenceDiv = document.getElementById('sentence' + select.id.substring(1));
+          if (sentenceDiv) sentenceDiv.classList.remove('correct', 'incorrect');
+        });
+        updateProgress();
+        successMsg.style.display = 'none';
+        errorMsg.style.display = 'none';
+        checkedFlag = false;
+      }
+
+      checkBtn.addEventListener('click', checkAnswers);
+      resetBtn.addEventListener('click', resetExercise);
+    })();
+  </script>
+</body>
+</html>
