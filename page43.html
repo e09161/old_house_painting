@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grammar Exercise – Question Formation</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #333;
+    }
+
+    .container {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 700px;
+      overflow: hidden;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    header {
+      background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+      color: white;
+      padding: 25px 30px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    header p {
+      opacity: 0.9;
+      font-size: 17px;
+    }
+
+    .instructions {
+      background-color: #f0f4ff;
+      padding: 15px 25px;
+      border-bottom: 1px solid #e1e8ff;
+      font-size: 16px;
+      color: #555;
+    }
+
+    .exercise-container {
+      padding: 25px 30px 30px;
+    }
+
+    .sentences {
+      margin: 20px 0;
+    }
+
+    .sentence {
+      margin-bottom: 22px;
+      font-size: 18px;
+      line-height: 1.6;
+      padding: 15px;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+      background-color: #f9f9f9;
+      border-left: 4px solid transparent;
+    }
+
+    .sentence:hover {
+      background-color: #f0f0f0;
+    }
+
+    .sentence.correct {
+      border-left-color: #4CAF50;
+      background-color: #f1f8e9;
+    }
+
+    .sentence.incorrect {
+      border-left-color: #f44336;
+      background-color: #ffebee;
+    }
+
+    select {
+      padding: 8px 12px;
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      font-size: 16px;
+      background-color: white;
+      cursor: pointer;
+      transition: all 0.3s;
+      min-width: 120px;
+      margin: 0 5px;
+    }
+
+    select:focus {
+      outline: none;
+      border-color: #4b6cb7;
+      box-shadow: 0 0 0 3px rgba(75, 108, 183, 0.2);
+    }
+
+    select.correct {
+      border-color: #4CAF50;
+      background-color: #e8f5e9;
+    }
+
+    select.incorrect {
+      border-color: #f44336;
+      background-color: #ffebee;
+    }
+
+    .progress-container {
+      margin: 25px 0 20px;
+    }
+
+    .progress-bar {
+      height: 12px;
+      background-color: #f1f2f6;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #666;
+      margin-top: 8px;
+    }
+
+    .message {
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      text-align: center;
+      font-weight: 600;
+      display: none;
+      animation: fadeIn 0.5s;
+    }
+
+    .success {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      border: 1px solid #c8e6c9;
+    }
+
+    .error {
+      background-color: #ffebee;
+      color: #c62828;
+      border: 1px solid #ffcdd2;
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .controls button {
+      padding: 14px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: transform 0.15s, opacity 0.25s, background-color 0.25s;
+      min-width: 160px;
+      font-size: 16px;
+    }
+
+    .controls button:hover {
+      transform: translateY(-2px);
+      opacity: 0.95;
+    }
+
+    #check-btn {
+      background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
+      color: white;
+    }
+
+    #reset-btn {
+      background-color: #757575;
+      color: white;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      color: #777;
+      font-size: 14px;
+      border-top: 1px solid #f1f2f6;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+        display: block;
+      }
+      .container {
+        border-radius: 10px;
+      }
+      header {
+        padding: 20px;
+      }
+      h1 {
+        font-size: 24px;
+      }
+      .instructions {
+        padding: 12px 20px;
+      }
+      .exercise-container {
+        padding: 20px;
+      }
+      .sentence {
+        font-size: 17px;
+      }
+      select {
+        min-width: 100px;
+        font-size: 15px;
+      }
+      .controls {
+        flex-direction: column;
+      }
+      .controls button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Grammar — forming natural questions</h1>
+      <p>Choose the correct question word / phrase to complete the sentence.</p>
+    </header>
+
+    <div class="instructions">
+      <p>All sentences are taken from real conversations. Select the option that makes a correct, natural question.</p>
+    </div>
+
+    <div class="exercise-container">
+      <div class="sentences">
+
+        <!-- 1. You met Tom Cruise? / What's he really like? -->
+        <div class="sentence" id="sentence1">
+          1. <select id="q1">
+            <option value="">-- Select --</option>
+            <option value="You met">You met</option>
+            <option value="Did you met">Did you met</option>
+            <option value="Have you ever met">Have you ever met</option>
+            <option value="Met you">Met you</option>
+          </select> Tom Cruise? What's he really like?
+        </div>
+
+        <!-- 2. What did you go to Chicago for? -->
+        <div class="sentence" id="sentence2">
+          2. <select id="q2">
+            <option value="">-- Select --</option>
+            <option value="Why">Why</option>
+            <option value="What for">What for</option>
+            <option value="What did you go">What did you go</option>
+            <option value="For what">For what</option>
+          </select> to Chicago for?
+        </div>
+
+        <!-- 3. I wonder why she feels that way. -->
+        <div class="sentence" id="sentence3">
+          3. I wonder <select id="q3">
+            <option value="">-- Select --</option>
+            <option value="why does she feel">why does she feel</option>
+            <option value="why she feels">why she feels</option>
+            <option value="she feels why">she feels why</option>
+            <option value="does she feel">does she feel</option>
+          </select> that way.
+        </div>
+
+        <!-- 4. What kind of sports do you watch? -->
+        <div class="sentence" id="sentence4">
+          4. <select id="q4">
+            <option value="">-- Select --</option>
+            <option value="What kind">What kind</option>
+            <option value="Which kind of sports">Which kind of sports</option>
+            <option value="What kind of sports">What kind of sports</option>
+            <option value="What sports kind">What sports kind</option>
+          </select> do you watch?
+        </div>
+
+        <!-- 5. I have no idea how long I'll be there. -->
+        <div class="sentence" id="sentence5">
+          5. I have no idea <select id="q5">
+            <option value="">-- Select --</option>
+            <option value="how long will I be">how long will I be</option>
+            <option value="how long I'll be">how long I'll be</option>
+            <option value="I'll be how long">I'll be how long</option>
+            <option value="for how long">for how long</option>
+          </select> there.
+        </div>
+
+        <!-- 6. How come it always rains on weekends? -->
+        <div class="sentence" id="sentence6">
+          6. <select id="q6">
+            <option value="">-- Select --</option>
+            <option value="Why">Why</option>
+            <option value="How">How</option>
+            <option value="How come">How come</option>
+            <option value="What come">What come</option>
+          </select> it always rains on weekends?
+        </div>
+
+        <!-- 7. What's Casablanca about? World War II, right? -->
+        <div class="sentence" id="sentence7">
+          7. <select id="q7">
+            <option value="">-- Select --</option>
+            <option value="What's about Casablanca">What's about Casablanca</option>
+            <option value="About what is Casablanca">About what is Casablanca</option>
+            <option value="What's Casablanca about">What's Casablanca about</option>
+            <option value="Casablanca is about what">Casablanca is about what</option>
+          </select>? World War II, right?
+        </div>
+
+        <!-- 8. How's Rie? I haven't seen her in years. -->
+        <div class="sentence" id="sentence8">
+          8. <select id="q8">
+            <option value="">-- Select --</option>
+            <option value="How's">How's</option>
+            <option value="How is">How is</option>
+            <option value="Who's">Who's</option>
+            <option value="What's">What's</option>
+          </select> Rie? I haven't seen her in years.
+        </div>
+
+      </div> <!-- sentences -->
+
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress" id="progress-bar"></div>
+        </div>
+        <div class="progress-text">
+          <span>Progress</span>
+          <span id="progress-text">0%</span>
+        </div>
+      </div>
+
+      <div class="message success" id="success-message">
+        ✓ Perfect! All answers are correct.
+      </div>
+      <div class="message error" id="error-message">
+        ✗ Some answers are incorrect. Keep trying.
+      </div>
+
+      <div class="controls">
+        <button id="check-btn">Check answers</button>
+        <button id="reset-btn">Reset</button>
+      </div>
+    </div>
+
+    <footer>
+      <p>Grammar Exercise • Question forms (conversational English)</p>
+    </footer>
+  </div>
+
+  <script>
+    (function() {
+      // DOM elements
+      const selects = document.querySelectorAll('select');
+      const progressBar = document.getElementById('progress-bar');
+      const progressText = document.getElementById('progress-text');
+      const successMsg = document.getElementById('success-message');
+      const errorMsg = document.getElementById('error-message');
+      const checkBtn = document.getElementById('check-btn');
+      const resetBtn = document.getElementById('reset-btn');
+
+      // ----- CORRECT ANSWERS (based on the second image) -----
+      const correctAnswers = {
+        q1: 'You met',                // "You met Tom Cruise?" – conversational, no auxiliary needed
+        q2: 'What did you go',         // "What did you go to Chicago for?" (full phrase)
+        q3: 'why she feels',           // embedded question: I wonder why she feels ...
+        q4: 'What kind of sports',     // "What kind of sports do you watch?"
+        q5: 'how long I\'ll be',       // embedded: how long I'll be
+        q6: 'How come',                // "How come it always rains ...?"
+        q7: 'What\'s Casablanca about',// standard question order
+        q8: 'How\'s'                   // "How's Rie?" contraction
+      };
+
+      let total = selects.length;
+      let checkedFlag = false;   // to reset styles after user modifies
+
+      // ---- helpers ----
+      function updateProgress() {
+        let answered = 0;
+        selects.forEach(s => { if (s.value !== '') answered++; });
+        let percent = (answered / total) * 100;
+        progressBar.style.width = percent + '%';
+        progressText.textContent = Math.round(percent) + '%';
+      }
+
+      function removeAllStyles() {
+        selects.forEach(select => {
+          select.classList.remove('correct', 'incorrect');
+          let idNum = select.id.substring(1);
+          let sentenceDiv = document.getElementById('sentence' + idNum);
+          if (sentenceDiv) sentenceDiv.classList.remove('correct', 'incorrect');
+        });
+      }
+
+      // initially
+      updateProgress();
+
+      // ---- event: user changes a dropdown ----
+      selects.forEach(select => {
+        select.addEventListener('change', function() {
+          // if we had previously checked answers, remove old highlighting
+          if (checkedFlag) {
+            removeAllStyles();
+            checkedFlag = false;
+          }
+          updateProgress();
+          successMsg.style.display = 'none';
+          errorMsg.style.display = 'none';
+        });
+      });
+
+      // ---- check answers ----
+      function checkAnswers() {
+        let allAnswered = true;
+        let allCorrect = true;
+
+        selects.forEach(select => {
+          let qId = select.id;
+          let userVal = select.value;
+          let correctVal = correctAnswers[qId];
+          let sentenceDiv = document.getElementById('sentence' + qId.substring(1));
+
+          // remove previous highlighting (fresh evaluation)
+          select.classList.remove('correct', 'incorrect');
+          if (sentenceDiv) sentenceDiv.classList.remove('correct', 'incorrect');
+
+          if (userVal === '') {
+            allAnswered = false;
+            // leave unmarked (no border)
+          } else {
+            if (userVal === correctVal) {
+              select.classList.add('correct');
+              if (sentenceDiv) sentenceDiv.classList.add('correct');
+            } else {
+              select.classList.add('incorrect');
+              if (sentenceDiv) sentenceDiv.classList.add('incorrect');
+              allCorrect = false;
+            }
+          }
+        });
+
+        // hide previous global messages
+        successMsg.style.display = 'none';
+        errorMsg.style.display = 'none';
+
+        if (!allAnswered) {
+          errorMsg.textContent = 'Please answer all questions before checking.';
+          errorMsg.style.display = 'block';
+        } else if (allCorrect) {
+          successMsg.style.display = 'block';
+        } else {
+          errorMsg.textContent = 'Some answers are incorrect. Please try again.';
+          errorMsg.style.display = 'block';
+        }
+
+        checkedFlag = true;  // marks that we are in "checked" state
+      }
+
+      // ---- reset everything ----
+      function resetExercise() {
+        selects.forEach(select => {
+          select.value = '';
+          select.classList.remove('correct', 'incorrect');
+          let sentenceDiv = document.getElementById('sentence' + select.id.substring(1));
+          if (sentenceDiv) sentenceDiv.classList.remove('correct', 'incorrect');
+        });
+        updateProgress();
+        successMsg.style.display = 'none';
+        errorMsg.style.display = 'none';
+        checkedFlag = false;
+      }
+
+      // attach listeners
+      checkBtn.addEventListener('click', checkAnswers);
+      resetBtn.addEventListener('click', resetExercise);
+
+      // optional: if user clicks reset while messages visible, they disappear
+    })();
+  </script>
+</body>
+</html>
