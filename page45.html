@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grammar exercise · Drag & drop (Passive voice)</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+    }
+    body {
+      background: linear-gradient(145deg, #dbe4f0 0%, #b8c9e0 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+    }
+    .card {
+      max-width: 960px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 32px;
+      box-shadow: 0 20px 40px rgba(0,20,50,0.2);
+      overflow: hidden;
+      transition: all 0.2s;
+    }
+    .header {
+      background: linear-gradient(95deg, #1f3a6b, #378f7c);
+      color: white;
+      padding: 28px 30px 22px;
+    }
+    .header h1 {
+      font-weight: 600;
+      font-size: 2rem;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+    }
+    .header p {
+      opacity: 0.9;
+      font-size: 1.1rem;
+      margin-top: 8px;
+    }
+    .sub {
+      background: #eaf3fa;
+      padding: 14px 30px;
+      border-bottom: 1px solid #bed3e8;
+      color: #1f3a6b;
+      font-weight: 500;
+    }
+    .word-strip {
+      background: white;
+      padding: 18px 30px 12px;
+      border-bottom: 2px solid #eef2f7;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    .word-bank {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 14px;
+      background: #f1f9ff;
+      padding: 20px 24px;
+      border-radius: 44px;
+      border: 2px dashed #378f7c;
+      justify-content: center;
+    }
+    .word-tile {
+      background: linear-gradient(135deg, #1f3a6b, #2b5e7a);
+      color: white;
+      padding: 10px 22px;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      letter-spacing: 0.3px;
+      box-shadow: 0 6px 0 #0f2a3f;
+      cursor: grab;
+      user-select: none;
+      transition: 0.1s ease;
+      border: 1px solid #ffffff60;
+      touch-action: none;
+    }
+    .word-tile:active {
+      opacity: 0.7;
+      transform: scale(0.97);
+    }
+    .word-tile.dragging {
+      opacity: 0.3;
+    }
+    .word-tile.used {
+      background: #98a9b9;
+      box-shadow: 0 4px 0 #4e5f6f;
+      cursor: not-allowed;
+      pointer-events: none;
+      filter: grayscale(0.6);
+    }
+    .exercise {
+      padding: 25px 30px 30px;
+    }
+    .sentence {
+      font-size: 1.25rem;
+      margin-bottom: 22px;
+      padding: 8px 18px;
+      background: #fafcff;
+      border-radius: 60px;
+      border: 1px solid #c9ddec;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px 10px;
+    }
+    .gap {
+      min-width: 170px;
+      background: #eef5fe;
+      border-bottom: 4px solid #1f3a6b;
+      padding: 12px 16px;
+      border-radius: 40px;
+      text-align: center;
+      font-weight: 600;
+      color: #1f3a6b;
+      cursor: pointer;
+      transition: 0.15s;
+      box-shadow: inset 0 1px 4px #c7d7e8;
+    }
+    .gap.filled {
+      background: #d9eecc;
+      border-bottom-color: #2b7a4b;
+      color: #1b4b2b;
+    }
+    .gap.correct {
+      background: #b8e6c9;
+      border-bottom-color: #1f8a4b;
+      color: #0a3b1e;
+    }
+    .gap.incorrect {
+      background: #ffd9d9;
+      border-bottom-color: #b34040;
+      color: #7a2e2e;
+    }
+    .gap.active {
+      background: #fff1b8;
+      border-bottom-color: #d48b1c;
+      transform: scale(1.01);
+    }
+    .progress-area {
+      background: #e9eff5;
+      border-radius: 40px;
+      padding: 16px 20px;
+      margin: 10px 0 18px;
+    }
+    .bar {
+      height: 18px;
+      background: white;
+      border-radius: 40px;
+      overflow: hidden;
+      border: 2px solid #bbcfe0;
+    }
+    .fill-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #1f3a6b, #378f7c);
+      transition: width 0.2s;
+    }
+    .message-box {
+      padding: 12px 24px;
+      border-radius: 40px;
+      text-align: center;
+      font-weight: 600;
+      display: none;
+    }
+    .success-msg {
+      background: #dcfce7;
+      color: #166534;
+      border: 2px solid #86d99d;
+    }
+    .error-msg {
+      background: #fee2e2;
+      color: #9b1c1c;
+      border: 2px solid #f9a8a8;
+    }
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 22px 0 10px;
+      justify-content: center;
+    }
+    .btn {
+      border: none;
+      padding: 16px 26px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      background: white;
+      box-shadow: 0 5px 0 #b0c3d4;
+      border: 1px solid #cadef0;
+      cursor: pointer;
+      transition: 0.1s;
+      flex: 1 0 170px;
+    }
+    .btn-primary {
+      background: #1f3a6b;
+      color: white;
+      box-shadow: 0 6px 0 #10233f;
+    }
+    .btn-primary:hover {
+      background: #264b82;
+    }
+    .btn-secondary {
+      background: #e8a317;
+      color: white;
+      box-shadow: 0 6px 0 #8f6210;
+    }
+    .btn-reset {
+      background: #5f5f7a;
+      color: white;
+      box-shadow: 0 6px 0 #373750;
+    }
+    .btn-solution {
+      background: #2e7d5e;
+      color: white;
+      box-shadow: 0 6px 0 #1a4d38;
+    }
+    footer {
+      background: #e2edf7;
+      text-align: center;
+      padding: 16px;
+      color: #2f5575;
+      font-weight: 500;
+    }
+    /* Mobile selector */
+    .mobile-modal {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-top-left-radius: 32px;
+      border-top-right-radius: 32px;
+      padding: 24px 20px 30px;
+      box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
+      z-index: 200;
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+    .mobile-modal h3 {
+      color: #1f3a6b;
+      margin-bottom: 16px;
+      font-size: 1.7rem;
+    }
+    .word-grid {
+      display: grid;
+      grid-template-columns: repeat(2,1fr);
+      gap: 12px;
+    }
+    .mobile-word {
+      background: linear-gradient(145deg, #1f3a6b, #2d6a70);
+      color: white;
+      padding: 16px 10px;
+      border-radius: 40px;
+      font-weight: 600;
+      text-align: center;
+      font-size: 1.1rem;
+      box-shadow: 0 5px 0 #0e263f;
+      cursor: pointer;
+    }
+    .mobile-word.used {
+      background: #a2b6c9;
+      box-shadow: 0 4px 0 #64798e;
+      pointer-events: none;
+      opacity: 0.5;
+    }
+    .overlay {
+      display: none;
+      position: fixed;
+      top:0; left:0; width:100%; height:100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 150;
+    }
+    .close-modal {
+      font-size: 2.2rem;
+      background: none;
+      border: none;
+      float: right;
+      cursor: pointer;
+    }
+    @media (max-width: 700px) {
+      .sentence { font-size: 1.1rem; }
+      .gap { min-width: 140px; }
+    }
+  </style>
+</head>
+<body>
+<div class="card">
+  <div class="header">
+    <h1>❓ Didn't we · Shouldn't we …</h1>
+    <p>Complete each question with the right expression — drag & drop</p>
+  </div>
+  <div class="sub">✨ Drag from coloured tiles · tap on gap to return word (desktop) / tap for options (mobile)</div>
+
+  <!-- word bank area -->
+  <div class="word-strip" id="wordBankStrip">
+    <div class="word-bank" id="wordBankContainer"></div>
+  </div>
+
+  <!-- exercise sentences (exactly from image2) -->
+  <div class="exercise" id="exerciseArea">
+    <div class="sentence">1. <span class="gap" data-correct="Haven't I" data-id="1"></span> seen you somewhere before?</div>
+    <div class="sentence">2. <span class="gap" data-correct="Don't you" data-id="2"></span> want more water? You look thirsty!</div>
+    <div class="sentence">3. <span class="gap" data-correct="Isn't this" data-id="3"></span> a beautiful wedding?</div>
+    <div class="sentence">4. <span class="gap" data-correct="Wouldn't it" data-id="4"></span> taste better if you cooked it longer?</div>
+    <div class="sentence">5. <span class="gap" data-correct="Haven't you" data-id="5"></span> studied for your English exam yet?</div>
+    <div class="sentence">6. <span class="gap" data-correct="Didn't we" data-id="6"></span> meet at Elaine's birthday party?</div>
+    <div class="sentence">7. <span class="gap" data-correct="Can't you" data-id="7"></span> remember to take out the trash? It's not difficult.</div>
+    <div class="sentence">8. <span class="gap" data-correct="Shouldn't we" data-id="8"></span> talk about this now? I think we should.</div>
+  </div>
+
+  <!-- progress & messages -->
+  <div class="progress-area">
+    <div class="bar"><div class="fill-bar" id="progressFill" style="width:0%"></div></div>
+    <div style="display:flex; justify-content:space-between; margin-top:8px; padding:0 4px;">
+      <span>📋 progress</span>
+      <span id="progressPercent">0%</span>
+    </div>
+  </div>
+  <div style="padding:0 30px;">
+    <div class="message-box success-msg" id="successMsg">✅ Perfect! All answers correct.</div>
+    <div class="message-box error-msg" id="errorMsg">❌ Some answers are wrong. Keep trying.</div>
+  </div>
+
+  <!-- buttons -->
+  <div style="padding:5px 30px 15px;">
+    <div class="button-group">
+      <button class="btn btn-primary" id="checkBtn">✔ Check</button>
+      <button class="btn btn-secondary" id="hintBtn">💡 Hint</button>
+      <button class="btn btn-reset" id="resetBtn">⟲ Reset</button>
+      <button class="btn btn-solution" id="solutionBtn">🔍 Show solution</button>
+    </div>
+  </div>
+  <footer>educasa.pe · passive voice / question tags</footer>
+</div>
+
+<!-- mobile modal & overlay -->
+<div class="overlay" id="overlay"></div>
+<div class="mobile-modal" id="mobileModal">
+  <button class="close-modal" id="closeModal">&times;</button>
+  <h3>choose phrase</h3>
+  <div class="word-grid" id="mobileWordGrid"></div>
+</div>
+
+<script>
+  (function() {
+    // ----- EXACT 8 PHRASES from second image (order preserved for correct answers) -----
+    const correctPhrases = [
+      "Haven't I",
+      "Don't you",
+      "Isn't this",
+      "Wouldn't it",
+      "Haven't you",
+      "Didn't we",
+      "Can't you",
+      "Shouldn't we"
+    ];
+
+    // Shuffle function for initial bank order (more fun)
+    function shuffle(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // ----- data structures -----
+    const gaps = Array.from(document.querySelectorAll('.gap'));
+    const wordBankDiv = document.getElementById('wordBankContainer');
+    let wordItems = [];         // desktop tiles (HTML elements)
+    let mobileWordItems = [];   // for modal grid
+
+    let filledCount = 0;
+    const totalGaps = gaps.length;
+
+    // ---- utility functions ----
+    function updateProgress() {
+      const percent = (filledCount / totalGaps) * 100;
+      document.getElementById('progressFill').style.width = percent + '%';
+      document.getElementById('progressPercent').innerText = Math.round(percent) + '%';
+    }
+
+    function hideMessages() {
+      document.getElementById('successMsg').style.display = 'none';
+      document.getElementById('errorMsg').style.display = 'none';
+    }
+
+    // mark word as used / unused (both desktop tiles + mobile)
+    function setWordUsed(word, used) {
+      // desktop tiles
+      wordItems.forEach(tile => {
+        if (tile.dataset.word === word) {
+          if (used) tile.classList.add('used');
+          else tile.classList.remove('used');
+        }
+      });
+      // mobile options
+      if (mobileWordItems.length) {
+        mobileWordItems.forEach(opt => {
+          if (opt.dataset.word === word) {
+            if (used) opt.classList.add('used');
+            else opt.classList.remove('used');
+          }
+        });
+      }
+    }
+
+    // free a gap (clear and make word available again)
+    function releaseGap(gapElement) {
+      const oldWord = gapElement.textContent.trim();
+      if (!oldWord) return;
+      gapElement.textContent = '';
+      gapElement.classList.remove('filled', 'correct', 'incorrect');
+      setWordUsed(oldWord, false);
+      filledCount = Math.max(0, filledCount - 1);
+      updateProgress();
+      hideMessages();
+    }
+
+    // fill gap with word (used by both drag/drop and mobile tap)
+    function assignToGap(gapElement, word) {
+      // if gap already filled, release it first
+      if (gapElement.classList.contains('filled')) {
+        releaseGap(gapElement);
+      }
+      gapElement.textContent = word;
+      gapElement.classList.add('filled');
+      gapElement.classList.remove('correct', 'incorrect', 'active');
+      setWordUsed(word, true);
+      filledCount++;
+      updateProgress();
+      hideMessages();
+
+      // auto-check when all gaps filled
+      if (filledCount === totalGaps) {
+        setTimeout(() => checkAnswers(), 30);
+      }
+    }
+
+    // ---- answer checking ----
+    function checkAnswers() {
+      let allOk = true;
+      gaps.forEach(g => {
+        const user = g.textContent.trim();
+        const correct = g.dataset.correct;
+        if (user !== correct) {
+          g.classList.add('incorrect');
+          g.classList.remove('correct');
+          allOk = false;
+        } else {
+          g.classList.add('correct');
+          g.classList.remove('incorrect');
+        }
+      });
+      if (allOk) {
+        document.getElementById('successMsg').style.display = 'block';
+        document.getElementById('errorMsg').style.display = 'none';
+      } else {
+        document.getElementById('successMsg').style.display = 'none';
+        document.getElementById('errorMsg').style.display = 'block';
+      }
+    }
+
+    // ---- reset everything ----
+    function resetExercise() {
+      gaps.forEach(g => {
+        const word = g.textContent;
+        if (word) setWordUsed(word, false);
+        g.textContent = '';
+        g.classList.remove('filled', 'correct', 'incorrect');
+      });
+      filledCount = 0;
+      updateProgress();
+      hideMessages();
+    }
+
+    // ---- show solution (fill all gaps correctly) ----
+    function fillSolution() {
+      resetExercise(); // clear all first
+      gaps.forEach(g => {
+        const correct = g.dataset.correct;
+        assignToGap(g, correct);
+      });
+    }
+
+    // ----- initialize word bank (desktop tiles) and mobile grid -----
+    function initBank() {
+      // random order for word bank (shuffled)
+      const shuffled = shuffle([...correctPhrases]);
+
+      wordBankDiv.innerHTML = '';
+      shuffled.forEach(w => {
+        const tile = document.createElement('div');
+        tile.className = 'word-tile';
+        tile.setAttribute('draggable', 'true');
+        tile.dataset.word = w;
+        tile.textContent = w;
+        wordBankDiv.appendChild(tile);
+      });
+      wordItems = Array.from(document.querySelectorAll('.word-tile'));
+
+      // mobile grid (same shuffled order)
+      const mobileGrid = document.getElementById('mobileWordGrid');
+      mobileGrid.innerHTML = '';
+      shuffled.forEach(w => {
+        const mob = document.createElement('div');
+        mob.className = 'mobile-word';
+        mob.dataset.word = w;
+        mob.textContent = w;
+        mobileGrid.appendChild(mob);
+      });
+      mobileWordItems = Array.from(document.querySelectorAll('.mobile-word'));
+    }
+
+    // ----- detect mobile -----
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    // ----- DESKTOP drag events -----
+    function setupDesktopDrag() {
+      wordItems.forEach(tile => {
+        tile.addEventListener('dragstart', e => {
+          if (tile.classList.contains('used')) {
+            e.preventDefault();
+            return;
+          }
+          tile.classList.add('dragging');
+          e.dataTransfer.setData('text/plain', tile.dataset.word);
+        });
+        tile.addEventListener('dragend', () => {
+          tile.classList.remove('dragging');
+        });
+      });
+
+      gaps.forEach(gap => {
+        gap.addEventListener('dragover', e => e.preventDefault());
+        gap.addEventListener('dragenter', e => {
+          e.preventDefault();
+          gap.classList.add('active');
+        });
+        gap.addEventListener('dragleave', () => gap.classList.remove('active'));
+        gap.addEventListener('drop', e => {
+          e.preventDefault();
+          gap.classList.remove('active');
+          const word = e.dataTransfer.getData('text/plain');
+          if (!word) return;
+          // check if word is already used (prevent via used class)
+          const sourceTile = wordItems.find(t => t.dataset.word === word);
+          if (sourceTile && sourceTile.classList.contains('used')) return; // already used
+
+          assignToGap(gap, word);
+        });
+        // click to release (desktop friendly)
+        gap.addEventListener('click', (e) => {
+          if (gap.classList.contains('filled')) {
+            releaseGap(gap);
+          }
+        });
+      });
+    }
+
+    // ----- MOBILE tap: gap opens modal -----
+    let activeGap = null;
+    const modal = document.getElementById('mobileModal');
+    const overlay = document.getElementById('overlay');
+    const closeModalBtn = document.getElementById('closeModal');
+
+    function openModal(gap) {
+      activeGap = gap;
+      modal.style.display = 'block';
+      overlay.style.display = 'block';
+    }
+    function closeModal() {
+      modal.style.display = 'none';
+      overlay.style.display = 'none';
+      activeGap = null;
+    }
+
+    function setupMobile() {
+      // hide desktop drag hints, make everything tappable
+      // gaps: tap opens modal (if filled -> release on second tap? we offer release by tap again)
+      gaps.forEach(gap => {
+        gap.addEventListener('click', (e) => {
+          if (gap.classList.contains('filled')) {
+            // if filled, tapping releases the gap (alternative: long press, but we keep simple)
+            releaseGap(gap);
+          } else {
+            // empty gap -> open selector
+            openModal(gap);
+          }
+        });
+      });
+
+      // mobile word options
+      mobileWordItems.forEach(opt => {
+        opt.addEventListener('click', () => {
+          if (!activeGap) return;
+          if (opt.classList.contains('used')) return; // already used
+          const word = opt.dataset.word;
+          assignToGap(activeGap, word);
+          closeModal();
+        });
+      });
+
+      // close modal events
+      closeModalBtn.addEventListener('click', closeModal);
+      overlay.addEventListener('click', closeModal);
+    }
+
+    // ----- common setup ----
+    initBank();
+
+    // after init, assign again because wordItems updated
+    wordItems = Array.from(document.querySelectorAll('.word-tile'));
+    mobileWordItems = Array.from(document.querySelectorAll('.mobile-word'));
+
+    if (!isMobile) {
+      setupDesktopDrag();
+    } else {
+      // hide desktop drag tiles ? we keep them visible but indicate used? but use modal.
+      // we still show tiles but they aren't draggable – optional we can hide them.
+      // for consistent UI we keep but disable drag.
+      wordItems.forEach(t => { t.draggable = false; });
+      setupMobile();
+    }
+
+    // ----- button listeners -----
+    document.getElementById('checkBtn').addEventListener('click', () => {
+      if (filledCount === totalGaps) checkAnswers();
+      else {
+        alert('Please fill all gaps before checking.');
+      }
+    });
+
+    document.getElementById('hintBtn').addEventListener('click', () => {
+      const firstEmpty = gaps.find(g => !g.classList.contains('filled'));
+      if (firstEmpty) {
+        firstEmpty.classList.add('active');
+        alert(`Hint: the phrase is "${firstEmpty.dataset.correct}"`);
+        setTimeout(() => firstEmpty.classList.remove('active'), 2000);
+      } else {
+        // all filled: maybe some wrong?
+        const firstWrong = gaps.find(g => g.textContent.trim() !== g.dataset.correct);
+        if (firstWrong) {
+          firstWrong.classList.add('active');
+          alert(`Hint: correct is "${firstWrong.dataset.correct}"`);
+          setTimeout(() => firstWrong.classList.remove('active'), 2000);
+        } else {
+          alert('All correct!');
+        }
+      }
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', resetExercise);
+    document.getElementById('solutionBtn').addEventListener('click', fillSolution);
+
+    // also update used status when reset/solution modifies gaps
+    // but our functions already call setWordUsed appropriately.
+
+    // extra: when solution fill, we call fillSolution -> assignToGap -> setWordUsed.
+    // reset uses releaseGap? reset function uses setWordUsed manually.
+    // synchronisation: ensure wordItems and mobileWordItems initialised
+    // override reset to also set used flags correctly
+    const originalReset = resetExercise;
+    resetExercise = function() {
+      gaps.forEach(g => {
+        const old = g.textContent;
+        if (old) setWordUsed(old, false);
+        g.textContent = '';
+        g.classList.remove('filled', 'correct', 'incorrect');
+      });
+      filledCount = 0;
+      updateProgress();
+      hideMessages();
+    };
+    document.getElementById('resetBtn').onclick = resetExercise;
+
+    // sync fillSolution:
+    document.getElementById('solutionBtn').onclick = () => {
+      resetExercise();
+      gaps.forEach(g => assignToGap(g, g.dataset.correct));
+    };
+
+    // ensure after reset, used flags cleared and all tiles usable
+    window.resetExercise = resetExercise;
+  })();
+</script>
+</body>
+</html>
