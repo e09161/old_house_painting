@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dialogue · drag & drop (adjectives & verbs)</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    }
+    body {
+      background: linear-gradient(145deg, #ece5d8 0%, #d9cdb3 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+    }
+    .worksheet {
+      max-width: 1000px;
+      width: 100%;
+      background: #fffcf5;
+      border-radius: 48px;
+      box-shadow: 0 25px 40px rgba(60, 40, 20, 0.25);
+      overflow: hidden;
+      border: 1px solid #e0cfb5;
+    }
+    .head {
+      background: #4f3b2c;
+      color: #fef2e0;
+      padding: 30px 32px 20px;
+    }
+    .head h1 {
+      font-weight: 700;
+      font-size: 2.3rem;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+      color: #ffedd1;
+    }
+    .head p {
+      font-size: 1.2rem;
+      margin-top: 10px;
+      color: #e9dacb;
+    }
+    .instruction {
+      background: #eadbc4;
+      padding: 16px 32px;
+      color: #3f2d1c;
+      font-weight: 600;
+      font-size: 1.1rem;
+      border-bottom: 3px solid #b59d81;
+    }
+    .tile-panel {
+      background: #fef3e2;
+      padding: 22px 30px 12px;
+      border-bottom: 2px solid #dac09a;
+    }
+    .word-tray {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 20px;
+      background: #fff2df;
+      padding: 24px 30px;
+      border-radius: 60px;
+      border: 3px dashed #9b7e62;
+      justify-content: center;
+    }
+    .tile {
+      background: #5c4a36;
+      color: #ffffff;
+      padding: 12px 28px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1.3rem;
+      box-shadow: 0 7px 0 #2f241b;
+      cursor: grab;
+      user-select: none;
+      transition: 0.1s;
+      border: 2px solid #efdbbe;
+      letter-spacing: 0.3px;
+      touch-action: none;
+    }
+    .tile:active {
+      transform: scale(0.96);
+      opacity: 0.8;
+    }
+    .tile.dragging {
+      opacity: 0.3;
+    }
+    .tile.used {
+      background: #b0a084;
+      box-shadow: 0 5px 0 #6e5d47;
+      cursor: not-allowed;
+      pointer-events: none;
+      filter: grayscale(0.5);
+    }
+
+    /* main content */
+    .dialog-area {
+      padding: 30px 32px 30px;
+    }
+    .dialog-row {
+      background: #faf3e9;
+      border-radius: 50px;
+      margin-bottom: 18px;
+      padding: 12px 22px 12px 30px;
+      border: 1px solid #e1ceb4;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px 15px;
+      font-size: 1.25rem;
+    }
+    .speaker-a {
+      color: #9b511b;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .speaker-b {
+      color: #1f6d4f;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .gap {
+      min-width: 130px;
+      background: #f7e9d6;
+      border-bottom: 5px solid #7b5e42;
+      padding: 12px 18px;
+      border-radius: 40px;
+      text-align: center;
+      font-weight: 600;
+      color: #2e2e2e;
+      cursor: pointer;
+      transition: all 0.1s;
+      box-shadow: inset 0 2px 5px #cbb293;
+      font-size: 1.2rem;
+    }
+    .gap.filled {
+      background: #d7e9cf;
+      border-bottom-color: #267a4c;
+      color: #154d2b;
+    }
+    .gap.correct {
+      background: #bde5c3;
+      border-bottom-color: #1e8449;
+      color: #0c3b1f;
+    }
+    .gap.incorrect {
+      background: #f4cfce;
+      border-bottom-color: #b34242;
+      color: #751f1f;
+    }
+    .gap.active {
+      background: #fff2b5;
+      border-bottom-color: #c47d10;
+    }
+
+    /* progress & messages */
+    .stats {
+      background: #f0e3d1;
+      border-radius: 40px;
+      padding: 16px 22px;
+      margin: 10px 32px 20px;
+    }
+    .track {
+      height: 20px;
+      background: #dbcbb4;
+      border-radius: 20px;
+      border: 2px solid #a48e72;
+    }
+    .track-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #318f6c, #a1662f);
+      transition: width 0.2s;
+    }
+    .msg-area {
+      padding: 0 32px;
+    }
+    .message {
+      padding: 16px 20px;
+      border-radius: 40px;
+      text-align: center;
+      font-weight: 700;
+      display: none;
+      font-size: 1.1rem;
+    }
+    .success {
+      background: #d7f0da;
+      color: #1d6130;
+      border: 3px solid #7acb8a;
+    }
+    .error {
+      background: #f9dddd;
+      color: #a13030;
+      border: 3px solid #f19b9b;
+    }
+
+    .button-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 18px 32px 28px;
+      justify-content: center;
+    }
+    .btn {
+      border: none;
+      padding: 16px 26px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      background: white;
+      box-shadow: 0 5px 0 #ab8e70;
+      border: 1px solid #ccb699;
+      cursor: pointer;
+      transition: 0.1s;
+      flex: 1 0 150px;
+    }
+    .btn-primary {
+      background: #4f3b2c;
+      color: white;
+      box-shadow: 0 6px 0 #2d221a;
+    }
+    .btn-hint {
+      background: #b87c3a;
+      color: white;
+      box-shadow: 0 6px 0 #785524;
+    }
+    .btn-reset {
+      background: #5d7072;
+      color: white;
+      box-shadow: 0 6px 0 #35494b;
+    }
+    .btn-solution {
+      background: #2f6d5a;
+      color: white;
+      box-shadow: 0 6px 0 #1b4236;
+    }
+    footer {
+      background: #dacbb6;
+      padding: 16px;
+      text-align: center;
+      color: #4b3b27;
+      font-weight: 600;
+    }
+
+    /* mobile modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4);
+      z-index: 200;
+    }
+    .modal-bottom {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #fffbf2;
+      border-top-left-radius: 42px;
+      border-top-right-radius: 42px;
+      padding: 24px 20px 30px;
+      box-shadow: 0 -15px 30px rgba(0,0,0,0.3);
+      z-index: 250;
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+    .modal-bottom h2 {
+      color: #4f3b2c;
+      margin-bottom: 20px;
+      font-size: 1.9rem;
+      font-weight: 700;
+    }
+    .close-modal {
+      background: none;
+      border: none;
+      font-size: 2.5rem;
+      float: right;
+      cursor: pointer;
+    }
+    .mobile-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .mobile-tile {
+      background: #5c4a36;
+      color: white;
+      padding: 18px 10px;
+      border-radius: 40px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      text-align: center;
+      box-shadow: 0 5px 0 #302418;
+      cursor: pointer;
+    }
+    .mobile-tile.used {
+      background: #b0a084;
+      box-shadow: 0 4px 0 #6e5d47;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+    @media (max-width: 700px) {
+      .dialog-row { font-size: 1.1rem; }
+      .gap { min-width: 120px; }
+    }
+  </style>
+</head>
+<body>
+<div class="worksheet">
+  <div class="head">
+    <h1>🎭 complete the dialogue</h1>
+    <p>safe · terrible · can't stand · fake · lied · huge · boring · stingiest</p>
+  </div>
+  <div class="instruction">👆 drag words into gaps — tap on a filled gap to return it</div>
+
+  <!-- word bank (desktop) -->
+  <div class="tile-panel" id="desktopBank">
+    <div class="word-tray" id="wordTray"></div>
+  </div>
+
+  <!-- sentences exactly from image.png (8 items) -->
+  <div class="dialog-area" id="dialogs">
+    <div class="dialog-row"><span class="speaker-a">A:</span> Flying in airplanes is dangerous. <span class="speaker-b">B:</span> It seems pretty <span class="gap" data-correct="safe" data-id="1"></span> to me.</div>
+    <div class="dialog-row"><span class="speaker-a">A:</span> If he had been honest, I wouldn't be mad. <span class="speaker-b">B:</span> But he <span class="gap" data-correct="lied" data-id="2"></span> the whole time!</div>
+    <div class="dialog-row"><span class="speaker-a">A:</span> Man, this is a really <span class="gap" data-correct="boring" data-id="3"></span> party. <span class="speaker-b">B:</span> It's not exactly full of excitement, is it?</div>
+    <div class="dialog-row"><span class="speaker-a">A:</span> Scrooge is one of the <span class="gap" data-correct="stingiest" data-id="4"></span> characters ever. <span class="speaker-b">B:</span> But he's also generous.</div>
+    <div class="dialog-row"><span class="speaker-a">A:</span> Boy this play is <span class="gap" data-correct="terrible" data-id="5"></span> ! <span class="speaker-b">B:</span> It's not exactly a great work of art, is it?</div>
+    <div class="dialog-row"><span class="speaker-a">A:</span> I like reality TV shows. <span class="speaker-b">B:</span> Ugh, I <span class="gap" data-correct="can't stand" data-id="6"></span> them!</div>
+    <div class="dialog-row"><span class="speaker-a">A:</span> Does this photo look real to you? <span class="speaker-b">B:</span> No, it's <span class="gap" data-correct="fake" data-id="7"></span> . Someone changed it.</div>
+    <div class="dialog-row"><span class="speaker-a">A:</span> I didn't think our hotel room would be so tiny. <span class="speaker-b">B:</span> It certainly isn't <span class="gap" data-correct="huge" data-id="8"></span>.</div>
+  </div>
+
+  <!-- progress and feedback -->
+  <div class="stats">
+    <div class="track"><div class="track-fill" id="progressFill" style="width:0%"></div></div>
+    <div style="display:flex; justify-content:space-between; margin-top: 10px;">
+      <span>📌 progress</span>
+      <span id="progressPercent">0%</span>
+    </div>
+  </div>
+  <div class="msg-area">
+    <div class="message success" id="successMsg">✨ Perfect! All words match.</div>
+    <div class="message error" id="errorMsg">⚠️ Not quite right – try again.</div>
+  </div>
+
+  <!-- buttons -->
+  <div class="button-bar">
+    <button class="btn btn-primary" id="checkBtn">✔ Check</button>
+    <button class="btn btn-hint" id="hintBtn">💡 Hint</button>
+    <button class="btn btn-reset" id="resetBtn">⟲ Reset</button>
+    <button class="btn btn-solution" id="solutionBtn">🔍 Show solution</button>
+  </div>
+  <footer>educasa · vocabulary in context</footer>
+</div>
+
+<!-- mobile modal -->
+<div class="modal-overlay" id="overlay"></div>
+<div class="modal-bottom" id="mobileModal">
+  <button class="close-modal" id="closeModal">&times;</button>
+  <h2>choose a word</h2>
+  <div class="mobile-grid" id="mobileWordGrid"></div>
+</div>
+
+<script>
+  (function() {
+    // ---- core word set (exactly from image) ----
+    const allWords = ["safe","terrible","can't stand","fake","lied","huge","boring","stingiest"];
+    const correctMap = {
+      1: "safe", 2: "lied", 3: "boring", 4: "stingiest",
+      5: "terrible", 6: "can't stand", 7: "fake", 8: "huge"
+    };
+
+    // ---- get elements ----
+    const gaps = Array.from(document.querySelectorAll('.gap'));
+    const wordTray = document.getElementById('wordTray');
+    let desktopTiles = [];
+    let mobileTiles = [];
+
+    let filledCount = 0;
+    const totalGaps = gaps.length;
+
+    // helper functions
+    function updateProgress() {
+      const percent = (filledCount / totalGaps) * 100;
+      document.getElementById('progressFill').style.width = percent + '%';
+      document.getElementById('progressPercent').innerText = Math.round(percent) + '%';
+    }
+
+    function hideMessages() {
+      document.getElementById('successMsg').style.display = 'none';
+      document.getElementById('errorMsg').style.display = 'none';
+    }
+
+    function setWordUsed(word, used) {
+      desktopTiles.forEach(t => {
+        if (t.dataset.word === word) {
+          if (used) t.classList.add('used'); else t.classList.remove('used');
+        }
+      });
+      mobileTiles.forEach(m => {
+        if (m.dataset.word === word) {
+          if (used) m.classList.add('used'); else m.classList.remove('used');
+        }
+      });
+    }
+
+    function releaseGap(gapEl) {
+      const oldWord = gapEl.textContent.trim();
+      if (!oldWord) return;
+      gapEl.textContent = '';
+      gapEl.classList.remove('filled','correct','incorrect');
+      setWordUsed(oldWord, false);
+      filledCount = Math.max(0, filledCount - 1);
+      updateProgress();
+      hideMessages();
+    }
+
+    function fillGap(gapEl, word) {
+      if (gapEl.classList.contains('filled')) releaseGap(gapEl);
+      gapEl.textContent = word;
+      gapEl.classList.add('filled');
+      gapEl.classList.remove('correct','incorrect','active');
+      setWordUsed(word, true);
+      filledCount++;
+      updateProgress();
+      hideMessages();
+
+      if (filledCount === totalGaps) setTimeout(checkAnswers, 30);
+    }
+
+    // check answers
+    function checkAnswers() {
+      let allOk = true;
+      gaps.forEach(g => {
+        const user = g.textContent.trim();
+        const correct = g.dataset.correct;
+        if (user !== correct) {
+          g.classList.add('incorrect');
+          g.classList.remove('correct');
+          allOk = false;
+        } else {
+          g.classList.add('correct');
+          g.classList.remove('incorrect');
+        }
+      });
+      if (allOk) {
+        document.getElementById('successMsg').style.display = 'block';
+        document.getElementById('errorMsg').style.display = 'none';
+      } else {
+        document.getElementById('successMsg').style.display = 'none';
+        document.getElementById('errorMsg').style.display = 'block';
+      }
+    }
+
+    // reset everything
+    function resetExercise() {
+      gaps.forEach(g => {
+        const w = g.textContent;
+        if (w) setWordUsed(w, false);
+        g.textContent = '';
+        g.classList.remove('filled','correct','incorrect');
+      });
+      filledCount = 0;
+      updateProgress();
+      hideMessages();
+    }
+
+    // solution
+    function fillSolution() {
+      resetExercise();
+      gaps.forEach(g => fillGap(g, g.dataset.correct));
+    }
+
+    // ---- initialise bank (shuffled) ----
+    function shuffle(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function buildBank() {
+      const shuffled = shuffle([...allWords]);
+      wordTray.innerHTML = '';
+      shuffled.forEach(w => {
+        const tile = document.createElement('div');
+        tile.className = 'tile';
+        tile.setAttribute('draggable', 'true');
+        tile.dataset.word = w;
+        tile.textContent = w;
+        wordTray.appendChild(tile);
+      });
+      desktopTiles = Array.from(document.querySelectorAll('.tile'));
+
+      // mobile grid
+      const grid = document.getElementById('mobileWordGrid');
+      grid.innerHTML = '';
+      shuffled.forEach(w => {
+        const mob = document.createElement('div');
+        mob.className = 'mobile-tile';
+        mob.dataset.word = w;
+        mob.textContent = w;
+        grid.appendChild(mob);
+      });
+      mobileTiles = Array.from(document.querySelectorAll('.mobile-tile'));
+    }
+    buildBank();
+
+    // ---- detect mobile ----
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+    // ---- desktop drag events ----
+    function setupDesktop() {
+      desktopTiles.forEach(t => {
+        t.addEventListener('dragstart', e => {
+          if (t.classList.contains('used')) { e.preventDefault(); return; }
+          t.classList.add('dragging');
+          e.dataTransfer.setData('text/plain', t.dataset.word);
+        });
+        t.addEventListener('dragend', () => t.classList.remove('dragging'));
+      });
+
+      gaps.forEach(gap => {
+        gap.addEventListener('dragover', e => e.preventDefault());
+        gap.addEventListener('dragenter', e => {
+          e.preventDefault();
+          gap.classList.add('active');
+        });
+        gap.addEventListener('dragleave', () => gap.classList.remove('active'));
+        gap.addEventListener('drop', e => {
+          e.preventDefault();
+          gap.classList.remove('active');
+          const word = e.dataTransfer.getData('text/plain');
+          if (!word) return;
+          const sourceTile = desktopTiles.find(t => t.dataset.word === word);
+          if (sourceTile && sourceTile.classList.contains('used')) return;
+          fillGap(gap, word);
+        });
+        // click to release (desktop)
+        gap.addEventListener('click', () => {
+          if (gap.classList.contains('filled')) releaseGap(gap);
+        });
+      });
+    }
+
+    // ---- mobile modal logic ----
+    const modal = document.getElementById('mobileModal');
+    const overlay = document.getElementById('overlay');
+    const closeBtn = document.getElementById('closeModal');
+    let activeGap = null;
+
+    function openModal(gap) {
+      activeGap = gap;
+      modal.style.display = 'block';
+      overlay.style.display = 'block';
+    }
+    function closeModalFunc() {
+      modal.style.display = 'none';
+      overlay.style.display = 'none';
+      activeGap = null;
+    }
+
+    function setupMobile() {
+      // disable dragging
+      desktopTiles.forEach(t => t.draggable = false);
+
+      gaps.forEach(gap => {
+        gap.addEventListener('click', () => {
+          if (gap.classList.contains('filled')) {
+            releaseGap(gap);
+          } else {
+            openModal(gap);
+          }
+        });
+      });
+
+      mobileTiles.forEach(m => {
+        m.addEventListener('click', () => {
+          if (!activeGap) return;
+          if (m.classList.contains('used')) return;
+          fillGap(activeGap, m.dataset.word);
+          closeModalFunc();
+        });
+      });
+
+      closeBtn.addEventListener('click', closeModalFunc);
+      overlay.addEventListener('click', closeModalFunc);
+    }
+
+    // apply mode
+    if (!isMobile) {
+      setupDesktop();
+    } else {
+      setupMobile();
+    }
+
+    // ---- button handlers ----
+    document.getElementById('checkBtn').addEventListener('click', () => {
+      if (filledCount === totalGaps) checkAnswers();
+      else alert('Please fill all gaps first.');
+    });
+
+    document.getElementById('hintBtn').addEventListener('click', () => {
+      const emptyOrWrong = gaps.find(g => !g.classList.contains('filled') || g.textContent.trim() !== g.dataset.correct);
+      if (emptyOrWrong) {
+        emptyOrWrong.classList.add('active');
+        alert(`Hint: correct word is "${emptyOrWrong.dataset.correct}"`);
+        setTimeout(() => emptyOrWrong.classList.remove('active'), 2000);
+      } else {
+        alert('Everything looks correct!');
+      }
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', resetExercise);
+    document.getElementById('solutionBtn').addEventListener('click', fillSolution);
+
+    // extra sync for reset/solution (already defined)
+    // but we must ensure after reset the used flags are cleared
+    window.resetExercise = resetExercise;
+  })();
+</script>
+</body>
+</html>
