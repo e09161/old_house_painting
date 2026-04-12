@@ -1,0 +1,838 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>Idioms Challenge • Mobile-Friendly Drag & Drop</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: linear-gradient(145deg, #f1ede8 0%, #e2d9cf 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 12px;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif;
+    }
+
+    /* main card — full width, scrollable */
+    .app-card {
+      max-width: 1000px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 36px;
+      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.25);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      max-height: 98vh;
+    }
+
+    /* header */
+    .app-header {
+      background: linear-gradient(115deg, #2c5530, #1d3e27);
+      color: white;
+      padding: 20px 20px 16px;
+      text-align: center;
+    }
+
+    .app-header h1 {
+      font-size: 1.7rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      margin-bottom: 6px;
+    }
+
+    .app-header p {
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+
+    .info-strip {
+      background: #fef3e4;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      border-bottom: 1px solid #eedfcb;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #4a5a3a;
+    }
+
+    .pill {
+      background: #2c5a2e;
+      color: white;
+      padding: 4px 14px;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    /* scrollable content */
+    .scroll-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 18px 12px;
+      scroll-behavior: smooth;
+    }
+
+    /* word bank — horizontal scroll on mobile, no sticky overflow issues */
+    .wordbank-section {
+      margin-bottom: 24px;
+      background: #fefaf5;
+      border-radius: 28px;
+      padding: 12px 8px;
+      border: 1px solid #f0e2d0;
+    }
+
+    .wordbank-title {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #8f7a5c;
+      margin-bottom: 12px;
+      padding-left: 8px;
+    }
+
+    .wordbank-horizontal {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .word-tile {
+      background: linear-gradient(105deg, #3f7842, #2d5a2f);
+      color: white;
+      padding: 12px 18px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-align: center;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: 0.1s ease;
+      touch-action: manipulation;
+      flex-shrink: 0;
+      min-width: 95px;
+    }
+
+    .word-tile:active {
+      transform: scale(0.96);
+    }
+
+    .word-tile.used-tile {
+      background: #b9c4ab;
+      opacity: 0.6;
+      filter: grayscale(0.1);
+      pointer-events: none;
+      text-decoration: line-through;
+      transform: none;
+    }
+
+    /* sentences */
+    .sentences-list {
+      margin-top: 8px;
+    }
+
+    .sentence-card {
+      background: #ffffff;
+      border-radius: 24px;
+      margin-bottom: 16px;
+      padding: 16px 18px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03), 0 0 0 1px #ede3d4;
+      font-size: 1rem;
+      line-height: 1.5;
+      color: #2b3b26;
+      transition: all 0.15s;
+    }
+
+    .sentence-text {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .gap-btn {
+      display: inline-block;
+      background: #fff1e0;
+      border: none;
+      border-bottom: 3px solid #e0a041;
+      border-radius: 40px;
+      padding: 6px 18px;
+      margin: 0 4px;
+      font-weight: 700;
+      color: #b45f1b;
+      font-size: 0.9rem;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+      min-width: 110px;
+      touch-action: manipulation;
+    }
+
+    .gap-btn.filled-gap {
+      background: #e2f3df;
+      border-bottom-color: #4c9f4c;
+      color: #2a6e2a;
+    }
+
+    .gap-btn.correct-gap {
+      background: #c8e6c9;
+      border-bottom-color: #2e7d32;
+      color: #1b5e1f;
+    }
+
+    .gap-btn.incorrect-gap {
+      background: #ffe0dd;
+      border-bottom-color: #d9534f;
+      color: #b93e38;
+    }
+
+    /* progress & controls */
+    .progress-footer {
+      background: white;
+      border-top: 1px solid #efe2d2;
+      padding: 14px 20px 20px;
+    }
+
+    .progress-bar-bg {
+      background: #e9e0d3;
+      border-radius: 30px;
+      height: 8px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      background: linear-gradient(90deg, #458a48, #74aa5e);
+      width: 0%;
+      height: 100%;
+      border-radius: 30px;
+      transition: width 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #7c6e58;
+    }
+
+    .message-toast {
+      margin: 12px 0 8px;
+    }
+
+    .alert {
+      padding: 10px 16px;
+      border-radius: 60px;
+      font-weight: 600;
+      text-align: center;
+      display: none;
+      font-size: 0.8rem;
+    }
+
+    .alert-success {
+      background: #dcfce7;
+      color: #2b6e3c;
+      border-left: 5px solid #4caf50;
+    }
+
+    .alert-error {
+      background: #ffe8e6;
+      color: #bc5a4a;
+      border-left: 5px solid #e57373;
+    }
+
+    .action-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 12px;
+    }
+
+    .btn {
+      border: none;
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: 0.2s;
+      background: #f1ede6;
+      color: #3e5432;
+      flex: 1 0 auto;
+      min-width: 100px;
+    }
+
+    .btn-primary {
+      background: #3f7842;
+      color: white;
+    }
+
+    .btn-warning {
+      background: #cd8d3b;
+      color: white;
+    }
+
+    .btn-danger {
+      background: #bc6f5a;
+      color: white;
+    }
+
+    .btn-success {
+      background: #5a8f4c;
+      color: white;
+    }
+
+    .btn:active {
+      transform: scale(0.96);
+    }
+
+    footer {
+      background: #faf7f2;
+      text-align: center;
+      font-size: 0.65rem;
+      padding: 10px;
+      color: #9d8b72;
+    }
+
+    /* MODAL (mobile word picker) */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+    .word-picker-modal {
+      background: #ffffff;
+      width: 100%;
+      max-height: 65vh;
+      border-radius: 32px 32px 0 0;
+      padding: 20px 18px 30px;
+      animation: slideUp 0.25s ease-out;
+      overflow-y: auto;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(100%);
+      }
+      to {
+        transform: translateY(0);
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #3a5c2e;
+      border-bottom: 2px solid #eee3d4;
+      padding-bottom: 12px;
+    }
+
+    .close-modal {
+      background: none;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      color: #a0917a;
+      padding: 0 8px;
+    }
+
+    .modal-words-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 12px;
+    }
+
+    .modal-word {
+      background: linear-gradient(105deg, #3f7842, #2d5a2f);
+      color: white;
+      padding: 12px 18px;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.1s;
+      flex: 0 0 auto;
+      min-width: 100px;
+    }
+
+    .modal-word.used-modal {
+      background: #b9c4ab;
+      opacity: 0.5;
+      pointer-events: none;
+      text-decoration: line-through;
+    }
+
+    .modal-word:active {
+      transform: scale(0.96);
+    }
+
+    @media (min-width: 700px) {
+      .word-picker-modal {
+        max-width: 500px;
+        border-radius: 32px;
+        margin: auto;
+        align-self: center;
+      }
+      .modal-overlay {
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-card">
+  <div class="app-header">
+    <h1>💬 Idiom Builder</h1>
+    <p>Tap any gap → choose a phrase</p>
+  </div>
+  <div class="info-strip">
+    <span>✏️ Tap a filled gap to remove & reuse</span>
+    <span class="pill">8 expressions</span>
+  </div>
+
+  <div class="scroll-content">
+    <!-- word bank area (tappable tiles) -->
+    <div class="wordbank-section">
+      <div class="wordbank-title">📦 WORD BANK (tap to select)</div>
+      <div class="wordbank-horizontal" id="wordBankContainer"></div>
+    </div>
+
+    <!-- sentences list -->
+    <div class="sentences-list" id="sentencesList"></div>
+  </div>
+
+  <div class="progress-footer">
+    <div class="progress-bar-bg">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="stats">
+      <span>📊 Completion</span>
+      <span id="progressPercent">0%</span>
+    </div>
+    <div class="message-toast">
+      <div class="alert alert-success" id="successMsg">🎉 Perfect! All answers correct! 🎉</div>
+      <div class="alert alert-error" id="errorMsg">⚠️ Some answers are incorrect. Try again! ⚠️</div>
+    </div>
+    <div class="action-buttons">
+      <button class="btn btn-primary" id="checkBtn">✅ Check</button>
+      <button class="btn btn-warning" id="hintBtn">💡 Hint</button>
+      <button class="btn btn-danger" id="resetBtn">🔄 Reset</button>
+      <button class="btn btn-success" id="solutionBtn">🔍 Solution</button>
+    </div>
+  </div>
+  <footer>Tap a gap → pick a phrase. Tap filled gap to remove.</footer>
+</div>
+
+<!-- Modal for mobile word selection -->
+<div class="modal-overlay" id="wordModal">
+  <div class="word-picker-modal">
+    <div class="modal-header">
+      <span>📖 Choose an expression</span>
+      <button class="close-modal" id="closeModalBtn">&times;</button>
+    </div>
+    <div class="modal-words-grid" id="modalWordsGrid"></div>
+  </div>
+</div>
+
+<script>
+  // ----- DATA (idioms from screenshot) -----
+  const WORDS = ["stinks", "run out of breath", "take a toll", "like a glove", "itchy feet", "24/7", "don't get it", "sick of"];
+  
+  const SENTENCES = [
+    { text: "During exams, the school library is open ______.", correct: "24/7" },
+    { text: "I'm ______ washing dishes. I need a new job!", correct: "sick of" },
+    { text: "Sometimes I ______ when I'm at the gym.", correct: "run out of breath" },
+    { text: "Working long hours can really ______.", correct: "take a toll" },
+    { text: "My laptop fits into my bag ______.", correct: "like a glove" },
+    { text: "Charles gets ______ when he stays in one place too long.", correct: "itchy feet" },
+    { text: "Ann wants to do well, but she never comes to class. I ______.", correct: "don't get it" },
+    { text: "I never get picked for the football team. It ______ !", correct: "stinks" }
+  ];
+
+  // DOM elements
+  let wordBankDiv = document.getElementById('wordBankContainer');
+  let sentencesContainer = document.getElementById('sentencesList');
+  let progressFill = document.getElementById('progressFill');
+  let progressPercentSpan = document.getElementById('progressPercent');
+  let successMsgDiv = document.getElementById('successMsg');
+  let errorMsgDiv = document.getElementById('errorMsg');
+  let checkBtn = document.getElementById('checkBtn');
+  let hintBtn = document.getElementById('hintBtn');
+  let resetBtn = document.getElementById('resetBtn');
+  let solutionBtn = document.getElementById('solutionBtn');
+
+  // Modal elements
+  let modalOverlay = document.getElementById('wordModal');
+  let modalWordsGrid = document.getElementById('modalWordsGrid');
+  let closeModalBtn = document.getElementById('closeModalBtn');
+
+  // App state
+  let gaps = [];            // array of { element, sentenceIndex, currentValue (string or null) }
+  let wordStatus = {};      // track usage: { "24/7": false, ... }
+  let filledCount = 0;
+  let checkedFlag = false;
+  let currentActiveGapIndex = null;   // which gap is waiting for a word from modal
+
+  // Helper: update progress bar
+  function updateProgressUI() {
+    let percent = (filledCount / SENTENCES.length) * 100;
+    progressFill.style.width = `${percent}%`;
+    progressPercentSpan.innerText = `${Math.round(percent)}%`;
+  }
+
+  // Update word bank tiles (visual used state)
+  function refreshWordBankUI() {
+    const tiles = document.querySelectorAll('.word-tile');
+    tiles.forEach(tile => {
+      const word = tile.getAttribute('data-word');
+      if (wordStatus[word]) {
+        tile.classList.add('used-tile');
+      } else {
+        tile.classList.remove('used-tile');
+      }
+    });
+    // Also refresh modal grid if open (dynamic)
+    if (modalOverlay.style.display === 'flex') {
+      populateModalGrid();
+    }
+  }
+
+  // Mark a word as used/unused in global status
+  function setWordUsed(word, isUsed) {
+    if (isUsed) {
+      wordStatus[word] = true;
+    } else {
+      wordStatus[word] = false;
+    }
+    refreshWordBankUI();
+  }
+
+  // Fill a specific gap (by index) with a word
+  function fillGapByIndex(gapIndex, word) {
+    if (!word || wordStatus[word]) return false; // word not available
+    const gapObj = gaps[gapIndex];
+    if (!gapObj) return false;
+    // if gap already filled, free it first (to avoid double fill)
+    if (gapObj.currentValue !== null) {
+      freeGapByIndex(gapIndex);
+    }
+    // assign word
+    gapObj.currentValue = word;
+    gapObj.element.textContent = word;
+    gapObj.element.classList.add('filled-gap');
+    gapObj.element.classList.remove('correct-gap', 'incorrect-gap');
+    filledCount++;
+    updateProgressUI();
+    setWordUsed(word, true);
+    
+    // remove check styles if previously checked
+    if (checkedFlag) {
+      gapObj.element.classList.remove('correct-gap', 'incorrect-gap');
+      checkedFlag = false;
+      successMsgDiv.style.display = 'none';
+      errorMsgDiv.style.display = 'none';
+    }
+    
+    // auto-check when all filled
+    if (filledCount === SENTENCES.length) {
+      checkAllAnswers();
+    }
+    return true;
+  }
+
+  // Free a gap by index
+  function freeGapByIndex(gapIndex) {
+    const gapObj = gaps[gapIndex];
+    if (!gapObj || gapObj.currentValue === null) return;
+    const oldWord = gapObj.currentValue;
+    gapObj.currentValue = null;
+    gapObj.element.textContent = '';
+    gapObj.element.classList.remove('filled-gap', 'correct-gap', 'incorrect-gap');
+    filledCount--;
+    updateProgressUI();
+    setWordUsed(oldWord, false);
+    if (checkedFlag) {
+      gapObj.element.classList.remove('correct-gap', 'incorrect-gap');
+      checkedFlag = false;
+      successMsgDiv.style.display = 'none';
+      errorMsgDiv.style.display = 'none';
+    }
+  }
+
+  // Check all answers
+  function checkAllAnswers() {
+    let allCorrect = true;
+    for (let i = 0; i < gaps.length; i++) {
+      const gapObj = gaps[i];
+      const userVal = gapObj.currentValue;
+      const correctVal = SENTENCES[i].correct;
+      if (userVal === correctVal) {
+        gapObj.element.classList.add('correct-gap');
+        gapObj.element.classList.remove('incorrect-gap');
+      } else {
+        gapObj.element.classList.add('incorrect-gap');
+        gapObj.element.classList.remove('correct-gap');
+        allCorrect = false;
+      }
+    }
+    checkedFlag = true;
+    if (allCorrect) {
+      successMsgDiv.style.display = 'block';
+      errorMsgDiv.style.display = 'none';
+    } else {
+      successMsgDiv.style.display = 'none';
+      errorMsgDiv.style.display = 'block';
+    }
+  }
+
+  // Reset entire exercise
+  function resetExercise() {
+    for (let i = 0; i < gaps.length; i++) {
+      const gapObj = gaps[i];
+      if (gapObj.currentValue !== null) {
+        const oldWord = gapObj.currentValue;
+        gapObj.currentValue = null;
+        gapObj.element.textContent = '';
+        gapObj.element.classList.remove('filled-gap', 'correct-gap', 'incorrect-gap');
+        setWordUsed(oldWord, false);
+      } else {
+        gapObj.element.classList.remove('correct-gap', 'incorrect-gap', 'filled-gap');
+      }
+    }
+    filledCount = 0;
+    updateProgressUI();
+    checkedFlag = false;
+    successMsgDiv.style.display = 'none';
+    errorMsgDiv.style.display = 'none';
+    // reset word status completely
+    WORDS.forEach(w => { wordStatus[w] = false; });
+    refreshWordBankUI();
+  }
+
+  // Show solution
+  function showSolution() {
+    resetExercise();  // clean first
+    for (let i = 0; i < gaps.length; i++) {
+      const correctVal = SENTENCES[i].correct;
+      if (!wordStatus[correctVal]) {
+        fillGapByIndex(i, correctVal);
+      }
+    }
+    // force final check
+    checkAllAnswers();
+  }
+
+  // Hint: find first empty or incorrect gap
+  function giveHint() {
+    let targetIdx = -1;
+    for (let i = 0; i < gaps.length; i++) {
+      const g = gaps[i];
+      if (g.currentValue === null || (g.currentValue !== SENTENCES[i].correct && g.currentValue !== null)) {
+        targetIdx = i;
+        break;
+      }
+    }
+    if (targetIdx === -1) {
+      alert("✨ All answers are perfect! ✨");
+      return;
+    }
+    const correctWord = SENTENCES[targetIdx].correct;
+    alert(`💡 Hint for sentence ${targetIdx+1}: correct expression is “${correctWord}”.`);
+    // highlight gap briefly
+    const el = gaps[targetIdx].element;
+    el.style.transform = 'scale(1.02)';
+    el.style.transition = '0.1s';
+    setTimeout(() => { el.style.transform = ''; }, 500);
+  }
+
+  // ---------- MODAL LOGIC ----------
+  function openModalForGap(gapIndex) {
+    currentActiveGapIndex = gapIndex;
+    populateModalGrid();
+    modalOverlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modalOverlay.style.display = 'none';
+    document.body.style.overflow = '';
+    currentActiveGapIndex = null;
+  }
+
+  function populateModalGrid() {
+    modalWordsGrid.innerHTML = '';
+    WORDS.forEach(word => {
+      const isUsed = wordStatus[word];
+      const wordDiv = document.createElement('div');
+      wordDiv.className = 'modal-word';
+      if (isUsed) wordDiv.classList.add('used-modal');
+      wordDiv.textContent = word;
+      wordDiv.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (isUsed) {
+          alert("This phrase is already used. Remove it from a gap first.");
+          return;
+        }
+        if (currentActiveGapIndex !== null) {
+          fillGapByIndex(currentActiveGapIndex, word);
+          closeModal();
+        }
+      });
+      modalWordsGrid.appendChild(wordDiv);
+    });
+  }
+
+  // Handle gap click (mobile/desktop unified)
+  function onGapTap(gapIndex) {
+    const gapObj = gaps[gapIndex];
+    if (gapObj.currentValue !== null) {
+      // filled gap: remove it (free)
+      freeGapByIndex(gapIndex);
+      if (checkedFlag) {
+        // re-hide messages after removal
+        successMsgDiv.style.display = 'none';
+        errorMsgDiv.style.display = 'none';
+        checkedFlag = false;
+      }
+    } else {
+      // empty gap: open modal to select word
+      openModalForGap(gapIndex);
+    }
+  }
+
+  // ---------- BUILD UI ----------
+  function buildUI() {
+    // build word bank (tappable tiles) but they also allow selection? we also use modal, but tiles can act as alternative: on tile click fill first empty gap? but to be consistent with modal approach, we keep tile click -> fill the first unfilled gap (optional). However to keep true to original requirement: tap word → then tap gap? but we use simpler: gap opens modal, that is most mobile friendly.
+    // For better experience: word bank tiles also trigger fill for first empty gap (optional helper)
+    wordBankDiv.innerHTML = '';
+    WORDS.forEach(word => {
+      const tile = document.createElement('div');
+      tile.className = 'word-tile';
+      tile.textContent = word;
+      tile.setAttribute('data-word', word);
+      tile.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (wordStatus[word]) {
+          alert(`"${word}" is already used. Tap a filled gap to remove it first.`);
+          return;
+        }
+        // find first empty gap and fill automatically (quick helper)
+        const firstEmptyIndex = gaps.findIndex(g => g.currentValue === null);
+        if (firstEmptyIndex !== -1) {
+          fillGapByIndex(firstEmptyIndex, word);
+        } else {
+          alert("All gaps are filled! Reset or remove an answer first.");
+        }
+      });
+      wordBankDiv.appendChild(tile);
+    });
+
+    // build sentences
+    sentencesContainer.innerHTML = '';
+    gaps = [];
+    SENTENCES.forEach((sentenceObj, idx) => {
+      const parts = sentenceObj.text.split('______');
+      const sentenceDiv = document.createElement('div');
+      sentenceDiv.className = 'sentence-card';
+      const textWrapper = document.createElement('div');
+      textWrapper.className = 'sentence-text';
+      
+      // left part
+      if (parts[0]) textWrapper.appendChild(document.createTextNode(parts[0]));
+      // gap button
+      const gapButton = document.createElement('button');
+      gapButton.className = 'gap-btn';
+      gapButton.textContent = '';
+      gapButton.setAttribute('data-idx', idx);
+      gapButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        onGapTap(idx);
+      });
+      textWrapper.appendChild(gapButton);
+      // right part
+      if (parts[1]) textWrapper.appendChild(document.createTextNode(parts[1]));
+      
+      sentenceDiv.appendChild(textWrapper);
+      sentencesContainer.appendChild(sentenceDiv);
+      
+      gaps.push({
+        element: gapButton,
+        sentenceIndex: idx,
+        currentValue: null
+      });
+    });
+    
+    // init word status
+    WORDS.forEach(w => { wordStatus[w] = false; });
+    filledCount = 0;
+    updateProgressUI();
+    refreshWordBankUI();
+    checkedFlag = false;
+    successMsgDiv.style.display = 'none';
+    errorMsgDiv.style.display = 'none';
+  }
+
+  // Modal close events
+  function bindModalEvents() {
+    closeModalBtn.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) closeModal();
+    });
+  }
+
+  // Buttons
+  function bindControls() {
+    checkBtn.addEventListener('click', checkAllAnswers);
+    hintBtn.addEventListener('click', giveHint);
+    resetBtn.addEventListener('click', resetExercise);
+    solutionBtn.addEventListener('click', showSolution);
+  }
+
+  // init
+  function init() {
+    buildUI();
+    bindModalEvents();
+    bindControls();
+    // prevent body scroll when modal open
+  }
+
+  init();
+</script>
+</body>
+</html>
