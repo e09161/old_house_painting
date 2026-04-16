@@ -446,7 +446,7 @@
       <button class="btn btn-success" id="solutionBtn">🔍 Solution</button>
     </div>
   </div>
-  <footer>💡 Tip: bored = I feel it | boring = the movie makes me feel it</footer>
+  <footer>💡 Tip: annoyed = I feel it | annoying = the situation makes me feel it</footer>
 </div>
 
 <div class="modal-overlay" id="wordModal">
@@ -460,26 +460,27 @@
 </div>
 
 <script>
-  // ----- -ed / -ing ADJECTIVES DATA -----
+  // ----- CORRECTED -ed / -ing ADJECTIVES DATA (balanced usage) -----
   const WORDS = [
-    "bored", "boring",
-    "tired", "tiring",
-    "excited", "exciting",
-    "frightened", "frightening",
-    "interested", "interesting"
+    "annoyed", "annoying",
+    "confused", "confusing",
+    "disappointed", "disappointing",
+    "surprised", "surprising",
+    "worried", "worrying"
   ];
   
+  // Each word is used exactly once — no duplicates
   const SENTENCES = [
-    { text: "I have nothing to do all day. I feel so ______.", correct: "bored" },
-    { text: "That documentary about space was absolutely ______.", correct: "interesting" },
-    { text: "Working 12 hours straight is extremely ______.", correct: "tiring" },
-    { text: "She was ______ about her birthday party all week.", correct: "excited" },
-    { text: "The loud thunder made the little dog ______.", correct: "frightened" },
-    { text: "The magician's final trick was truly ______.", correct: "exciting" },
-    { text: "He felt ______ when his favorite team lost the final.", correct: "frightened" },
-    { text: "Long-distance running can be very ______ if you're not fit.", correct: "tiring" },
-    { text: "I'm really ______ in learning Japanese these days.", correct: "interested" },
-    { text: "The lecture was so ______ that three people fell asleep.", correct: "boring" }
+    { text: "My little brother kept interrupting me. I was so ______.", correct: "annoyed" },
+    { text: "The instructions for this game are ______. Nobody understands them.", correct: "confusing" },
+    { text: "The movie had a ______ twist at the end that nobody expected.", correct: "surprising" },
+    { text: "She felt ______ when she got only 50% on the exam after studying hard.", correct: "disappointed" },
+    { text: "The news about the storm is very ______. Many families are preparing to leave.", correct: "worrying" },
+    { text: "He was ______ to see his old friend at the airport after ten years.", correct: "surprised" },
+    { text: "I was so ______ by the new teacher's fast explanations that I couldn't take notes.", correct: "confused" },
+    { text: "I'm ______ about the interview tomorrow. I hope I do well.", correct: "worried" },
+    { text: "The constant barking from next door is so ______. I can't focus.", correct: "annoying" },
+    { text: "The bus being completely full after waiting an hour was deeply ______.", correct: "disappointing" }
   ];
 
   // DOM elements
