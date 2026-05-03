@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>any- vs no- · indefinite pronouns</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f5f0e7 0%, #e7ddd0 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    .grammar-card {
+      background: #ffffff;
+      border-radius: 40px;
+      box-shadow: 0 30px 45px -20px rgba(0, 0, 0, 0.25);
+      width: 100%;
+      max-width: 950px;
+      overflow: hidden;
+      border: 1px solid rgba(168, 145, 112, 0.15);
+    }
+
+    .card-header {
+      background: #4e3e2e;
+      background-image: linear-gradient(125deg, #5e4b32 0%, #3a2e20 100%);
+      padding: 32px 28px;
+      text-align: center;
+      color: #f7efe2;
+    }
+
+    .card-header h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .card-header h1 span {
+      background: rgba(255, 255, 240, 0.15);
+      padding: 4px 18px;
+      border-radius: 60px;
+      font-size: 1.8rem;
+    }
+
+    .card-header p {
+      font-weight: 500;
+      color: #d6c8b7;
+      font-size: 1rem;
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .info-bar {
+      background: #fefaf2;
+      padding: 14px 28px;
+      border-bottom: 1px solid #e7dacb;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      font-size: 0.9rem;
+      color: #5c4632;
+      font-weight: 500;
+    }
+
+    .badge {
+      background: #8b6f4c;
+      color: #fff8ec;
+      padding: 5px 18px;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    .shuffle-note {
+      background: #ede3d6;
+      color: #4e3b28;
+      padding: 5px 18px;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .exercise-area {
+      padding: 30px 32px 34px;
+      background: #fffdf9;
+    }
+
+    .sentence-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    .sentence-card {
+      background: #ffffff;
+      border: 1px solid #e2d7c7;
+      border-radius: 28px;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+      background: #fffcf7;
+    }
+
+    .sentence-card:hover {
+      border-color: #c8b295;
+      background: #ffffff;
+    }
+
+    .sentence-content {
+      padding: 18px 24px;
+      font-size: 1.08rem;
+      line-height: 1.6;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px 14px;
+      color: #30281e;
+    }
+
+    .sentence-text {
+      font-weight: 500;
+      color: #3d3224;
+    }
+
+    .answer-select {
+      margin: 0 5px;
+      padding: 10px 34px 10px 18px;
+      border-radius: 50px;
+      border: 2px solid #dacbbc;
+      background-color: white;
+      font-weight: 600;
+      font-family: 'Inter', monospace;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      appearance: none;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23876b4f' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      min-width: 150px;
+      background-color: #fefefe;
+    }
+
+    .answer-select:focus {
+      outline: none;
+      border-color: #b39264;
+      box-shadow: 0 0 0 3px rgba(179, 146, 100, 0.25);
+    }
+
+    .answer-select.correct-style {
+      border-color: #3d7840;
+      background-color: #ecf7ec;
+    }
+
+    .answer-select.wrong-style {
+      border-color: #c95b4b;
+      background-color: #fff3f1;
+    }
+
+    .sentence-card.correct-card {
+      border-left: 6px solid #3d7840;
+      background: #f9fdf9;
+    }
+
+    .sentence-card.wrong-card {
+      border-left: 6px solid #c95b4b;
+      background: #fffaf9;
+    }
+
+    .progress-wrapper {
+      margin: 15px 0 22px;
+    }
+
+    .progress-bar-bg {
+      height: 10px;
+      background: #ede3d4;
+      border-radius: 30px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #a58351, #6b5a3e);
+      width: 0%;
+      border-radius: 30px;
+      transition: width 0.35s ease;
+    }
+
+    .progress-stats {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #6b5a42;
+    }
+
+    .message-panel {
+      margin: 18px 0 16px;
+      padding: 14px 22px;
+      border-radius: 80px;
+      text-align: center;
+      font-weight: 600;
+      display: none;
+      background: #fcf9f2;
+      border: 1px solid #ddd0bb;
+    }
+
+    .message-success {
+      background: #e6f0e3;
+      color: #2b5e2f;
+      border: 1px solid #bcd9b7;
+    }
+
+    .message-error {
+      background: #fdede9;
+      color: #b34433;
+      border: 1px solid #f4cdc4;
+    }
+
+    .action-group {
+      display: flex;
+      gap: 18px;
+      justify-content: center;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 32px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s;
+      letter-spacing: 0.3px;
+      background: white;
+    }
+
+    .btn-check {
+      background: #5b4a33;
+      color: #fbf6ec;
+      box-shadow: 0 8px 16px -6px rgba(90, 70, 40, 0.3);
+      border: 1px solid #7a6447;
+    }
+
+    .btn-check:hover {
+      background: #6f5c42;
+      transform: translateY(-2px);
+      box-shadow: 0 14px 20px -10px rgba(75, 55, 30, 0.35);
+    }
+
+    .btn-reset {
+      background: #f6f1e8;
+      border: 1px solid #cfc0a8;
+      color: #4d3c28;
+    }
+
+    .btn-reset:hover {
+      background: #ede3d3;
+      border-color: #b39c7a;
+    }
+
+    footer {
+      background: #fcf8f0;
+      border-top: 1px solid #e7dacb;
+      text-align: center;
+      padding: 16px 20px;
+      font-size: 0.8rem;
+      color: #7f6e58;
+      font-weight: 500;
+    }
+
+    @media (max-width: 650px) {
+      .exercise-area {
+        padding: 22px;
+      }
+      .sentence-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      .answer-select {
+        width: 100%;
+        margin-left: 0;
+      }
+      .card-header h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="grammar-card">
+  <div class="card-header">
+    <h1>
+      <span>any-</span>  vs  <span>no-</span>
+    </h1>
+    <p>anybody / anyone · anywhere · anything &nbsp;&nbsp;🆚&nbsp;&nbsp; nobody / no one · nowhere · nothing</p>
+  </div>
+  <div class="info-bar">
+    <span>🧩 <strong>any-</strong> = negative / questions / offers &nbsp;|&nbsp; <strong>no-</strong> = complete absence</span>
+    <span class="shuffle-note">🔄 choices shuffled each attempt</span>
+  </div>
+
+  <div class="exercise-area">
+    <div class="sentence-grid" id="sentencesList"></div>
+
+    <div class="progress-wrapper">
+      <div class="progress-bar-bg">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-stats">
+        <span>📌 answered</span>
+        <span id="progressPercent">0%</span>
+      </div>
+    </div>
+
+    <div id="globalMessage" class="message-panel"></div>
+
+    <div class="action-group">
+      <button class="btn btn-check" id="checkBtn">✓ check answers</button>
+      <button class="btn btn-reset" id="resetBtn">↺ new order</button>
+    </div>
+  </div>
+  <footer>
+    💡 any- often appears in negatives / questions — no- gives a negative meaning to the verb
+  </footer>
+</div>
+
+<script>
+  (function() {
+    // ----- EXERCISE DATA : any- vs no- (people, places, things) -----
+    const sentencesData = [
+      {
+        id: 1,
+        options: ["anybody", "nobody", "anywhere"],
+        correct: "anybody",
+        fullText: "I didn't see _____ at the bus stop. It was completely empty."
+      },
+      {
+        id: 2,
+        options: ["nothing", "anything", "nowhere"],
+        correct: "nothing",
+        fullText: "There is _____ in this box. It's completely empty."
+      },
+      {
+        id: 3,
+        options: ["anywhere", "nowhere", "anything"],
+        correct: "anywhere",
+        fullText: "Do you want to go _____ this weekend, or stay home?"
+      },
+      {
+        id: 4,
+        options: ["nobody", "anybody", "nothing"],
+        correct: "nobody",
+        fullText: "_____ knows the answer to that question. It's a mystery."
+      },
+      {
+        id: 5,
+        options: ["anything", "nothing", "anybody"],
+        correct: "anything",
+        fullText: "Is there _____ I can do to help you with the project?"
+      },
+      {
+        id: 6,
+        options: ["nowhere", "anywhere", "nothing"],
+        correct: "nowhere",
+        fullText: "I looked for my glasses _____. They've completely disappeared."
+      },
+      {
+        id: 7,
+        options: ["no one", "anyone", "someone"],
+        correct: "anyone",
+        fullText: "I don't think _____ will arrive before 8 p.m. because of the traffic."
+      },
+      {
+        id: 8,
+        options: ["nothing", "anything", "nowhere"],
+        correct: "anything",
+        fullText: "She didn't say _____ during the meeting. She was very quiet."
+      },
+      {
+        id: 9,
+        options: ["anywhere", "nowhere", "anything"],
+        correct: "nowhere",
+        fullText: "This road leads _____. We'll have to turn back."
+      },
+      {
+        id: 10,
+        options: ["nobody", "anybody", "nothing"],
+        correct: "anybody",
+        fullText: "Would _____ like a cup of tea? I'm making some."
+      },
+      {
+        id: 11,
+        options: ["anything", "nothing", "anybody"],
+        correct: "nothing",
+        fullText: "He bought _____ at the store because he forgot his wallet."
+      },
+      {
+        id: 12,
+        options: ["nowhere", "anywhere", "nothing"],
+        correct: "anywhere",
+        fullText: "You can't go _____ without your ID. It's mandatory."
+      }
+    ];
+
+    // ----- state variables -----
+    let currentSentences = [];            // sentences with shuffled options
+    let selectElements = [];             // all <select> elements
+    let correctAnswerMap = new Map();    // select.id -> correct answer
+
+    // ----- utility: shuffle (Fisher–Yates) -----
+    function shuffleArray(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // ----- build fresh sentence data with shuffled options -----
+    function buildShuffledSentences() {
+      currentSentences = sentencesData.map(item => {
+        const shuffledOptions = shuffleArray([...item.options]);
+        return {
+          ...item,
+          options: shuffledOptions
+        };
+      });
+    }
+
+    // ----- generate <option> html -----
+    function generateOptionTags(optionsArray) {
+      let html = '<option value="">— choose —</option>';
+      optionsArray.forEach(opt => {
+        // capitalize first letter for display
+        const displayText = opt.charAt(0).toUpperCase() + opt.slice(1);
+        html += `<option value="${opt}">${displayText}</option>`;
+      });
+      return html;
+    }
+
+    // ----- clear all individual card highlights and message -----
+    function clearHighlightsAndMessage() {
+      selectElements.forEach(select => {
+        select.classList.remove('correct-style', 'wrong-style');
+        const card = select.closest('.sentence-card');
+        if (card) {
+          card.classList.remove('correct-card', 'wrong-card');
+        }
+      });
+      const msgDiv = document.getElementById('globalMessage');
+      if (msgDiv) {
+        msgDiv.style.display = 'none';
+        msgDiv.classList.remove('message-success', 'message-error');
+      }
+    }
+
+    // ----- update progress bar and percent -----
+    function updateProgress() {
+      let answeredCount = 0;
+      selectElements.forEach(select => {
+        if (select.value && select.value.trim() !== '') {
+          answeredCount++;
+        }
+      });
+      const total = selectElements.length;
+      const percent = total === 0 ? 0 : Math.round((answeredCount / total) * 100);
+      
+      const fillBar = document.getElementById('progressFill');
+      const percentSpan = document.getElementById('progressPercent');
+      if (fillBar) fillBar.style.width = percent + '%';
+      if (percentSpan) percentSpan.textContent = percent + '%';
+    }
+
+    // ----- render all sentences into DOM -----
+    function renderExercise() {
+      const container = document.getElementById('sentencesList');
+      if (!container) return;
+      container.innerHTML = '';
+      
+      // reset state arrays
+      selectElements = [];
+      correctAnswerMap.clear();
+
+      // ensure we have shuffled data
+      buildShuffledSentences();
+
+      currentSentences.forEach((item) => {
+        // create unique select id
+        const selectId = `sel_${item.id}_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
+        correctAnswerMap.set(selectId, item.correct);
+
+        // create card
+        const cardDiv = document.createElement('div');
+        cardDiv.className = 'sentence-card';
+        cardDiv.setAttribute('data-sentence-id', item.id);
+
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'sentence-content';
+
+        // split sentence at _____
+        const parts = item.fullText.split('_____');
+        let innerHtml = '';
+        if (parts.length === 2) {
+          innerHtml = `
+            <span class="sentence-text">${parts[0]}</span>
+            <select id="${selectId}" class="answer-select">${generateOptionTags(item.options)}</select>
+            <span class="sentence-text">${parts[1]}</span>
+          `;
+        } else {
+          // fallback if no placeholder (should not happen)
+          innerHtml = `
+            <span class="sentence-text">${item.fullText}</span>
+            <select id="${selectId}" class="answer-select">${generateOptionTags(item.options)}</select>
+          `;
+        }
+
+        contentDiv.innerHTML = innerHtml;
+        cardDiv.appendChild(contentDiv);
+        container.appendChild(cardDiv);
+
+        // get the select element and attach listener
+        const selectElement = document.getElementById(selectId);
+        if (selectElement) {
+          selectElements.push(selectElement);
+          selectElement.addEventListener('change', () => {
+            clearHighlightsAndMessage();
+            updateProgress();
+          });
+        }
+      });
+
+      updateProgress();
+      // ensure message hidden on fresh render
+      const msgDiv = document.getElementById('globalMessage');
+      if (msgDiv) {
+        msgDiv.style.display = 'none';
+        msgDiv.classList.remove('message-success', 'message-error');
+      }
+    }
+
+    // ----- check answers logic -----
+    function checkAnswers() {
+      // remove previous per-item styles
+      selectElements.forEach(select => {
+        select.classList.remove('correct-style', 'wrong-style');
+        const card = select.closest('.sentence-card');
+        if (card) {
+          card.classList.remove('correct-card', 'wrong-card');
+        }
+      });
+
+      let allAnswered = true;
+      let allCorrect = true;
+
+      for (let select of selectElements) {
+        const selectedValue = select.value;
+        const selectId = select.id;
+        const correctValue = correctAnswerMap.get(selectId);
+        const parentCard = select.closest('.sentence-card');
+
+        if (!selectedValue || selectedValue === '') {
+          allAnswered = false;
+          continue;
+        }
+
+        const isCorrect = (selectedValue === correctValue);
+        if (!isCorrect) {
+          allCorrect = false;
+        }
+
+        if (isCorrect) {
+          select.classList.add('correct-style');
+          if (parentCard) parentCard.classList.add('correct-card');
+        } else {
+          select.classList.add('wrong-style');
+          if (parentCard) parentCard.classList.add('wrong-card');
+        }
+      }
+
+      const messageBox = document.getElementById('globalMessage');
+      if (!messageBox) return;
+
+      messageBox.classList.remove('message-success', 'message-error');
+      messageBox.style.display = 'block';
+
+      if (!allAnswered) {
+        messageBox.textContent = '⚠️ Please select an option for every sentence.';
+        messageBox.classList.add('message-error');
+      } else if (allCorrect) {
+        messageBox.textContent = '🎉 Excellent! You really know when to use any- vs no- .';
+        messageBox.classList.add('message-success');
+      } else {
+        messageBox.textContent = '📘 Some answers need review. Remember: any- often in questions/negatives, no- means zero. Try again!';
+        messageBox.classList.add('message-error');
+      }
+    }
+
+    // ----- reset: shuffle options and rebuild fresh selects -----
+    function resetExercise() {
+      // fully rebuild with newly shuffled options
+      renderExercise();
+    }
+
+    // ----- initial setup and event binding -----
+    function init() {
+      renderExercise();
+
+      const checkBtn = document.getElementById('checkBtn');
+      const resetBtn = document.getElementById('resetBtn');
+
+      if (checkBtn) {
+        checkBtn.addEventListener('click', checkAnswers);
+      }
+      if (resetBtn) {
+        resetBtn.addEventListener('click', resetExercise);
+      }
+    }
+
+    // start everything after DOM ready
+    window.addEventListener('DOMContentLoaded', init);
+  })();
+</script>
+</body>
+</html>
