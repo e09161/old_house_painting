@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>Clauses of contrast & purpose · exercise</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f4f2ee;
+      font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 16px 12px 32px;
+      margin: 0;
+    }
+
+    .exercise-card {
+      max-width: 520px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 32px;
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.07), 0 4px 10px rgba(0, 0, 0, 0.02);
+      padding: 22px 18px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    h1 {
+      font-size: 1.7rem;
+      font-weight: 650;
+      color: #27231c;
+      letter-spacing: -0.4px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      line-height: 1.25;
+    }
+    h1 span {
+      background: #e0d6c8;
+      padding: 4px 14px;
+      border-radius: 24px;
+      font-size: 0.9rem;
+      font-weight: 550;
+      color: #5c4832;
+    }
+
+    .grammar-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: -8px;
+    }
+    .tag {
+      background: #f0ebe1;
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #4e4235;
+      letter-spacing: 0.2px;
+    }
+
+    .hint-box {
+      background: #fdfaf5;
+      border-left: 4px solid #b29670;
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-size: 0.88rem;
+      color: #3b3226;
+      margin-bottom: 2px;
+      line-height: 1.55;
+    }
+
+    .question-area {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .q-card {
+      background: #fafaf7;
+      border-radius: 22px;
+      padding: 16px 14px;
+      border: 1px solid #efe6da;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    }
+
+    .sentence {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #2d2923;
+      margin-bottom: 14px;
+      line-height: 1.55;
+      word-break: break-word;
+    }
+    .sentence i {
+      background: #f6ede1;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-style: normal;
+      font-weight: 620;
+      color: #806845;
+    }
+
+    .choices {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .choice-btn {
+      flex: 1 1 auto;
+      min-width: 85px;
+      background: white;
+      border: 1.5px solid #e2d9cc;
+      border-radius: 30px;
+      padding: 12px 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #3d3830;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+      background: #ffffff;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .choice-btn.selected {
+      background: #e2d1b8;
+      border-color: #b18c60;
+      color: #2d2216;
+      font-weight: 600;
+      box-shadow: 0 4px 10px rgba(180, 130, 60, 0.2);
+    }
+
+    .choice-btn.correct-mark {
+      background: #c8e4c2;
+      border-color: #5d8c56;
+      color: #1f3b1c;
+    }
+
+    .choice-btn.wrong-mark {
+      background: #f2cecc;
+      border-color: #c45b58;
+      color: #521f1f;
+    }
+
+    .feedback-line {
+      font-size: 0.88rem;
+      min-height: 22px;
+      margin-top: 6px;
+      padding-left: 4px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .feedback-line.correct-fb {
+      color: #2b6b2b;
+    }
+    .feedback-line.error-fb {
+      color: #b13e3e;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: none;
+      background: #f6f0e7;
+      padding: 14px 18px;
+      border-radius: 34px;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #4b3a28;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: 1px solid #d9cdba;
+      transition: 0.2s;
+      flex: 1;
+      background: #faf6ef;
+    }
+
+    .btn-primary {
+      background: #b29670;
+      border: 1px solid #9b7f5c;
+      color: white;
+      font-weight: 600;
+      box-shadow: 0 4px 10px rgba(160, 120, 70, 0.2);
+    }
+
+    .btn-primary:active {
+      background: #9e815c;
+    }
+    .btn:active {
+      background: #e7d8c3;
+    }
+    .btn:disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .progress-panel {
+      background: #f5efe5;
+      border-radius: 24px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 600;
+      color: #4e3e2b;
+    }
+
+    .progress-badge {
+      font-size: 0.95rem;
+      background: white;
+      padding: 5px 14px;
+      border-radius: 20px;
+    }
+
+    hr {
+      border: 0.5px solid #ede2d2;
+      margin: 2px 0;
+    }
+
+    @media (max-width: 380px) {
+      .choices {
+        flex-direction: column;
+      }
+      .choice-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="exercise-card">
+  <h1>
+    ⚖️ contrast & purpose
+    <span>clauses</span>
+  </h1>
+  <div class="grammar-tags">
+    <div class="tag">although / though</div>
+    <div class="tag">despite / in spite of</div>
+    <div class="tag">to / so that / for</div>
+  </div>
+
+  <div class="hint-box">
+    💡 Choose the correct word or phrase. Contrast: although, though, even though, despite, in spite of. Purpose: to, in order to, so that, for, so as not to.
+  </div>
+
+  <div id="questionContainer" class="question-area">
+    <!-- dynamic questions -->
+  </div>
+
+  <div class="controls">
+    <button id="checkBtn" class="btn btn-primary">✅ Check answer</button>
+    <button id="nextBtn" class="btn" disabled>▶️ Next</button>
+  </div>
+
+  <div class="progress-panel">
+    <span>📊 Your progress</span>
+    <span class="progress-badge" id="scoreDisplay">0 / 0</span>
+  </div>
+  <div style="font-size:0.78rem; color:#8b7a64; text-align:center; margin-top:2px;">
+    Tap an option · check · next
+  </div>
+</div>
+
+<script>
+  (() => {
+    // Exercise data – clauses of contrast and purpose
+    const questions = [
+      {
+        sentence: "______ the advert said it would last for years, my dishwasher broke down after two months.",
+        options: ["Although", "Despite", "So that"],
+        correct: 0,
+        explanation: "'Although' introduces a contrast clause (similar to 'though')."
+      },
+      {
+        sentence: "My dishwasher broke down again, ______ I'd had it repaired the week before.",
+        options: ["even though", "despite", "in order to"],
+        correct: 0,
+        explanation: "'Even though' expresses a strong, surprising contrast."
+      },
+      {
+        sentence: "______ her age, my mother is still very active.",
+        options: ["In spite of", "Although", "So that"],
+        correct: 0,
+        explanation: "'In spite of' is followed by a noun (her age)."
+      },
+      {
+        sentence: "______ being 85, my mother is still very active.",
+        options: ["Despite", "Although", "Because"],
+        correct: 0,
+        explanation: "'Despite' + -ing form (being). Never 'despite of'."
+      },
+      {
+        sentence: "I went to the bank ______ get a loan.",
+        options: ["to", "for", "so that"],
+        correct: 0,
+        explanation: "'to' + infinitive expresses purpose."
+      },
+      {
+        sentence: "I went to the bank ______ a meeting with my bank manager.",
+        options: ["for", "to", "so that"],
+        correct: 0,
+        explanation: "'for' + noun (a meeting) expresses purpose."
+      },
+      {
+        sentence: "I went to the bank ______ I could talk to the manager in person.",
+        options: ["so that", "to", "for"],
+        correct: 0,
+        explanation: "'so that' + subject + modal verb (could) for purpose."
+      },
+      {
+        sentence: "I wrote down what he said ______ forget it.",
+        options: ["so as not to", "to not", "not to"],
+        correct: 0,
+        explanation: "Negative purpose: 'so as not to' (or 'in order not to')."
+      },
+      {
+        sentence: "We bought a new car ______ the children would have more space.",
+        options: ["so that", "to", "for"],
+        correct: 0,
+        explanation: "Change of subject → 'so that' + subject + would."
+      },
+      {
+        sentence: "My dishwasher has never broken down. I hardly ever use it, ______.",
+        options: ["though", "although", "despite"],
+        correct: 0,
+        explanation: "'though' as an adverb at the end of a sentence (means 'however')."
+      }
+    ];
+
+    let currentIndex = 0;
+    let selectedOption = null;
+    let isSubmitted = false;
+    let score = 0;
+    let answeredTotal = 0;
+
+    const container = document.getElementById('questionContainer');
+    const checkBtn = document.getElementById('checkBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const scoreDisplay = document.getElementById('scoreDisplay');
+
+    function updateScoreText() {
+      scoreDisplay.textContent = `${score} / ${answeredTotal}`;
+    }
+
+    function enableCheckIfReady() {
+      if (isSubmitted) {
+        checkBtn.disabled = true;
+      } else {
+        checkBtn.disabled = (selectedOption === null);
+      }
+    }
+
+    function resetForNext() {
+      selectedOption = null;
+      isSubmitted = false;
+      nextBtn.disabled = true;
+    }
+
+    function renderQuestion() {
+      const q = questions[currentIndex];
+      if (!q) return;
+
+      let html = `
+        <div class="q-card" data-qindex="${currentIndex}">
+          <div class="sentence">${q.sentence.replace(/______/g, '<i>______</i>')}</div>
+          <div class="choices" id="choicesContainer">
+      `;
+
+      q.options.forEach((opt, idx) => {
+        let btnClass = 'choice-btn';
+        if (isSubmitted) {
+          if (idx === q.correct) {
+            btnClass += ' correct-mark';
+          } else if (idx === selectedOption && idx !== q.correct) {
+            btnClass += ' wrong-mark';
+          }
+        } else {
+          if (idx === selectedOption) {
+            btnClass += ' selected';
+          }
+        }
+        html += `<button class="${btnClass}" data-optindex="${idx}">${opt}</button>`;
+      });
+
+      html += `</div>`;
+      html += `<div class="feedback-line" id="feedbackMsg"></div>`;
+      html += `</div>`;
+
+      container.innerHTML = html;
+
+      document.querySelectorAll('.choice-btn').forEach(btn => {
+        btn.addEventListener('click', choiceHandler);
+      });
+
+      if (isSubmitted && questions[currentIndex]) {
+        const fbEl = document.getElementById('feedbackMsg');
+        if (fbEl) {
+          const currentQ = questions[currentIndex];
+          const correct = (selectedOption === currentQ.correct);
+          fbEl.textContent = correct ? '✓ Correct! ' + currentQ.explanation : '✗ Not quite. ' + currentQ.explanation;
+          fbEl.className = 'feedback-line ' + (correct ? 'correct-fb' : 'error-fb');
+        }
+      }
+
+      enableCheckIfReady();
+      nextBtn.disabled = !isSubmitted;
+    }
+
+    function choiceHandler(e) {
+      const btn = e.currentTarget;
+      const optIndex = parseInt(btn.getAttribute('data-optindex'), 10);
+      if (isSubmitted) return;
+
+      selectedOption = optIndex;
+
+      document.querySelectorAll('.choice-btn').forEach((b, idx) => {
+        b.classList.remove('selected');
+        if (idx === optIndex) {
+          b.classList.add('selected');
+        }
+      });
+
+      enableCheckIfReady();
+    }
+
+    function handleCheck() {
+      if (isSubmitted || selectedOption === null) return;
+
+      const q = questions[currentIndex];
+      const isCorrect = (selectedOption === q.correct);
+
+      if (!isSubmitted) {
+        answeredTotal++;
+        if (isCorrect) score++;
+        updateScoreText();
+      }
+
+      isSubmitted = true;
+      renderQuestion();
+      nextBtn.disabled = false;
+      checkBtn.disabled = true;
+    }
+
+    function handleNext() {
+      if (!isSubmitted) return;
+
+      if (currentIndex < questions.length - 1) {
+        currentIndex++;
+      } else {
+        currentIndex = 0;
+      }
+
+      resetForNext();
+      renderQuestion();
+      enableCheckIfReady();
+    }
+
+    function init() {
+      currentIndex = 0;
+      score = 0;
+      answeredTotal = 0;
+      selectedOption = null;
+      isSubmitted = false;
+      updateScoreText();
+      resetForNext();
+      renderQuestion();
+      checkBtn.disabled = true;
+      nextBtn.disabled = true;
+    }
+
+    checkBtn.addEventListener('click', handleCheck);
+    nextBtn.addEventListener('click', handleNext);
+
+    init();
+  })();
+</script>
+</body>
+</html>
