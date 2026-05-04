@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>Time sequencers & connectors · English exercise</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f5f3f0;
+      font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 16px 12px 32px;
+      margin: 0;
+    }
+
+    .exercise-card {
+      max-width: 480px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 32px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.02);
+      padding: 20px 18px 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #2c2416;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 2px;
+      line-height: 1.2;
+    }
+    h1 span {
+      background: #fae7cb;
+      padding: 4px 12px;
+      border-radius: 24px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #7b5e3b;
+      letter-spacing: 0.3px;
+    }
+
+    .grammar-badge {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: -6px;
+    }
+    .badge {
+      background: #f0ede7;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #4f4637;
+    }
+
+    .instructions {
+      background: #fefaf5;
+      border-left: 4px solid #d4a373;
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-size: 0.9rem;
+      color: #3d3226;
+      margin-bottom: 2px;
+    }
+
+    .question-box {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .q-item {
+      background: #fafaf8;
+      border-radius: 20px;
+      padding: 16px 14px;
+      border: 1px solid #f0e8dd;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+      transition: border 0.2s;
+    }
+
+    .q-text {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #2d2a24;
+      margin-bottom: 12px;
+      line-height: 1.5;
+      word-break: break-word;
+    }
+    .q-text i {
+      background: #f6ede4;
+      padding: 2px 6px;
+      border-radius: 8px;
+      font-style: normal;
+      font-weight: 600;
+      color: #8b6f4c;
+    }
+
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .option-btn {
+      flex: 1 1 auto;
+      min-width: 70px;
+      background: white;
+      border: 1.5px solid #e2d9cd;
+      border-radius: 30px;
+      padding: 12px 8px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #3e3a33;
+      background: #ffffff;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+
+    .option-btn.selected {
+      background: #e7d7bd;
+      border-color: #b29063;
+      color: #2f2416;
+      font-weight: 600;
+      box-shadow: 0 4px 8px rgba(180, 130, 60, 0.2);
+    }
+
+    .option-btn.correct-highlight {
+      background: #c7e5c1;
+      border-color: #5b8c5a;
+      color: #1f3b1c;
+    }
+
+    .option-btn.wrong-flash {
+      background: #f4cfce;
+      border-color: #c95b5b;
+      color: #521f1f;
+    }
+
+    .feedback {
+      font-size: 0.9rem;
+      min-height: 24px;
+      margin-top: 6px;
+      padding-left: 4px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .feedback.correct-msg {
+      color: #2f6b2f;
+    }
+    .feedback.error-msg {
+      color: #b13e3e;
+    }
+
+    .action-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: none;
+      background: #f0e7db;
+      padding: 14px 20px;
+      border-radius: 34px;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #4b3a28;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: #faf5ed;
+      border: 1px solid #dbcebc;
+      transition: 0.2s;
+      flex: 1;
+    }
+
+    .btn-primary {
+      background: #d4a373;
+      border: 1px solid #b5824a;
+      color: white;
+      font-weight: 600;
+      box-shadow: 0 4px 10px rgba(180, 130, 60, 0.25);
+    }
+
+    .btn-primary:active { background: #b17d4b; }
+    .btn:active { background: #e7d8c4; }
+    .btn:disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .score-area {
+      background: #f7f2ea;
+      border-radius: 24px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 600;
+      color: #4f3f2b;
+    }
+
+    .progress {
+      font-size: 0.95rem;
+      background: white;
+      padding: 6px 14px;
+      border-radius: 20px;
+    }
+
+    hr {
+      border: 0.5px solid #ede3d5;
+      margin: 4px 0;
+    }
+
+    @media (max-width: 380px) {
+      .options {
+        flex-direction: column;
+      }
+      .option-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="exercise-card">
+  <h1>
+    ⏳ time sequencers
+    <span>&amp; connectors</span>
+  </h1>
+  <div class="grammar-badge">
+    <div class="badge">then · after that</div>
+    <div class="badge">because / so</div>
+    <div class="badge">but / although</div>
+  </div>
+
+  <div class="instructions">
+    📘 Choose the correct word to complete each sentence. Tap an option, then check answer.
+  </div>
+
+  <div id="questionContainer" class="question-box">
+    <!-- dynamically filled by js -->
+  </div>
+
+  <div class="action-row">
+    <button id="checkBtn" class="btn btn-primary">✅ Check answer</button>
+    <button id="nextBtn" class="btn" disabled>▶️ Next</button>
+  </div>
+
+  <div class="score-area">
+    <span>📊 Your progress</span>
+    <span class="progress" id="scoreDisplay">0 / 0</span>
+  </div>
+  <div style="font-size:0.8rem; color:#8b7a64; text-align:center; margin-top:4px;">
+    Tap Next to continue · instant feedback
+  </div>
+</div>
+
+<script>
+  (function() {
+    // ----- exercise data based on provided notes -----
+    const questions = [
+      {
+        sentence: "On their first date they went to a restaurant. ______ they started meeting every day.",
+        options: ["After that", "Although", "Because"],
+        correct: 0,
+        explanation: "We use 'After that' to link consecutive actions (similar to 'then')."
+      },
+      {
+        sentence: "On Thursday I had an argument with my boss. ______ I decided to look for a new job.",
+        options: ["The next day", "So", "But"],
+        correct: 0,
+        explanation: "'The next day' is a time sequencer telling us when the action happened."
+      },
+      {
+        sentence: "We sat down to eat. Two minutes ______ my phone rang.",
+        options: ["later", "after that", "because"],
+        correct: 0,
+        explanation: "'Two minutes later' is a classic time expression (similar to 'after that')."
+      },
+      {
+        sentence: "She was driving fast ______ she was in a hurry.",
+        options: ["because", "so", "but"],
+        correct: 0,
+        explanation: "'Because' gives a reason: she was in a hurry (reason)."
+      },
+      {
+        sentence: "She was in a hurry, ______ she was driving fast.",
+        options: ["so", "because", "although"],
+        correct: 0,
+        explanation: "'So' expresses a result: being in a hurry → driving fast."
+      },
+      {
+        sentence: "She tried to stop the car, ______ she hit the man.",
+        options: ["but", "so", "because"],
+        correct: 0,
+        explanation: "'But' shows contrast between trying to stop and hitting the man."
+      },
+      {
+        sentence: "______ she tried to stop the car, she hit the man.",
+        options: ["Although", "But", "So"],
+        correct: 0,
+        explanation: "'Although' can start a sentence to show contrast."
+      },
+      {
+        sentence: "I was watching TV ______ the phone rang.",
+        options: ["when", "after that", "so"],
+        correct: 0,
+        explanation: "'When' joins two actions (I was watching TV / phone rang)."
+      }
+    ];
+
+    // state
+    let currentIndex = 0;
+    let selectedOptionIndex = null;       // index of chosen option in current question
+    let answerSubmitted = false;         // whether check was pressed for this question
+    let score = 0;
+    let answersCount = 0;               // how many questions have been answered (for progress)
+
+    // DOM elements
+    const questionContainer = document.getElementById('questionContainer');
+    const checkBtn = document.getElementById('checkBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const scoreDisplay = document.getElementById('scoreDisplay');
+
+    // helper to update score display
+    function updateScoreDisplay() {
+      scoreDisplay.textContent = `${score} / ${answersCount}`;
+    }
+
+    // disable/enable check button based on selection and submission state
+    function updateCheckButtonState() {
+      if (answerSubmitted) {
+        checkBtn.disabled = true;
+      } else {
+        checkBtn.disabled = (selectedOptionIndex === null);
+      }
+    }
+
+    // reset state for new question (keep score/answersCount)
+    function resetForNewQuestion() {
+      selectedOptionIndex = null;
+      answerSubmitted = false;
+      // next button becomes disabled until answer is checked
+      nextBtn.disabled = true;
+    }
+
+    // render current question
+    function renderQuestion() {
+      const q = questions[currentIndex];
+      if (!q) return;
+
+      // build html
+      let html = `
+        <div class="q-item" data-index="${currentIndex}">
+          <div class="q-text">${q.sentence.replace(/______/g, '<i>______</i>')}</div>
+          <div class="options" id="optionsContainer">
+      `;
+
+      q.options.forEach((opt, idx) => {
+        let btnClass = 'option-btn';
+        // if answer submitted, apply correct/wrong styles (but keep selected visible)
+        if (answerSubmitted) {
+          if (idx === q.correct) {
+            btnClass += ' correct-highlight';
+          } else if (idx === selectedOptionIndex && idx !== q.correct) {
+            btnClass += ' wrong-flash';
+          }
+        } else {
+          // normal selection style
+          if (idx === selectedOptionIndex) {
+            btnClass += ' selected';
+          }
+        }
+
+        html += `<button class="${btnClass}" data-option-index="${idx}">${opt}</button>`;
+      });
+
+      html += `</div>`;
+      
+      // feedback area
+      html += `<div class="feedback" id="feedbackMsg"></div>`;
+      html += `</div>`;
+
+      questionContainer.innerHTML = html;
+
+      // attach event listeners to option buttons
+      const optionButtons = document.querySelectorAll('.option-btn');
+      optionButtons.forEach(btn => {
+        btn.addEventListener('click', optionClickHandler);
+      });
+
+      // update feedback if already submitted (restore message)
+      if (answerSubmitted && questions[currentIndex]) {
+        const fb = document.getElementById('feedbackMsg');
+        if (fb) {
+          const qRef = questions[currentIndex];
+          const isCorrect = (selectedOptionIndex === qRef.correct);
+          if (isCorrect) {
+            fb.textContent = '✓ Correct! ' + qRef.explanation;
+            fb.className = 'feedback correct-msg';
+          } else if (selectedOptionIndex !== null) {
+            fb.textContent = '✗ Not quite. ' + qRef.explanation;
+            fb.className = 'feedback error-msg';
+          } else {
+            fb.textContent = '';
+          }
+        }
+      }
+
+      // ensure check/next buttons reflect current state
+      updateCheckButtonState();
+      if (answerSubmitted) {
+        nextBtn.disabled = false;
+      } else {
+        nextBtn.disabled = true;
+      }
+    }
+
+    // option click handler
+    function optionClickHandler(e) {
+      const button = e.currentTarget;
+      const optionIndex = parseInt(button.getAttribute('data-option-index'), 10);
+      
+      // if answer already submitted, prevent changing selection
+      if (answerSubmitted) {
+        return;
+      }
+
+      // update selected option
+      selectedOptionIndex = optionIndex;
+
+      // refresh visual selection without full re-render? We'll quickly update classes
+      const allOptions = document.querySelectorAll('.option-btn');
+      allOptions.forEach((btn, idx) => {
+        btn.classList.remove('selected');
+        if (idx === optionIndex) {
+          btn.classList.add('selected');
+        }
+      });
+
+      // enable check button because we have selection
+      updateCheckButtonState();
+    }
+
+    // check answer logic
+    function handleCheck() {
+      if (answerSubmitted) return;
+      if (selectedOptionIndex === null) {
+        // maybe alert? but button is disabled; just in case
+        return;
+      }
+
+      const q = questions[currentIndex];
+      const isCorrect = (selectedOptionIndex === q.correct);
+      
+      // update score and answersCount only once per question
+      if (!answerSubmitted) {
+        answersCount++;
+        if (isCorrect) {
+          score++;
+        }
+        updateScoreDisplay();
+      }
+
+      // mark submitted
+      answerSubmitted = true;
+      
+      // re-render to show correct/wrong highlights and feedback
+      renderQuestion();
+
+      // enable next button
+      nextBtn.disabled = false;
+      checkBtn.disabled = true;
+    }
+
+    // move to next question
+    function handleNext() {
+      if (!answerSubmitted) {
+        // shouldn't happen because next is disabled, but guard
+        return;
+      }
+
+      // move to next index or wrap around
+      if (currentIndex < questions.length - 1) {
+        currentIndex++;
+      } else {
+        // optional: loop to first question or show completion message?
+        // we'll loop to start for continuous practice
+        currentIndex = 0;
+        // (could also show a small message; but just restart)
+      }
+
+      // reset for new question
+      resetForNewQuestion();
+      renderQuestion();
+      updateCheckButtonState();
+    }
+
+    // initial setup
+    function init() {
+      currentIndex = 0;
+      score = 0;
+      answersCount = 0;
+      selectedOptionIndex = null;
+      answerSubmitted = false;
+      updateScoreDisplay();
+      resetForNewQuestion();
+      renderQuestion();
+      checkBtn.disabled = true;   // nothing selected yet
+      nextBtn.disabled = true;
+    }
+
+    // event listeners for main buttons
+    checkBtn.addEventListener('click', handleCheck);
+    nextBtn.addEventListener('click', handleNext);
+
+    // start everything
+    init();
+
+    // ensure mobile touch friendly
+  })();
+</script>
+</body>
+</html>
