@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>Adverbs & adverbial phrases · position exercise</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f3f1ed;
+      font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 16px 12px 32px;
+      margin: 0;
+    }
+
+    .exercise-card {
+      max-width: 500px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 32px;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.07), 0 4px 10px rgba(0, 0, 0, 0.02);
+      padding: 20px 18px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    h1 {
+      font-size: 1.7rem;
+      font-weight: 650;
+      color: #2b241c;
+      letter-spacing: -0.4px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      line-height: 1.25;
+    }
+    h1 span {
+      background: #e3d9cb;
+      padding: 4px 14px;
+      border-radius: 24px;
+      font-size: 0.9rem;
+      font-weight: 550;
+      color: #5f4a32;
+    }
+
+    .grammar-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: -6px;
+    }
+    .tag {
+      background: #f0ebe1;
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #4e4235;
+      letter-spacing: 0.2px;
+    }
+
+    .hint-box {
+      background: #fefaf4;
+      border-left: 4px solid #c2a27b;
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-size: 0.88rem;
+      color: #3b3226;
+      margin-bottom: 2px;
+      line-height: 1.5;
+    }
+
+    .question-area {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .q-card {
+      background: #fafaf7;
+      border-radius: 22px;
+      padding: 16px 14px;
+      border: 1px solid #efe6da;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    }
+
+    .sentence {
+      font-size: 1.02rem;
+      font-weight: 500;
+      color: #2d2923;
+      margin-bottom: 14px;
+      line-height: 1.55;
+      word-break: break-word;
+    }
+    .sentence i {
+      background: #f7efe3;
+      padding: 2px 7px;
+      border-radius: 10px;
+      font-style: normal;
+      font-weight: 620;
+      color: #8b6f4c;
+      letter-spacing: 0.2px;
+    }
+
+    .choices {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .choice-btn {
+      flex: 1 1 auto;
+      min-width: 80px;
+      background: white;
+      border: 1.5px solid #e2d9cc;
+      border-radius: 30px;
+      padding: 12px 6px;
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: #3d3830;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+      background: #ffffff;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .choice-btn.selected {
+      background: #e3d2bb;
+      border-color: #b59065;
+      color: #2d2216;
+      font-weight: 600;
+      box-shadow: 0 4px 10px rgba(180, 130, 60, 0.2);
+    }
+
+    .choice-btn.correct-mark {
+      background: #c8e4c2;
+      border-color: #5d8c56;
+      color: #1f3b1c;
+    }
+
+    .choice-btn.wrong-mark {
+      background: #f2cecc;
+      border-color: #c45b58;
+      color: #521f1f;
+    }
+
+    .feedback-line {
+      font-size: 0.88rem;
+      min-height: 22px;
+      margin-top: 6px;
+      padding-left: 4px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .feedback-line.correct-fb {
+      color: #2b6b2b;
+    }
+    .feedback-line.error-fb {
+      color: #b13e3e;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: none;
+      background: #f6f0e7;
+      padding: 14px 18px;
+      border-radius: 34px;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #4b3a28;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: 1px solid #d9cdba;
+      transition: 0.2s;
+      flex: 1;
+      background: #faf6ef;
+    }
+
+    .btn-primary {
+      background: #c2a27b;
+      border: 1px solid #a58356;
+      color: white;
+      font-weight: 600;
+      box-shadow: 0 4px 10px rgba(170, 130, 70, 0.2);
+    }
+
+    .btn-primary:active {
+      background: #ad8a61;
+    }
+    .btn:active {
+      background: #e7d8c3;
+    }
+    .btn:disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .progress-panel {
+      background: #f5efe5;
+      border-radius: 24px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 600;
+      color: #4e3e2b;
+    }
+
+    .progress-badge {
+      font-size: 0.95rem;
+      background: white;
+      padding: 5px 14px;
+      border-radius: 20px;
+    }
+
+    hr {
+      border: 0.5px solid #ede2d2;
+      margin: 2px 0;
+    }
+
+    @media (max-width: 380px) {
+      .choices {
+        flex-direction: column;
+      }
+      .choice-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="exercise-card">
+  <h1>
+    📍 adverb position
+    <span>&amp; phrases</span>
+  </h1>
+  <div class="grammar-tags">
+    <div class="tag">manner · frequency</div>
+    <div class="tag">time & place</div>
+    <div class="tag">degree · comment</div>
+  </div>
+
+  <div class="hint-box">
+    💡 Choose the correct position or adverb. Based on rules: manner after verb, frequency before main verb, time/place at end, comment at beginning, etc.
+  </div>
+
+  <div id="questionContainer" class="question-area">
+    <!-- dynamic questions -->
+  </div>
+
+  <div class="controls">
+    <button id="checkBtn" class="btn btn-primary">✅ Check answer</button>
+    <button id="nextBtn" class="btn" disabled>▶️ Next</button>
+  </div>
+
+  <div class="progress-panel">
+    <span>📊 Your progress</span>
+    <span class="progress-badge" id="scoreDisplay">0 / 0</span>
+  </div>
+  <div style="font-size:0.78rem; color:#8b7a64; text-align:center; margin-top:2px;">
+    Tap an option · check · next
+  </div>
+</div>
+
+<script>
+  (() => {
+    // Exercise data – focusing on position of adverbs & adverbial phrases
+    const questions = [
+      {
+        sentence: "He walks ______.",
+        options: ["very slowly", "slowly very", "very"],
+        correct: 0,
+        explanation: "Adverb of manner (slowly) + degree (very) → 'very slowly' after verb."
+      },
+      {
+        sentence: "I ______ have time for breakfast.",
+        options: ["hardly ever", "ever hardly", "have hardly"],
+        correct: 0,
+        explanation: "Frequency adverb 'hardly ever' goes before main verb."
+      },
+      {
+        sentence: "Liam’s ______ late for work.",
+        options: ["always", "late always", "is always"],
+        correct: 0,
+        explanation: "Adverb of frequency after 'to be' : Liam is always late."
+      },
+      {
+        sentence: "It rained ______.",
+        options: ["all day yesterday", "yesterday all day", "all yesterday day"],
+        correct: 0,
+        explanation: "Time adverb phrase at end: 'all day yesterday' (time)."
+      },
+      {
+        sentence: "My parents will be here ______.",
+        options: ["in half an hour", "half an hour in", "here in half an hour"],
+        correct: 0,
+        explanation: "Time expression at end: 'in half an hour'."
+      },
+      {
+        sentence: "I’ve ______ finished.",
+        options: ["nearly", "finished nearly", "near"],
+        correct: 0,
+        explanation: "'Nearly' (degree) goes before main verb."
+      },
+      {
+        sentence: "We’re ______ tired.",
+        options: ["incredibly", "tired incredibly", "incredible"],
+        correct: 0,
+        explanation: "'Incredibly' modifies adjective 'tired' → before adjective."
+      },
+      {
+        sentence: "______, the parcel never arrived.",
+        options: ["Unfortunately", "Unfortunate", "Unfortunately never"],
+        correct: 0,
+        explanation: "Comment adverb at beginning of sentence."
+      },
+      {
+        sentence: "The driver was ______ injured in the accident.",
+        options: ["seriously", "serious", "injured seriously"],
+        correct: 0,
+        explanation: "Passive voice: adverb before main verb (was seriously injured)."
+      },
+      {
+        sentence: "I would ______ have thought you were 40.",
+        options: ["never", "have never", "thought never"],
+        correct: 0,
+        explanation: "Adverb goes after first auxiliary: would never have thought."
+      }
+    ];
+
+    let currentIndex = 0;
+    let selectedOption = null;        // index of chosen option
+    let isSubmitted = false;
+    let score = 0;
+    let answeredTotal = 0;
+
+    const container = document.getElementById('questionContainer');
+    const checkBtn = document.getElementById('checkBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const scoreDisplay = document.getElementById('scoreDisplay');
+
+    function updateScoreText() {
+      scoreDisplay.textContent = `${score} / ${answeredTotal}`;
+    }
+
+    function enableCheckIfReady() {
+      if (isSubmitted) {
+        checkBtn.disabled = true;
+      } else {
+        checkBtn.disabled = (selectedOption === null);
+      }
+    }
+
+    function resetForNext() {
+      selectedOption = null;
+      isSubmitted = false;
+      nextBtn.disabled = true;
+    }
+
+    function renderQuestion() {
+      const q = questions[currentIndex];
+      if (!q) return;
+
+      let html = `
+        <div class="q-card" data-qindex="${currentIndex}">
+          <div class="sentence">${q.sentence.replace(/______/g, '<i>______</i>')}</div>
+          <div class="choices" id="choicesContainer">
+      `;
+
+      q.options.forEach((opt, idx) => {
+        let btnClass = 'choice-btn';
+        if (isSubmitted) {
+          if (idx === q.correct) {
+            btnClass += ' correct-mark';
+          } else if (idx === selectedOption && idx !== q.correct) {
+            btnClass += ' wrong-mark';
+          }
+        } else {
+          if (idx === selectedOption) {
+            btnClass += ' selected';
+          }
+        }
+        html += `<button class="${btnClass}" data-optindex="${idx}">${opt}</button>`;
+      });
+
+      html += `</div>`;
+      html += `<div class="feedback-line" id="feedbackMsg"></div>`;
+      html += `</div>`;
+
+      container.innerHTML = html;
+
+      // attach listeners to choice buttons
+      document.querySelectorAll('.choice-btn').forEach(btn => {
+        btn.addEventListener('click', choiceHandler);
+      });
+
+      // restore feedback if already submitted
+      if (isSubmitted && questions[currentIndex]) {
+        const fbEl = document.getElementById('feedbackMsg');
+        if (fbEl) {
+          const currentQ = questions[currentIndex];
+          const correct = (selectedOption === currentQ.correct);
+          fbEl.textContent = correct ? '✓ Correct! ' + currentQ.explanation : '✗ Not quite. ' + currentQ.explanation;
+          fbEl.className = 'feedback-line ' + (correct ? 'correct-fb' : 'error-fb');
+        }
+      }
+
+      enableCheckIfReady();
+      nextBtn.disabled = !isSubmitted;
+    }
+
+    function choiceHandler(e) {
+      const btn = e.currentTarget;
+      const optIndex = parseInt(btn.getAttribute('data-optindex'), 10);
+      if (isSubmitted) return; // cannot change after submission
+
+      selectedOption = optIndex;
+
+      // update visual selection
+      document.querySelectorAll('.choice-btn').forEach((b, idx) => {
+        b.classList.remove('selected');
+        if (idx === optIndex) {
+          b.classList.add('selected');
+        }
+      });
+
+      enableCheckIfReady();
+    }
+
+    function handleCheck() {
+      if (isSubmitted || selectedOption === null) return;
+
+      const q = questions[currentIndex];
+      const isCorrect = (selectedOption === q.correct);
+
+      // update score only once per question
+      if (!isSubmitted) {
+        answeredTotal++;
+        if (isCorrect) score++;
+        updateScoreText();
+      }
+
+      isSubmitted = true;
+      // re-render to show correct/wrong highlights and feedback
+      renderQuestion();
+      nextBtn.disabled = false;
+      checkBtn.disabled = true;
+    }
+
+    function handleNext() {
+      if (!isSubmitted) return;
+
+      if (currentIndex < questions.length - 1) {
+        currentIndex++;
+      } else {
+        // loop to start for continuous practice
+        currentIndex = 0;
+      }
+
+      resetForNext();
+      renderQuestion();
+      enableCheckIfReady();
+    }
+
+    function init() {
+      currentIndex = 0;
+      score = 0;
+      answeredTotal = 0;
+      selectedOption = null;
+      isSubmitted = false;
+      updateScoreText();
+      resetForNext();
+      renderQuestion();
+      checkBtn.disabled = true;
+      nextBtn.disabled = true;
+    }
+
+    checkBtn.addEventListener('click', handleCheck);
+    nextBtn.addEventListener('click', handleNext);
+
+    init();
+  })();
+</script>
+</body>
+</html>
