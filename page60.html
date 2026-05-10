@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>English in Motion • Grammar & Vocab drills</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #f5efe8;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 1.2rem;
+      margin: 0;
+    }
+    .container {
+      max-width: 600px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 2.5rem;
+      box-shadow: 0 20px 35px rgba(0, 0, 0, 0.05), 0 8px 18px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      padding: 1.5rem 1.2rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      color: #2c3e2f;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding-bottom: 0.25rem;
+      border-bottom: 2px solid #e7dfd0;
+    }
+    h1 span {
+      background: #d4b68a;
+      color: #2d2a24;
+      font-size: 1.2rem;
+      padding: 0.2rem 0.8rem;
+      border-radius: 3rem;
+      font-weight: 500;
+    }
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      background: #f9f6f0;
+      padding: 0.5rem;
+      border-radius: 3rem;
+      justify-content: space-around;
+    }
+    .tab-btn {
+      flex: 1 1 auto;
+      background: transparent;
+      border: none;
+      padding: 0.7rem 0.8rem;
+      border-radius: 2.5rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #5b5346;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      background: #ffffff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+      letter-spacing: -0.2px;
+    }
+    .tab-btn.active {
+      background: #2c3e2f;
+      color: #fbf7ef;
+      box-shadow: 0 6px 14px rgba(44, 62, 47, 0.3);
+      font-weight: 600;
+    }
+    .panel {
+      display: none;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .panel.active {
+      display: flex;
+    }
+    .quiz-card {
+      background: #fcfaf7;
+      border-radius: 1.8rem;
+      padding: 1.5rem 1.2rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+      border: 1px solid #ede3d3;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .question-text {
+      font-weight: 500;
+      font-size: 1.1rem;
+      color: #3a3226;
+      line-height: 1.5;
+      background: #fffbf5;
+      padding: 0.8rem 1rem;
+      border-radius: 1.2rem;
+      border-left: 5px solid #b9946e;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      margin: 0.3rem 0 0.2rem;
+    }
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: #ffffff;
+      border: 1.5px solid #e2d7c5;
+      border-radius: 1.2rem;
+      padding: 0.9rem 1rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-size: 0.95rem;
+      color: #3f3a30;
+      word-break: break-word;
+    }
+    .option-item:hover {
+      background: #f3ede4;
+      border-color: #c7ad82;
+    }
+    .option-item input[type="radio"] {
+      accent-color: #2c3e2f;
+      width: 1.2rem;
+      height: 1.2rem;
+      margin-right: 0.2rem;
+      pointer-events: none;
+    }
+    .option-item label {
+      cursor: pointer;
+      flex: 1;
+      font-weight: 450;
+    }
+    .feedback {
+      font-size: 0.9rem;
+      margin-top: 0.3rem;
+      border-radius: 1rem;
+      padding: 0.5rem 1rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: #f4f0e9;
+      color: #5e5544;
+    }
+    .correct-feedback {
+      background: #dff0db;
+      color: #1e4620;
+      border-left: 4px solid #2d6a4f;
+    }
+    .wrong-feedback {
+      background: #fce8e6;
+      color: #9b2c2c;
+      border-left: 4px solid #c44536;
+    }
+    button {
+      background: none;
+      border: none;
+      font-weight: 600;
+      color: #2c3e2f;
+      background: #e7dfcd;
+      padding: 0.6rem 1.2rem;
+      border-radius: 2.5rem;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 0.9rem;
+      align-self: flex-start;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    button:hover {
+      background: #d3c2a4;
+    }
+    .reset-btn {
+      background: #ffffff;
+      border: 1px solid #cfbea3;
+    }
+    .nav-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .badge {
+      background: #e9dfcf;
+      border-radius: 1.5rem;
+      padding: 0.2rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #4b4234;
+    }
+    hr {
+      border: 0.5px solid #e2d7c5;
+      margin: 0.5rem 0 0.2rem;
+    }
+    @media (max-width: 450px) {
+      .tab-btn {
+        font-size: 0.8rem;
+        padding: 0.6rem 0.5rem;
+      }
+      .question-text {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>
+    🌿 English Drills
+    <span>B2+</span>
+  </h1>
+
+  <!-- Tabs navigation -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="uncountable">🧀 Uncountable</button>
+    <button class="tab-btn" data-tab="cleft">📌 Cleft & it</button>
+    <button class="tab-btn" data-tab="linkers">🔗 Linkers</button>
+    <button class="tab-btn" data-tab="vocab">📖 Vocabulary</button>
+    <button class="tab-btn" data-tab="idioms">💬 Idioms</button>
+  </div>
+
+  <!-- PANEL: Uncountable nouns -->
+  <div id="uncountable" class="panel active">
+    <div class="quiz-card" data-question-id="unc1">
+      <div class="question-text">✨ I need ______ about how to look after my new pet dog.</div>
+      <div class="options">
+        <div class="option-item"><input type="radio" name="unc1" value="A" id="unc1a"><label for="unc1a">I need an advice about how to look after my new pet dog.</label></div>
+        <div class="option-item"><input type="radio" name="unc1" value="B" id="unc1b"><label for="unc1b">I need some advices about how to look after my new pet dog.</label></div>
+        <div class="option-item"><input type="radio" name="unc1" value="C" id="unc1c"><label for="unc1c">I need advice about how to look after my new pet dog.</label></div>
+        <div class="option-item"><input type="radio" name="unc1" value="D" id="unc1d"><label for="unc1d">I need the advice about how to look after my new pet dog.</label></div>
+      </div>
+      <div class="feedback" id="fb-unc1"></div>
+    </div>
+    <div class="quiz-card" data-question-id="unc2">
+      <div class="question-text">📋 We can’t decide what to do until we get ______ .</div>
+      <div class="options">
+        <div class="option-item"><input type="radio" name="unc2" value="A" id="unc2a"><label for="unc2a">an additional information</label></div>
+        <div class="option-item"><input type="radio" name="unc2" value="B" id="unc2b"><label for="unc2b">some additional information</label></div>
+        <div class="option-item"><input type="radio" name="unc2" value="C" id="unc2c"><label for="unc2c">additional informations</label></div>
+        <div class="option-item"><input type="radio" name="unc2" value="D" id="unc2d"><label for="unc2d">additional of information</label></div>
+      </div>
+      <div class="feedback" id="fb-unc2"></div>
+    </div>
+  </div>
+
+  <!-- PANEL: Cleft sentences / it patterns (updated card with neutral prompt) -->
+  <div id="cleft" class="panel">
+    <div class="quiz-card" data-question-id="cleft1">
+      <div class="question-text">🎬 Choose the correct sentence:</div>
+      <div class="options">
+        <div class="option-item"><input type="radio" name="cleft1" value="A" id="cleft1a"><label for="cleft1a">I'll leave it to you to choose which film we see tonight.</label></div>
+        <div class="option-item"><input type="radio" name="cleft1" value="B" id="cleft1b"><label for="cleft1b">I'll leave it to you to choose it the film we see tonight.</label></div>
+        <div class="option-item"><input type="radio" name="cleft1" value="C" id="cleft1c"><label for="cleft1c">I'll leave to you to choose which film we see tonight.</label></div>
+        <div class="option-item"><input type="radio" name="cleft1" value="D" id="cleft1d"><label for="cleft1d">I'll leave it to you choosing the film we see tonight.</label></div>
+      </div>
+      <div class="feedback" id="fb-cleft1"></div>
+    </div>
+    <div class="quiz-card" data-question-id="cleft2">
+      <div class="question-text">🧠 I find ______ hard to understand what they mean when they speak fast.</div>
+      <div class="options">
+        <div class="option-item"><input type="radio" name="cleft2" value="A" id="cleft2a"><label for="cleft2a">I find hard to understand what they mean when they speak fast.</label></div>
+        <div class="option-item"><input type="radio" name="cleft2" value="B" id="cleft2b"><label for="cleft2b">I find hard to understand it what they mean when they speak fast.</label></div>
+        <div class="option-item"><input type="radio" name="cleft2" value="C" id="cleft2c"><label for="cleft2c">I find it hard to understand what they mean when they speak fast.</label></div>
+        <div class="option-item"><input type="radio" name="cleft2" value="D" id="cleft2d"><label for="cleft2d">I find it hard to understand they mean when they speak fast.</label></div>
+      </div>
+      <div class="feedback" id="fb-cleft2"></div>
+    </div>
+    <div class="quiz-card" data-question-id="cleft3">
+      <div class="question-text">📢 I knew ______ they were unhappy about the plan.</div>
+      <div class="options">
+        <div class="option-item"><input type="radio" name="cleft3" value="A" id="cleft3a"><label for="cleft3a">I knew it that they were unhappy about the plan.</label></div>
+        <div class="option-item"><input type="radio" name="cleft3" value="B" id="cleft3b"><label for="cleft3b">I knew that they were unhappy about it the plan.</label></div>
+        <div class="option-item"><input type="radio" name="cleft3" value="C" id="cleft3c"><label for="cleft3c">I knew it they were unhappy about the plan.</label></div>
+        <div class="option-item"><input type="radio" name="cleft3" value="D" id="cleft3d"><label for="cleft3d">I knew that they were unhappy about the plan.</label></div>
+      </div>
+      <div class="feedback" id="fb-cleft3"></div>
+    </div>
+  </div>
+
+  <!-- PANEL: Linkers / connectors -->
+  <div id="linkers" class="panel">
+    <div class="quiz-card" data-question-id="link1">
+      <div class="question-text">🌳 A great deal of wildlife lives in the canopy – ______ an estimated 70–90% of life in the rainforest exists in the trees.</div>
+      <div class="options">
+        <div class="option-item"><input type="radio" name="link1" value="A" id="link1a"><label for="link1a">in fact</label></div>
+        <div class="option-item"><input type="radio" name="link1" value="B" id="link1b"><label for="link1b">however</label></div>
+        <div class="option-item"><input type="radio" name="link1" value="C" id="link1c"><label for="link1c">although</label></div>
+        <div class="option-item"><input type="radio" name="link1" value="D" id="link1d"><label for="link1d">nonetheless</label></div>
+      </div>
+      <div class="feedback" id="fb-link1"></div>
+    </div>
+  </div>
+
+  <!-- PANEL: Vocabulary (pinpoint, forefront, cut down on) -->
+  <div id="vocab" class="panel">
+    <div class="quiz-card" data-question-id="voc1">
+      <div class="question-text">🐕 The dog was able to ______ a precise area of smell with her nose.</div>
+      <div class="options">
+        <div class="option-item"><input type="radio" name="voc1" value="A" id="voc1a"><label for="voc1a">observe</label></div>
+        <div class="option-item"><input type="radio" name="voc1" value="B" id="voc1b"><label for="voc1b">match</label></div>
+        <div class="option-item"><input type="radio" name="voc1" value="C" id="voc1c"><label for="voc1c">establish</label></div>
+        <div class="option-item"><input type="radio" name="voc1" value="D" id="voc1d"><label for="voc1d">pinpoint</label></div>
+      </div>
+      <div class="feedback" id="fb-voc1"></div>
+    </div>
+    <div class="quiz-card" data-question-id="voc2">
+      <div class="question-text">🕵️ She works at the ______ of modern detective work.</div>
+      <div class="options">
+        <div class="option-item"><input type="radio" name="voc2" value="A" id="voc2a"><label for="voc2a">front</label></div>
+        <div class="option-item"><input type="radio" name="voc2" value="B" id="voc2b"><label for="voc2b">forefront</label></div>
+        <div class="option-item"><input type="radio" name="voc2" value="C" id="voc2c"><label for="voc2c">top</label></div>
+        <div class="option-item"><input type="radio" name="voc2" value="D" id="voc2d"><label for="voc2d">heights</label></div>
+      </div>
+      <div class="feedback" id="fb-voc2"></div>
+    </div>
+    <div class="quiz-card" data-question-id="voc3">
+      <div class="question-text">🌍 Everyone should try to ______ carbon emissions to help solve global warming.</div>
+      <div class="options">
+        <div class="option-item"><input type="radio" name="voc3" value="A" id="voc3a"><label for="voc3a">get down to</label></div>
+        <div class="option-item"><input type="radio" name="voc3" value="B" id="voc3b"><label for="voc3b">make up with</label></div>
+        <div class="option-item"><input type="radio" name="voc3" value="C" id="voc3c"><label for="voc3c">cut down on</label></div>
+        <div class="option-item"><input type="radio" name="voc3" value="D" id="voc3d"><label for="voc3d">come up to</label></div>
+      </div>
+      <div class="feedback" id="fb-voc3"></div>
+    </div>
+  </div>
+
+  <!-- PANEL: Idioms / feelings -->
+  <div id="idioms" class="panel">
+    <div class="quiz-card" data-question-id="idiom1">
+      <div class="question-text">🗣️ ‘Look, I’ll go along with whatever you say.’ <br> <span style="font-weight:400; font-size:0.95rem;">How does the person feel?</span></div>
+      <div class="options">
+        <div class="option-item"><input type="radio" name="idiom1" value="A" id="idiom1a"><label for="idiom1a">Argumentative</label></div>
+        <div class="option-item"><input type="radio" name="idiom1" value="B" id="idiom1b"><label for="idiom1b">Compliant</label></div>
+        <div class="option-item"><input type="radio" name="idiom1" value="C" id="idiom1c"><label for="idiom1c">Stubborn</label></div>
+        <div class="option-item"><input type="radio" name="idiom1" value="D" id="idiom1d"><label for="idiom1d">Distracted</label></div>
+      </div>
+      <div class="feedback" id="fb-idiom1"></div>
+    </div>
+    <div class="quiz-card" data-question-id="idiom2">
+      <div class="question-text">🎉 She’s a really popular person and is much ______ at parties.</div>
+      <div class="options">
+        <div class="option-item"><input type="radio" name="idiom2" value="A" id="idiom2a"><label for="idiom2a">in demand</label></div>
+        <div class="option-item"><input type="radio" name="idiom2" value="B" id="idiom2b"><label for="idiom2b">on call</label></div>
+        <div class="option-item"><input type="radio" name="idiom2" value="C" id="idiom2c"><label for="idiom2c">in sight</label></div>
+        <div class="option-item"><input type="radio" name="idiom2" value="D" id="idiom2d"><label for="idiom2d">on release</label></div>
+      </div>
+      <div class="feedback" id="fb-idiom2"></div>
+    </div>
+  </div>
+  
+  <div class="nav-row">
+    <span class="badge">📱 tap to answer</span>
+    <button class="reset-btn" id="resetAllBtn">↺ Reset all</button>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const correctAnswers = {
+      unc1: 'C',
+      unc2: 'B',
+      cleft1: 'A',
+      cleft2: 'C',
+      cleft3: 'D',
+      link1: 'A',
+      voc1: 'D',
+      voc2: 'B',
+      voc3: 'C',
+      idiom1: 'B',
+      idiom2: 'A'
+    };
+
+    const explanations = {
+      unc1: "✅ 'advice' is uncountable. No 'an advice' or 'advices'. Correct: I need advice.",
+      unc2: "✅ 'information' uncountable → 'some additional information'.",
+      cleft1: "✅ Correct structure: 'I'll leave it to you to choose...' (extra object 'it').",
+      cleft2: "✅ 'I find it hard to understand...' (dummy 'it' + adjective).",
+      cleft3: "✅ 'I knew that they were unhappy...' (no unnecessary 'it').",
+      link1: "✅ 'in fact' adds emphasis and detail, matching the statistic.",
+      voc1: "✅ 'pinpoint' = locate precisely (ideal for smell area).",
+      voc2: "✅ 'forefront' = leading position. 'at the forefront of'.",
+      voc3: "✅ 'cut down on' = reduce (phrasal verb for emissions).",
+      idiom1: "✅ 'go along with whatever you say' → compliant / agreeable.",
+      idiom2: "✅ 'in demand' = popular, sought-after."
+    };
+
+    const allRadioButtons = document.querySelectorAll('input[type="radio"]');
+    
+    function updateFeedback(questionId, selectedValue) {
+      const feedbackDiv = document.getElementById(`fb-${questionId}`);
+      if (!feedbackDiv) return;
+      
+      const correct = correctAnswers[questionId];
+      const isCorrect = (selectedValue === correct);
+      
+      feedbackDiv.classList.remove('correct-feedback', 'wrong-feedback');
+      
+      if (isCorrect) {
+        feedbackDiv.classList.add('correct-feedback');
+        feedbackDiv.innerHTML = `✓ ${explanations[questionId] || 'Correct!'}`;
+      } else {
+        feedbackDiv.classList.add('wrong-feedback');
+        feedbackDiv.innerHTML = `✗ Not quite. The correct answer is option ${correct}. ${explanations[questionId] || ''}`;
+      }
+    }
+
+    function handleRadioChange(e) {
+      const radio = e.target;
+      if (radio.type !== 'radio') return;
+      const name = radio.name;
+      const questionId = name;
+      const selectedValue = radio.value;
+      updateFeedback(questionId, selectedValue);
+    }
+
+    allRadioButtons.forEach(radio => {
+      radio.addEventListener('change', handleRadioChange);
+    });
+
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const panels = document.querySelectorAll('.panel');
+    
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const tabId = this.getAttribute('data-tab');
+        tabButtons.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        panels.forEach(panel => panel.classList.remove('active'));
+        const activePanel = document.getElementById(tabId);
+        if (activePanel) activePanel.classList.add('active');
+      });
+    });
+
+    function resetAll() {
+      allRadioButtons.forEach(radio => {
+        radio.checked = false;
+      });
+      document.querySelectorAll('.feedback').forEach(fb => {
+        fb.innerHTML = '';
+        fb.classList.remove('correct-feedback', 'wrong-feedback');
+      });
+    }
+
+    const resetBtn = document.getElementById('resetAllBtn');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', resetAll);
+    }
+  })();
+</script>
+</body>
+</html>
