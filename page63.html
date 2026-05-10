@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>📌 Cleft & It • Word Order</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            background: #f5efe8;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 1.2rem;
+            margin: 0;
+        }
+        .container {
+            max-width: 650px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 2.5rem;
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.05), 0 8px 18px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            padding: 1.8rem 1.4rem 2.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+        }
+        h1 {
+            font-size: 1.6rem;
+            font-weight: 650;
+            color: #2c3e2f;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            letter-spacing: -0.3px;
+            border-bottom: 2px solid #e7dfd0;
+            padding-bottom: 0.6rem;
+        }
+        h1 span {
+            background: #d4b68a;
+            color: #2d2a24;
+            font-size: 1rem;
+            padding: 0.2rem 0.9rem;
+            border-radius: 3rem;
+            font-weight: 500;
+        }
+        .rubric {
+            font-size: 0.95rem;
+            color: #5b5242;
+            background: #faf7f2;
+            padding: 0.8rem 1.2rem;
+            border-radius: 1.2rem;
+            border-left: 4px solid #b9946e;
+            line-height: 1.5;
+            margin-bottom: 0.2rem;
+        }
+        .exercise-area {
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+        }
+        .question-block {
+            background: #fcfaf7;
+            border-radius: 1.5rem;
+            padding: 1.2rem 1rem 1rem;
+            border: 1px solid #ede3d3;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s ease;
+        }
+        .question-block.correct-block {
+            border-color: #2d6a4f;
+            background: #f6faf5;
+        }
+        .question-block.incorrect-block {
+            border-color: #c44536;
+            background: #fef9f8;
+        }
+        .question-number {
+            font-weight: 700;
+            font-size: 0.8rem;
+            color: #8f7a5c;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.7rem;
+            padding-left: 0.3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .status-icon {
+            font-size: 1rem;
+            display: none;
+        }
+        .status-icon.show {
+            display: inline;
+        }
+        .word-tiles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-bottom: 0.9rem;
+            min-height: 3rem;
+            align-items: center;
+        }
+        .word-tile {
+            background: linear-gradient(105deg, #4a6fa5, #385d8a);
+            color: white;
+            padding: 0.65rem 1.1rem;
+            border-radius: 2.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .word-tile:active {
+            transform: scale(0.95);
+        }
+        .word-tile.placed {
+            background: #b9c4ab;
+            opacity: 0.5;
+            pointer-events: none;
+            cursor: default;
+        }
+        .answer-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            min-height: 3.2rem;
+            padding: 0.6rem 0.8rem;
+            background: #f9f6f0;
+            border-radius: 1.2rem;
+            border: 2px dashed #b8c4d4;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        .answer-area.correct-border {
+            border-color: #2d6a4f;
+            border-style: solid;
+            background: #eaf7e8;
+        }
+        .answer-area.incorrect-border {
+            border-color: #c44536;
+            border-style: solid;
+            background: #fef0ee;
+        }
+        .answer-tile {
+            background: #fffbf5;
+            border: 1.5px solid #b8c4d4;
+            padding: 0.55rem 1rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #3e372b;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .answer-tile:active {
+            transform: scale(0.95);
+        }
+        .answer-tile.correct-position {
+            background: #c8e6c9;
+            border-color: #2d6a4f;
+            color: #1b5e1f;
+            font-weight: 700;
+        }
+        .answer-tile.wrong-position {
+            background: #ffcdd2;
+            border-color: #c44536;
+            color: #b71c1c;
+            font-weight: 700;
+        }
+        .question-feedback {
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            min-height: 1.2rem;
+            font-weight: 500;
+            padding-left: 0.3rem;
+        }
+        .correct-text {
+            color: #2d6a4f;
+        }
+        .incorrect-text {
+            color: #c44536;
+        }
+        .legend {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            font-size: 0.75rem;
+            margin-top: 0.3rem;
+            padding-left: 0.3rem;
+            color: #6b6050;
+        }
+        .legend span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .legend-dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .legend-dot.green {
+            background: #c8e6c9;
+            border: 2px solid #2d6a4f;
+        }
+        .legend-dot.red {
+            background: #ffcdd2;
+            border: 2px solid #c44536;
+        }
+        .btn-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+            justify-content: center;
+        }
+        .btn {
+            border: none;
+            font-weight: 600;
+            padding: 0.7rem 1.4rem;
+            border-radius: 2.5rem;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: #e7dfcd;
+            color: #2c3e2f;
+        }
+        .btn:hover {
+            background: #d3c2a4;
+        }
+        .btn-outline {
+            background: #ffffff;
+            border: 1px solid #cfbea3;
+        }
+        .overall-feedback {
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 0.5rem;
+            border-radius: 2rem;
+        }
+        @media (max-width: 450px) {
+            .word-tile {
+                padding: 0.55rem 0.9rem;
+                font-size: 0.8rem;
+            }
+            .answer-tile {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>
+        📌 Cleft & It
+        <span>Word Order</span>
+    </h1>
+    <p class="rubric">📝 Tap the words in the correct order. When complete, <strong>green</strong> = correct position, <strong>red</strong> = wrong position. Tap a placed word to remove it.</p>
+
+    <div class="exercise-area" id="exerciseArea"></div>
+
+    <div class="btn-row">
+        <button class="btn btn-outline" id="resetBtn">🔄 Reset All</button>
+    </div>
+    <div class="overall-feedback" id="overallFeedback"></div>
+</div>
+
+<script>
+    (function() {
+        const questions = [
+            { id: 1, words: ["I'll", "leave", "it", "to", "you", "to", "choose", "which", "film", "we", "see", "tonight."], correct: "I'll leave it to you to choose which film we see tonight." },
+            { id: 2, words: ["I", "find", "it", "hard", "to", "understand", "what", "they", "mean", "when", "they", "speak", "fast."], correct: "I find it hard to understand what they mean when they speak fast." },
+            { id: 3, words: ["I", "knew", "that", "they", "were", "unhappy", "about", "the", "plan."], correct: "I knew that they were unhappy about the plan." },
+            { id: 4, words: ["It", "was", "my", "sister", "who", "told", "me", "about", "the", "job."], correct: "It was my sister who told me about the job." },
+            { id: 5, words: ["What", "I", "really", "enjoy", "is", "spending", "time", "with", "my", "family."], correct: "What I really enjoy is spending time with my family." },
+            { id: 6, words: ["It's", "important", "that", "you", "arrive", "on", "time", "for", "the", "interview."], correct: "It's important that you arrive on time for the interview." }
+        ];
+
+        function shuffleArray(arr) {
+            const shuffled = [...arr];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        let questionStates = [];
+
+        function initQuestionStates() {
+            questionStates = questions.map(q => ({
+                id: q.id,
+                availableWords: shuffleArray([...q.words]),
+                placedWords: [],
+                checked: false,
+                isCorrect: null,
+                wordStatuses: []
+            }));
+        }
+
+        function checkSingleQuestion(idx) {
+            const state = questionStates[idx];
+            const q = questions[idx];
+            if (state.placedWords.length === q.words.length) {
+                const correctWords = q.correct.split(' ');
+                state.wordStatuses = state.placedWords.map((word, i) => {
+                    return word === correctWords[i];
+                });
+                state.isCorrect = state.wordStatuses.every(s => s === true);
+                state.checked = true;
+            }
+        }
+
+        function renderAll() {
+            const area = document.getElementById('exerciseArea');
+            area.innerHTML = '';
+
+            questions.forEach((q, idx) => {
+                const state = questionStates[idx];
+                const block = document.createElement('div');
+                block.className = 'question-block';
+                if (state.checked && state.isCorrect === true) {
+                    block.classList.add('correct-block');
+                } else if (state.checked && state.isCorrect === false) {
+                    block.classList.add('incorrect-block');
+                }
+
+                const numDiv = document.createElement('div');
+                numDiv.className = 'question-number';
+                numDiv.innerHTML = `Question ${q.id} of ${questions.length} <span class="status-icon ${state.checked ? 'show' : ''}">${state.isCorrect ? '✅' : '❌'}</span>`;
+                block.appendChild(numDiv);
+
+                const wordTilesDiv = document.createElement('div');
+                wordTilesDiv.className = 'word-tiles';
+                state.availableWords.forEach((word, wIdx) => {
+                    const tile = document.createElement('span');
+                    tile.className = 'word-tile';
+                    tile.textContent = word;
+                    tile.addEventListener('click', () => placeWord(idx, wIdx));
+                    wordTilesDiv.appendChild(tile);
+                });
+                block.appendChild(wordTilesDiv);
+
+                const answerArea = document.createElement('div');
+                answerArea.className = 'answer-area';
+                if (state.checked) {
+                    answerArea.classList.add(state.isCorrect ? 'correct-border' : 'incorrect-border');
+                }
+                state.placedWords.forEach((word, pIdx) => {
+                    const ansTile = document.createElement('span');
+                    ansTile.className = 'answer-tile';
+                    if (state.checked && state.wordStatuses.length > 0) {
+                        ansTile.classList.add(state.wordStatuses[pIdx] ? 'correct-position' : 'wrong-position');
+                    }
+                    ansTile.textContent = word;
+                    ansTile.addEventListener('click', () => removeWord(idx, pIdx));
+                    answerArea.appendChild(ansTile);
+                });
+                if (state.placedWords.length === 0) {
+                    const placeholder = document.createElement('span');
+                    placeholder.style.color = '#b9af9c';
+                    placeholder.style.fontSize = '0.85rem';
+                    placeholder.style.paddingLeft = '0.3rem';
+                    placeholder.textContent = 'Tap words above...';
+                    placeholder.id = `placeholder-${idx}`;
+                    answerArea.appendChild(placeholder);
+                }
+                block.appendChild(answerArea);
+
+                const feedbackDiv = document.createElement('div');
+                feedbackDiv.className = 'question-feedback';
+                if (state.checked) {
+                    if (state.isCorrect) {
+                        feedbackDiv.textContent = '✅ All words in correct position!';
+                        feedbackDiv.className = 'question-feedback correct-text';
+                    } else {
+                        const wrongCount = state.wordStatuses.filter(s => !s).length;
+                        feedbackDiv.textContent = `❌ ${wrongCount} word(s) in wrong position. Red words need to move.`;
+                        feedbackDiv.className = 'question-feedback incorrect-text';
+                    }
+                }
+                block.appendChild(feedbackDiv);
+
+                if (state.checked && !state.isCorrect) {
+                    const legendDiv = document.createElement('div');
+                    legendDiv.className = 'legend';
+                    legendDiv.innerHTML = '<span><span class="legend-dot green"></span> correct position</span><span><span class="legend-dot red"></span> wrong position</span>';
+                    block.appendChild(legendDiv);
+                }
+
+                area.appendChild(block);
+            });
+
+            updateOverallFeedback();
+        }
+
+        function placeWord(qIdx, wIdx) {
+            const state = questionStates[qIdx];
+            const word = state.availableWords[wIdx];
+            state.availableWords.splice(wIdx, 1);
+            state.placedWords.push(word);
+
+            if (state.checked && state.isCorrect === false) {
+                state.checked = false;
+                state.isCorrect = null;
+                state.wordStatuses = [];
+            }
+
+            const q = questions[qIdx];
+            if (state.placedWords.length === q.words.length) {
+                checkSingleQuestion(qIdx);
+            }
+
+            renderAll();
+        }
+
+        function removeWord(qIdx, pIdx) {
+            const state = questionStates[qIdx];
+            const word = state.placedWords[pIdx];
+            state.placedWords.splice(pIdx, 1);
+            state.availableWords.push(word);
+
+            if (state.checked) {
+                state.checked = false;
+                state.isCorrect = null;
+                state.wordStatuses = [];
+            }
+
+            renderAll();
+        }
+
+        function resetAll() {
+            initQuestionStates();
+            renderAll();
+        }
+
+        function updateOverallFeedback() {
+            const fb = document.getElementById('overallFeedback');
+            const allChecked = questionStates.every(s => s.checked);
+            if (!allChecked) {
+                const doneCount = questionStates.filter(s => s.checked && s.isCorrect).length;
+                if (doneCount > 0 && doneCount < questions.length) {
+                    fb.textContent = `👍 ${doneCount} of ${questions.length} sentences correct so far.`;
+                    fb.style.background = '#fef9e7';
+                    fb.style.color = '#7a6a3a';
+                } else {
+                    fb.textContent = '';
+                    fb.style.background = 'transparent';
+                }
+                return;
+            }
+            const allCorrect = questionStates.every(s => s.isCorrect);
+            if (allCorrect) {
+                fb.textContent = '🎉 Perfect! All cleft sentences are correct!';
+                fb.style.background = '#dff0db';
+                fb.style.color = '#1e4620';
+            } else {
+                const wrongCount = questionStates.filter(s => !s.isCorrect).length;
+                fb.textContent = `⚠️ ${wrongCount} sentence(s) need fixing. Check the red words.`;
+                fb.style.background = '#fce8e6';
+                fb.style.color = '#9b2c2c';
+            }
+        }
+
+        document.getElementById('resetBtn').addEventListener('click', resetAll);
+
+        initQuestionStates();
+        renderAll();
+    })();
+</script>
+</body>
+</html>
