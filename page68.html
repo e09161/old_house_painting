@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grammar in Action — Future Forms: will vs. going to</title>
+    <title>Grammar in Action — Future Forms: will vs. going to (with common mistakes)</title>
     <style>
         * {
             margin: 0;
@@ -135,7 +135,7 @@
             background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%234f7b6b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
             background-repeat: no-repeat;
             background-position: right 16px center;
-            min-width: 180px;
+            min-width: 200px;
         }
 
         .answer-select:focus {
@@ -284,11 +284,11 @@
 <div class="grammar-card">
     <div class="card-header">
         <h1>🚀 Future Forms: will vs. going to</h1>
-        <p>will = spontaneous decisions &nbsp;&nbsp;|&nbsp;&nbsp; going to = plans & intentions</p>
+        <p>will = spontaneous decisions &nbsp;&nbsp;|&nbsp;&nbsp; going to = plans & intentions &nbsp;&nbsp;|&nbsp;&nbsp; ⚠️ Watch out for common mistakes!</p>
     </div>
     <div class="info-bar">
         <span>✨ <strong>Rule:</strong> Use <strong>going to</strong> for plans. Use <strong>will</strong> for spontaneous decisions, promises or predictions.</span>
-        <span class="shuffle-note">🎲 Options shuffled each time — practice until it's automatic!</span>
+        <span class="shuffle-note">🎲 Options include distractors — spot the correct future form!</span>
     </div>
     <div class="exercise-area">
         <div class="sentence-grid" id="sentencesList"></div>
@@ -311,46 +311,46 @@
         </div>
     </div>
     <footer>
-        🧠 <strong>going to</strong> = plans & intentions &nbsp;|&nbsp; <strong>will</strong> = decisions made at the moment
+        🧠 <strong>going to</strong> = plans & intentions &nbsp;|&nbsp; <strong>will</strong> = decisions made at the moment &nbsp;|&nbsp; ❌ Learn to avoid these typical errors!
     </footer>
 </div>
 
 <script>
-    // ---------- EXERCISE DATA: will vs going to ----------
+    // ---------- EXERCISE DATA: will vs going to (with distractors) ----------
     const sentencesDataRaw = [
         {
             id: 1,
-            options: ["am going to", "will"],
-            correct: "am going to",
+            options: ["I'm going to", "I'll going to"],
+            correct: "I'm going to",
             fullText: "I _____ be a doctor when I grow up."
         },
         {
             id: 2,
-            options: ["are you going to", "will you"],
+            options: ["are you going to", "won't you"],
             correct: "are you going to",
             fullText: "What _____ do next summer?"
         },
         {
             id: 3,
-            options: ["will go", "am going to go"],
+            options: ["will go", "am going to come"],
             correct: "will go",
             fullText: "I _____ to the store today."
         },
         {
             id: 4,
-            options: ["won't", "am not going to"],
+            options: ["won't", "not going to"],
             correct: "won't",
             fullText: "I _____ forget your birthday."
         },
         {
             id: 5,
-            options: ["aren't going to", "won't"],
+            options: ["aren't going to", "will not"],
             correct: "aren't going to",
             fullText: "We _____ play basketball this afternoon."
         },
         {
             id: 6,
-            options: ["will you", "are you going to"],
+            options: ["will you", "you going to"],
             correct: "will you",
             fullText: "What time _____ call me?"
         },
@@ -362,7 +362,7 @@
         },
         {
             id: 8,
-            options: ["Is Petra going to", "Will Petra"],
+            options: ["Is Petra going to", "Is Petra will"],
             correct: "Is Petra going to",
             fullText: "_____ stay in New York?"
         }
@@ -394,7 +394,7 @@
     function generateOptions(optArray) {
         let html = '<option value="">— select —</option>';
         optArray.forEach(opt => {
-            // Capitalize the first letter of each option for better appearance
+            // Capitalize the first letter for better appearance, but keep the rest as is
             const displayText = opt.charAt(0).toUpperCase() + opt.slice(1);
             html += `<option value="${opt}">${displayText}</option>`;
         });
@@ -521,11 +521,11 @@
             messageBox.classList.add('message-error');
         } 
         else if (allCorrectFlag) {
-            messageBox.textContent = '🎉 Perfect! You really know when to use "will" and "going to". Great job!';
+            messageBox.textContent = '🎉 Perfect! You avoided all the common mistakes. Great job!';
             messageBox.classList.add('message-success');
         } 
         else {
-            messageBox.textContent = '📘 Some answers are incorrect. Remember: use "going to" for plans, "will" for spontaneous decisions. Try again!';
+            messageBox.textContent = '📘 Some answers are incorrect. Remember: use "going to" for plans, "will" for spontaneous decisions. Watch out for typical errors like "I\'ll going to"!';
             messageBox.classList.add('message-error');
         }
     }
