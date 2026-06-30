@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Writing an Email – Fill the Gap</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #2d3436;
+        }
+        .container {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            width: 100%;
+            max-width: 900px;
+            overflow: hidden;
+            animation: fadeIn 0.5s ease;
+        }
+        header {
+            background: linear-gradient(90deg, #6c5ce7 0%, #a29bfe 100%);
+            color: white;
+            padding: 26px 28px;
+            text-align: center;
+        }
+        h1 { font-size: 30px; margin-bottom: 8px; font-weight: 700; }
+        header p { opacity: 0.95; }
+        .instructions {
+            background: #f8faff;
+            padding: 18px 22px;
+            border-bottom: 1px solid #e0e6f1;
+            font-size: 16px;
+            color: #555;
+        }
+        .story-container {
+            padding: 28px;
+            position: relative;
+        }
+        .story-text {
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 24px;
+            color: #333;
+            max-height: 55vh;
+            overflow-y: auto;
+            padding-bottom: 20px;
+        }
+        .gap {
+            padding: 2px 6px;
+            border-bottom: 2px dashed #6c5ce7;
+            background: rgba(108, 92, 231, 0.12);
+            border-radius: 4px;
+            transition: all 0.25s;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        .gap.active {
+            background: rgba(108, 92, 231, 0.2);
+            border-bottom-color: #5a4ac4;
+            outline: 2px solid transparent;
+        }
+        .gap.filled {
+            background: transparent;
+            border-bottom: none;
+            color: #2ecc71;
+            font-weight: 600;
+            cursor: default;
+        }
+        .progress-container {
+            margin: 18px 0 20px;
+        }
+        .progress-bar {
+            height: 12px;
+            background: #f1f2f6;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #6c5ce7 0%, #a29bfe 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #666;
+            margin-top: 8px;
+        }
+        .message {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+        }
+        .success {
+            background: #e8f9f1;
+            color: #1f9e56;
+            border: 1px solid #b8eacb;
+        }
+        .error {
+            background: #fdecea;
+            color: #d6453d;
+            border: 1px solid #f5b7b1;
+        }
+        .input-area {
+            display: flex;
+            gap: 10px;
+            align-items: stretch;
+            margin-bottom: 8px;
+            position: sticky;
+            bottom: 0;
+            background: white;
+            padding: 15px 0;
+            border-top: 1px solid #e2e8f0;
+            z-index: 10;
+        }
+        .field {
+            position: relative;
+            flex: 1;
+            display: flex;
+            align-items: center;
+        }
+        .field label {
+            position: absolute;
+            left: 12px;
+            top: -10px;
+            background: #fff;
+            padding: 0 6px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+        #word-input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.25s, box-shadow 0.25s;
+        }
+        #word-input:focus {
+            outline: none;
+            border-color: #6c5ce7;
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+        }
+        #submit-btn {
+            background: linear-gradient(90deg, #6c5ce7 0%, #a29bfe 100%);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: transform 0.15s, opacity 0.25s;
+            min-width: 120px;
+        }
+        #submit-btn:hover {
+            transform: translateY(-1px);
+            opacity: 0.92;
+        }
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+        .controls button {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: transform 0.15s, opacity 0.25s;
+            min-width: 140px;
+            color: white;
+        }
+        .controls button:hover { transform: translateY(-1px); opacity: 0.95; }
+        #hint-btn { background: #f39c12; }
+        #reset-btn { background: #e74c3c; }
+        #solution-btn { background: #2ecc71; }
+        footer {
+            text-align: center;
+            padding: 16px;
+            color: #888;
+            font-size: 14px;
+            border-top: 1px solid #f1f2f6;
+        }
+        @media (max-width: 640px) {
+            h1 { font-size: 22px; }
+            .story-text { font-size: 16px; max-height: 35vh; }
+            .input-area {
+                flex-direction: column;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                padding: 10px 15px;
+                box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+                margin-bottom: 0;
+            }
+            #submit-btn { width: 100%; }
+            .controls { flex-direction: column; margin-bottom: 80px; }
+            .controls button { width: 100%; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        :focus-visible {
+            outline: 3px solid rgba(108, 92, 231, 0.55);
+            outline-offset: 2px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Writing an Email</h1>
+            <p>Fill in the missing words to complete Roberta's message</p>
+        </header>
+
+        <div class="instructions">
+            <p>Type one word and click ENTER (or press Enter).</p>
+        </div>
+
+        <div class="story-container">
+            <div class="message success" id="success-message">Correct!</div>
+            <div class="message error" id="error-message">Incorrect. Try again.</div>
+
+            <div class="story-text" id="story-text">
+                <p>Hey, Abby!</p>
+                <p>I just got in, and I <span class="gap" data-word="had">___</span> to drop you a quick line to say <span class="gap" data-word="hello">_____</span>. You’ll never guess who I had dinner with <span class="gap" data-word="tonight">_______</span>: Marshall from high <span class="gap" data-word="school">______</span>. You remember Marshall, <span class="gap" data-word="don't">_____</span> you? He was the nerdy guy <span class="gap" data-word="with">____</span> glasses and bad skin <span class="gap" data-word="who">___</span> always did well in science. Well, he doesn't look very <span class="gap" data-word="nerdy">_____</span> anymore. He's <span class="gap" data-word="very">____</span> tall, he dresses <span class="gap" data-word="well">____</span>, and he's actually really handsome. Who <span class="gap" data-word="knew">____</span>?</p>
+                <p>Anyway, I met <span class="gap" data-word="him">___</span> at the agency. He came in to <span class="gap" data-word="buy">___</span> some travel insurance since he flies a lot <span class="gap" data-word="for">___</span> his work. (He's a research <span class="gap" data-word="scientist">_________</span> now. <span class="gap" data-word="Guess">_____</span> those good grades paid off!) When I <span class="gap" data-word="saw">___</span> his name, I couldn't believe it. We talked about <span class="gap" data-word="high">____</span> school, and he invited me to <span class="gap" data-word="dinner">______</span>.</p>
+                <p>Wow, Abby, <span class="gap" data-word="you">___</span> wouldn't believe the place we <span class="gap" data-word="went">____</span> — that really expensive Japanese <span class="gap" data-word="place">_____</span>, Sakurai. It was delicious. (If you <span class="gap" data-word="go">__</span>, be sure to <span class="gap" data-word="have">____</span> the tuna. Yum!) After dinner, <span class="gap" data-word="we">__</span> had coffee and talked until 11. If I <span class="gap" data-word="didn't">_____</span> have to work <span class="gap" data-word="tomorrow">________</span>, I'm <span class="gap" data-word="sure">____</span> we would have <span class="gap" data-word="talked">______</span> much later.</p>
+                <p>Can you <span class="gap" data-word="believe">_______</span> it? I’m going <span class="gap" data-word="out">___</span> with Marshall! We're having <span class="gap" data-word="dinner">______</span> again on Saturday. He <span class="gap" data-word="wants">_____</span> to go to <span class="gap" data-word="that">____</span> fancy Italian place, Quarto.</p>
+                <p>Well, I better go. <span class="gap" data-word="Write">_____</span> me back, and let <span class="gap" data-word="me">__</span> know what's going <span class="gap" data-word="on">__</span>. Maybe we <span class="gap" data-word="can">___</span> go shopping on Sunday.</p>
+                <p>Hugs and kisses,<br>Roberta</p>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar"><div class="progress" id="progress-bar"></div></div>
+                <div class="progress-text"><span id="progress-text">0</span>/38 words completed</div>
+            </div>
+
+            <div class="input-area">
+                <div class="field">
+                    <label for="word-input">Enter word</label>
+                    <input type="text" id="word-input" placeholder="Type here...">
+                </div>
+                <button id="submit-btn">Submit</button>
+            </div>
+
+            <div class="controls">
+                <button id="hint-btn">Hint</button>
+                <button id="reset-btn">Reset</button>
+                <button id="solution-btn">See Answers</button>
+            </div>
+        </div>
+
+        <footer>Email fill‑the‑gap exercise</footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const gaps = document.querySelectorAll('.gap');
+            const wordInput = document.getElementById('word-input');
+            const submitBtn = document.getElementById('submit-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            const hintBtn = document.getElementById('hint-btn');
+            const solutionBtn = document.getElementById('solution-btn');
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            const successMsg = document.getElementById('success-message');
+            const errorMsg = document.getElementById('error-message');
+
+            let currentGapIndex = 0;
+            let completedGaps = 0;
+            const totalGaps = gaps.length;
+
+            function init() {
+                updateProgress();
+                gaps.forEach((g, i) => {
+                    if (i === 0) g.classList.add('active');
+                    g.addEventListener('click', () => {
+                        if (!g.classList.contains('filled')) {
+                            gaps.forEach(gap => gap.classList.remove('active'));
+                            g.classList.add('active');
+                            currentGapIndex = Array.from(gaps).indexOf(g);
+                            wordInput.focus();
+                        }
+                    });
+                });
+                wordInput.focus();
+            }
+
+            function updateProgress() {
+                const percent = (completedGaps / totalGaps) * 100;
+                progressBar.style.width = `${percent}%`;
+                progressText.textContent = completedGaps;
+            }
+
+            function checkWord() {
+                const entered = wordInput.value.trim().toLowerCase();
+                if (!entered) return;
+
+                let found = false;
+                const matchedIndices = [];
+
+                gaps.forEach((gap, idx) => {
+                    const correct = gap.getAttribute('data-word').toLowerCase();
+                    if (entered === correct && !gap.classList.contains('filled')) {
+                        found = true;
+                        matchedIndices.push(idx);
+                    }
+                });
+
+                if (found) {
+                    matchedIndices.forEach(idx => {
+                        const gap = gaps[idx];
+                        gap.textContent = entered;
+                        gap.classList.add('filled');
+                        gap.classList.remove('active');
+                        completedGaps++;
+                    });
+
+                    updateProgress();
+                    successMsg.style.display = 'block';
+                    errorMsg.style.display = 'none';
+
+                    if (completedGaps >= totalGaps) {
+                        wordInput.disabled = true;
+                        submitBtn.disabled = true;
+                        successMsg.textContent = '🎉 All gaps filled! Well done.';
+                    } else {
+                        let next = -1;
+                        for (let i = 0; i < gaps.length; i++) {
+                            if (!gaps[i].classList.contains('filled')) {
+                                next = i;
+                                break;
+                            }
+                        }
+                        if (next !== -1) {
+                            gaps.forEach(g => g.classList.remove('active'));
+                            gaps[next].classList.add('active');
+                            currentGapIndex = next;
+                        }
+                    }
+                    wordInput.value = '';
+                    wordInput.focus();
+                } else {
+                    const alreadyFilled = Array.from(gaps).some(gap => {
+                        return entered === gap.getAttribute('data-word').toLowerCase() && gap.classList.contains('filled');
+                    });
+                    errorMsg.textContent = alreadyFilled ? 'This word is already filled in.' : 'Incorrect. Try again.';
+                    errorMsg.style.display = 'block';
+                    successMsg.style.display = 'none';
+                    wordInput.select();
+                }
+            }
+
+            function showHint() {
+                if (currentGapIndex < gaps.length && !gaps[currentGapIndex].classList.contains('filled')) {
+                    const word = gaps[currentGapIndex].getAttribute('data-word');
+                    wordInput.value = word.substring(0, 1);
+                    wordInput.focus();
+                    wordInput.select();
+                }
+            }
+
+            function showSolution() {
+                gaps.forEach(gap => {
+                    gap.textContent = gap.getAttribute('data-word');
+                    gap.classList.add('filled');
+                    gap.classList.remove('active');
+                });
+                completedGaps = totalGaps;
+                updateProgress();
+                wordInput.disabled = true;
+                submitBtn.disabled = true;
+                successMsg.textContent = 'Answers revealed.';
+                successMsg.style.display = 'block';
+                errorMsg.style.display = 'none';
+            }
+
+            function resetExercise() {
+                gaps.forEach(gap => {
+                    const word = gap.getAttribute('data-word');
+                    const len = word.length;
+                    gap.textContent = '_'.repeat(len <= 3 ? 3 : len);
+                    gap.classList.remove('filled', 'active');
+                });
+                gaps[0].classList.add('active');
+                currentGapIndex = 0;
+                completedGaps = 0;
+                updateProgress();
+                wordInput.value = '';
+                wordInput.disabled = false;
+                submitBtn.disabled = false;
+                successMsg.style.display = 'none';
+                errorMsg.style.display = 'none';
+                wordInput.focus();
+            }
+
+            submitBtn.addEventListener('click', checkWord);
+            wordInput.addEventListener('keypress', e => { if (e.key === 'Enter') checkWord(); });
+            hintBtn.addEventListener('click', showHint);
+            solutionBtn.addEventListener('click', showSolution);
+            resetBtn.addEventListener('click', resetExercise);
+
+            init();
+        });
+    </script>
+</body>
+</html>
