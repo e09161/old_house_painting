@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daniela Conti – Reading and Writing Exercise</title>
+    <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', 'Segoe UI', Tahoma, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #fceabb 0%, #f8b500 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #2d3436;
+    }
+
+    .container {
+      background-color: #ffffff;
+      border-radius: 18px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      max-width: 900px;
+      overflow: hidden;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    header {
+      background: linear-gradient(90deg, #e67e22 0%, #f39c12 100%);
+      color: white;
+      padding: 26px 28px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 30px;
+      margin-bottom: 8px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    header p {
+      opacity: 0.95;
+    }
+
+    .instructions {
+      background-color: #fdf2e9;
+      padding: 18px 22px;
+      border-bottom: 1px solid #fadbd8;
+      font-size: 16px;
+      color: #555;
+    }
+
+    .story-container {
+      padding: 28px;
+      position: relative;
+    }
+
+    .story-text {
+      font-size: 18px;
+      line-height: 1.7;
+      margin-bottom: 24px;
+      color: #333;
+      max-height: 60vh;
+      overflow-y: auto;
+      padding-bottom: 80px;
+    }
+
+    .gap {
+      padding: 2px 6px;
+      border-bottom: 2px dashed #e67e22;
+      background-color: rgba(230, 126, 34, 0.12);
+      border-radius: 4px;
+      transition: background-color 0.25s, border-color 0.25s;
+      white-space: nowrap;
+    }
+
+    .gap.active {
+      background-color: rgba(230, 126, 34, 0.18);
+      border-bottom-color: #d35400;
+      outline: 2px solid transparent;
+    }
+
+    .gap.filled {
+      background-color: transparent;
+      border-bottom: none;
+      color: #27ae60;
+      font-weight: 600;
+    }
+
+    .progress-container {
+      margin: 18px 0 20px;
+    }
+
+    .progress-bar {
+      height: 12px;
+      background-color: #f1f2f6;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      background: linear-gradient(90deg, #e67e22 0%, #f39c12 100%);
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: #666;
+      margin-top: 8px;
+    }
+
+    .message {
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      text-align: center;
+      font-weight: 600;
+      display: none;
+    }
+
+    .success {
+      background-color: #e8f9f1;
+      color: #1f9e56;
+      border: 1px solid #b8eacb;
+    }
+
+    .error {
+      background-color: #fdecea;
+      color: #d6453d;
+      border: 1px solid #f5b7b1;
+    }
+
+    .input-area {
+      display: flex;
+      gap: 10px;
+      align-items: stretch;
+      margin-bottom: 8px;
+      position: sticky;
+      bottom: 0;
+      background-color: white;
+      padding: 15px 0;
+      border-top: 1px solid #e2e8f0;
+      z-index: 10;
+    }
+
+    .field {
+      position: relative;
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    .field label {
+      position: absolute;
+      left: 12px;
+      top: -10px;
+      background: #fff;
+      padding: 0 6px;
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    #word-input {
+      width: 100%;
+      padding: 14px 14px;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 16px;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+
+    #word-input:focus {
+      outline: none;
+      border-color: #e67e22;
+      box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.2);
+    }
+
+    #submit-btn {
+      background: linear-gradient(90deg, #e67e22 0%, #f39c12 100%);
+      color: white;
+      border: none;
+      padding: 0 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform 0.15s, opacity 0.25s;
+      min-width: 120px;
+    }
+
+    #submit-btn:hover {
+      transform: translateY(-1px);
+      opacity: 0.92;
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    .controls button {
+      flex: 1;
+      padding: 12px 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: transform 0.15s, opacity 0.25s, background-color 0.25s;
+      min-width: 140px;
+    }
+
+    .controls button:hover {
+      transform: translateY(-1px);
+      opacity: 0.95;
+    }
+
+    #hint-btn {
+      background-color: #f39c12;
+      color: white;
+    }
+
+    #reset-btn {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    #solution-btn {
+      background-color: #2ecc71;
+      color: white;
+    }
+
+    footer {
+      text-align: center;
+      padding: 16px;
+      color: #888;
+      font-size: 14px;
+      border-top: 1px solid #f1f2f6;
+    }
+
+    @media (max-width: 640px) {
+      h1 {
+        font-size: 24px;
+      }
+
+      .story-text {
+        font-size: 16px;
+        max-height: 40vh;
+      }
+
+      .input-area {
+        flex-direction: column;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 12px 15px;
+        border-top: 1px solid #e2e8f0;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 0;
+      }
+
+      #submit-btn {
+        width: 100%;
+        padding: 12px 16px;
+      }
+
+      .controls {
+        flex-direction: column;
+        margin-bottom: 70px;
+      }
+
+      .controls button {
+        width: 100%;
+      }
+      
+      .story-container {
+        padding-bottom: 20px;
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    :focus-visible {
+      outline: 3px solid rgba(230, 126, 34, 0.55);
+      outline-offset: 2px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Daniela Conti – Flight Attendant</h1>
+            <p>Complete the description with the missing words</p>
+        </header>
+        
+        <div class="instructions">
+            <p>Type the correct word for each blank and press Enter to check. Based on the profile notes.</p>
+        </div>
+        
+        <div class="story-container">
+            <div class="message success" id="success-message">Correct! Well done.</div>
+            <div class="message error" id="error-message">Incorrect. Try again.</div>
+            
+            <div class="story-text" id="story-text">
+                Daniela Conti <span class="gap" data-word="is">__</span> <span class="gap" data-word="an">__</span> airline flight attendant. She comes <span class="gap" data-word="from">____</span> Rome <span class="gap" data-word="in">__</span> Italy, but now she lives <span class="gap" data-word="in">__</span> Dallas, Texas. She speaks <span class="gap" data-word="three">_____</span> languages: Italian, English, <span class="gap" data-word="and">___</span> Spanish. She works <span class="gap" data-word="six">___</span> days a <span class="gap" data-word="week">____</span> and she travels to <span class="gap" data-word="countries">_________</span> in <span class="gap" data-word="Europe">______</span>. She wears a <span class="gap" data-word="uniform">_______</span>. She helps <span class="gap" data-word="passengers">__________</span>. She serves them <span class="gap" data-word="food">____</span> and <span class="gap" data-word="drinks">______</span>. Daniela likes her <span class="gap" data-word="job">___</span> because she likes <span class="gap" data-word="meeting">_______</span> people. In her <span class="gap" data-word="free">____</span> time, she likes <span class="gap" data-word="reading">_______</span>, playing <span class="gap" data-word="tennis">______</span> and volleyball, and <span class="gap" data-word="dancing">_______</span>.
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress" id="progress-bar"></div>
+                </div>
+                <div class="progress-text"><span id="progress-text">0</span>/21 words completed</div>
+            </div>
+            
+            <div class="input-area">
+                <div class="field">
+                    <label for="word-input">Enter word</label>
+                    <input type="text" id="word-input" placeholder="Type a word and press Enter">
+                </div>
+                <button id="submit-btn">Submit</button>
+            </div>
+            
+            <div class="controls">
+                <button id="hint-btn">Hint</button>
+                <button id="reset-btn">Reset</button>
+                <button id="solution-btn">Show Solution</button>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Educasa.pe, 2025</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const gaps = document.querySelectorAll('.gap');
+            const wordInput = document.getElementById('word-input');
+            const submitBtn = document.getElementById('submit-btn');
+            const resetBtn = document.getElementById('reset-btn');
+            const hintBtn = document.getElementById('hint-btn');
+            const solutionBtn = document.getElementById('solution-btn');
+            const progressBar = document.getElementById('progress-bar');
+            const progressText = document.getElementById('progress-text');
+            const successMessage = document.getElementById('success-message');
+            const errorMessage = document.getElementById('error-message');
+            
+            let currentGapIndex = 0;
+            let completedGaps = 0;
+            const totalGaps = gaps.length;
+            
+            function init() {
+                updateProgress();
+                gaps.forEach((gap, index) => {
+                    if (index === 0) {
+                        gap.classList.add('active');
+                    }
+                });
+                wordInput.focus();
+            }
+            
+            function updateProgress() {
+                const progress = (completedGaps / totalGaps) * 100;
+                progressBar.style.width = `${progress}%`;
+                progressText.textContent = completedGaps;
+            }
+            
+            function checkWord() {
+                const enteredWord = wordInput.value.trim().toLowerCase();
+                let foundMatch = false;
+                let matchedGaps = [];
+                
+                gaps.forEach((gap, index) => {
+                    const correctWord = gap.getAttribute('data-word').toLowerCase();
+                    if (enteredWord === correctWord && !gap.classList.contains('filled')) {
+                        foundMatch = true;
+                        matchedGaps.push(index);
+                    }
+                });
+                
+                if (foundMatch) {
+                    matchedGaps.forEach(index => {
+                        const matchedGap = gaps[index];
+                        matchedGap.textContent = enteredWord;
+                        matchedGap.classList.add('filled');
+                        matchedGap.classList.remove('active');
+                        completedGaps++;
+                    });
+                    
+                    updateProgress();
+                    successMessage.style.display = 'block';
+                    errorMessage.style.display = 'none';
+                    
+                    if (completedGaps >= totalGaps) {
+                        wordInput.disabled = true;
+                        submitBtn.disabled = true;
+                        successMessage.textContent = 'Excellent! You completed Daniela\'s description.';
+                    } else {
+                        let nextUnfilledIndex = -1;
+                        for (let i = 0; i < gaps.length; i++) {
+                            if (!gaps[i].classList.contains('filled')) {
+                                nextUnfilledIndex = i;
+                                break;
+                            }
+                        }
+                        
+                        if (nextUnfilledIndex !== -1) {
+                            gaps.forEach(gap => gap.classList.remove('active'));
+                            gaps[nextUnfilledIndex].classList.add('active');
+                            currentGapIndex = nextUnfilledIndex;
+                        }
+                    }
+                    
+                    wordInput.value = '';
+                    wordInput.focus();
+                } else {
+                    const isAlreadyFilled = Array.from(gaps).some(gap => {
+                        return enteredWord === gap.getAttribute('data-word').toLowerCase() && gap.classList.contains('filled');
+                    });
+                    
+                    if (isAlreadyFilled) {
+                        errorMessage.textContent = 'This word is already filled in.';
+                    } else {
+                        errorMessage.textContent = 'Incorrect. Try again.';
+                    }
+                    
+                    errorMessage.style.display = 'block';
+                    successMessage.style.display = 'none';
+                    wordInput.select();
+                }
+            }
+            
+            function showHint() {
+                const currentGap = gaps[currentGapIndex];
+                const correctWord = currentGap.getAttribute('data-word');
+                wordInput.value = correctWord.substring(0, 1);
+                wordInput.focus();
+                wordInput.select();
+            }
+            
+            function showSolution() {
+                gaps.forEach(gap => {
+                    gap.textContent = gap.getAttribute('data-word');
+                    gap.classList.add('filled');
+                    gap.classList.remove('active');
+                });
+                
+                completedGaps = totalGaps;
+                currentGapIndex = totalGaps;
+                updateProgress();
+                
+                wordInput.disabled = true;
+                submitBtn.disabled = true;
+                
+                successMessage.textContent = 'Here is the full description.';
+                successMessage.style.display = 'block';
+                errorMessage.style.display = 'none';
+            }
+            
+            function resetExercise() {
+                gaps.forEach((gap, index) => {
+                    const word = gap.getAttribute('data-word');
+                    gap.textContent = word.length <= 2 ? '__' : 
+                                    word.length <= 3 ? '___' : 
+                                    word.length <= 5 ? '_____' : 
+                                    '_______';
+                    gap.classList.remove('filled', 'active');
+                });
+                
+                gaps[0].classList.add('active');
+                currentGapIndex = 0;
+                completedGaps = 0;
+                updateProgress();
+                
+                wordInput.value = '';
+                wordInput.disabled = false;
+                submitBtn.disabled = false;
+                
+                successMessage.style.display = 'none';
+                errorMessage.style.display = 'none';
+                
+                wordInput.focus();
+            }
+            
+            submitBtn.addEventListener('click', checkWord);
+            wordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') checkWord();
+            });
+            resetBtn.addEventListener('click', resetExercise);
+            hintBtn.addEventListener('click', showHint);
+            solutionBtn.addEventListener('click', showSolution);
+            
+            init();
+        });
+    </script>
+</body>
+</html>
