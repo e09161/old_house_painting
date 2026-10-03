@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>as if · complete the sentences</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(4px);
+      width: 100%;
+      max-width: 900px;
+      border-radius: 42px;
+      box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+    }
+
+    .header {
+      background: white;
+      padding: 30px 40px 20px 40px;
+      border-bottom: 2px solid #e5e1fa;
+    }
+
+    .header h1 {
+      font-size: 2.2rem;
+      font-weight: 600;
+      background: linear-gradient(145deg, #14435c, #4f3270);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.02em;
+    }
+
+    .meta {
+      display: flex;
+      gap: 20px;
+      margin-top: 10px;
+      color: #2b3f59;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      background: #dcd4ff;
+      padding: 6px 18px;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #20144a;
+    }
+
+    .instruction-block {
+      background: #edf2f9;
+      padding: 18px 40px;
+      border-bottom: 1px solid #ccd9f0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      font-weight: 500;
+      color: #10324c;
+    }
+
+    .instruction-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .num-badge {
+      background: #b1c6e8;
+      width: 30px;
+      height: 30px;
+      border-radius: 30px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #101c33;
+    }
+
+    .sentence-list {
+      margin: 28px 30px 32px 30px;
+    }
+
+    .multi-gap-sentence {
+      background: white;
+      border-radius: 20px;
+      padding: 20px 25px;
+      margin-bottom: 22px;
+      border: 1px solid #e3dcff;
+      box-shadow: 0 5px 12px -8px #b7a8e6;
+      font-size: 1.1rem;
+      line-height: 2.1;
+      transition: 0.1s;
+    }
+
+    .multi-gap-sentence:hover {
+      border-color: #9479e0;
+      background: #fefdff;
+    }
+
+    .multi-gap-sentence.correct-sentence {
+      background: #e7f6ec;
+      border-left: 8px solid #0d7530;
+    }
+
+    .multi-gap-sentence.incorrect-sentence {
+      background: #ffeae9;
+      border-left: 8px solid #bb2525;
+    }
+
+    .gap {
+      display: inline-block;
+      margin: 0 4px;
+    }
+
+    .gap-input {
+      border: none;
+      background: #eae5fc;
+      border-bottom: 4px solid #a28ed6;
+      font-size: 1.05rem;
+      padding: 8px 12px;
+      width: 280px;
+      border-radius: 16px 16px 6px 6px;
+      text-align: center;
+      font-weight: 600;
+      color: #1b153b;
+      transition: 0.1s;
+    }
+
+    .gap-input:focus {
+      outline: none;
+      background: #ffffff;
+      border-bottom-color: #480ecc;
+      box-shadow: 0 6px 12px -8px #480ecc;
+    }
+
+    .gap-input.correct-gap {
+      background: #dcfce7;
+      border-bottom: 4px solid #0f973d;
+    }
+
+    .gap-input.incorrect-gap {
+      background: #ffe2e2;
+      border-bottom: 4px solid #ca2f2f;
+    }
+
+    .global-progress {
+      margin: 0 40px 15px 40px;
+    }
+
+    .progress-track {
+      background: #dad3f0;
+      height: 12px;
+      border-radius: 30px;
+    }
+
+    .progress-fill {
+      background: linear-gradient(90deg, #284b7c, #8046af);
+      height: 12px;
+      width: 0%;
+      border-radius: 30px;
+      transition: width 0.3s;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      font-size: 0.95rem;
+      color: #1d304b;
+    }
+
+    .global-message {
+      margin: 10px 40px 5px;
+      padding: 16px 25px;
+      border-radius: 50px;
+      font-weight: 600;
+      display: none;
+      text-align: center;
+    }
+
+    .win-msg {
+      background: #e0ffdd;
+      color: #19663b;
+      border: 1px solid #acebb5;
+    }
+
+    .error-msg {
+      background: #ffe2dd;
+      color: #a22b2b;
+      border: 1px solid #fdbbbb;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin: 30px 40px 40px;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+      flex: 1 1 200px;
+      padding: 18px 18px;
+      border: none;
+      border-radius: 50px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(90deg, #1f2f5a, #473e7c);
+      color: white;
+      box-shadow: 0 8px 18px -10px #101c3a;
+    }
+
+    .btn-primary:hover {
+      transform: scale(1.02);
+      background: linear-gradient(90deg, #293e72, #5d4e9b);
+    }
+
+    .btn-secondary {
+      background: #d8d0f5;
+      color: #1a1744;
+      box-shadow: 0 8px 12px -10px #3f3270;
+    }
+
+    .btn-secondary:hover {
+      background: #c5b8f2;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #3a3866;
+      background: #eff2ff;
+      border-top: 1px solid #cfc7f0;
+    }
+
+    @media (max-width: 700px) {
+      .gap-input {
+        width: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="header">
+      <h1>🔷 as if · complete the sentences</h1>
+      <div class="meta">
+        <span class="pill">4 sentences</span>
+        <span class="pill">unreal comparison with as if</span>
+      </div>
+    </div>
+
+    <div class="instruction-block">
+      <div class="instruction-item"><span class="num-badge">①</span> complete each sentence with <strong>as if</strong></div>
+      <div class="instruction-item"><span class="num-badge">②</span> use the correct verb form</div>
+      <div class="instruction-item"><span class="num-badge">③</span> check your answers</div>
+    </div>
+
+    <div id="sentences-root" class="sentence-list"></div>
+
+    <div class="global-progress">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="stats">
+        <span>✅ filled <span id="filledCount">0</span>/<span id="totalGaps">0</span></span>
+        <span id="percentDisplay">0%</span>
+      </div>
+    </div>
+
+    <div class="global-message win-msg" id="winMessage">🎉 all sentences correct! you can use as if for unreal comparisons.</div>
+    <div class="global-message error-msg" id="failMessage">⚠️ some gaps are empty or wrong – try again.</div>
+
+    <div class="actions">
+      <button class="btn-primary" id="checkBtn">🔍 check answers</button>
+      <button class="btn-secondary" id="resetBtn">⟲ reset all</button>
+    </div>
+
+    <footer>as if + past / past perfect · past tense after as if refers to unreal present</footer>
+  </div>
+
+  <script>
+    (function () {
+      const sentences = [
+        {
+          id: 1,
+          prefix: "Brian is a terrible driver. He drives",
+          suffix: "the only driver on the road.",
+          acceptable: [
+            "as if he were the only driver on the road",
+            "as if he was the only driver on the road",
+            "as if he is the only driver on the road",
+            "as if he's the only driver on the road",
+            "he were the only driver on the road",
+            "he was the only driver on the road",
+            "he is the only driver on the road",
+            "he's the only driver on the road"
+          ]
+        },
+        {
+          id: 2,
+          prefix: "I'm 20 years old, so please don't talk to me",
+          suffix: "a child.",
+          acceptable: [
+            "as if i were a child",
+            "as if i was a child",
+            "as if i am a child",
+            "as if i'm a child",
+            "i were a child",
+            "i was a child",
+            "i am a child",
+            "i'm a child"
+          ]
+        },
+        {
+          id: 3,
+          prefix: "Steve has never met Nicola, but he talks about her",
+          suffix: "his best friend.",
+          acceptable: [
+            "as if she were his best friend",
+            "as if she was his best friend",
+            "as if she is his best friend",
+            "as if she's his best friend",
+            "she were his best friend",
+            "she was his best friend",
+            "she is his best friend",
+            "she's his best friend"
+          ]
+        },
+        {
+          id: 4,
+          prefix: "It was a long time ago that we first met, but I remember it",
+          suffix: "yesterday.",
+          acceptable: [
+            "as if it were yesterday",
+            "as if it was yesterday",
+            "as if it is yesterday",
+            "as if it's yesterday",
+            "it were yesterday",
+            "it was yesterday",
+            "it is yesterday",
+            "it's yesterday"
+          ]
+        }
+      ];
+
+      const gapAnswers = {};
+      let totalGapCount = 0;
+
+      sentences.forEach(sen => {
+        const key = `${sen.id}-0`;
+        gapAnswers[key] = sen.acceptable.map(a => a.trim().toLowerCase());
+        totalGapCount++;
+      });
+
+      const root = document.getElementById('sentences-root');
+
+      function render() {
+        let html = '';
+        sentences.forEach(sen => {
+          html += `<div class="multi-gap-sentence" id="sen-${sen.id}">`;
+          html += `<span style="font-weight:600; margin-right:8px;">${sen.id}.</span>`;
+          html += `${sen.prefix} <span class="gap"><input type="text" class="gap-input" data-gapkey="${sen.id}-0" id="gap-${sen.id}-0" placeholder="as if ..." autocomplete="off"></span> ${sen.suffix}`;
+          html += `</div>`;
+        });
+
+        root.innerHTML = html;
+      }
+
+      render();
+
+      const gapInputs = document.querySelectorAll('.gap-input');
+      const totalSpan = document.getElementById('totalGaps');
+      const filledSpan = document.getElementById('filledCount');
+      const progressFill = document.getElementById('progressFill');
+      const percentSpan = document.getElementById('percentDisplay');
+      const winMsg = document.getElementById('winMessage');
+      const failMsg = document.getElementById('failMessage');
+      const checkBtn = document.getElementById('checkBtn');
+      const resetBtn = document.getElementById('resetBtn');
+
+      totalSpan.innerText = totalGapCount;
+
+      function countFilled() {
+        return Array.from(gapInputs).filter(inp => inp.value.trim() !== '').length;
+      }
+
+      function updateProgress() {
+        const filled = countFilled();
+        const percent = (filled / totalGapCount) * 100;
+        progressFill.style.width = percent + '%';
+        filledSpan.innerText = filled;
+        percentSpan.innerText = Math.round(percent) + '%';
+      }
+
+      function resetAllStyles() {
+        gapInputs.forEach(inp => {
+          inp.classList.remove('correct-gap', 'incorrect-gap');
+        });
+        document.querySelectorAll('.multi-gap-sentence').forEach(s => {
+          s.classList.remove('correct-sentence', 'incorrect-sentence');
+        });
+      }
+
+      resetBtn.addEventListener('click', () => {
+        gapInputs.forEach(inp => { inp.value = ''; });
+        resetAllStyles();
+        updateProgress();
+        winMsg.style.display = 'none';
+        failMsg.style.display = 'none';
+      });
+
+      function checkAll() {
+        let anyEmpty = false;
+        const gapCorrectness = new Map();
+
+        gapInputs.forEach(inp => {
+          const key = inp.dataset.gapkey;
+          const acceptable = gapAnswers[key];
+          const val = inp.value.trim().toLowerCase().replace(/[.!?]+$/, '');
+          const isCorrect = (val !== '' && acceptable.includes(val));
+
+          if (val === '') anyEmpty = true;
+
+          if (val !== '' && isCorrect) {
+            inp.classList.add('correct-gap');
+            inp.classList.remove('incorrect-gap');
+          } else if (val !== '' && !isCorrect) {
+            inp.classList.add('incorrect-gap');
+            inp.classList.remove('correct-gap');
+          } else {
+            inp.classList.remove('correct-gap', 'incorrect-gap');
+          }
+
+          gapCorrectness.set(key, isCorrect);
+        });
+
+        sentences.forEach(sen => {
+          const senDiv = document.getElementById(`sen-${sen.id}`);
+          if (!senDiv) return;
+
+          const key = `${sen.id}-0`;
+          const isCorrect = gapCorrectness.get(key);
+
+          if (isCorrect === true) {
+            senDiv.classList.add('correct-sentence');
+            senDiv.classList.remove('incorrect-sentence');
+          } else if (isCorrect === false) {
+            senDiv.classList.add('incorrect-sentence');
+            senDiv.classList.remove('correct-sentence');
+          } else {
+            senDiv.classList.remove('correct-sentence', 'incorrect-sentence');
+          }
+        });
+
+        const totalCorrect = Array.from(gapCorrectness.values()).filter(v => v === true).length;
+        const allFilled = !anyEmpty && countFilled() === totalGapCount;
+
+        if (!allFilled) {
+          failMsg.innerText = '⚠️ you left some gaps empty – complete each sentence with as if.';
+          failMsg.style.display = 'block';
+          winMsg.style.display = 'none';
+        } else if (totalCorrect === totalGapCount) {
+          winMsg.style.display = 'block';
+          failMsg.style.display = 'none';
+        } else {
+          failMsg.innerText = '❌ some sentences are incorrect. check the verb form and word order, then try again.';
+          failMsg.style.display = 'block';
+          winMsg.style.display = 'none';
+        }
+
+        updateProgress();
+      }
+
+      checkBtn.addEventListener('click', checkAll);
+
+      gapInputs.forEach(inp => {
+        inp.addEventListener('input', function () {
+          const key = this.dataset.gapkey;
+          const [senId] = key.split('-');
+          const senDiv = document.getElementById(`sen-${senId}`);
+          if (senDiv) senDiv.classList.remove('correct-sentence', 'incorrect-sentence');
+          this.classList.remove('correct-gap', 'incorrect-gap');
+          winMsg.style.display = 'none';
+          failMsg.style.display = 'none';
+          updateProgress();
+        });
+      });
+
+      updateProgress();
+    })();
+  </script>
+</body>
+</html>
